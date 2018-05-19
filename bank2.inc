@@ -2163,7 +2163,7 @@ _players_state0E_stun_start:
 		STA		_players_anim_delays,X
 		LDA		#$18
 		STA		_players_anim_idxs,X
-		JSR		_players_state0E_stun_start_A
+		JSR		_nsub_stun_sparkles_obj_scr_run
 
 ; !FALLTHROUGH!
 
@@ -2198,7 +2198,7 @@ loc_3ACAF:
 _players_obj_carry_state_select_B:
 		LDA		#$F8
 		STA		_obj_x_deltas,X
-		JSR		_players_obj_carry_state_select_B_A
+		JSR		_nsub_obj_from_idxAs_hor_delta_toggle
 		JSR		_players_varsA_04_set
 		LDA		_obj_flips,X
 		AND		#[~_OBJ_VFLIP&$FF]
@@ -2248,8 +2248,8 @@ loc_3AD0D:
 		ADC		#$06
 		STA		_obj_y_deltas,X
 loc_3AD13:
-		LDA		_scr_vars19,X
-		INC		_scr_vars19,X
+		LDA		_obj_timerBs,X
+		INC		_obj_timerBs,X
 		LSR
 		LSR
 		AND		#$06

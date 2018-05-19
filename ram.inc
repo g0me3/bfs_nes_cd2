@@ -472,9 +472,9 @@ _scr_vars16:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _scr_vars17:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
-_scr_vars18:
+_scr_timerAs:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
-_scr_vars19:
+_obj_timerBs:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _obj_widths:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0

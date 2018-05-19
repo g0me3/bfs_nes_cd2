@@ -4262,8 +4262,8 @@ _scr_cmd_lib:
 		_CMD_IDX	_scr_cmd2D_obj_dec_x_delta
 		_CMD_IDX	_scr_cmd2E_dec_y_delta
 		_CMD_IDX	_scr_cmd2F_target_lock
-		_CMD_IDX	_scr_cmd30_target_spd_set
-		_CMD_IDX	_scr_cmd31_target_dir_set
+		_CMD_IDX	_scr_cmd30_obj_timerAs_set
+		_CMD_IDX	_scr_cmd31_obj_timerBs_set
 		_CMD_IDX	_scr_cmd32_obj_set_size
 		_CMD_IDX	_scr_cmd33_damage_set
 		_CMD_IDX	_scr_cmd34_obj_set_hp
@@ -4945,7 +4945,7 @@ byte_B5E6F:
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd1A_target_follow:
 		LDX		_scr_idx
-		LDA		_scr_vars19,X
+		LDA		_obj_timerBs,X
 		BEQ		loc_B5EE8
 		LDA		_scr_vars16,X
 		JSR		_scr_cmd1A_A
@@ -4955,7 +4955,7 @@ _scr_cmd1A_target_follow:
 		STA		_tmp_ptr2
 		STA		_tmp_ptr4
 loc_B5EA6:
-		LDA		_scr_vars18,X
+		LDA		_scr_timerAs,X
 		AND		#$0F
 		ASL
 		TAY
@@ -4975,7 +4975,7 @@ loc_B5EBC:
 loc_B5ECA:
 		JSR		_scr_cmd1A_C
 loc_B5ECD:
-		DEC		_scr_vars19,X
+		DEC		_obj_timerBs,X
 		BEQ		loc_B5ED6
 		DEC		_tmp_ptr0
 		BNE		loc_B5EA6
@@ -4989,13 +4989,13 @@ loc_B5ED6:
 		LDA		_tmp_ptr4
 		JSR		_scr_cmd1A_D
 loc_B5EE8:
-		LDA		_scr_vars19,X
+		LDA		_obj_timerBs,X
 		JSR		_scr_flags_update
 		JMP		_scr_cmd_fetch
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd1A_B:
-		LDA		_scr_vars18,X
+		LDA		_scr_timerAs,X
 		AND		#$30
 		BEQ		loc_B5F03
 		CMP		#$10
@@ -5017,7 +5017,7 @@ loc_B5F09:
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd1A_C:
-		LDA		_scr_vars18,X
+		LDA		_scr_timerAs,X
 		AND		#$30
 		BEQ		loc_B5F09
 		CMP		#$10
@@ -5266,15 +5266,15 @@ _swap_4bit_nibbles:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_scr_cmd30_target_spd_set:
+_scr_cmd30_obj_timerAs_set:
 		JSR		_scr_getc
-		STA		_scr_vars18,X
+		STA		_scr_timerAs,X
 		JMP		_scr_cmd_fetch
 
 ; =============== S U B R O U T I N E =======================================
-_scr_cmd31_target_dir_set:
+_scr_cmd31_obj_timerBs_set:
 		JSR		_scr_getc
-		STA		_scr_vars19,X
+		STA		_obj_timerBs,X
 		JMP		_scr_cmd_fetch
 
 ; =============== S U B R O U T I N E =======================================
@@ -5507,7 +5507,7 @@ _nsub_sub111:
 		LDY		_players_macro_overlap_test_idx
 		JSR		_nsub_sub111_A
 		JSR		_nsub_sub111_B
-		STA		_scr_vars18,X
+		STA		_scr_timerAs,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
@@ -5632,17 +5632,17 @@ locret_B62D4:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub122:
+_nsub_obj_hor_move_with_wave_patternt:
 		INC		_scr_vars20,X
 		LDA		_scr_vars20,X
 		AND		#$3F
 		TAY
-		LDA		byte_B62EA,Y
+		LDA		_vert_delta_wave_pattern_list,Y
 		STA		_obj_y_deltas,X
 		JSR		_obj_move_hor_animate
 		JMP		_obj_vert_anim
 
-byte_B62EA:
+_vert_delta_wave_pattern_list:
 		.BYTE	$E0,$E0,$E0,$E8,$E8,$E8,$F0,$F0,$F8,$F8,$F8,$F8,$F8,$F8,$F8,$00
 		.BYTE	$00,$08,$08,$08,$08,$08,$08,$08,$10,$10,$18,$18,$18,$20,$20,$20
 		.BYTE	$20,$20,$20,$18,$18,$18,$10,$10,$08,$08,$08,$08,$08,$08,$08,$00
@@ -5714,7 +5714,7 @@ _nsub_sub124_sub2:
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_sub123_ex:
-		LDA		_scr_vars19,X
+		LDA		_obj_timerBs,X
 		STA		_tmp_ptrE
 		LSR
 		LSR
@@ -5742,12 +5742,12 @@ _nsub_sub123_sub3_A:
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_inc_vars19:
-		INC		_scr_vars19,X
+		INC		_obj_timerBs,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_dec_vars19:
-		DEC		_scr_vars19,X
+		DEC		_obj_timerBs,X
 		RTS
 
 byte_B6392:
@@ -6001,7 +6001,7 @@ _nsub_cur_obj_idx_to_idxCs_store:
 ; =============== S C R I P T ===============================================
 _ssub_target_follow_down_infinite:
 		SYNC
-		TARGET_DIR_SET		$FF
+		TIMER_B_SET		$FF
 		TARGET_FOLLOW
 		SJMPS				_ssub_target_follow_down_infinite
 
@@ -6010,7 +6010,7 @@ _ssub_target_follow_down_to_ground:
 		NJSR				_nsub_vars18_cmp20
 		SBCSS				_ssub_target_follow_down_infinite
 		SYNC
-		TARGET_DIR_SET		$FF
+		TIMER_B_SET		$FF
 		TARGET_FOLLOW
 		NJSR				_nsub_obj_to_tile_collision_test_down
 		SBCCS				_ssub_target_follow_down_to_ground
@@ -6018,7 +6018,7 @@ _ssub_target_follow_down_to_ground:
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_vars18_cmp20:
-		LDA		_scr_vars18,X
+		LDA		_scr_timerAs,X
 		CMP		#$20
 		JMP		_scr_flags_update
 
@@ -6029,58 +6029,58 @@ _ssub_suspend_forever:
 
 ; =============== S C R I P T ===============================================
 _ssub_anim_sync_frames32:
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
 
 ; !FALLTHROUGH!
 
 ; =============== S C R I P T ===============================================
 _ssub_anim_sync_frames16:
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
 
 ; !FALLTHROUGH!
 
 ; =============== S C R I P T ===============================================
 _ssub_anim_sync_frames12:
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
 
 ; !FALLTHROUGH!
 
 ; =============== S C R I P T ===============================================
 _ssub_anim_sync_frames10:
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
 
 ; !FALLTHROUGH!
 
 ; =============== S C R I P T ===============================================
 _ssub_anim_sync_frames3:
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
-		OBJ_ANIMATE_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
+		ANIMATE_HV_SYNC
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -6114,19 +6114,19 @@ loc_B655E:
 ; =============== S U B R O U T I N E =======================================
 _unref_4:
 		CLC
-		LDA		_scr_vars18,X
+		LDA		_scr_timerAs,X
 		ADC		#$01
 		AND		#$3F
-		STA		_scr_vars18,X
+		STA		_scr_timerAs,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _unref_5:
 		SEC
-		LDA		_scr_vars18,X
+		LDA		_scr_timerAs,X
 		SBC		#$01
 		AND		#$3F
-		STA		_scr_vars18,X
+		STA		_scr_timerAs,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
@@ -6493,7 +6493,7 @@ _players_damaged_state_select_A:
 		BCC		_nsub_obj_left_to_right_delta_toggle
 
 ; =============== S U B R O U T I N E =======================================
-_players_obj_carry_state_select_B_A:
+_nsub_obj_from_idxAs_hor_delta_toggle:
 		LDY		_scr_idxAs,X
 		LDA		_obj_x_deltas,Y
 		BMI		_nsub_obj_right_to_left_delta_toggle
@@ -6791,7 +6791,7 @@ loc_B68CF:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub114:
+_nsub_obj_y_lo_maskF0:
 		LDA		_obj_y_lo_poss,X
 		AND		#$F0
 		STA		_obj_y_lo_poss,X
@@ -6870,7 +6870,7 @@ _nsub_obj_type_change:
 
 ; =============== S C R I P T ===============================================
 _ssub_obj_show_wait_for_idxCs_80_set:
-		OBJ_SHOW
+		SPRITE_ON
 
 ; !FALLTHROUGH!
 
@@ -7081,42 +7081,42 @@ loc_B6A82:
 ; =============== S C R I P T ===============================================
 _obj_scr_20A_anim_anim03_sync:
 		SJSRS				_obj_scr_20A_anim_anim_sync
-		LOOPB				$03,_obj_scr_20A_anim_anim03_sync
+		LOOP_B				$03,_obj_scr_20A_anim_anim03_sync
 		SRET
 
 ; =============== S C R I P T ===============================================
 _obj_scr_20A_anim_anim04_sync:
 		SJSRS				_obj_scr_20A_anim_anim_sync
-		LOOPB				$04,_obj_scr_20A_anim_anim03_sync
+		LOOP_B				$04,_obj_scr_20A_anim_anim03_sync
 		SRET
 
 ; =============== S C R I P T ===============================================
 _obj_scr_20A_anim_anim06_sync:
 		SJSRS				_obj_scr_20A_anim_anim_sync
-		LOOPB				$06,_obj_scr_20A_anim_anim06_sync
+		LOOP_B				$06,_obj_scr_20A_anim_anim06_sync
 		SRET
 
 ; =============== S C R I P T ===============================================
 _obj_scr_20A_anim_anim08_sync:
 		SJSRS				_obj_scr_20A_anim_anim_sync
-		LOOPB				$08,_obj_scr_20A_anim_anim08_sync
+		LOOP_B				$08,_obj_scr_20A_anim_anim08_sync
 		SRET
 
 ; =============== S C R I P T ===============================================
 _obj_scr_20A_anim_anim0A_sync:
 		SJSRS				_obj_scr_20A_anim_anim_sync
-		LOOPB				$0A,_obj_scr_20A_anim_anim0A_sync
+		LOOP_B				$0A,_obj_scr_20A_anim_anim0A_sync
 		SRET
 
 ; =============== S C R I P T ===============================================
 _obj_scr_20A_anim_anim10_sync:
 		SJSRS				_obj_scr_20A_anim_anim_sync
-		LOOPB				$10,_obj_scr_20A_anim_anim10_sync
+		LOOP_B				$10,_obj_scr_20A_anim_anim10_sync
 		SRET
 
 ; =============== S C R I P T ===============================================
 _obj_scr_20A_anim_anim_sync:
-		OBJ_ANIMATE_SYNC
+		ANIMATE_HV_SYNC
 
 ; !FALLTHROUGH!
 
@@ -7124,7 +7124,7 @@ _obj_scr_20A_anim_anim_sync:
 _obj_scr_20A_anim:
 		NJSR				_nsub_sub144
 		SBEQS				byte_B6AC6
-		APU_LOAD			_apu_mus2F
+		APU_SE_SET			_apu_mus2F
 		NJSR				_nsub_obj_blink_set
 byte_B6AC6:
 		NJSR				_nsub_sub145
@@ -7150,19 +7150,19 @@ _ssub_B6AD1:
 byte_B6AE8:
 		NJSR				_obj_to_tile_grid_collision_test_down
 		SBCCS				byte_B6AF0
-		OBJ_Y_DELTA_SET		$00
+		DELTA_Y_SET		$00
 byte_B6AF0:
 		SRET
 
 ; =============== S C R I P T ===============================================
 _obj_scr_common_small_boss_destr:
-		APU_LOAD			_apu_mus70
-		OBJ_X_DELTA_SET		$F0
-		OBJ_Y_DELTA_SET		$C0
-		NJSR				_players_obj_carry_state_select_B_A
+		APU_SE_SET			_apu_mus70
+		DELTA_X_SET		$F0
+		DELTA_Y_SET		$C0
+		NJSR				_nsub_obj_from_idxAs_hor_delta_toggle
 		NJSR				_nsub_obj_blink_set
 byte_B6AFD:
-		OBJ_ANIMATE_SYNC
+		ANIMATE_HV_SYNC
 		NJSR				_nsub_obj_jump_up_anim
 		NJSR				_nsub_obj_cmp160_y_pos
 		SBMIS				byte_B6AFD
@@ -7520,12 +7520,12 @@ _nsub_sub100:
 		LDA		_obj_y_lo_poss,X
 		CMP		#$45
 		BCS		loc_B6D14
-		INC		_scr_vars19,X
+		INC		_obj_timerBs,X
 		RTS
 loc_B6D14:
 		CMP		_obj_y_lo_poss,Y
 		BCS		loc_B6D61
-		LDA		_scr_vars19,X
+		LDA		_obj_timerBs,X
 		BEQ		locret_B6D68
 		LDA		_obj_y_deltas,X
 		BEQ		locret_B6D68
@@ -7564,7 +7564,7 @@ loc_B6D41:
 loc_B6D61:
 		LDX		_scr_idx
 		LDA		#$00
-		STA		_scr_vars19,X
+		STA		_obj_timerBs,X
 locret_B6D68:
 		RTS
 byte_B6D69:
@@ -8081,13 +8081,13 @@ loc_B70CC:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_state0E_stun_start_A:
+_nsub_stun_sparkles_obj_scr_run:
 		LDA		_scr_idxCs,X
 		ORA		#$20
 		STA		_scr_idxCs,X
 		LDY		#_OBJ_TYPE_AUTO
 		JSR		_scr_load_param
-		.WORD	_obj_scr_players_stunned
+		.WORD	_obj_scr_stun_sparkles
 		BCS		locret_B7100
 		LDA		_scr_idx
 		STA		_scr_idxCs,X
@@ -8370,8 +8370,8 @@ _scr_license:
 
 ; =============== S C R I P T ===============================================
 _scr_intro:
-		OBJ_X_POS_SET		$C0,$00
-		OBJ_Y_POS_SET		$C0,$FF
+		POS_X_SET		$C0,$00
+		POS_Y_SET		$C0,$FF
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_170
 		NJSR				_nsub_obj_to_obj_idxCs_link
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_171
@@ -8379,49 +8379,49 @@ _scr_intro:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_172
 		NJSR				_nsub_obj_to_obj_idxCs_link
 		SJSRS				_ssub_B7360
-		OBJ_X_DELTA_SET		$00
-		OBJ_Y_DELTA_SET		$20
+		DELTA_X_SET		$00
+		DELTA_Y_SET		$20
 byte_B72FD:
 		SJSRS				_ssub_B7352
-		LOOPA				$80,byte_B72FD
-		OBJ_X_DELTA_SET		$EA
-		OBJ_Y_DELTA_SET		$EA
+		LOOP_A				$80,byte_B72FD
+		DELTA_X_SET		$EA
+		DELTA_Y_SET		$EA
 byte_B7308:
 		SJSRS				_ssub_B7352
-		LOOPA				$60,byte_B7308
-		OBJ_X_DELTA_SET		$20
-		OBJ_Y_DELTA_SET		$00
+		LOOP_A				$60,byte_B7308
+		DELTA_X_SET		$20
+		DELTA_Y_SET		$00
 byte_B7313:
 		SJSRS				_ssub_B7352
-		LOOPA				$40,byte_B7313
-		OBJ_X_DELTA_SET		$EA
-		OBJ_Y_DELTA_SET		$16
+		LOOP_A				$40,byte_B7313
+		DELTA_X_SET		$EA
+		DELTA_Y_SET		$16
 byte_B731E:
 		SJSRS				_ssub_B7352
-		LOOPA				$30,byte_B731E
-		OBJ_X_DELTA_SET		$E0
-		OBJ_Y_DELTA_SET		$00
+		LOOP_A				$30,byte_B731E
+		DELTA_X_SET		$E0
+		DELTA_Y_SET		$00
 byte_B7329:
 		SJSRS				_ssub_B7352
-		LOOPA				$80,byte_B7329
-		APU_LOAD			_apu_mus74
+		LOOP_A				$80,byte_B7329
+		APU_SE_SET			_apu_mus74
 		STORE				$00,_ppu_scroll_nt_hor
-		OBJ_Y_POS_SET		$68,$00
-		OBJ_X_DELTA_SET		$20
+		POS_Y_SET		$68,$00
+		DELTA_X_SET		$20
 byte_B733B:
 		SJSRS				_ssub_B7352
-		LOOPA				$86,byte_B733B
-		OBJ_X_DELTA_SET		$C0
+		LOOP_A				$86,byte_B733B
+		DELTA_X_SET		$C0
 byte_B7344:
 		SJSRS				_ssub_B7352
-		LOOPA				$10,byte_B7344
-		APU_LOAD			_apu_mus73
+		LOOP_A				$10,byte_B7344
+		APU_SE_SET			_apu_mus73
 		SUSPEND				$3C
 		SJMPS				byte_B7358
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_B7352:
-		OBJ_ANIMATE_SYNC
+		ANIMATE_HV_SYNC
 		PADS_TEST			_PAD0_PRESS,_PAD_ANY,byte_B735F
 byte_B7358:
 		STORE				$02,_main_sub_idx
@@ -8433,23 +8433,23 @@ byte_B735F:
 _ssub_B7360:
 		NJSR				_nsub_obj_idxCs_C0_clear
 		NJSR				_nsub_obj_under_bg_set
-		OBJ_SIZE_SET		$20,$20
-		SPR_IDX_SELECT		_spr_lib0_00
-		OBJ_SHOW
+		SIZE_SET		$20,$20
+		SPR_IDX_SET		_spr_lib0_00
+		SPRITE_ON
 		SRET
 
 ; =============== S C R I P T ===============================================
 _obj_scr_170:
-		OBJ_HFLIP_SET
+		FLIP_H_ON
 		SJMPS				byte_B7373
 
 ; =============== S C R I P T ===============================================
 _obj_scr_172:
-		OBJ_HFLIP_SET
+		FLIP_H_ON
 
 ; =============== S C R I P T ===============================================
 _obj_scr_171:
-		OBJ_VFLIP_SET
+		FLIP_V_ON
 byte_B7373:
 		SJSRS				_ssub_B7360
 byte_B7376:
@@ -8483,15 +8483,15 @@ loc_B739F:
 
 ; =============== S C R I P T ===============================================
 _scr_title:
-		OBJ_X_POS_SET		$C0,$00
-		OBJ_Y_POS_SET		$6F,$00
-		SPR_IDX_SELECT		_spr_lib0_01
-		OBJ_SHOW
+		POS_X_SET		$C0,$00
+		POS_Y_SET		$6F,$00
+		SPR_IDX_SET		_spr_lib0_01
+		SPRITE_ON
 		NJSR				_game_vars_init
 byte_B73BE:
 		SYNC
 		PADS_TEST			_PAD0_PRESS,_PAD_START,byte_B73BE
-		APU_LOAD			_apu_mus32
+		APU_SE_SET			_apu_mus32
 		NJSR_SYNC			_title_clear_menu_area
 		NJSR_SYNC			_scr_players_num_menu_draw
 		SJSRS				_ssub_B73F1
@@ -8516,27 +8516,27 @@ _ssub_B73F1:
 byte_B73F7:
 		SYNC
 		PADS_TEST			_PAD0_PRESS,_PAD_UP|_PAD_DOWN|_PAD_SELECT,byte_B7405
-		APU_LOAD			_apu_mus31
+		APU_SE_SET			_apu_mus31
 		NJSR				_title_player_select_pal_toggle
 		MENU_CURSOR_DRAW	_menu_title_player_num
 byte_B7405:
 		PADS_TEST			_PAD0_PRESS,_PAD_START|_PAD_A,byte_B73F7
-		APU_LOAD			_apu_mus32
+		APU_SE_SET			_apu_mus32
 		SRET
 
 ; =============== S C R I P T ===============================================
 _obj_scr_173:
-		OBJ_X_POS_SET		$30,$00
-		SPR_IDX_SELECT		_spr_lib0_07
+		POS_X_SET		$30,$00
+		SPR_IDX_SET		_spr_lib0_07
 		SJMPS				byte_B741A
 
 ; =============== S C R I P T ===============================================
 _obj_scr_174:
-		OBJ_X_POS_SET		$B0,$00
-		SPR_IDX_SELECT		_spr_lib0_08
+		POS_X_SET		$B0,$00
+		SPR_IDX_SET		_spr_lib0_08
 byte_B741A:
-		OBJ_Y_POS_SET		$BA,$00
-		OBJ_SHOW
+		POS_Y_SET		$BA,$00
+		SPRITE_ON
 		SJMP				_ssub_suspend_forever
 
 ; =============== S U B R O U T I N E =======================================
@@ -8608,14 +8608,14 @@ _menu_title_player_num:
 
 ; =============== S C R I P T ===============================================
 _scr_game_over:
-		OBJ_X_POS_SET		$80,$00
-		OBJ_Y_POS_SET		$60,$00
-		OBJ_Y_DELTA_SET		$04
-		SPR_IDX_SELECT		_spr_lib0_14
-		OBJ_SHOW
+		POS_X_SET		$80,$00
+		POS_Y_SET		$60,$00
+		DELTA_Y_SET		$04
+		SPR_IDX_SET		_spr_lib0_14
+		SPRITE_ON
 byte_B748B:
-		OBJ_ANIMATE_SYNC
-		LOOPA				$80,byte_B748B
+		ANIMATE_HV_SYNC
+		LOOP_A				$80,byte_B748B
 		SUSPEND				$78
 		NJSR				_get_continues
 		SBEQS				byte_B74DD
@@ -8635,7 +8635,7 @@ byte_B74B3:
 		MENU_CURSOR_DRAW	_menu_data02
 		SYNC
 		PADS_TEST			_PAD0_PRESS,_PAD_A,byte_B74B3
-		APU_LOAD			_apu_mus32
+		APU_SE_SET			_apu_mus32
 		NJSR				_nsub_idxBs_10_test_clear_from_idxBs
 		NJSR				_nsub_idxBs_10_test_clear_from_idxCs
 		SSWITCH				_tmp49
@@ -8654,8 +8654,8 @@ byte_B74DD:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_175:
-		OBJ_HP_SET			$00
-		OBJ_X_POS_SET		$70,$00
+		HP_SET			$00
+		POS_X_SET		$70,$00
 		SJMPS				byte_B74F3
 
 ; =============== S C R I P T ===============================================
@@ -8665,18 +8665,18 @@ _obj_scr_175:
 ; other will be broken. do not change indexes or do it syncronously!
 ;
 _obj_scr_176:
-		OBJ_HP_SET			$01
-		OBJ_X_POS_SET		$90,$00
+		HP_SET			$01
+		POS_X_SET		$90,$00
 byte_B74F3:
 		NJSR				_nsub_player_spr_lib_init
 		SBEQ				_ssub_suspend_forever
-		OBJ_Y_POS_SET		$A0,$00
-		OBJ_SIZE_SET		$06,$16
+		POS_Y_SET		$A0,$00
+		SIZE_SET		$06,$16
 		NJSR				_nsub_idxBs_10_set
-		NJSR				_players_state0E_stun_start_A
-		OBJ_FLIPS_SET		$60
-		SPR_IDX_SELECT		_spr_lib1_0D
-		OBJ_SHOW
+		NJSR				_nsub_stun_sparkles_obj_scr_run
+		FLIPS_SET		$60
+		SPR_IDX_SET		_spr_lib1_0D
+		SPRITE_ON
 byte_B750A:
 		NJSR_SYNC			_nsub_idxBs_10_test
 		SBNES				byte_B750A
@@ -8687,15 +8687,15 @@ byte_B750A:
 byte_B751A:
 		SJSRS				_ssub_B7547
 		SUSPEND				$05
-		OBJ_X_DELTA_SET		$20
-		OBJ_Y_DELTA_SET		$00
+		DELTA_X_SET		$20
+		DELTA_Y_SET		$00
 		SJSRS				_ssub_B7533
 		SJSRS				_ssub_B7533
 		KILL
 byte_B752A:
-		SPR_IDX_SELECT		_spr_lib1_0C
-		OBJ_X_DELTA_SET		$F0
-		OBJ_Y_DELTA_SET		$DF
+		SPR_IDX_SET		_spr_lib1_0C
+		DELTA_X_SET		$F0
+		DELTA_Y_SET		$DF
 		SJMP				_ssub_y_parabolic_delta_infinite_anim_sync
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -8704,13 +8704,13 @@ byte_B752A:
 ; lib1 indexes if something is changes!
 ;
 _ssub_B7533:
-		SPR_IDX_SELECT		_spr_lib1_01
+		SPR_IDX_SET		_spr_lib1_01
 		SJSR				_ssub_anim_sync_frames10
-		SPR_IDX_SELECT		_spr_lib1_02
+		SPR_IDX_SET		_spr_lib1_02
 		SJSR				_ssub_anim_sync_frames10
-		SPR_IDX_SELECT		_spr_lib1_03
+		SPR_IDX_SET		_spr_lib1_03
 		SJSR				_ssub_anim_sync_frames10
-		SPR_IDX_SELECT		_spr_lib1_02
+		SPR_IDX_SET		_spr_lib1_02
 		SJMP				_ssub_anim_sync_frames10
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -8719,20 +8719,20 @@ _ssub_B7533:
 ; lib1 indexes if something is changes!
 ;
 _ssub_B7547:
-		OBJ_Y_DELTA_SET		$DF
-		SPR_IDX_SELECT		_spr_lib1_05
+		DELTA_Y_SET		$DF
+		SPR_IDX_SET		_spr_lib1_05
 byte_B754B:
 		NJSR				_nsub_obj_jump_up_anim
 		NJSR_SYNC			_obj_vert_anim
-		LOOPA				$15,byte_B754B
+		LOOP_A				$15,byte_B754B
 
 ; !FALLTHROUGH!
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_B7555:
-		SPR_IDX_SELECT		_spr_lib1_04
+		SPR_IDX_SET		_spr_lib1_04
 		SUSPEND				$0A
-		SPR_IDX_SELECT		_spr_lib1_00
+		SPR_IDX_SET		_spr_lib1_00
 		SRET
 
 _menu_data02:
@@ -8837,7 +8837,7 @@ byte_B75F5:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_B75FB:
 		NJSR_SYNC			_stage_complete_info_insert
-		LOOPB				$04,_ssub_B75FB
+		LOOP_B				$04,_ssub_B75FB
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -8909,24 +8909,24 @@ loc_B7663:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_16D:
-		OBJ_HFLIP_SET
-		OBJ_SHOW
-		OBJ_X_POS_SET		$38,$00
-		OBJ_Y_POS_SET		$A0,$00
-		SPR_LIB_SELECT		_spr_lib1
-		SPR_IDX_SELECT		_spr_lib1_1B
+		FLIP_H_ON
+		SPRITE_ON
+		POS_X_SET		$38,$00
+		POS_Y_SET		$A0,$00
+		SPR_LIB_SET		_spr_lib1
+		SPR_IDX_SET		_spr_lib1_1B
 		SJSR				_ssub_idxBs_10_set_clear_wait
 		SJSR				_ssub_6B73A
 		SJSR				_ssub_6B73A
 
 ; =============== S C R I P T ===============================================
 _obj_scr_16E:
-		OBJ_HFLIP_SET
-		OBJ_SHOW
-		OBJ_X_POS_SET		$28,$00
-		OBJ_Y_POS_SET		$90,$00
-		SPR_LIB_SELECT		_spr_lib2
-		SPR_IDX_SELECT		_spr_lib2_1B
+		FLIP_H_ON
+		SPRITE_ON
+		POS_X_SET		$28,$00
+		POS_Y_SET		$90,$00
+		SPR_LIB_SET		_spr_lib2
+		SPR_IDX_SET		_spr_lib2_1B
 		SJSR				_ssub_idxBs_10_set_clear_wait
 		SJSR				_ssub_6B75D
 		SJSR				_ssub_6B73A
@@ -8935,79 +8935,79 @@ _obj_scr_16E:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_16F:
-		OBJ_HFLIP_SET
-		OBJ_SHOW
-		OBJ_X_POS_SET		$70,$00
-		OBJ_Y_POS_SET		$C0,$00
-		SPR_IDX_SELECT		_spr_lib0_1C
-		TARGET_DIR_SET		$00
+		FLIP_H_ON
+		SPRITE_ON
+		POS_X_SET		$70,$00
+		POS_Y_SET		$C0,$00
+		SPR_IDX_SET		_spr_lib0_1C
+		TIMER_B_SET		$00
 		SJSR				_ssub_monterey_static_draw
 		SJSR				_ssub_6B7D1
 		SJSR				_ssub_monterey_static_draw
 
 ; =============== S C R I P T ===============================================
 _obj_scr_16C:
-		OBJ_X_POS_SET		$A0,$00
-		OBJ_Y_POS_SET		$70,$00
-		OBJ_SHOW
-		OBJ_X_DELTA_SET		$F8
+		POS_X_SET		$A0,$00
+		POS_Y_SET		$70,$00
+		SPRITE_ON
+		DELTA_X_SET		$F8
 byte_B76BD:
-		SPR_IDX_SELECT		_spr_lib0_3D
+		SPR_IDX_SET		_spr_lib0_3D
 		SJSR				_ssub_anim_sync_frames10
-		SPR_IDX_SELECT		_spr_lib0_3E
+		SPR_IDX_SET		_spr_lib0_3E
 		SJSR				_ssub_anim_sync_frames10
-		LOOPA				$08,byte_B76BD
+		LOOP_A				$08,byte_B76BD
 		NJSR				_nsub_obj_hor_move_reverse
 		SJMPS				byte_B76BD
 
 ; =============== S C R I P T ===============================================
 _scr_cutscene0A:
-		OBJ_Y_POS_SET		$C0,$00
+		POS_Y_SET		$C0,$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_178
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_179
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_17A
 		NJSR_SYNC			_nsub_cut_store_char_number
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		MSG_DISPLAY			_msg3F,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		MSG_DISPLAY			_msg40,_apu_mus5D
 		MSG_WAIT
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		MSG_DISPLAY			_msg41,_apu_mus57
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		MSG_DISPLAY			_msg42,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		MSG_DISPLAY			_msg43,_apu_mus5D
 		MSG_WAIT
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		MSG_DISPLAY			_msg44,_apu_mus57
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		MSG_DISPLAY			_msg45,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		SJMP				_ssub_delayed_next_cutscene
 
 ; =============== S C R I P T ===============================================
 _obj_scr_179:
-		SPR_LIB_SELECT		_spr_lib1
-		SPR_IDX_SELECT		_spr_lib1_16
-		OBJ_X_POS_SET		$70,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib1
+		SPR_IDX_SET		_spr_lib1_16
+		POS_X_SET		$70,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_17B
 		NJSR				_nsub_cur_obj_idx_to_idxBs_store
 		SUSPEND				$B4
 		NJSR				_nsub_idxBs_10_test_clear_from_idxBs
-		SPR_IDX_SELECT		_spr_lib1_09
+		SPR_IDX_SET		_spr_lib1_09
 		SUSPEND				$04
-		SPR_IDX_SELECT		_spr_lib1_0A
+		SPR_IDX_SET		_spr_lib1_0A
 		SUSPEND				$10
-		SPR_IDX_SELECT		_spr_lib1_00
+		SPR_IDX_SET		_spr_lib1_00
 		SUSPEND				$3C
 		SJSR				_ssub_idxBs_10_set_clear_wait
 		SJSR				_ssub_6B73A
@@ -9017,11 +9017,11 @@ _obj_scr_179:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_17A:
-		SPR_LIB_SELECT		_spr_lib2
-		SPR_IDX_SELECT		_spr_lib2_00
-		OBJ_X_POS_SET		$50,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib2
+		SPR_IDX_SET		_spr_lib2_00
+		POS_X_SET		$50,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SJSR				_ssub_idxBs_10_set_clear_wait
 		SJSR				_ssub_6B73A
 		SJSR				_ssub_6B73A
@@ -9029,24 +9029,24 @@ _obj_scr_17A:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_178:
-		SPR_IDX_SELECT		_spr_lib0_42
-		OBJ_X_POS_SET		$88,$00
-		OBJ_SHOW
+		SPR_IDX_SET		_spr_lib0_42
+		POS_X_SET		$88,$00
+		SPRITE_ON
 		SJMP				_ssub_suspend_forever
 
 ; =============== S C R I P T ===============================================
 _obj_scr_17B:
-		OBJ_Y_POS_MOVE		$EA
-		SPR_IDX_SELECT		_spr_lib0_43
-		OBJ_SHOW
+		POS_Y_MOVE		$EA
+		SPR_IDX_SET		_spr_lib0_43
+		SPRITE_ON
 		SJSR				_ssub_idxBs_10_set_clear_wait
-		OBJ_X_DELTA_SET		$0D
-		OBJ_Y_DELTA_SET		$E8
+		DELTA_X_SET		$0D
+		DELTA_Y_SET		$E8
 byte_B7781:
-		OBJ_ANIMATE_SYNC
-		OBJ_Y_DELTA_INC
-		OBJ_Y_DELTA_INC
-		LOOPA				$1E,byte_B7781
+		ANIMATE_HV_SYNC
+		DELTA_Y_INC
+		DELTA_Y_INC
+		LOOP_A				$1E,byte_B7781
 		SJMP				_ssub_suspend_forever
 
 ; =============== S C R I P T ===============================================
@@ -9060,26 +9060,26 @@ _scr_cutscene0B:
 		SCASE				byte_B7899
 		SCASE				byte_B78C8
 byte_B77A0:
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_17C
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_17D
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$02
+		TIMER_B_SET		$02
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_17E
 		NJSR_SYNC			_nsub_cut_store_char_number
 		SUSPEND				$3C
 		MSG_DISPLAY			_msg46,_apu_mus5D
 		MSG_WAIT
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		MSG_DISPLAY			_msg47,_apu_mus57
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		MSG_DISPLAY			_msg48,_apu_mus5D
 		MSG_WAIT
 		MSG_DISPLAY			_msg49,_apu_mus57
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$02
+		TIMER_B_SET		$02
 byte_B77D9:
 		MSG_DISPLAY			_msg4A,_apu_mus59
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
@@ -9095,7 +9095,7 @@ byte_B77F4:
 		NJSR_SYNC			_nsub_cut_char_idxBs_10_clear
 		SJMPS				byte_B77D9
 byte_B77FE:
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		MSG_DISPLAY			_msg4C,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		SJMP				_ssub_delayed_ingame_start
@@ -9112,15 +9112,15 @@ byte_B7810:
 		MENU_CURSOR_DRAW	_menu_data03
 byte_B781D:
 		PADS_TEST			_PAD0_PRESS,_PAD_A,byte_B7810
-		APU_LOAD			_apu_mus32
+		APU_SE_SET			_apu_mus32
 		NJSR				_extra_stage_name0_load
 		SRET
 byte_B7828:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_17F
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_180
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$03
+		TIMER_B_SET		$03
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_181
 		NJSR_SYNC			_nsub_cut_store_char_number
 		SUSPEND				$3C
@@ -9142,7 +9142,7 @@ byte_B7865:
 		NJSR_SYNC			_nsub_cut_char_idxBs_10_clear
 		SJMPS				byte_B7840
 byte_B786F:
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		MSG_DISPLAY			_msg4E,_apu_mus57
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		SJMP				_ssub_delayed_ingame_start
@@ -9159,22 +9159,22 @@ byte_B7881:
 		MENU_CURSOR_DRAW	_menu_data04
 byte_B788E:
 		PADS_TEST			_PAD0_PRESS,_PAD_A,byte_B7881
-		APU_LOAD			_apu_mus32
+		APU_SE_SET			_apu_mus32
 		NJSR				_extra_stage_name0_load
 		SRET
 byte_B7899:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cutscene_skip_wait
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_182
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_183
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$02
+		TIMER_B_SET		$02
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_184
 		NJSR_SYNC			_nsub_cut_store_char_number
 		SUSPEND				$3C
 		MSG_DISPLAY			_msg4F,_apu_mus59
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		MSG_DISPLAY			_msg50,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		SJMP				_ssub_delayed_ingame_start
@@ -9313,12 +9313,12 @@ _obj_scr_180:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_181:
-		SPR_IDX_SELECT		_spr_lib0_28
-		TARGET_DIR_SET		$09
-		OBJ_X_POS_SET		$18,$00
-		OBJ_Y_POS_SET		$A0,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_IDX_SET		_spr_lib0_28
+		TIMER_B_SET		$09
+		POS_X_SET		$18,$00
+		POS_Y_SET		$A0,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_185
 		SJSR				_ssub_gadget_static_draw
 byte_B79A0:
@@ -9328,11 +9328,11 @@ byte_B79A0:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_185:
-		OBJ_X_POS_MOVE		$0B
-		OBJ_Y_POS_MOVE		$F0
+		POS_X_MOVE		$0B
+		POS_Y_MOVE		$F0
 byte_B79AD:
-		SPR_IDX_SELECT		_spr_lib0_3F
-		OBJ_SHOW
+		SPR_IDX_SET		_spr_lib0_3F
+		SPRITE_ON
 		SJMP				_ssub_suspend_forever
 
 ; =============== S C R I P T ===============================================
@@ -9350,47 +9350,47 @@ _obj_scr_182:
 _obj_scr_184:
 		SJSRS				_ssub_B79FA
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_186
-		TARGET_DIR_SET		$06
+		TIMER_B_SET		$06
 		SJSR				_ssub_monterey_static_draw
-		OBJ_HP_SET			$06
-		OBJ_DAMAGE_SET		$09
+		HP_SET			$06
+		DAMAGE_SET		$09
 		SJSR				_ssub_monterey_talk_draw
-		TARGET_DIR_SET		$06
+		TIMER_B_SET		$06
 		SJSR				_ssub_monterey_static_draw
 
 ; =============== S C R I P T ===============================================
 _obj_scr_186:
-		OBJ_X_POS_MOVE		$14
-		OBJ_Y_POS_MOVE		$E5
+		POS_X_MOVE		$14
+		POS_Y_MOVE		$E5
 		SJMPS				byte_B79AD
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_B79E1:
-		SPR_LIB_SELECT		_spr_lib1
-		SPR_IDX_SELECT		_spr_lib1_1B
-		OBJ_X_POS_SET		$80,$00
-		OBJ_Y_POS_SET		$D0,$00
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib1
+		SPR_IDX_SET		_spr_lib1_1B
+		POS_X_SET		$80,$00
+		POS_Y_SET		$D0,$00
+		SPRITE_ON
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_B79ED:
-		SPR_LIB_SELECT		_spr_lib2
-		SPR_IDX_SELECT		_spr_lib2_1B
-		OBJ_X_POS_SET		$38,$00
-		OBJ_Y_POS_SET		$C0,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib2
+		SPR_IDX_SET		_spr_lib2_1B
+		POS_X_SET		$38,$00
+		POS_Y_SET		$C0,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_B79FA:
-		SPR_IDX_SELECT		_spr_lib0_1C
-		TARGET_DIR_SET		$00
-		OBJ_X_POS_SET		$18,$00
-		OBJ_Y_POS_SET		$A0,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_IDX_SET		_spr_lib0_1C
+		TIMER_B_SET		$00
+		POS_X_SET		$18,$00
+		POS_Y_SET		$A0,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SRET
 
 ; =============== S C R I P T ===============================================
@@ -9398,37 +9398,37 @@ _scr_cutscene0C:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cutscene_skip_wait
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_187
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_188
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_189
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$03
+		TIMER_B_SET		$03
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_18A
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$04
+		TIMER_B_SET		$04
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_18B
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_18C
 		NJSR_SYNC			_nsub_cut_store_char_number
 		SUSPEND				$3C
 		MSG_DISPLAY			_msg51,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$03
+		TIMER_B_SET		$03
 		MSG_DISPLAY			_msg52,_apu_mus58
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$04
+		TIMER_B_SET		$04
 		NJSR_SYNC			_nsub_cut_char_idxBs_10_clear
 		MSG_DISPLAY			_msg53,_apu_mus5A
 		MSG_WAIT
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$03
+		TIMER_B_SET		$03
 		NJSR				_nsub_cut_char_idxBs_10_clear
-		TARGET_DIR_SET		$04
+		TIMER_B_SET		$04
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		MSG_DISPLAY			_msg54,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		APU_LOAD			_apu_mus4F
+		APU_SE_SET			_apu_mus4F
 		NJSR				_nsub_sub103
 		SJSR				_ssub_6BECE
 		SUSPEND				$10
@@ -9436,98 +9436,98 @@ _scr_cutscene0C:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_18C:
-		SPR_LIB_SELECT		_spr_lib1
-		SPR_IDX_SELECT		_spr_lib1_1B
-		OBJ_X_POS_SET		$70,$00
-		OBJ_Y_POS_SET		$C0,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib1
+		SPR_IDX_SET		_spr_lib1_1B
+		POS_X_SET		$70,$00
+		POS_Y_SET		$C0,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SJSR				_ssub_idxBs_10_set_clear_wait
-		OBJ_HFLIP_CLEAR
+		FLIP_H_OFF
 		SJSR				_ssub_6B744
 		SJSR				_ssub_6B73A
-		OBJ_HFLIP_SET
+		FLIP_H_ON
 		SJMPS				byte_B7A9F
 
 ; =============== S C R I P T ===============================================
 _obj_scr_189:
-		SPR_LIB_SELECT		_spr_lib2
-		SPR_IDX_SELECT		_spr_lib2_1B
-		OBJ_X_POS_SET		$58,$00
-		OBJ_Y_POS_SET		$C0,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib2
+		SPR_IDX_SET		_spr_lib2_1B
+		POS_X_SET		$58,$00
+		POS_Y_SET		$C0,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SJSR				_ssub_idxBs_10_set_clear_wait
 byte_B7A9F:
-		OBJ_X_DELTA_SET		$10
+		DELTA_X_SET		$10
 byte_B7AA1:
 		SJSR				_ssub_B7533
 		SJMPS				byte_B7AA1
 
 ; =============== S C R I P T ===============================================
 _obj_scr_18A:
-		SPR_IDX_SELECT		_spr_lib0_28
-		TARGET_DIR_SET		$09
-		OBJ_X_POS_SET		$10,$00
-		OBJ_Y_POS_SET		$A0,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_IDX_SET		_spr_lib0_28
+		TIMER_B_SET		$09
+		POS_X_SET		$10,$00
+		POS_Y_SET		$A0,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_18D
 		NJSR				_nsub_obj_to_obj_idxCs_link
 		SJSR				_ssub_gadget_static_draw
 		SJSR				_ssub_6B797
 		NJSR				_nsub_obj_disable_from_idxCs_40_flag
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		SJSR				_ssub_gadget_static_draw
 
 ; =============== S C R I P T ===============================================
 _obj_scr_18B:
-		OBJ_X_POS_SET		$80,$00
-		OBJ_Y_POS_SET		$84,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		POS_X_SET		$80,$00
+		POS_Y_SET		$84,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SJSR				_ssub_zipper_hover_animate
-		OBJ_HFLIP_CLEAR
+		FLIP_H_OFF
 		SJSR				_ssub_zipper_hover_animate
-		OBJ_X_DELTA_SET		$F0
+		DELTA_X_SET		$F0
 byte_B7AD9:
 		SJSR				_ssub_6B825
-		LOOPA				$10,byte_B7AD9
+		LOOP_A				$10,byte_B7AD9
 		SJSR				_ssub_zipper_hover_animate
-		OBJ_HFLIP_SET
-		OBJ_X_DELTA_SET		$10
+		FLIP_H_ON
+		DELTA_X_SET		$10
 byte_B7AE6:
 		SJSR				_ssub_6B825
-		LOOPA				$06,byte_B7AE6
+		LOOP_A				$06,byte_B7AE6
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_18E
 		SJSR				_ssub_zipper_hover_animate
 
 ; =============== S C R I P T ===============================================
 _obj_scr_187:
-		OBJ_X_POS_SET		$28,$00
+		POS_X_SET		$28,$00
 		SJMPS				byte_B7B0E
 
 ; =============== S C R I P T ===============================================
 _obj_scr_188:
-		OBJ_X_POS_SET		$38,$00
+		POS_X_SET		$38,$00
 		SJMPS				byte_B7B0E
 
 ; =============== S C R I P T ===============================================
 _obj_scr_18D:
-		OBJ_X_POS_MOVE		$0B
-		OBJ_Y_POS_MOVE		$F0
-		SPR_IDX_SELECT		_spr_lib0_3F
-		OBJ_SHOW
+		POS_X_MOVE		$0B
+		POS_Y_MOVE		$F0
+		SPR_IDX_SET		_spr_lib0_3F
+		SPRITE_ON
 		SJMP				_ssub_suspend_forever
 
 ; =============== S C R I P T ===============================================
 _obj_scr_18E:
-		OBJ_HFLIP_CLEAR
-		OBJ_X_POS_SET		$48,$00
+		FLIP_H_OFF
+		POS_X_SET		$48,$00
 byte_B7B0E:
-		OBJ_Y_POS_SET		$64,$00
-		SPR_IDX_SELECT		_spr_lib0_40
-		OBJ_SHOW
+		POS_Y_SET		$64,$00
+		SPR_IDX_SET		_spr_lib0_40
+		SPRITE_ON
 		SJMP				_ssub_suspend_forever
 
 ; =============== S U B R O U T I N E =======================================
@@ -9543,60 +9543,60 @@ _nsub_sub103:
 ; =============== S C R I P T ===============================================
 _scr_cutscene0D:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cutscene_skip_wait
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_18F
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_190
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$03
+		TIMER_B_SET		$03
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_191
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$04
+		TIMER_B_SET		$04
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_192
 		NJSR_SYNC			_nsub_cut_store_char_number
 		SUSPEND				$3C
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		MSG_DISPLAY			_msg55,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		MSG_DISPLAY			_msg56,_apu_mus57
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$03
+		TIMER_B_SET		$03
 		MSG_DISPLAY			_msg57,_apu_mus58
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		MSG_DISPLAY			_msg58,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		MSG_DISPLAY			_msg59,_apu_mus56
 		NJSR				_nsub_cut_char_idxBs_10_clear
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		NJSR				_nsub_cut_char_idxBs_10_clear
-		TARGET_DIR_SET		$03
+		TIMER_B_SET		$03
 		NJSR_SYNC			_nsub_cut_char_idxBs_10_clear
 		SJSR				_ssub_wait_for_wnd_msg_is_over
 		SJMP				_ssub_delayed_ingame_start
 
 ; =============== S C R I P T ===============================================
 _obj_scr_18F:
-		SPR_LIB_SELECT		_spr_lib1
-		SPR_IDX_SELECT		_spr_lib1_1B
-		OBJ_X_POS_SET		$70,$00
-		OBJ_Y_POS_SET		$C0,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib1
+		SPR_IDX_SET		_spr_lib1_1B
+		POS_X_SET		$70,$00
+		POS_Y_SET		$C0,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SJSR				_ssub_idxBs_10_set_clear_wait
 		SJSR				_ssub_6B73A
 		SJMPS				byte_B7BAF
 
 ; =============== S C R I P T ===============================================
 _obj_scr_190:
-		SPR_LIB_SELECT		_spr_lib2
-		SPR_IDX_SELECT		_spr_lib2_1B
-		OBJ_X_POS_SET		$58,$00
-		OBJ_Y_POS_SET		$C0,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib2
+		SPR_IDX_SET		_spr_lib2_1B
+		POS_X_SET		$58,$00
+		POS_Y_SET		$C0,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SJSR				_ssub_idxBs_10_set_clear_wait
 byte_B7BAF:
 		SJSR				_ssub_6B744
@@ -9604,22 +9604,22 @@ byte_B7BAF:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_191:
-		SPR_IDX_SELECT		_spr_lib0_28
-		TARGET_DIR_SET		$00
-		OBJ_X_POS_SET		$10,$00
-		OBJ_Y_POS_SET		$A0,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_IDX_SET		_spr_lib0_28
+		TIMER_B_SET		$00
+		POS_X_SET		$10,$00
+		POS_Y_SET		$A0,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SJSR				_ssub_gadget_static_draw
 		SJSR				_ssub_6B797
 		SJSR				_ssub_6B797
 
 ; =============== S C R I P T ===============================================
 _obj_scr_192:
-		OBJ_X_POS_SET		$60,$00
-		OBJ_Y_POS_SET		$68,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		POS_X_SET		$60,$00
+		POS_Y_SET		$68,$00
+		FLIP_H_ON
+		SPRITE_ON
 byte_B7BD2:
 		SJSR				_ssub_zipper_hover_animate
 		SJMPS				byte_B7BD2
@@ -9627,13 +9627,13 @@ byte_B7BD2:
 ; =============== S C R I P T ===============================================
 _scr_cutscene0E:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cutscene_skip_wait
-		TARGET_DIR_SET		$05
+		TIMER_B_SET		$05
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_193
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_194
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_195
 		NJSR_SYNC			_nsub_cut_store_char_number
 		SUSPEND				$60
@@ -9641,17 +9641,17 @@ _scr_cutscene0E:
 		MSG_WAIT
 		MSG_DISPLAY			_msg5B,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		MSG_DISPLAY			_msg5C,_apu_mus57
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		MSG_DISPLAY			_msg5D,_apu_mus5D
 		MSG_WAIT
 		MSG_DISPLAY			_msg5E,_apu_mus57
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		MSG_DISPLAY			_msg5F,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$05
+		TIMER_B_SET		$05
 		NJSR_SYNC			_nsub_cut_char_idxBs_10_clear
 		SJMP				_ssub_delayed_ingame_start
 
@@ -9669,24 +9669,24 @@ byte_B7C2E:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_195:
-		SPR_LIB_SELECT		_spr_lib1
-		SPR_IDX_SELECT		_spr_lib1_1B
-		OBJ_X_POS_SET		$58,$00
-		OBJ_Y_POS_SET		$C0,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib1
+		SPR_IDX_SET		_spr_lib1_1B
+		POS_X_SET		$58,$00
+		POS_Y_SET		$C0,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SJSR				_ssub_idxBs_10_set_clear_wait
 		SJSR				_ssub_6B73A
 		SJSR				_ssub_6B744
 
 ; =============== S C R I P T ===============================================
 _obj_scr_194:
-		SPR_LIB_SELECT		_spr_lib2
-		SPR_IDX_SELECT		_spr_lib2_1B
-		OBJ_X_POS_SET		$40,$00
-		OBJ_Y_POS_SET		$C0,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib2
+		SPR_IDX_SET		_spr_lib2_1B
+		POS_X_SET		$40,$00
+		POS_Y_SET		$C0,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SJSR				_ssub_idxBs_10_set_clear_wait
 		SJSR				_ssub_6B73A
 		SJSR				_ssub_6B744
@@ -9694,51 +9694,51 @@ _obj_scr_194:
 ; =============== S C R I P T ===============================================
 _scr_cutscene0F:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_196
-		TARGET_DIR_SET		$02
+		TIMER_B_SET		$02
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_197
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_198
 		NJSR_SYNC			_nsub_cut_store_char_number
 		SUSPEND				$3C
-		TARGET_DIR_SET		$02
+		TIMER_B_SET		$02
 		MSG_DISPLAY			_msg60,_apu_mus59
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		MSG_DISPLAY			_msg61,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$02
+		TIMER_B_SET		$02
 		MSG_DISPLAY			_msg62,_apu_mus59
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		SJMP				_ssub_next_cutscene
 
 ; =============== S C R I P T ===============================================
 _obj_scr_198:
-		SPR_LIB_SELECT		_spr_lib1
-		SPR_IDX_SELECT		_spr_lib1_1B
-		OBJ_X_POS_SET		$B0,$00
-		OBJ_Y_POS_SET		$C0,$00
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib1
+		SPR_IDX_SET		_spr_lib1_1B
+		POS_X_SET		$B0,$00
+		POS_Y_SET		$C0,$00
+		SPRITE_ON
 		SJSR				_ssub_idxBs_10_set_clear_wait
 		SJSR				_ssub_6B73A
 
 ; =============== S C R I P T ===============================================
 _obj_scr_196:
-		SPR_LIB_SELECT		_spr_lib2
-		SPR_IDX_SELECT		_spr_lib2_1B
-		OBJ_X_POS_SET		$D0,$00
-		OBJ_Y_POS_SET		$90,$00
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib2
+		SPR_IDX_SET		_spr_lib2_1B
+		POS_X_SET		$D0,$00
+		POS_Y_SET		$90,$00
+		SPRITE_ON
 		SJMP				_ssub_suspend_forever
 
 ; =============== S C R I P T ===============================================
 _obj_scr_197:
-		SPR_IDX_SELECT		_spr_lib0_1C
-		TARGET_DIR_SET		$00
-		OBJ_X_POS_SET		$70,$00
-		OBJ_Y_POS_SET		$C0,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_IDX_SET		_spr_lib0_1C
+		TIMER_B_SET		$00
+		POS_X_SET		$70,$00
+		POS_Y_SET		$C0,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SJSR				_ssub_monterey_static_draw
 		SJSR				_ssub_6B7D1
 		SJSR				_ssub_6B7D1
@@ -9753,78 +9753,78 @@ _scr_cutscene10:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_19A:
-		SPR_LIB_SELECT		_spr_lib1
-		OBJ_X_POS_SET		$E0,$FF
+		SPR_LIB_SET		_spr_lib1
+		POS_X_SET		$E0,$FF
 		SJMPS				byte_B7CF2
 
 ; =============== S C R I P T ===============================================
 _obj_scr_199:
-		SPR_LIB_SELECT		_spr_lib2
-		OBJ_X_POS_SET		$C8,$FF
+		SPR_LIB_SET		_spr_lib2
+		POS_X_SET		$C8,$FF
 ; TODO: optimize me! should be !FALLTHROUGH!
 		SJMPS				byte_B7CF2
 ; -
 
 ; =============== S C R I P T   R O U T I N E ===============================
 byte_B7CF2:
-		OBJ_Y_POS_SET		$C0,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
-		OBJ_X_DELTA_SET		$10
+		POS_Y_SET		$C0,$00
+		FLIP_H_ON
+		SPRITE_ON
+		DELTA_X_SET		$10
 byte_B7CF9:
 		SJSR				_ssub_B7533
 		SJMPS				byte_B7CF9
 
 ; =============== S C R I P T ===============================================
 _scr_cutscene11:
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cut11_chip
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cut11_dale
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$02
+		TIMER_B_SET		$02
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cut11_monterey
 		NJSR				_nsub_cut_store_char_number
-		TARGET_DIR_SET		$03
+		TIMER_B_SET		$03
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cut11_gadget
 		NJSR_SYNC			_nsub_cut_store_char_number
 		SUSPEND				$3C
-		TARGET_DIR_SET		$02
+		TIMER_B_SET		$02
 		MSG_DISPLAY			_msg63,_apu_mus59
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		NJSR				_nsub_cut_char_idxBs_10_clear
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$03
+		TIMER_B_SET		$03
 		MSG_DISPLAY			_msg64,_apu_mus58
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		MSG_DISPLAY			_msg65,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		MSG_DISPLAY			_msg66,_apu_mus57
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$03
+		TIMER_B_SET		$03
 		MSG_DISPLAY			_msg67,_apu_mus58
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$02
+		TIMER_B_SET		$02
 		MSG_DISPLAY			_msg68,_apu_mus59
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$01
+		TIMER_B_SET		$01
 		MSG_DISPLAY			_msg69,_apu_mus57
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$03
+		TIMER_B_SET		$03
 		MSG_DISPLAY			_msg6A,_apu_mus58
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
-		TARGET_DIR_SET		$00
+		TIMER_B_SET		$00
 		MSG_DISPLAY			_msg6B,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		MSG_DISPLAY			_msg6C,_apu_mus56
-		TARGET_DIR_SET		$02
+		TIMER_B_SET		$02
 		NJSR_SYNC			_nsub_cut_char_idxBs_10_clear
-		TARGET_DIR_SET		$03
+		TIMER_B_SET		$03
 		NJSR_SYNC			_nsub_cut_char_idxBs_10_clear
 		SJSR				_ssub_6BECE
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
@@ -9840,11 +9840,11 @@ _scr_cutscene11:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_cut11_chip:
-		SPR_LIB_SELECT		_spr_lib1
-		SPR_IDX_SELECT		_spr_lib1_1B
-		OBJ_X_POS_SET		$70,$01
-		OBJ_Y_POS_SET		$E0,$00
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib1
+		SPR_IDX_SET		_spr_lib1_1B
+		POS_X_SET		$70,$01
+		POS_Y_SET		$E0,$00
+		SPRITE_ON
 		SJSR				_ssub_idxBs_10_set_clear_wait
 		SJSRS				_ssub_B7DE6
 		SJSR				_ssub_6B73A
@@ -9854,11 +9854,11 @@ _obj_scr_cut11_chip:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_cut11_dale:
-		SPR_LIB_SELECT		_spr_lib2
-		SPR_IDX_SELECT		_spr_lib2_1B
-		OBJ_X_POS_SET		$40,$01
-		OBJ_Y_POS_SET		$E0,$00
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib2
+		SPR_IDX_SET		_spr_lib2_1B
+		POS_X_SET		$40,$01
+		POS_Y_SET		$E0,$00
+		SPRITE_ON
 		SJSR				_ssub_idxBs_10_set_clear_wait
 		SJSRS				_ssub_B7DE6
 		SJSR				_ssub_6B73A
@@ -9867,21 +9867,21 @@ _obj_scr_cut11_dale:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_B7DE6:
-		OBJ_X_DELTA_SET		$F0
+		DELTA_X_SET		$F0
 byte_B7DE8:
 		SJSR				_ssub_B7533
-		LOOPA				$06,byte_B7DE8
-		SPR_IDX_SELECT		_spr_lib1_1B
+		LOOP_A				$06,byte_B7DE8
+		SPR_IDX_SET		_spr_lib1_1B
 		SJMP				_ssub_idxBs_10_set_clear_wait
 
 ; =============== S C R I P T ===============================================
 _obj_scr_cut11_monterey:
-		SPR_IDX_SELECT		_spr_lib0_1C
-		TARGET_DIR_SET		$00
-		OBJ_X_POS_SET		$20,$00
-		OBJ_Y_POS_SET		$A0,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_IDX_SET		_spr_lib0_1C
+		TIMER_B_SET		$00
+		POS_X_SET		$20,$00
+		POS_Y_SET		$A0,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SJSR				_ssub_monterey_static_draw
 		SJSR				_ssub_6B7D1
 		SJSR				_ssub_6B7D1
@@ -9889,12 +9889,12 @@ _obj_scr_cut11_monterey:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_cut11_gadget:
-		SPR_IDX_SELECT		_spr_lib0_28
-		TARGET_DIR_SET		$09
-		OBJ_X_POS_SET		$40,$00
-		OBJ_Y_POS_SET		$C0,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_IDX_SET		_spr_lib0_28
+		TIMER_B_SET		$09
+		POS_X_SET		$40,$00
+		POS_Y_SET		$C0,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SJSR				_ssub_gadget_static_draw
 		SJSR				_ssub_6B797
 		SJSR				_ssub_6B78D
@@ -9907,48 +9907,48 @@ _scr_cutscene12:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cut12_dale
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cut12_monterey
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cut12_gadget
-		OBJ_X_POS_SET		$48,$00
-		OBJ_Y_POS_SET		$40,$00
-		OBJ_SHOW
-		OBJ_HFLIP_SET
+		POS_X_SET		$48,$00
+		POS_Y_SET		$40,$00
+		SPRITE_ON
+		FLIP_H_ON
 		SJSR				_ssub_zipper_hover_animate
 
 ; =============== S C R I P T ===============================================
 _obj_scr_cut12_chip:
-		SPR_LIB_SELECT		_spr_lib1
-		SPR_IDX_SELECT		_spr_lib1_1B
-		OBJ_X_POS_SET		$A0,$00
-		OBJ_Y_POS_SET		$80,$00
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib1
+		SPR_IDX_SET		_spr_lib1_1B
+		POS_X_SET		$A0,$00
+		POS_Y_SET		$80,$00
+		SPRITE_ON
 		SJMP				_ssub_suspend_forever
 
 ; =============== S C R I P T ===============================================
 _obj_scr_cut12_dale:
-		SPR_LIB_SELECT		_spr_lib2
-		SPR_IDX_SELECT		_spr_lib2_1B
-		OBJ_X_POS_SET		$60,$00
-		OBJ_Y_POS_SET		$80,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_LIB_SET		_spr_lib2
+		SPR_IDX_SET		_spr_lib2_1B
+		POS_X_SET		$60,$00
+		POS_Y_SET		$80,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SJMP				_ssub_suspend_forever
 
 ; =============== S C R I P T ===============================================
 _obj_scr_cut12_monterey:
-		SPR_IDX_SELECT		_spr_lib0_1C
-		TARGET_DIR_SET		$00
-		OBJ_X_POS_SET		$40,$00
-		OBJ_Y_POS_SET		$C8,$00
-		OBJ_HFLIP_SET
-		OBJ_SHOW
+		SPR_IDX_SET		_spr_lib0_1C
+		TIMER_B_SET		$00
+		POS_X_SET		$40,$00
+		POS_Y_SET		$C8,$00
+		FLIP_H_ON
+		SPRITE_ON
 		SJSR				_ssub_monterey_static_draw
 
 ; =============== S C R I P T ===============================================
 _obj_scr_cut12_gadget:
-		SPR_IDX_SELECT		_spr_lib0_28
-		TARGET_DIR_SET		$00
-		OBJ_X_POS_SET		$C0,$00
-		OBJ_Y_POS_SET		$50,$00
-		OBJ_SHOW
+		SPR_IDX_SET		_spr_lib0_28
+		TIMER_B_SET		$00
+		POS_X_SET		$C0,$00
+		POS_Y_SET		$50,$00
+		SPRITE_ON
 		SJSR				_ssub_gadget_static_draw
 
 ; =============== S U B R O U T I N E =======================================
@@ -9994,7 +9994,7 @@ _nsub_cut_talk_spr_insert_common:
 		PHA
 		LDA		_obj_spr_idxs,X
 		PHA
-		LDY		_scr_vars19,X					; load desired animation frame (set externally)
+		LDY		_obj_timerBs,X					; load desired animation frame (set externally)
 loc_B7EC3:
 		LDX		_scr_idx
 		LDA		(_tmp_ptrE),Y					; fetch sprite index till $FF

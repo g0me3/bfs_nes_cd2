@@ -2685,21 +2685,21 @@ loc_B50B6:
 
 ; =============== S U B R O U T I N E =======================================
 _main0_license:
-		LDY		#$01
+		LDY		#_OBJ_SCR_AUTO
 		JSR		_scr_load_param
 		.WORD	_script_license
 		JMP		_MAIN_LOOP_START
 
 ; =============== S U B R O U T I N E =======================================
 _main9_capcom_logo_unused:
-		LDY		#$01
+		LDY		#_OBJ_SCR_AUTO
 		JSR		_scr_load_param
 		.WORD	_script_capcom_logo_unused
 		JMP		_MAIN_LOOP_START
 
 ; =============== S U B R O U T I N E =======================================
 _main1_intro:
-		LDY		#$01
+		LDY		#_OBJ_SCR_AUTO
 		JSR		_scr_load_param
 		.WORD	_script_intro
 		LDA		#$7F
@@ -2708,7 +2708,7 @@ _main1_intro:
 
 ; =============== S U B R O U T I N E =======================================
 _main2_title:
-		LDY		#$01
+		LDY		#_OBJ_SCR_AUTO
 		JSR		_scr_load_param
 		.WORD	_script_title
 		LDA		#$01
@@ -2720,7 +2720,7 @@ byte_B50F5:
 
 ; =============== S U B R O U T I N E =======================================
 _main3_cutscenes:
-		LDY		#$01
+		LDY		#_OBJ_SCR_AUTO
 		JSR		_scr_load_param
 		.WORD	_script_cutscenes_start
 		JMP		_MAIN_LOOP_START
@@ -2738,13 +2738,13 @@ _main5_stage_complete:
 		STA		_tmp_ptr4+1
 		STA		byte_6
 		LDX		#$02
-		LDY		#$01
+		LDY		#_OBJ_SCR_AUTO
 		JSR		_scr_load_ex
 		JMP		_MAIN_LOOP_START
 
 ; =============== S U B R O U T I N E =======================================
 _main7_game_over:
-		LDY		#$01
+		LDY		#_OBJ_SCR_AUTO
 		JSR		_scr_load_param
 		.WORD	_script_game_over
 		LDA		#$1D
@@ -2753,7 +2753,7 @@ _main7_game_over:
 
 ; =============== S U B R O U T I N E =======================================
 _main8_continue:
-		LDY		#$01
+		LDY		#_OBJ_SCR_AUTO
 		JSR		_scr_load_param
 		.WORD	_script_continue
 		JMP		_MAIN_LOOP_START
@@ -2768,7 +2768,7 @@ _main4_ingame:
 		JSR		_players_obj_insert
 		LDX		#$FF
 		LDY		#$00
-		JSR		_is_is_stage4_ingame
+		JSR		_is_it_stage4_ingame
 		BNE		loc_B5155
 		LDX		#$3B
 		LDY		#$03
@@ -2787,6 +2787,11 @@ loc_B5155:
 
 ; =============== S U B R O U T I N E =======================================
 _ingame_loop:
+#if DEBUG=1
+		LDA		_ppu_mask_shadow
+		AND		#$FD
+		STA		_PPU_MASK
+#endif
 		LDA		#$01
 		JSR		_wait_for_frames
 		LDA		#$03
@@ -3284,7 +3289,7 @@ loc_B5507:
 loc_B5509:
 		DEX
 		BPL		loc_B54DA
-		JSR		_is_is_stage4_ingame
+		JSR		_is_it_stage4_ingame
 		BNE		loc_B5514
 		JSR		_stage4_hud_timer_insert
 loc_B5514:
@@ -3305,7 +3310,7 @@ loc_B5514:
 		STA		_timer_seconds_cnt
 		STA		_timer_frames_cnt
 		DEC		_timer_frames_cnt
-		JSR		_is_is_stage4_ingame
+		JSR		_is_it_stage4_ingame
 		BNE		loc_B5545
 		LDY		#$00
 		JSR		_player_kill
@@ -3323,7 +3328,7 @@ locret_B5554:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_is_is_stage4_ingame:
+_is_it_stage4_ingame:
 		LDA		_main_sub_idx
 		CMP		#$04
 		BNE		locret_B555F
@@ -4216,7 +4221,7 @@ _scr_cmd_lib:
 		.WORD	_scr_cmd30_target_spd_set-1
 		.WORD	_scr_cmd31_target_dir_set-1
 		.WORD	_scr_cmd32_obj_set_size-1
-		.WORD	_scr_cmd33_var1C_set-1
+		.WORD	_scr_cmd33_damage_set-1
 		.WORD	_scr_cmd34_obj_set_hp-1
 		.WORD	_scr_cmd35_obj_set_flip-1
 		.WORD	_scr_cmd36_idxCs_set-1			; unused
@@ -5178,9 +5183,9 @@ _scr_cmd32_obj_set_size:
 		JMP		_scr_cmd_fetch
 
 ; =============== S U B R O U T I N E =======================================
-_scr_cmd33_var1C_set:
+_scr_cmd33_damage_set:
 		JSR		_scr_getc
-		STA		_scr_vars1C,X
+		STA		_obj_damages,X
 		JMP		_scr_cmd_fetch
 
 ; =============== S U B R O U T I N E =======================================
@@ -6164,8 +6169,8 @@ loc_B6682:
 ; =============== S U B R O U T I N E =======================================
 _native_sub10D:
 		LDY		_scr_idxAs,X
-		LDA		_scr_vars1C,Y
-		CMP		#$02
+		LDA		_obj_damages,Y
+		CMP		#_OBJ_DMG_STUN
 		BEQ		locret_B6698
 		LDA		#$FF
 		STA		_obj_hps,Y
@@ -6642,8 +6647,8 @@ _native_sub11C:
 		LDA		_obj_flips,X
 		AND		#$D3
 		STA		_obj_flips,X
-		LDA		#$02
-		STA		_scr_vars1C,X
+		LDA		#_OBJ_DMG_STUN
+		STA		_obj_damages,X
 		JMP		_native_obj_idxCs_80_set
 
 ; =============== S U B R O U T I N E =======================================
@@ -6669,8 +6674,8 @@ _native_sub160:
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub13B:
-		LDA		#$00
-		STA		_scr_vars1C,X
+		LDA		#_OBJ_DMG_NONE
+		STA		_obj_damages,X
 
 ; =============== S U B R O U T I N E =======================================
 _native_scr_params_set09_hi_nibble_clear:
@@ -7422,6 +7427,17 @@ _scripts_manager_loop:
 		BEQ		loc_B6DCF
 		LDY		#<[loc_B6DA4-1]
 		LDX		#>[loc_B6DA4-1]
+; TODO: optimization notes: loop for all 12 object, every type of objects
+; need its own bank switching. players switches to bank 2, enemies and other
+; scripts to bank 4, then most of active objects draws a sprite which
+; switches to bank 5. even if in the mmc1 bank switch routine they used some
+; sort of optimization to aviod setting the same bank twice, in this manager
+; we see al banks in sequence mostly different and alterate all the time
+; 2 5 4 5 2 5 4 4 5 etc...
+; this may take a lot of time. to avoid this, we need to combine object types
+; by its bank, two players should be done first, then all bank 4 objects, then
+; separate loop should draw the sprites with just one bank 5 setting.
+; -
 		JSR		_switch_param_ret
 		.WORD	0
 		.WORD	_far_prg4_scr_exec_priority
@@ -7498,7 +7514,7 @@ loc_B6E0F:
 		LDA		_obj_flips,Y
 		AND		#$04
 		BNE		loc_B6E20
-		LDA		_scr_vars1C,Y
+		LDA		_obj_damages,Y
 		BEQ		loc_B6E20
 		JSR		_obj_to_obj_collision_test
 		BCS		loc_B6E25
@@ -7507,10 +7523,10 @@ loc_B6E20:
 		BPL		loc_B6DFE
 		BMI		_far_prg4_scr_exec_priority
 loc_B6E25:
-		LDA		_scr_vars1C,Y
+		LDA		_obj_damages,Y
 		BPL		loc_B6E4A
-		LDA		#$01
-		STA		_scr_vars1C,Y
+		LDA		#_OBJ_DMG_KILL
+		STA		_obj_damages,Y
 		LDA		_stage
 		CMP		#$08
 		BNE		loc_B6E4A
@@ -7521,23 +7537,23 @@ loc_B6E25:
 		BNE		loc_B6E4A
 		LDA		#$00
 		STA		_obj_hps,Y
-		STA		_scr_vars1C,Y
+		STA		_obj_damages,Y
 		JMP		_far_prg4_scr_exec_priority
 loc_B6E4A:
 		SEC
 		LDA		_obj_hps,X
-		SBC		_scr_vars1C,Y
+		SBC		_obj_damages,Y
 		STA		_obj_hps,X
 		BCS		loc_B6E5B
 		LDA		#$00
 		STA		_obj_hps,X
 loc_B6E5B:
-		LDA		_scr_vars1C,Y
-		CMP		#$02
+		LDA		_obj_damages,Y
+		CMP		#_OBJ_DMG_STUN
 		BEQ		loc_B6E6A
 		LDA		#$00
 		STA		_obj_hps,Y
-		STA		_scr_vars1C,Y
+		STA		_obj_damages,Y
 loc_B6E6A:
 		JSR		_scr_param_4_set
 		LDA		_obj_spr_libs,X
@@ -7553,6 +7569,8 @@ loc_B6E79:
 		STA		_scr_idxAs,X
 		TXA
 		STA		_scr_idxAs,Y
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
 _far_prg4_scr_exec_priority:
@@ -7655,8 +7673,8 @@ loc_B6F19:
 loc_B6F36:
 		CPX		#$02
 		BCS		loc_B6F50
-		LDA		_scr_vars1C,X
-		CMP		#$02
+		LDA		_obj_damages,X
+		CMP		#_OBJ_DMG_STUN
 		BNE		loc_B6F50
 		LDA		_scr_params,Y
 		AND		#$0F
@@ -7826,7 +7844,7 @@ _scr_load_ex:
 		STA		_obj_widths,X
 		STA		_obj_heights,X
 		STA		_obj_hps,X
-		STA		_scr_vars1C,X
+		STA		_obj_damages,X
 		STA		_scr_vars20,X
 		LDA		#$40
 		STA		_scr_idxCs,X
@@ -7899,7 +7917,7 @@ _players_animB_sub0129_sub0E_A:
 		LDA		_scr_idxCs,X
 		ORA		#$20
 		STA		_scr_idxCs,X
-		LDY		#$01
+		LDY		#_OBJ_SCR_AUTO
 		JSR		_scr_load_param
 		.WORD	_script40
 		BCS		locret_B7100
@@ -8198,11 +8216,11 @@ _script_license:
 _script_intro:
 		OBJ_X_POS_SET		$C0,$00
 		OBJ_Y_POS_SET		$C0,$FF
-		SRUN				$01,_script170
+		SRUN				_OBJ_SCR_AUTO,_script170
 		NJSR				_native_obj_to_obj_idxCs_link
-		SRUN				$01,_script171
+		SRUN				_OBJ_SCR_AUTO,_script171
 		NJSR				_native_obj_to_obj_idxCs_link
-		SRUN				$01,_script172
+		SRUN				_OBJ_SCR_AUTO,_script172
 		NJSR				_native_obj_to_obj_idxCs_link
 		SJSR				byte_B7360
 		OBJ_X_DELTA_SET		$00
@@ -8322,8 +8340,8 @@ byte_B73BE:
 		SCASE				_script_2_players_select
 _script_1_player_select:
 		NJSR_SYNC			_scr_players_sel_menu_draw
-		SRUN				$01,_script173
-		SRUN				$01,_script174
+		SRUN				_OBJ_SCR_AUTO,_script173
+		SRUN				_OBJ_SCR_AUTO,_script174
 		SJSR				byte_B73F1
 		NJSR				_scr_single_player_apply
 _script_2_players_select:
@@ -8443,9 +8461,9 @@ byte_B748B:
 
 ; =============== S C R I P T ===============================================
 _script_continue:
-		SRUN				$01,_script175
+		SRUN				_OBJ_SCR_AUTO,_script175
 		NJSR				_native_sub150
-		SRUN				$01,_script176
+		SRUN				_OBJ_SCR_AUTO,_script176
 		NJSR				_native_sub14B
 		NJSR				_menu_init
 		NJSR				_continues_draw
@@ -8635,7 +8653,7 @@ byte_B75E2:
 		NJSR				_native_sub102
 		PADS_TEST			_PAD0_PRESS,_PAD_ANY,byte_B75E2
 		STORE				$06,_main_sub_idx
-		SRUN				$01,_script_fade_out
+		SRUN				_OBJ_SCR_AUTO,_script_fade_out
 byte_B75F5:
 		NJSR_SYNC			_stage_complete_info_insert
 		SJMP				byte_B75F5
@@ -8767,13 +8785,13 @@ byte_B76BD:
 ; =============== S C R I P T ===============================================
 _script_cutscene0A:
 		OBJ_Y_POS_SET		$C0,$00
-		SRUN				$01,_script178
+		SRUN				_OBJ_SCR_AUTO,_script178
 		TARGET_DIR_SET		$00
-		SRUN				$01,_script179
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script179
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$01
-		SRUN				$01,_script17A
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script17A
+		NJSR_SYNC			_native_cut_store_char_number
 		TARGET_DIR_SET		$00
 		SJSR				byte_6B6CC
 		MSG_DISPLAY			_msg3F,$56
@@ -8794,7 +8812,7 @@ _script_cutscene0A:
 		TARGET_DIR_SET		$00
 		MSG_DISPLAY			_msg45,$56
 		SJSR				byte_6B6CC
-		SJMP				byte_6B6A6
+		SJMP				_script_sub_delayed_next_cutscene
 
 ; =============== S C R I P T ===============================================
 _script179:
@@ -8803,7 +8821,7 @@ _script179:
 		OBJ_X_POS_SET		$70,$00
 		FLIP_40_SET
 		PARAM_80_CLEAR
-		SRUN				$01,_script17B
+		SRUN				_OBJ_SCR_AUTO,_script17B
 		NJSR				_native_sub150
 		SUSPEND				$B4
 		NJSR				_native_idxBs_10_test_clear_from_idxBs
@@ -8865,14 +8883,14 @@ _script_cutscene0B:
 		SCASE				byte_B78C8
 byte_B77A0:
 		TARGET_DIR_SET		$00
-		SRUN				$01,_script17C
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script17C
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$01
-		SRUN				$01,_script17D
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script17D
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$02
-		SRUN				$01,_script17E
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script17E
+		NJSR_SYNC			_native_cut_store_char_number
 		SUSPEND				$3C
 		MSG_DISPLAY			_msg46,$5D
 		MSG_WAIT
@@ -8896,13 +8914,13 @@ byte_B77D9:
 		SCASE				byte_B77F4
 byte_B77F4:
 		STORE				$01,byte_E1
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 		SJMP				byte_B77D9
 byte_B77FE:
 		TARGET_DIR_SET		$00
 		MSG_DISPLAY			_msg4C,$56
 		SJSR				byte_6B6CC
-		SJMP				byte_6B69F
+		SJMP				_script_sub_delayed_ingame_start
 byte_B780A:
 		NJSR				_menu_init
 		MENU_CURSOR_DRAW	_menu_data03
@@ -8918,13 +8936,13 @@ byte_B781D:
 		NJSR				_extra_stage_name0_load
 		SRET
 byte_B7828:
-		SRUN				$01,_script17F
+		SRUN				_OBJ_SCR_AUTO,_script17F
 		TARGET_DIR_SET		$01
-		SRUN				$01,_script180
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script180
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$03
-		SRUN				$01,_script181
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script181
+		NJSR_SYNC			_native_cut_store_char_number
 		SUSPEND				$3C
 byte_B7840:
 		STORE				$00,_tmp49
@@ -8941,13 +8959,13 @@ byte_B7840:
 		SCASE				byte_B7865
 byte_B7865:
 		STORE				$01,byte_E1
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 		SJMP				byte_B7840
 byte_B786F:
 		TARGET_DIR_SET		$01
 		MSG_DISPLAY			_msg4E,$57
 		SJSR				byte_6B6CC
-		SJMP				byte_6B69F
+		SJMP				_script_sub_delayed_ingame_start
 byte_B787B:
 		NJSR				_menu_init
 		MENU_CURSOR_DRAW	_menu_data04
@@ -8963,21 +8981,21 @@ byte_B788E:
 		NJSR				_extra_stage_name0_load
 		SRET
 byte_B7899:
-		SRUN				$01,_script154
-		SRUN				$01,_script182
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cutscene_skip_wait
+		SRUN				_OBJ_SCR_AUTO,_script182
 		TARGET_DIR_SET		$00
-		SRUN				$01,_script183
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script183
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$02
-		SRUN				$01,_script184
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script184
+		NJSR_SYNC			_native_cut_store_char_number
 		SUSPEND				$3C
 		MSG_DISPLAY			_msg4F,$59
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
 		MSG_DISPLAY			_msg50,$56
 		SJSR				byte_6B6CC
-		SJMP				byte_6B69F
+		SJMP				_script_sub_delayed_ingame_start
 byte_B78C8:
 		NJSR				_native_sub178
 
@@ -9119,7 +9137,7 @@ _script181:
 		OBJ_Y_POS_SET		$A0,$00
 		FLIP_40_SET
 		PARAM_80_CLEAR
-		SRUN				$01,_script185
+		SRUN				_OBJ_SCR_AUTO,_script185
 		SJSR				_script_sub_gadget_static_draw
 byte_B79A0:
 		SJSR				byte_6B797
@@ -9149,11 +9167,11 @@ _script182:
 ; =============== S C R I P T ===============================================
 _script184:
 		SJSR				byte_B79FA
-		SRUN				$01,_script186
+		SRUN				_OBJ_SCR_AUTO,_script186
 		TARGET_DIR_SET		$06
 		SJSR				_script_sub_monterey_static_draw
 		OBJ_HP_SET			$06
-		VAR_1C_SET			$09
+		OBJ_DAMAGE_SET		$09
 		SJSR				_script_sub_monterey_talk_draw
 		TARGET_DIR_SET		$06
 		SJSR				_script_sub_monterey_static_draw
@@ -9190,21 +9208,21 @@ byte_B79FA:
 
 ; =============== S C R I P T ===============================================
 _script_cutscene0C:
-		SRUN				$01,_script154
-		SRUN				$01,_script187
-		SRUN				$01,_script188
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cutscene_skip_wait
+		SRUN				_OBJ_SCR_AUTO,_script187
+		SRUN				_OBJ_SCR_AUTO,_script188
 		TARGET_DIR_SET		$01
-		SRUN				$01,_script189
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script189
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$03
-		SRUN				$01,_script18A
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script18A
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$04
-		SRUN				$01,_script18B
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script18B
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$00
-		SRUN				$01,_script18C
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script18C
+		NJSR_SYNC			_native_cut_store_char_number
 		SUSPEND				$3C
 		MSG_DISPLAY			_msg51,$56
 		SJSR				byte_6B6CC
@@ -9212,12 +9230,12 @@ _script_cutscene0C:
 		MSG_DISPLAY			_msg52,$58
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$04
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 		MSG_DISPLAY			_msg53,$5A
 		MSG_WAIT
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
-		NJSR				_native_sub05F
+		NJSR				_native_cut_char_idxBs_10_clear
 		TARGET_DIR_SET		$04
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
@@ -9227,7 +9245,7 @@ _script_cutscene0C:
 		NJSR				_native_sub103
 		SJSR				byte_6BECE
 		SUSPEND				$10
-		SJMP				byte_6B6B0
+		SJMP				_script_sub_next_cutscene
 
 ; =============== S C R I P T ===============================================
 _script18C:
@@ -9267,7 +9285,7 @@ _script18A:
 		OBJ_Y_POS_SET		$A0,$00
 		FLIP_40_SET
 		PARAM_80_CLEAR
-		SRUN				$01,_script18D
+		SRUN				_OBJ_SCR_AUTO,_script18D
 		NJSR				_native_obj_to_obj_idxCs_link
 		SJSR				_script_sub_gadget_static_draw
 		SJSR				byte_6B797
@@ -9294,7 +9312,7 @@ byte_B7AD9:
 byte_B7AE6:
 		SJSR				byte_6B825
 		LOOPA				$06,byte_B7AE6
-		SRUN				$01,_script18E
+		SRUN				_OBJ_SCR_AUTO,_script18E
 		SJSR				_script_sub_zipper_hover_animate
 
 ; =============== S C R I P T ===============================================
@@ -9337,19 +9355,19 @@ _native_sub103:
 
 ; =============== S C R I P T ===============================================
 _script_cutscene0D:
-		SRUN				$01,_script154
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cutscene_skip_wait
 		TARGET_DIR_SET		$00
-		SRUN				$01,_script18F
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script18F
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$01
-		SRUN				$01,_script190
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script190
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$03
-		SRUN				$01,_script191
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script191
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$04
-		SRUN				$01,_script192
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script192
+		NJSR_SYNC			_native_cut_store_char_number
 		SUSPEND				$3C
 		TARGET_DIR_SET		$00
 		MSG_DISPLAY			_msg55,$56
@@ -9364,13 +9382,13 @@ _script_cutscene0D:
 		MSG_DISPLAY			_msg58,$56
 		SJSR				byte_6B6CC
 		MSG_DISPLAY			_msg59,$56
-		NJSR				_native_sub05F
+		NJSR				_native_cut_char_idxBs_10_clear
 		TARGET_DIR_SET		$01
-		NJSR				_native_sub05F
+		NJSR				_native_cut_char_idxBs_10_clear
 		TARGET_DIR_SET		$03
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 		SJSR				_script_sub_wait_for_wnd_msg_is_over
-		SJMP				byte_6B69F
+		SJMP				_script_sub_delayed_ingame_start
 
 ; =============== S C R I P T ===============================================
 _script18F:
@@ -9421,16 +9439,16 @@ byte_B7BD2:
 
 ; =============== S C R I P T ===============================================
 _script_cutscene0E:
-		SRUN				$01,_script154
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cutscene_skip_wait
 		TARGET_DIR_SET		$05
-		SRUN				$01,_script193
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script193
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$01
-		SRUN				$01,_script194
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script194
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$00
-		SRUN				$01,_script195
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script195
+		NJSR_SYNC			_native_cut_store_char_number
 		SUSPEND				$60
 		MSG_DISPLAY			_msg5A,$5D
 		MSG_WAIT
@@ -9447,8 +9465,8 @@ _script_cutscene0E:
 		MSG_DISPLAY			_msg5F,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$05
-		NJSR_SYNC			_native_sub05F
-		SJMP				byte_6B69F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
+		SJMP				_script_sub_delayed_ingame_start
 
 ; =============== S C R I P T ===============================================
 _script193:
@@ -9488,13 +9506,13 @@ _script194:
 
 ; =============== S C R I P T ===============================================
 _script_cutscene0F:
-		SRUN				$01,_script196
+		SRUN				_OBJ_SCR_AUTO,_script196
 		TARGET_DIR_SET		$02
-		SRUN				$01,_script197
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script197
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$00
-		SRUN				$01,_script198
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script198
+		NJSR_SYNC			_native_cut_store_char_number
 		SUSPEND				$3C
 		TARGET_DIR_SET		$02
 		MSG_DISPLAY			_msg60,$59
@@ -9505,7 +9523,7 @@ _script_cutscene0F:
 		TARGET_DIR_SET		$02
 		MSG_DISPLAY			_msg62,$59
 		SJSR				byte_6B6CC
-		SJMP				byte_6B6B0
+		SJMP				_script_sub_next_cutscene
 
 ; =============== S C R I P T ===============================================
 _script198:
@@ -9540,11 +9558,11 @@ _script197:
 
 ; =============== S C R I P T ===============================================
 _script_cutscene10:
-		SRUN				$01,_script199
-		SRUN				$01,_script19A
+		SRUN				_OBJ_SCR_AUTO,_script199
+		SRUN				_OBJ_SCR_AUTO,_script19A
 		SUSPEND				$B4
 		SUSPEND				$B4
-		SJMP				byte_6B6A6
+		SJMP				_script_sub_delayed_next_cutscene
 
 ; =============== S C R I P T ===============================================
 _script19A:
@@ -9569,23 +9587,23 @@ byte_B7CF9:
 ; =============== S C R I P T ===============================================
 _script_cutscene11:
 		TARGET_DIR_SET		$00
-		SRUN				$01,_obj_scr_cut11_chip
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cut11_chip
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$01
-		SRUN				$01,_obj_scr_cut11_dale
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cut11_dale
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$02
-		SRUN				$01,_obj_scr_cut11_monterey
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cut11_monterey
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$03
-		SRUN				$01,_obj_scr_cut11_gadget
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cut11_gadget
+		NJSR_SYNC			_native_cut_store_char_number
 		SUSPEND				$3C
 		TARGET_DIR_SET		$02
 		MSG_DISPLAY			_msg63,$59
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
-		NJSR				_native_sub05F
+		NJSR				_native_cut_char_idxBs_10_clear
 		TARGET_DIR_SET		$01
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
@@ -9614,9 +9632,9 @@ _script_cutscene11:
 		SJSR				byte_6B6CC
 		MSG_DISPLAY			_msg6C,$56
 		TARGET_DIR_SET		$02
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 		TARGET_DIR_SET		$03
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 		SJSR				byte_6BECE
 		SJSR				byte_6B6CC
 		SUSPEND				$0A
@@ -9624,10 +9642,10 @@ _script_cutscene11:
 		STORE				$00,_ppu_scroll_nt_hor
 		STORE				$F0,_spr_buf
 		SUSPEND				$3C
-		SRUN				$01,_script15A
+		SRUN				_OBJ_SCR_AUTO,_script15A
 		SUSPEND				$F0
 		SUSPEND				$F0
-		SJMP				byte_6B6A6
+		SJMP				_script_sub_delayed_next_cutscene
 
 ; =============== S C R I P T ===============================================
 _obj_scr_cut11_chip:
@@ -9694,10 +9712,10 @@ _obj_scr_cut11_gadget:
 
 ; =============== S C R I P T ===============================================
 _script_cutscene12:
-		SRUN				$01,_obj_scr_cut12_chip
-		SRUN				$01,_obj_scr_cut12_dale
-		SRUN				$01,_obj_scr_cut12_monterey
-		SRUN				$01,_obj_scr_cut12_gadget
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cut12_chip
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cut12_dale
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cut12_monterey
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cut12_gadget
 		OBJ_X_POS_SET		$48,$00
 		OBJ_Y_POS_SET		$40,$00
 		PARAM_80_CLEAR

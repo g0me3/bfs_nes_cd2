@@ -466,7 +466,7 @@ _obj_widths:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _obj_heights:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
-_scr_vars1C:
+_obj_damages:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _obj_hps:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
@@ -478,10 +478,11 @@ _scr_vars20:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _scr_vars21:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
-_tmp_players_lives:
-		.BYTE	0,0
-_unused_344:
-		.BYTE	0,0,0,0
+; used for cutscene purposes also for storing the
+; player lives during the basket game
+;
+_tmp_array400:
+		.BYTE	0,0,0,0,0,0
 _dict80_ptr:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 _dict81_ptr:

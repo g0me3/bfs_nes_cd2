@@ -145,7 +145,33 @@ SPR_LIB	SET		.
 	.WORD	{1}
 	ENDM
 
-; queue new script and run it
+; queue new script and run it, {1} is the obj manager handler mode , {2}
+; script pointer. note, all modes except 02 and 06 are the same simple
+; script running modes but they differs in the program logic when handling
+; collisions
+;
+; _OBJ_SCR_AUTO		- general purpose global scripts with its own destructors
+; _OBJ_SCR_PLAYER	- only PLAYER objects
+; _OBJ_SCR_THROW	- throwable objects like boxes, used also as projectiles
+; _OBJ_SCR_MODE4	- unused
+; _OBJ_SCR_BALL		- special object for basket game
+; _OBJ_SCR_ENEMY	- all harmless objects, including projectiles
+; _OBJ_SCR_BULLET	- player damaging projectile
+; _OBJ_SCR_STUN		- player stunning projectile
+; _OBJ_SCR_SOLID	- solid sprite objects, jumpable, throwable, harmless to player
+; _OBJ_SCR_GRAB		- harmless objects to grab by the player, disappear upon collision
+
+_OBJ_SCR_AUTO	EQU	$01
+_OBJ_SCR_PLAYER	EQU	$02
+_OBJ_SCR_THROW	EQU	$03
+_OBJ_SCR_MODE4	EQU	$04
+_OBJ_SCR_BALL	EQU	$05
+_OBJ_SCR_ENEMY	EQU	$06
+_OBJ_SCR_BULLET	EQU	$07
+_OBJ_SCR_STUN	EQU	$08
+_OBJ_SCR_SOLID	EQU	$09
+_OBJ_SCR_GRAB	EQU	$0A
+
 	MAC	SRUN
 	.BYTE	$04
 	.BYTE	{1}
@@ -524,14 +550,23 @@ _PAD_ANY	EQU	$FF
 	.BYTE	{1},{2}
 	ENDM
 
-; some unk var by now something involving grabbing enemies or
-; jumping on them
-	MAC	VAR_1C_SET
+; object damage type set. NOTE, that for cutscene scripts
+; this variable utilized differently as one of the tmp
+; counters
+;
+_OBJ_DMG_NONE	EQU	$00
+_OBJ_DMG_KILL	EQU	$01
+_OBJ_DMG_STUN	EQU	$02
+
+	MAC	OBJ_DAMAGE_SET
 	.BYTE	$33
 	.BYTE	{1}
 	ENDM
 
-; define object's hitpoints
+; define object's hitpoints. hp should be set even for undestructable
+; objects because they threated as a existence of the object itself
+; rather than activeness state flag
+; NOTE, this var also used differently for cutscenes
 	MAC	OBJ_HP_SET
 	.BYTE	$34
 	.BYTE	{1}
@@ -617,9 +652,9 @@ _PAD_ANY	EQU	$FF
 	.WORD	{1}
 	ENDM
 
-; set default script routine for object when destroyed
-; called from object manager instantly if collision test
-; passed
+; set default script routine for object when destroyed or collision detected
+; called from object manager instantly if collision test passed
+;
 	MAC	DESTR_PC_SET
 	.BYTE	$42
 	.WORD	{1}

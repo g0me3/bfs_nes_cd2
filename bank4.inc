@@ -98,7 +98,7 @@ byte_68081:
 ; =============== S C R I P T   R O U T I N E ===============================
 _obj_scr_common_destr:
 		APU_LOAD			$2D
-		VAR_1C_SET			$00
+		OBJ_DAMAGE_SET		_OBJ_DMG_NONE
 		OBJ_X_DELTA_SET		$BD
 		OBJ_Y_DELTA_SET		$BD
 		NJSR				_players_animB_sub3_B_A
@@ -131,7 +131,7 @@ byte_680B3:
 		LOOPA				$78,byte_680B3
 		NJSR				_scr_param_10_clear
 		NJSR				_players_animB_sub0129_sub06_A
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -146,7 +146,7 @@ byte_680D3:
 		SRET
 byte_680D4:
 		SJSR				_script_sub_68102
-		VAR_1C_SET			$02
+		OBJ_DAMAGE_SET		_OBJ_DMG_STUN
 		OBJ_X_DELTA_SET		$C0
 		NJSR				_native_sub11B
 		NJSR				_native_sub11C
@@ -155,7 +155,7 @@ byte_680D4:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_680E7:
-		VAR_1C_SET			$00
+		OBJ_DAMAGE_SET		_OBJ_DMG_NONE
 		APU_LOAD			$2E
 		OBJ_X_DELTA_SET		$F0
 		OBJ_Y_DELTA_SET		$D0
@@ -189,7 +189,7 @@ _obj_scr24_spoon_rat:
 		SPR_IDX_SELECT		_spr_lib7_00
 		OBJ_SIZE_SET		$08,$18
 		OBJ_HP_SET			$02
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		OBJ_X_DELTA_SET		$F0
 		OBJ_Y_DELTA_SET		$00
@@ -255,7 +255,7 @@ _obj_scr25_fork_rat:
 		SPR_LIB_SELECT		_spr_lib7
 		SPR_IDX_SELECT		_spr_lib7_07
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$08,$18
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		OBJ_X_DELTA_SET		$F0
@@ -297,7 +297,7 @@ byte_681EF:
 		SUSPEND				$10
 		APU_LOAD			$5F
 		SPR_IDX_SELECT		$0D	; _spr_libx_0D
-		SRUN				$06,_script100
+		SRUN				_OBJ_SCR_ENEMY,_script100
 		SUSPEND				$10
 		SPR_IDX_SELECT		$07	; _spr_libx_07
 		SUSPEND				$10
@@ -332,7 +332,7 @@ byte_68231:
 _script100:
 		DESTR_PC_SET		byte_68252
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$08,$04
 		SPR_LIB_SELECT		_spr_lib7
 		SPR_IDX_SELECT		$0E	; _spr_libx_0E
@@ -354,7 +354,7 @@ _obj_scr26_fake_boxA:
 		SPR_LIB_SELECT		_spr_lib7
 		SPR_IDX_SELECT		$4C	; _spr_libx_4C
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$08,$0F
 		PARAM_80_CLEAR
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
@@ -415,7 +415,7 @@ _obj_scr27_honey_bee:
 		SPR_LIB_SELECT		_spr_lib7
 		SPR_IDX_SELECT		$16	; _spr_libx_16
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$08,$10
 		OBJ_X_DELTA_SET		$10
 		OBJ_Y_DELTA_SET		$04
@@ -442,7 +442,7 @@ byte_68314:
 		SPR_IDX_SELECT		$1B	; _spr_libx_1B
 		SJSR				_script_sub_6833A
 		LOOPA				$02,byte_68314
-		SRUN				$08,_script101
+		SRUN				_OBJ_SCR_STUN,_script101
 byte_68326:
 		SPR_IDX_SELECT		$16	; _spr_libx_16
 		SJSR				_script_sub_6833A
@@ -463,7 +463,7 @@ _script101:
 		NJSR				_native_obj_idxCs_80_set
 		OBJ_Y_POS_MOVE		$08
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$02
+		OBJ_DAMAGE_SET		_OBJ_DMG_STUN
 		OBJ_SIZE_SET		$02,$04
 		SPR_LIB_SELECT		_spr_lib7
 		SPR_IDX_SELECT		$1C	; _spr_libx_1C
@@ -479,7 +479,7 @@ _obj_scr28_green_ceiling_bat:
 		SPR_IDX_SELECT		$28	; _spr_libx_28
 		OBJ_SIZE_SET		$08,$18
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 byte_6836B:
@@ -504,7 +504,7 @@ _obj_scr29_green_floor_bat:
 		SPR_IDX_SELECT		$26	; _spr_libx_26
 		OBJ_SIZE_SET		$08,$18
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		OBJ_X_DELTA_SET		$F0
 		OBJ_Y_DELTA_SET		$00
@@ -586,7 +586,7 @@ _obj_scr2A_pink_fish:
 		NJSR				_scr_param_4_set
 		SPR_LIB_SELECT		_spr_lib7
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$08,$20
 byte_68434:
 		PARAM_80_CLEAR
@@ -643,7 +643,7 @@ byte_6848E:
 		SPR_LIB_SELECT		_spr_lib7
 		SPR_IDX_SELECT		$4C	; _spr_libx_4C
 		OBJ_HP_SET			$02
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		PARAM_80_CLEAR
 byte_68497:
 		OBJ_SIZE_SET		$08,$0F
@@ -670,7 +670,7 @@ byte_684AC:
 		SPR_IDX_SELECT		$2D	; _spr_libx_2D
 		SJSR				_script_sub_6851F
 		SPR_IDX_SELECT		$2E	; _spr_libx_2E
-		SRUN				$07,_script102
+		SRUN				_OBJ_SCR_BULLET,_script102
 		SBCSS				byte_6849A
 		NJSR				_native_obj_to_obj_idxCs_link
 		OBJ_SIZE_SET		$08,$28
@@ -722,7 +722,7 @@ byte_68527:
 ; =============== S C R I P T ===============================================
 _script102:
 		OBJ_HP_SET			$FF
-		VAR_1C_SET			$02
+		OBJ_DAMAGE_SET		_OBJ_DMG_STUN
 		OBJ_SIZE_SET		$08,$10
 byte_68542:
 		NJSR				_native_obj_linked_idxCs_follow
@@ -736,7 +736,7 @@ _obj_scr2D_candle_dancing:
 		SPR_LIB_SELECT		_spr_lib7
 		SPR_IDX_SELECT		$32	; _spr_libx_32
 		OBJ_HP_SET			$02
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$05,$20
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
@@ -897,7 +897,7 @@ byte_6868F:
 byte_68694:
 		SPR_IDX_SELECT		$5C	; _spr_libx_5C
 		SJSR				_script_sub_68102
-		VAR_1C_SET			$02
+		OBJ_DAMAGE_SET		_OBJ_DMG_STUN
 		OBJ_X_DELTA_SET		$C0
 		NJSR				_native_sub11B
 		NJSR				_native_sub11C
@@ -914,7 +914,7 @@ byte_686AC:
 		SBCSS				byte_686AC
 		NJSR				_native_cmpC0_obj_x_lo_pos
 		SBCCS				byte_686AC
-		SRUN				$06,_script103
+		SRUN				_OBJ_SCR_ENEMY,_script103
 		SUSPEND				$3D
 		SJMP				byte_686AC
 
@@ -924,7 +924,7 @@ _script103:
 		DESTR_PC_SET		_obj_scr_common_destr
 		SPR_LIB_SELECT		_spr_lib9
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		PARAM_80_CLEAR
 		OBJ_SIZE_SET		$08,$14
 		OBJ_X_DELTA_SET		$10
@@ -974,7 +974,7 @@ byte_68729:
 		SPR_LIB_SELECT		_spr_lib9
 		SPR_IDX_SELECT		$00	; _spr_libx_00
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$08,$14
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
@@ -1041,7 +1041,7 @@ _obj_scr2C_sailor_monkey:
 		SPR_LIB_SELECT		_spr_lib7
 		SPR_IDX_SELECT		$4D	; _spr_libx_4D
 		OBJ_HP_SET			$02
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$0C,$20
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		OBJ_Y_DELTA_SET		$10
@@ -1064,12 +1064,12 @@ byte_687DF:
 		SPR_IDX_SELECT		$4E	; _spr_libx_4E
 		SUSPEND				$10
 		SPR_IDX_SELECT		$4F	; _spr_libx_4F
-		SRUN				$07,_script104
+		SRUN				_OBJ_SCR_BULLET,_script104
 		SUSPEND				$10
 		SPR_IDX_SELECT		$4E	; _spr_libx_4E
 		SUSPEND				$10
 		SPR_IDX_SELECT		$4F	; _spr_libx_4F
-		SRUN				$07,_script105
+		SRUN				_OBJ_SCR_BULLET,_script105
 		SUSPEND				$10
 		SPR_IDX_SELECT		$4D	; _spr_libx_4D
 		SUSPEND				$10
@@ -1091,7 +1091,7 @@ byte_68805:
 		OBJ_Y_DELTA_SET		$00
 		PARAM_80_CLEAR
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$06,$08
 byte_68818:
 		SPR_IDX_SELECT		$50	; _spr_libx_50
@@ -1114,7 +1114,7 @@ _obj_scr30_penguin:
 		SPR_LIB_SELECT		_spr_lib7
 		SPR_IDX_SELECT		$53	; _spr_libx_53
 		OBJ_HP_SET			$02
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$0A,$20
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
@@ -1184,7 +1184,7 @@ _obj_scr31_ski_rat:
 		SPR_IDX_SELECT		$57	; _spr_libx_57
 		OBJ_SIZE_SET		$0C,$18
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 byte_688CE:
@@ -1246,7 +1246,7 @@ byte_68939:
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr32_icicle:
 		SUSPEND				$B4
-		SRUN				$07,_script106
+		SRUN				_OBJ_SCR_BULLET,_script106
 		SJMP				_obj_scr32_icicle
 
 ; =============== S C R I P T ===============================================
@@ -1264,7 +1264,7 @@ _script106:
 		NJSR				_scr_param_4_clear
 		OBJ_SIZE_SET		$05,$10
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		SPR_IDX_SELECT		$59	; _spr_libx_59
 		SUSPEND				$3C
 		APU_LOAD			$4E
@@ -1276,7 +1276,7 @@ _obj_scr33_hammer_mole:
 		NJSR				_scr_param_4_set
 		SPR_LIB_SELECT		_spr_lib7
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$08,$14
 byte_68983:
 		SYNC
@@ -1290,11 +1290,11 @@ byte_68983:
 		SPR_IDX_SELECT		$65	; _spr_libx_65
 		SUSPEND				$08
 byte_68999:
-		SRUN				$07,_script107
+		SRUN				_OBJ_SCR_BULLET,_script107
 		SPR_IDX_SELECT		$66	; _spr_libx_66
 		SUSPEND				$10
 		APU_LOAD			$50
-		SRUN				$07,_script108
+		SRUN				_OBJ_SCR_BULLET,_script108
 		SPR_IDX_SELECT		$67	; _spr_libx_67
 		SUSPEND				$10
 		LOOPA				$02,byte_68999
@@ -1315,7 +1315,7 @@ _script107:
 		OBJ_Y_POS_MOVE		$F2
 		NJSR				_native_obj_hor_bounce0C
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$08,$0A
 		SUSPEND				$10
 		KILL
@@ -1323,7 +1323,7 @@ _script107:
 ; =============== S C R I P T ===============================================
 _script108:
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$06,$0F
 		SPR_LIB_SELECT		_spr_lib7
 		SPR_IDX_SELECT		$68	; _spr_libx_68
@@ -1357,7 +1357,7 @@ _obj_scr34_mecha_dog:
 		SPR_IDX_SELECT		$5E	; _spr_libx_5E
 		OBJ_SIZE_SET		$0C,$18
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 		OBJ_X_DELTA_SET		$E8
@@ -1428,7 +1428,7 @@ byte_68A94:
 		NJSR_SYNC			_native_sub11E
 		SBNES				byte_68A94
 		SUSPEND				$1E
-		SRUN				$06,_script109
+		SRUN				_OBJ_SCR_ENEMY,_script109
 		SUSPEND				$1E
 		SJMP				byte_68A94
 
@@ -1439,7 +1439,7 @@ byte_68AA8:
 		NJSR_SYNC			_native_sub11E
 		SBNES				byte_68AA8
 		SUSPEND				$1E
-		SRUN				$06,_script10A
+		SRUN				_OBJ_SCR_ENEMY,_script10A
 		SUSPEND				$1E
 		SJMP				byte_68AA8
 
@@ -1448,7 +1448,7 @@ _script_sub_68AB9:
 		DESTR_PC_SET		_obj_scr_common_destr
 		SPR_LIB_SELECT		_spr_lib9
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		PARAM_80_CLEAR
 		OBJ_SIZE_SET		$10,$20
 		OBJ_X_POS_SET		$80,$00
@@ -1472,7 +1472,7 @@ byte_68ADB:
 		SJSR				_script_sub_68B0D
 		NJSR				_native_sub128
 		SBCSS				byte_68ADB
-		SRUN				$06,_script10B
+		SRUN				_OBJ_SCR_ENEMY,_script10B
 		SBCSS				byte_68ADB
 		OBJ_X_DELTA_SET		$20
 		NJSR				_native_obj_hor_delta_toggle
@@ -1533,7 +1533,7 @@ _script10B:
 		DESTR_PC_SET		_obj_scr_common_destr
 		OBJ_Y_POS_MOVE		$10
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$06,$0C
 		SPR_LIB_SELECT		_spr_lib7
 		SPR_IDX_SELECT		$6A	; _spr_libx_6A
@@ -1592,7 +1592,7 @@ _obj_scr37_javelin_rat:
 		SPR_IDX_SELECT		$43	; _spr_libx_43
 		OBJ_SIZE_SET		$0C,$18
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 		OBJ_X_DELTA_SET		$10
@@ -1614,7 +1614,7 @@ byte_68BE0:
 		SUSPEND				$05
 		LOOPA				$04,byte_68BE0
 		APU_LOAD			$6D
-		SRUN				$07,_script10C
+		SRUN				_OBJ_SCR_BULLET,_script10C
 		SPR_IDX_SELECT		$49	; _spr_libx_49
 		SUSPEND				$2A
 byte_68BF6:
@@ -1657,7 +1657,7 @@ byte_68C37:
 ; =============== S C R I P T ===============================================
 _script10C:
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$04,$08
 		SPR_LIB_SELECT		_spr_lib7
 		SPR_IDX_SELECT		$4A	; _spr_libx_4A
@@ -1690,7 +1690,7 @@ byte_68C71:
 byte_68C7F:
 		SJSR				_script_sub_violet_bug_anim	; fly for 2 frames, then
 		LOOPA				$02,byte_68C7F				; drop projectile
-		SRUN				$08,_obj_scr_violet_bug_sparkle
+		SRUN				_OBJ_SCR_STUN,_obj_scr_violet_bug_sparkle
 		SJMP				byte_68C7F					; loop until out of screen
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -1710,7 +1710,7 @@ byte_68C9C:
 		SPR_IDX_SELECT		_spr_lib7_72
 		SJSR				_script_sub_violet_bug_float_anim
 		LOOPA				$06,byte_68C9C
-		SRUN				$08,_obj_scr_violet_bug_sparkle
+		SRUN				_OBJ_SCR_STUN,_obj_scr_violet_bug_sparkle
 		SJMP				byte_68C9C
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -1734,7 +1734,7 @@ _script_sub_violet_bug_init:
 		SPR_LIB_SELECT		_spr_lib7
 		SPR_IDX_SELECT		_spr_lib7_71
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$0A,$14
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
@@ -1749,7 +1749,7 @@ _obj_scr_violet_bug_sparkle:
 		SPR_LIB_SELECT		_spr_lib7
 		PARAM_80_CLEAR
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$02
+		OBJ_DAMAGE_SET		_OBJ_DMG_STUN
 		OBJ_SIZE_SET		$04,$08
 byte_68CF4:
 		SPR_IDX_SELECT		_spr_lib7_73
@@ -1768,7 +1768,7 @@ byte_68D0B:
 		DESTR_PC_SET		_obj_scr_common_destr
 		OBJ_SIZE_SET		$0A,$0C
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_X_DELTA_SET		$08
 		NJSR				_native_obj_hor_delta_toggle
 byte_68D1A:
@@ -1829,7 +1829,7 @@ byte_68D7A:
 		SPR_IDX_SELECT		$75	; _spr_libx_75
 		OBJ_SIZE_SET		$08,$20
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		PARAM_80_CLEAR
 		OBJ_X_DELTA_SET		$30
 		NJSR				_native_sub10E
@@ -1863,7 +1863,7 @@ _obj_scr38_electric_rat:
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 		OBJ_SIZE_SET		$06,$1C
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 byte_68DD1:
 		OBJ_HP_SET			$01
 		SPR_IDX_SELECT		$3A	; _spr_libx_3A
@@ -1877,8 +1877,8 @@ byte_68DDB:
 		OBJ_HP_SET			$02
 		SJSR				byte_68DF9
 		SJSR				byte_68DF9
-		SRUN				$07,_script10E
-		SRUN				$07,_script10F
+		SRUN				_OBJ_SCR_BULLET,_script10E
+		SRUN				_OBJ_SCR_BULLET,_script10F
 		SJSR				byte_68DF9
 		SJSR				byte_68DF9
 		SJMP				byte_68DD1
@@ -1927,7 +1927,7 @@ byte_68E30:
 		SPR_LIB_SELECT		_spr_lib5
 		OBJ_SIZE_SET		$04,$08
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		PARAM_80_CLEAR
 byte_68E3D:
 		SPR_IDX_SELECT		$05	; _spr_libx_05
@@ -1951,7 +1951,7 @@ byte_68E5C:
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr3F_lvl1_boss_water_rabbit:
 		STORE				$1E,_apu_load_idx_req
-		SRUN				$01,_script110
+		SRUN				_OBJ_SCR_AUTO,_script110
 		DESTR_PC_SET		_obj_scr_common_small_boss_destr
 		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_X_POS_MOVE		$0A
@@ -1959,7 +1959,7 @@ _obj_scr3F_lvl1_boss_water_rabbit:
 		SUSPEND				$80
 		OBJ_SIZE_SET		$0A,$32
 		OBJ_HP_SET			$06
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		PARAM_80_CLEAR
 		OBJ_X_DELTA_SET		$10
 		NJSR				_native_sub10E
@@ -2055,7 +2055,7 @@ byte_68F2E:
 		SPR_IDX_SELECT		$1D	; _spr_libx_1D
 		SJSR				_script203
 		APU_LOAD			$3F
-		SRUN				$07,_script111
+		SRUN				_OBJ_SCR_BULLET,_script111
 		SPR_IDX_SELECT		$1E	; _spr_libx_1E
 		SJSR				_script205
 		LOOPA				$02,byte_68F2E
@@ -2069,7 +2069,7 @@ _script111:
 		SPR_LIB_SELECT		_spr_lib8
 		OBJ_SIZE_SET		$05,$08
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		PARAM_80_CLEAR
 byte_68F68:
 		SPR_IDX_SELECT		$21	; _spr_libx_21
@@ -2090,7 +2090,7 @@ byte_68F80:
 		NJSR_SYNC			_native_sub138
 		SBCS				byte_68F80
 		SUSPEND				$3C
-		SRUN				$03,_script112
+		SRUN				_OBJ_SCR_THROW,_script112
 		SJMP				_script110
 
 ; =============== S C R I P T ===============================================
@@ -2115,13 +2115,13 @@ byte_68FB1:
 		OBJ_Y_POS_SET		$00,$00
 		SYNC
 		SPR_LIB_SELECT		_spr_lib3
-		SPR_IDX_SELECT		$00	; _spr_libx_00
+		SPR_IDX_SELECT		_spr_lib3_00
 		OBJ_SIZE_SET		$06,$10
 		NJSR				_native_idxBs_10_set
 		PARAM_80_CLEAR
 byte_68FC0:
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_X_DELTA_SET		$00
 		OBJ_Y_DELTA_SET		$01
 		NJSR				_native_sub13A
@@ -2165,7 +2165,7 @@ byte_69016:
 		LOOPA				$04,byte_69016
 		OBJ_SIZE_SET		$0E,$20
 		OBJ_HP_SET			$06
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 byte_69024:
 		SJSR				byte_69039
 		SJSR				byte_6905E
@@ -2182,12 +2182,12 @@ byte_69039:
 byte_6903D:
 		SJSR				byte_690B0
 		LOOPA				$03,byte_6903D
-		SRUN				$07,_script113
+		SRUN				_OBJ_SCR_BULLET,_script113
 		SJSR				_script209
 byte_6904B:
 		SJSR				byte_690B0
 		LOOPA				$03,byte_6904B
-		SRUN				$07,_script113
+		SRUN				_OBJ_SCR_BULLET,_script113
 byte_69056:
 		SJSR				byte_690B0
 		LOOPA				$03,byte_69056
@@ -2298,7 +2298,7 @@ _script113:
 		SPR_LIB_SELECT		_spr_lib8
 		SPR_IDX_SELECT		$0E	; _spr_libx_0E
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$06,$10
 		PARAM_80_CLEAR
 		NJSR_SYNC			_native_sub006
@@ -2379,12 +2379,12 @@ _obj_scr41_lvl3_boss_sea_rat:
 		STORE				$10,byte_9D
 		DESTR_PC_SET		_obj_scr_common_small_boss_destr
 		NJSR				_native_obj_idxCs_clear_low_nibble
-		SRUN				$01,_script114
+		SRUN				_OBJ_SCR_AUTO,_script114
 		OBJ_X_POS_MOVE		$20
 		SPR_LIB_SELECT		_spr_lib8
 		OBJ_SIZE_SET		$08,$20
 		OBJ_HP_SET			$06
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		SUSPEND				$80
 		PARAM_80_CLEAR
 		OBJ_X_DELTA_SET		$E8
@@ -2423,7 +2423,7 @@ byte_691FC:
 byte_6920C:
 		SPR_IDX_SELECT		$29	; _spr_libx_29
 		APU_LOAD			$3D
-		SRUN				$07,_script115
+		SRUN				_OBJ_SCR_BULLET,_script115
 		SJSR				_script203
 		SJSR				_script206
 		SPR_IDX_SELECT		$24	; _spr_libx_24
@@ -2507,7 +2507,7 @@ _script114:
 byte_692AE:
 		NJSR_SYNC			_native_sub00A
 		SBCS				byte_692AE
-		SRUN				$09,_script116
+		SRUN				_OBJ_SCR_SOLID,_script116
 		SJMP				byte_692AE
 
 ; =============== S U B R O U T I N E =======================================
@@ -2557,7 +2557,7 @@ _script115:
 		SPR_LIB_SELECT		_spr_lib8
 		OBJ_SIZE_SET		$04,$06
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		PARAM_80_CLEAR
 byte_6930B:
 		SPR_IDX_SELECT		$2A	; _spr_libx_2A
@@ -2572,7 +2572,7 @@ _obj_scr42_lvl4_boss_ghost:
 		DESTR_PC_SET		byte_694CA
 		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_HP_SET			$07
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		STORE				$00,byte_E0
 		SJSR				byte_69531
 		SJMP				byte_69350
@@ -2679,10 +2679,10 @@ byte_69405:
 		SJSR				byte_69492
 		LOOPB				$17,byte_69405
 byte_6940D:
-		SRUN				$07,_script118
+		SRUN				_OBJ_SCR_BULLET,_script118
 		SRET
 byte_69412:
-		SRUN				$07,_script119
+		SRUN				_OBJ_SCR_BULLET,_script119
 		OBJ_X_DELTA_SET		$00
 		OBJ_Y_DELTA_SET		$00
 byte_6941A:
@@ -2716,7 +2716,7 @@ byte_69443:
 		SPR_IDX_SELECT		$11	; _spr_libx_11
 		OBJ_SIZE_SET		$06,$0D
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		PARAM_80_CLEAR
 		OBJ_FLIP_SET		$08
 		NJSR				_native_sub13D
@@ -2738,7 +2738,7 @@ _script119:
 		TARGET_LOCK			$30
 		OBJ_SIZE_SET		$08,$10
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		PARAM_80_CLEAR
 		OBJ_FLIP_SET		$08
 byte_69486:
@@ -2752,7 +2752,7 @@ byte_69492:
 		NJSR				_native_sub144
 		SBEQ				byte_6949E
 		APU_LOAD			$2F
-		SRUN				$01,_script11A
+		SRUN				_OBJ_SCR_AUTO,_script11A
 byte_6949E:
 		NJSR				_native_sub145
 		SYNC
@@ -2854,8 +2854,8 @@ off_69523:
 byte_69531:
 		NJSR				_native_sub00B
 		CHR_SELECT			$00,$13
-		SRUN				$01,_script11B
-		SRUN				$01,_script11C
+		SRUN				_OBJ_SCR_AUTO,_script11B
+		SRUN				_OBJ_SCR_AUTO,_script11C
 		SUSPEND				$80
 		SRET
 
@@ -2891,7 +2891,7 @@ _obj_scr43_lvl5B_cat_with_cards:
 		OBJ_X_POS_MOVE		$50
 		SPR_LIB_SELECT		_spr_lib8
 		OBJ_HP_SET			$08
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$0C,$2C
 		SUSPEND				$30
 		PARAM_80_CLEAR
@@ -2979,7 +2979,7 @@ byte_6961F:
 		SPR_IDX_SELECT		$39	; _spr_libx_39
 		SJSR				_script205
 		SJSR				_script209
-		SRUN				$07,_script11D
+		SRUN				_OBJ_SCR_BULLET,_script11D
 		SPR_IDX_SELECT		$3A	; _spr_libx_3A
 		SJSR				_script208
 		LOOPA				$02,byte_6961F
@@ -2998,7 +2998,7 @@ _script11D:
 		APU_LOAD			$6E
 		OBJ_SIZE_SET		$06,$06
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		SPR_LIB_SELECT		_spr_lib8
 		PARAM_80_CLEAR
 		NJSR				_native_obj_hor_bounce2C
@@ -3067,7 +3067,7 @@ _obj_scr44_lvl5B_boss_ostrich:
 		OBJ_X_POS_MOVE		$60
 		SPR_LIB_SELECT		_spr_lib8
 		OBJ_HP_SET			$08
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$08,$30
 		SUSPEND				$40
 		PARAM_80_CLEAR
@@ -3163,7 +3163,7 @@ byte_6984A:
 		APU_LOAD			$54
 		OBJ_Y_DELTA_SET		$D0
 		SJSR				_script20B
-		SRUN				$07,_script11E
+		SRUN				_OBJ_SCR_BULLET,_script11E
 		LOOPA				$03,byte_6984A
 byte_69859:
 		OBJ_X_DELTA_SET		$00
@@ -3192,7 +3192,7 @@ byte_6987C:
 		SPR_LIB_SELECT		_spr_lib8
 		OBJ_SIZE_SET		$06,$10
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		PARAM_80_CLEAR
 		OBJ_Y_DELTA_SET		$D0
 		NJSR				_native_obj_hor_delta_toggle
@@ -3240,11 +3240,11 @@ _obj_scr45_lvl5C_wrecking_lizard:
 		STORE				$40,_ppu_scroll_shadow_lo
 		STORE				$05,_ppu_scroll_nt_hor
 		OBJ_HP_SET			$08
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_X_POS_SET		$88,$01
 		OBJ_Y_POS_SET		$78,$00
-		SRUN				$07,_script11F
-		SRUN				$06,_script120
+		SRUN				_OBJ_SCR_BULLET,_script11F
+		SRUN				_OBJ_SCR_ENEMY,_script120
 		NJSR				_native_sub14B
 		NJSR				_native_obj_idxCs_clear_low_nibble
 		SPR_LIB_SELECT		_spr_lib8
@@ -3299,7 +3299,7 @@ byte_69969:
 		NJSR				_native_sub144
 		SBEQ				byte_69978
 		APU_LOAD			$2F
-		SRUN				$01,_script121
+		SRUN				_OBJ_SCR_AUTO,_script121
 byte_69978:
 		NJSR				_native_sub145
 		SYNC
@@ -3387,7 +3387,7 @@ _script11F:
 		OBJ_Y_POS_MOVE		$3F
 		OBJ_SIZE_SET		$24,$40
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 byte_69A07:
 		SYNC
 		SJSR				byte_69A12
@@ -3411,7 +3411,7 @@ _script120:
 		SPR_IDX_SELECT		$08	; _spr_libx_08
 		OBJ_SIZE_SET		$08,$20
 		OBJ_HP_SET			$FF
-		VAR_1C_SET			$FF
+		OBJ_DAMAGE_SET		$FF
 		PARAM_80_CLEAR
 		SJSR				byte_69A5B
 byte_69A32:
@@ -3422,9 +3422,9 @@ byte_69A35:
 		SBNE				byte_69A35
 		SJSR				byte_69A6E
 		APU_LOAD			$63
-		SRUN				$07,_script122
+		SRUN				_OBJ_SCR_BULLET,_script122
 		SJSR				byte_69A0E
-		SRUN				$07,_script123
+		SRUN				_OBJ_SCR_BULLET,_script123
 byte_69A4E:
 		SJSR				byte_69A0E
 		LOOPB				$3C,byte_69A4E
@@ -3514,7 +3514,7 @@ byte_69AD8:
 		SPR_IDX_SELECT		$07	; _spr_libx_07
 		OBJ_SIZE_SET		$06,$10
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		PARAM_80_CLEAR
 		OBJ_FLIP_SET		$08
 		NJSR				_native_sub13D
@@ -3555,10 +3555,10 @@ _obj_scr46_lvl6_final_boss:
 		NJSR				_native_lvl6_final_boss_init
 		STORE				$00,_ppu_scroll_nt_vert
 		STORE				$1F,_apu_load_idx_req
-		SRUN				$01,_script124
-		SRUN				$01,_script125
-		SRUN				$01,_script126
-		SRUN				$01,_script127
+		SRUN				_OBJ_SCR_AUTO,_script124
+		SRUN				_OBJ_SCR_AUTO,_script125
+		SRUN				_OBJ_SCR_AUTO,_script126
+		SRUN				_OBJ_SCR_AUTO,_script127
 		NJSR				_native_idxBs_10_set
 byte_69B49:
 		NJSR_SYNC			_native_idxBs_10_test
@@ -3577,13 +3577,13 @@ byte_69B5D:
 		SPR_LIB_SELECT		_spr_lib8
 		SPR_IDX_SELECT		$51	; _spr_libx_51
 		OBJ_HP_SET			$0A
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$00,$00
 		NJSR				_native_sub00C
 		PAL_FADE_IN			$04,$C3
-		SRUN				$06,_script128
+		SRUN				_OBJ_SCR_ENEMY,_script128
 		NJSR				_native_sub14B
-		SRUN				$06,_script129
+		SRUN				_OBJ_SCR_ENEMY,_script129
 		NJSR				_native_sub150
 		SUSPEND				$14
 		PARAM_80_CLEAR
@@ -3591,7 +3591,7 @@ byte_69B5D:
 		NJSR				_native_sub021
 		SJSR				byte_69C88
 		OBJ_Y_DELTA_SET		$F0
-		SRUN				$06,_script12A
+		SRUN				_OBJ_SCR_ENEMY,_script12A
 		SJSR				byte_69C7E
 byte_69BA5:
 		SJSR				_script_sub_69D06
@@ -3605,7 +3605,7 @@ byte_69BB8:
 		SJSR				byte_69C88
 byte_69BBB:
 		OBJ_Y_DELTA_SET		$F0
-		SRUN				$06,_script12A
+		SRUN				_OBJ_SCR_ENEMY,_script12A
 		SJSR				byte_69C7E
 byte_69BC4:
 		SJSR				_script_sub_69D06
@@ -3615,9 +3615,9 @@ byte_69BC4:
 byte_69BD0:
 		SJSR				_script_sub_69CDC
 		LOOPB				$3C,byte_69BD0
-		SRUN				$03,_script12B
+		SRUN				_OBJ_SCR_THROW,_script12B
 		NJSR				_native_sub01D
-		SRUN				$01,_script12C
+		SRUN				_OBJ_SCR_AUTO,_script12C
 byte_69BE2:
 		SJSR				_script_sub_69CDC
 		LOOPB				$B4,byte_69BE2
@@ -3630,11 +3630,11 @@ byte_69BEE:
 		NJSR				_native_sub01C
 		SBCS				byte_69C10
 		NJSR				_native_box_bonus_4prizes_shuffle
-		SRUN				$07,_script12D
+		SRUN				_OBJ_SCR_BULLET,_script12D
 byte_69C05:
 		SJSR				_script_sub_69CDC
 		LOOPB				$3C,byte_69C05
-		SRUN				$07,_script12D
+		SRUN				_OBJ_SCR_BULLET,_script12D
 byte_69C10:
 		NJSR				_native_cmpC0_obj_x_lo_pos
 		SBNE				byte_69BB8
@@ -3658,7 +3658,7 @@ byte_69C36:
 		NJSR_SYNC			_native_idxBs_10_test_clear_from_idxCs
 		SJMP				byte_69C40
 byte_69C3C:
-		SRUN				$01,_script12E
+		SRUN				_OBJ_SCR_AUTO,_script12E
 byte_69C40:
 		SJSR				_script_sub_69CDC
 		LOOPB				$B4,byte_69C40
@@ -3741,13 +3741,13 @@ _script_sub_69CDC:
 		NJSR				_native_sub144
 		SBEQ				byte_69CFC
 		APU_LOAD			$2F
-		SRUN				$01,_script12F
+		SRUN				_OBJ_SCR_AUTO,_script12F
 		NJSR				_native_sub01C
 		SBCS				byte_69CFC
 		NJSR				_native_sub018
 		SBEQ				byte_69CFC
 		STORE				$00,byte_E2
-		SRUN				$01,_script130
+		SRUN				_OBJ_SCR_AUTO,_script130
 byte_69CFC:
 		SYNC
 		NJSR				_native_sub145
@@ -3788,8 +3788,8 @@ _pal_bg003_reload:
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr46_lvl6_final_boss_destr:
 		OBJ_Y_DELTA_SET		$00
-		SRUN				$01,_script12F
-		SRUN				$01,_script130
+		SRUN				_OBJ_SCR_AUTO,_script12F
+		SRUN				_OBJ_SCR_AUTO,_script130
 		SUSPEND				$B4
 		APU_LOAD			$70
 		PAL_FADE_OUT		$04,$C7
@@ -3799,7 +3799,7 @@ _obj_scr46_lvl6_final_boss_destr:
 ; =============== S C R I P T ===============================================
 _script130:
 		NJSR				_native_sub01B
-		SRUN				$01,_script131
+		SRUN				_OBJ_SCR_AUTO,_script131
 		SUSPEND				$13
 		LOOPA				$05,_script130
 		APU_LOAD			$46
@@ -3807,14 +3807,14 @@ _script130:
 		NJSR_SYNC			_cat_boss_bg_patch1_draw
 byte_69D5B:
 		NJSR				_native_sub01B
-		SRUN				$01,_script131
+		SRUN				_OBJ_SCR_AUTO,_script131
 		SUSPEND				$13
 		LOOPA				$03,byte_69D5B
 		KILL
 
 ; =============== S C R I P T ===============================================
 _script131:
-		SRUN				$01,_script132
+		SRUN				_OBJ_SCR_AUTO,_script132
 		SJSR				byte_6A052
 		KILL
 
@@ -3956,7 +3956,7 @@ _script128:
 		DESTR_PC_SET		byte_69E8F
 		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_HP_SET			$05
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$06,$0C
 		OBJ_X_POS_MOVE		$B2
 		OBJ_Y_POS_MOVE		$C2
@@ -3987,7 +3987,7 @@ _script129:
 		DESTR_PC_SET		byte_69EF8
 		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_HP_SET			$05
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$06,$0C
 		OBJ_X_POS_MOVE		$2E
 		OBJ_Y_POS_MOVE		$C0
@@ -4037,7 +4037,7 @@ _script12D:
 		OBJ_Y_POS_MOVE		$90
 		OBJ_FLIP_SET		$08
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$04,$10
 		SPR_LIB_SELECT		_spr_lib8
 		SPR_IDX_SELECT		$46	; _spr_libx_46
@@ -4088,7 +4088,7 @@ _script12B:
 		OBJ_Y_POS_MOVE		$10
 		DESTR_PC_SET		byte_69F7C
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$FF
+		OBJ_DAMAGE_SET		$FF
 		OBJ_FLIP_SET		$08
 		OBJ_SIZE_SET		$06,$0E
 		SPR_LIB_SELECT		_spr_lib8
@@ -4118,7 +4118,7 @@ byte_69F82:
 		NJSR				_native_sub030
 		NJSR				_native_idxBs_20_set
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$FF
+		OBJ_DAMAGE_SET		$FF
 byte_69F9F:
 		OBJ_ANIMATE
 		SJSR				byte_69FB5
@@ -4143,7 +4143,7 @@ byte_69FBC:
 byte_69FCA:
 		NJSR				_native_sub13A
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$0C,$0E
 		SJSR				byte_6A069
 		KILL
@@ -4189,7 +4189,7 @@ _script12E:
 byte_6A01E:
 		SJSR				byte_6A04B
 		LOOPA				$08,byte_6A01E
-		SRUN				$07,_script133
+		SRUN				_OBJ_SCR_BULLET,_script133
 		LOOPB				$03,byte_6A01E
 		KILL
 
@@ -4198,7 +4198,7 @@ _script133:
 		APU_LOAD			$6F
 		OBJ_FLIP_SET		$08
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$04,$08
 		SPR_LIB_SELECT		_spr_lib8
 		SPR_IDX_SELECT		$48	; _spr_libx_48
@@ -4482,11 +4482,11 @@ byte_6A1C8:
 		LOOPA				$05,byte_6A1C8		; repeat 5 times (5 steps)
 		SJSR				byte_6A204
 		TARGET_DIR_SET		$0C
-		SRUN				$0A,_obj_monterey_1p_prize
+		SRUN				_OBJ_SCR_GRAB,_obj_monterey_1p_prize
 		SJSR				byte_6A208
 		SJSR				byte_6A204
 		TARGET_DIR_SET		$0C
-		SRUN				$0A,_obj_monterey_2p_prize
+		SRUN				_OBJ_SCR_GRAB,_obj_monterey_2p_prize
 		SJSR				byte_6A208
 		SJSR				byte_6A204
 		NJSR				_native_sub15A
@@ -4617,7 +4617,7 @@ byte_6A2A0:
 		OBJ_Y_DELTA_SET		$8C
 		NJSR				_native_sub029
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$02
+		OBJ_DAMAGE_SET		_OBJ_DMG_STUN
 byte_6A2AE:
 		NJSR				_native_sub11C
 		NJSR				_native_scr_params_set05_hi_nibble_clear
@@ -4637,7 +4637,7 @@ byte_6A2BD:
 _script_sub_6A2CF:
 		NJSR_SYNC			_native_sub022
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$02
+		OBJ_DAMAGE_SET		_OBJ_DMG_STUN
 		NJSR				_native_obj_y_parabolic_delta_adjust
 		SJSR				_script_sub_6A557
 		SBCC				_script_sub_6A2CF
@@ -4693,14 +4693,14 @@ _obj_scr1E_big_zipper_box:
 byte_6A330:
 		NJSR_SYNC			_native_obj_to_obj_jump_up_test
 		SBCC				byte_6A330
-		SRUN				$01,_script136
+		SRUN				_OBJ_SCR_AUTO,_script136
 		SUSPEND				$B0
-		SRUN				$01,_script137
+		SRUN				_OBJ_SCR_AUTO,_script137
 		SJMP				_script_idle
 
 ; =============== S C R I P T ===============================================
 _script137:
-		SRUN				$01,_script138
+		SRUN				_OBJ_SCR_AUTO,_script138
 		NJSR_SYNC			_native_obj_to_obj_idxCs_link
 		SUSPEND				$24
 		OBJ_X_POS_MOVE		$C0
@@ -4974,7 +4974,7 @@ byte_6A53E:
 		NJSR				_native_sub11C
 		NJSR				_native_scr_params_set05_hi_nibble_clear
 		OBJ_HP_SET			$FF
-		VAR_1C_SET			$02
+		OBJ_DAMAGE_SET		_OBJ_DMG_STUN
 		SPR_IDX_SELECT		$00	; _spr_libx_00
 byte_6A54A:
 		SYNC
@@ -5144,8 +5144,8 @@ byte_6A669:
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub02A:
-		LDA		_scr_vars1C,X
-		CMP		#$02
+		LDA		_obj_damages,X
+		CMP		#_OBJ_DMG_STUN
 		JMP		_scr_flags_update
 
 ; =============== S U B R O U T I N E =======================================
@@ -5176,8 +5176,8 @@ _native_sub02E:
 		LDA		_nmi_frames_counter
 		AND		#$04
 		BEQ		locret_6A6BA
-		LDA		_scr_vars1C,X
-		CMP		#$02
+		LDA		_obj_damages,X
+		CMP		#_OBJ_DMG_STUN
 		BNE		locret_6A6BA
 		LDA		#$08
 		STA		_obj_spr_idxs,X
@@ -5193,9 +5193,9 @@ _native_sub02F:
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub030:
-		LDA		#$01
-		STA		_scr_vars1C,X
-		STA		_obj_hps,X
+		LDA		#_OBJ_DMG_KILL
+		STA		_obj_damages,X
+		STA		_obj_hps,X						; WARNING, if _OBJ_DMG_STUN changes, fix it here!
 		LDA		_scr_idxBs,X
 		AND		#$0F
 		TAX
@@ -5333,7 +5333,7 @@ byte_6A7BB:
 _obj_scr0A_lvl2_blocked_path:
 		SJSR				_script_sub_obj_button_common_init	; init
 		SJSR				_script_sub_button_push_wait		; wait for jump up
-		SRUN				$01,_script_lvl2_wall_blocks_open_draw	; open the blocked path
+		SRUN				_OBJ_SCR_AUTO,_script_lvl2_wall_blocks_open_draw	; open the blocked path
 byte_6A7D5:
 		SJSR				_script_sub_button_release_wait		; loop forever between
 		SJSR				_script_sub_button_push_wait		; two states now, does nothing more
@@ -5433,7 +5433,7 @@ byte_6A83D:
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr0B_lvl2_basket_game_entry:
 		SJSR				_script_sub_obj_button_common_init	; one botton will controlled here
-		SRUN				$09,_obj_scr_lvl2_basket_game_2nd_button	; here is the second button
+		SRUN				_OBJ_SCR_SOLID,_obj_scr_lvl2_basket_game_2nd_button	; here is the second button
 		NJSR				_native_obj_to_obj_idxCs_link
 		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_X_POS_MOVE		$50									; change position of current main button
@@ -5451,7 +5451,7 @@ byte_6A863:
 		STORE				<[tlm_patch07],_tmp_ptr4B			; if both pressed, open the door
 		STORE				>[tlm_patch07],_tmp_ptr4B+1
 		SJSR				_script_sub_macro_patch_draw
-		SRUN				$0A,_obj_scr_lvl2_basket_exit_right	; insert actual door object
+		SRUN				_OBJ_SCR_GRAB,_obj_scr_lvl2_basket_exit_right	; insert actual door object
 		APU_LOAD			$4F									; open sound
 ; TODO, optimize me! redundant!
 byte_6A874:
@@ -5482,7 +5482,7 @@ _obj_scr0C_lvl3_refill_entry:
 		STORE				<[tlm_patch08],_tmp_ptr4B			; draw open cavity
 		STORE				>[tlm_patch08],_tmp_ptr4B+1
 		SJSR				_script_sub_macro_patch_draw
-		SRUN				$0A,_script_lvl3_box_bonus_entry						; run cavity script
+		SRUN				_OBJ_SCR_GRAB,_script_lvl3_box_bonus_entry						; run cavity script
 		APU_LOAD			$4F									; play open sound
 ; TODO: optimize me!
 byte_6A8A8:
@@ -5500,9 +5500,9 @@ _script_lvl3_box_bonus_entry:
 _obj_scr0D_big_fan:
 		SJSR				_script_wait_for_idxCs_80_set
 byte_6A8BB:
-		SRUN				$01,_script13D
+		SRUN				_OBJ_SCR_AUTO,_script13D
 		SUSPEND				$5A
-		SRUN				$01,_script13E
+		SRUN				_OBJ_SCR_AUTO,_script13E
 		SUSPEND				$5A
 		SJMP				byte_6A8BB
 
@@ -5548,14 +5548,14 @@ byte_6A8FD:
 		OBJ_X_POS_SET		$38,$00
 byte_6A903:
 		NJSR				_native_sub034
-		SRUN				$09,_script13F
+		SRUN				_OBJ_SCR_SOLID,_script13F
 		LOOPA				$03,byte_6A903
 		NJSR				_native_sub150
 		NJSR				_native_box_bonus_3prizes_shuffle
 		OBJ_X_POS_SET		$C8,$00
 byte_6A917:
 		NJSR				_native_sub034
-		SRUN				$09,_script13F
+		SRUN				_OBJ_SCR_SOLID,_script13F
 		LOOPA				$03,byte_6A917
 		NJSR				_native_sub14B
 byte_6A925:
@@ -5740,7 +5740,7 @@ byte_6AA75:
 byte_6AA7B:
 		NJSR_SYNC			_native_sub036
 		SBNE				byte_6AA7B
-		SRUN				$06,_script140
+		SRUN				_OBJ_SCR_ENEMY,_script140
 		SJMP				byte_6AA75
 
 ; =============== S U B R O U T I N E =======================================
@@ -5757,7 +5757,7 @@ _script140:
 		OBJ_SIZE_SET		$0C,$14
 byte_6AA97:
 		OBJ_HP_SET			$7F
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		TARGET_DIR_SET		$00
 		SJSR				byte_6AAC1
 		LOOPA				$14,byte_6AA97
@@ -5789,7 +5789,7 @@ byte_6AACE:
 _obj_scr12_cave_trolley:
 		NJSR				_native_idxBs_20_set
 		OBJ_Y_POS_MOVE		$EC
-		SRUN				$01,_script141
+		SRUN				_OBJ_SCR_AUTO,_script141
 		NJSR				_native_obj_to_obj_idxCs_link
 		OBJ_HP_SET			$01
 		OBJ_SIZE_SET		$16,$01
@@ -6024,7 +6024,7 @@ _obj_scr13_cave_rock:
 		NJSR				_native_sub13E
 		NJSR				_native_idxBs_20_set
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$09,$12
 		SPR_LIB_SELECT		_spr_lib5
 		SPR_IDX_SELECT		$38	; _spr_libx_38
@@ -6039,23 +6039,23 @@ byte_6AC8A:
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr04_cave_pendulum:
 		SPR_LIB_SELECT		_spr_lib5
-		SPR_IDX_SELECT		$45	; _spr_libx_45
+		SPR_IDX_SELECT		_spr_lib5_45
 		PARAM_80_CLEAR
-		SRUN				$07,_script142
+		SRUN				_OBJ_SCR_BULLET,_script142
 		NJSR				_native_obj_to_obj_idxCs_link
 byte_6ACA3:
 		APU_LOAD			$5E
-		SPR_IDX_SELECT		$45	; _spr_libx_45
+		SPR_IDX_SELECT		_spr_lib5_45
 		SUSPEND				$08
-		SPR_IDX_SELECT		$44	; _spr_libx_44
+		SPR_IDX_SELECT		_spr_lib5_44
 		SUSPEND				$09
-		SPR_IDX_SELECT		$43	; _spr_libx_43
+		SPR_IDX_SELECT		_spr_lib5_43
 		SUSPEND				$0B
-		SPR_IDX_SELECT		$42	; _spr_libx_42
+		SPR_IDX_SELECT		_spr_lib5_42
 		SUSPEND				$0E
-		SPR_IDX_SELECT		$43	; _spr_libx_43
+		SPR_IDX_SELECT		_spr_lib5_43
 		SUSPEND				$0B
-		SPR_IDX_SELECT		$44	; _spr_libx_44
+		SPR_IDX_SELECT		_spr_lib5_44
 		SUSPEND				$09
 		FLIP_40_TOGGLE
 		SJMP				byte_6ACA3
@@ -6065,9 +6065,9 @@ _script142:
 		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_SIZE_SET		$06,$0C
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		SPR_LIB_SELECT		_spr_lib5
-		SPR_IDX_SELECT		$41	; _spr_libx_41
+		SPR_IDX_SELECT		_spr_lib5_41
 		PARAM_80_CLEAR
 byte_6ACD0:
 		NJSR_SYNC			_native_sub03F
@@ -6168,8 +6168,8 @@ loc_6AD8C:
 		BPL		loc_6AD72
 		JMP		_scr_flags_flush_clc
 loc_6AD92:
-		LDA		_scr_vars1C,Y
-		CMP		#$02
+		LDA		_obj_damages,Y
+		CMP		#_OBJ_DMG_STUN
 		BEQ		loc_6AD9E
 		LDA		#$00
 		STA		_obj_hps,Y
@@ -6270,7 +6270,7 @@ byte_6AE2D:
 		SJMP				byte_6AE2C
 byte_6AE46:
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		NJSR_SYNC			_scr_param_4_clear
 		LOOPB				$02,byte_6AE46
 		SRET
@@ -6357,7 +6357,7 @@ byte_6AEDB:
 byte_6AEE3:
 		NJSR				_native_sub138
 		SBCS				byte_6AEED
-		SRUN				$07,_obj_scr_ceiling_cannon_ball_left
+		SRUN				_OBJ_SCR_BULLET,_obj_scr_ceiling_cannon_ball_left
 byte_6AEED:
 		SJSR				_script_animate32
 		NJSR				_j_native_complement_x_deltas
@@ -6370,7 +6370,7 @@ byte_6AEED:
 byte_6AF01:
 		NJSR				_native_sub138
 		SBCS				byte_6AF0B
-		SRUN				$07,_obj_scr_ceiling_cannon_ball_right
+		SRUN				_OBJ_SCR_BULLET,_obj_scr_ceiling_cannon_ball_right
 byte_6AF0B:
 		SJSR				_script_animate32
 		NJSR				_j_native_complement_x_deltas
@@ -6402,7 +6402,7 @@ _obj_scr_ceiling_cannon_ball:
 		SPR_IDX_SELECT		$32	; _spr_libx_32
 		PARAM_80_CLEAR
 		OBJ_HP_SET			$FF
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 byte_6AF39:
 		SYNC
 		NJSR				_native_get_obj_y_delta
@@ -6540,9 +6540,9 @@ locret_6B022:
 ; =============== S U B R O U T I N E =======================================
 _native_sub047:
 		LDA		_players_lives
-		STA		_tmp_players_lives
+		STA		_tmp_array400
 		LDA		_players_lives+1
-		STA		_tmp_players_lives+1
+		STA		_tmp_array400+1
 		LDA		byte_DE
 		CMP		byte_DF
 		BEQ		locret_6B03C
@@ -6558,11 +6558,11 @@ locret_6B03C:
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr00_lives_bonus:
 		NJSR				_native_box_bonus_3prizes_shuffle
-		SRUN				$06,_lives_bonus_obj_scr_2p_star
-		SRUN				$06,_lives_bonus_obj_scr_1p_star
-		SRUN				$06,_lives_bonus_obj_scr_no_star
-		SRUN				$09,_lives_bonus_obj_scr_player1_red_ball
-		SRUN				$09,_lives_bonus_obj_scr_player2_red_ball
+		SRUN				_OBJ_SCR_ENEMY,_lives_bonus_obj_scr_2p_star
+		SRUN				_OBJ_SCR_ENEMY,_lives_bonus_obj_scr_1p_star
+		SRUN				_OBJ_SCR_ENEMY,_lives_bonus_obj_scr_no_star
+		SRUN				_OBJ_SCR_SOLID,_lives_bonus_obj_scr_player1_red_ball
+		SRUN				_OBJ_SCR_SOLID,_lives_bonus_obj_scr_player2_red_ball
 		SJSR				_script_30_sec_timer_init
 		STORE				$0A,_timer_seconds_cnt
 		OBJ_Y_POS_SET		$38,$00
@@ -6579,7 +6579,7 @@ byte_6B074:
 		NJSR				_native_sub171
 		SJMP				_script_fade_out
 byte_6B07A:
-		SRUN				$01,_script14A
+		SRUN				_OBJ_SCR_AUTO,_script14A
 		NJSR				_native_obj_to_obj_idxCs_link
 		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_HP_SET			$01
@@ -6758,7 +6758,7 @@ byte_6B185:
 		SJSR				_script_sub_6806C
 		OBJ_Y_DELTA_SET		$C0
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$01
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		SJMP				byte_68092
 
 ; =============== S C R I P T ===============================================
@@ -6770,7 +6770,7 @@ _obj_scr02_coins_game:
 		NJSR				_native_sub04B
 		OBJ_Y_POS_MOVE		$40
 byte_6B197:
-		SRUN				$06,_script14B
+		SRUN				_OBJ_SCR_ENEMY,_script14B
 		FLIP_40_TOGGLE
 		OBJ_Y_POS_MOVE		$30
 		LOOPA				$04,byte_6B197
@@ -6905,7 +6905,7 @@ byte_6B27A:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr03_basket_game:
-		SRUN				$01,_obj_scr_basket_game_basket		; add basket object
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_basket_game_basket		; add basket object
 		NJSR				_native_basket_game_init
 		SJSR				_script_30_sec_timer_init			; common init timer
 		STORE				$3C,_timer_seconds_cnt				; but here reset to 60 sec
@@ -6913,8 +6913,8 @@ _obj_scr03_basket_game:
 byte_6B29C:
 		NJSR_SYNC			_native_obj_timer_spr_insert_test	; 3 seconds delay, just show timer
 		LOOPA				$B4,byte_6B29C
-		SRUN				$05,_obj_scr_basket_game_left_ball	; insert balls
-		SRUN				$05,_obj_scr_basket_game_right_ball
+		SRUN				_OBJ_SCR_BALL,_obj_scr_basket_game_left_ball	; insert balls
+		SRUN				_OBJ_SCR_BALL,_obj_scr_basket_game_right_ball
 		SJSR				_script_timer_seconds_tick			; game start with sound
 byte_6B2AE:
 		NJSR_SYNC			_native_obj_timer_spr_insert_test	; show timer
@@ -6947,9 +6947,9 @@ loc_6B2D2:
 ; =============== S C R I P T ===============================================
 _obj_scr_basket_game_basket:
 		OBJ_Y_POS_MOVE		$58										; set basket Y position
-		SRUN				$09,_obj_scr_basket_game_left_bouncer	; insert basket left side bouncer
+		SRUN				_OBJ_SCR_SOLID,_obj_scr_basket_game_left_bouncer	; insert basket left side bouncer
 		NJSR				_native_obj_to_obj_idxCs_link
-		SRUN				$09,_obj_scr_basket_game_right_bouncer	; same for right bouncer
+		SRUN				_OBJ_SCR_SOLID,_obj_scr_basket_game_right_bouncer	; same for right bouncer
 		NJSR				_native_obj_to_obj_idxCs_link
 		OBJ_SIZE_SET		$04,$04									; the main hot spot in the middle
 		OBJ_X_DELTA_SET		$F0										; set default movement delta
@@ -7060,7 +7060,7 @@ _script_sub_6B393:
 		NJSR_SYNC			_native_sub04F
 		NJSR				_native_sub100
 		OBJ_HP_SET			$01
-		VAR_1C_SET			$02
+		OBJ_DAMAGE_SET		_OBJ_DMG_STUN
 		SJSR				_script_sub_6A557
 		SBCCS				_script_sub_6B393
 		SRET
@@ -7114,9 +7114,9 @@ _native_sub050:
 		STA		_obj_hps
 		LDA		_players_def_max_hps+1
 		STA		_obj_hps+1
-		LDA		_tmp_players_lives
+		LDA		_tmp_array400
 		STA		_players_lives
-		LDA		_tmp_players_lives+1
+		LDA		_tmp_array400+1
 		STA		_players_lives+1
 		RTS
 
@@ -7187,11 +7187,11 @@ _native_box_bonus_box_obj_insert:
 		LDY		_scr_loopsA,X
 		LDA		_box_bonus_box_prize_list,Y
 		PHA
-		LDA		_box_bonus_box_obj_script_lib,Y
+		LDA		_box_bonus_box_obj_script_lib_lo,Y
 		STA		_tmp_ptr0
-		LDA		off_6B4A6,Y
+		LDA		_box_bonus_box_obj_script_lib_hi,Y
 		STA		_tmp_ptr0+1
-		LDY		#$01
+		LDY		#_OBJ_SCR_AUTO
 		JSR		_scr_load
 		PLA
 		STA		_scr_vars19,X
@@ -7208,12 +7208,12 @@ _box_bonus_box_x_pos_list:
 		.BYTE	$38,$68,$98,$C8
 _box_bonus_box_delay_list:
 		.BYTE	$08,$18,$28,$38
-_box_bonus_box_obj_script_lib:
+_box_bonus_box_obj_script_lib_lo:
 		.BYTE	<[_obj_scr_box_bonus_boxA]
 		.BYTE	<[_obj_scr_box_bonus_boxB]
 		.BYTE	<[_obj_scr_box_bonus_boxC]
 		.BYTE	<[_obj_scr_box_bonus_boxD]
-off_6B4A6:
+_box_bonus_box_obj_script_lib_hi:
 		.BYTE	>[_obj_scr_box_bonus_boxA]
 		.BYTE	>[_obj_scr_box_bonus_boxB]
 		.BYTE	>[_obj_scr_box_bonus_boxC]
@@ -7438,7 +7438,7 @@ _obj_scr_box_bonus_prize_1up:
 		SPR_IDX_SELECT		_spr_lib6_01
 		PARAM_80_CLEAR
 		NJSR				_native_inc_tmp_player_lives
-		SRUN				$01,_script_sub_1up_text_float_up
+		SRUN				_OBJ_SCR_AUTO,_script_sub_1up_text_float_up
 		SJMP				_script_idle
 
 ; =============== S C R I P T ===============================================
@@ -7447,7 +7447,7 @@ _obj_scr_box_bonus_prize_30rrs:
 		SPR_IDX_SELECT		_spr_lib5_24
 		PARAM_80_CLEAR
 		NJSR				_native_add_players_30_rr_ptss
-		SRUN				$01,_script_sub_30_rr_pts_float_up
+		SRUN				_OBJ_SCR_AUTO,_script_sub_30_rr_pts_float_up
 		SJMP				_script_idle
 
 ; =============== S C R I P T ===============================================
@@ -7462,7 +7462,7 @@ _obj_scr_box_bonus_prize_10rrs:
 		SPR_IDX_SELECT		_spr_lib5_25
 		PARAM_80_CLEAR
 		NJSR				_native_add_players_10_rr_ptss
-		SRUN				$01,_script_sub_10_rr_pts_float_up
+		SRUN				_OBJ_SCR_AUTO,_script_sub_10_rr_pts_float_up
 		SJMP				_script_idle
 
 ; =============== S C R I P T ===============================================
@@ -7483,12 +7483,12 @@ locret_6B647:
 ; =============== S U B R O U T I N E =======================================
 _native_inc_tmp_player_lives:
 		LDY		_scr_idxAs,X
-		LDA		_tmp_players_lives,Y
+		LDA		_tmp_array400,Y
 		CMP		#$0A
 		BCS		locret_6B658
 		CLC
 		ADC		#$01
-		STA		_tmp_players_lives,Y
+		STA		_tmp_array400,Y
 locret_6B658:
 		RTS
 
@@ -7539,23 +7539,31 @@ _script_cutscenes_start:
 		SCASE				_script_cutscene12
 
 ; =============== S C R I P T ===============================================
-_script154:
+_obj_scr_cutscene_skip_wait:
 		SYNC
-		PADS_TEST			_PAD0_PRESS,_PAD_START,_script154
-byte_6B69F:
-		STORE				$04,_main_sub_idx
-		SJMP				byte_6B6A9
+		PADS_TEST			_PAD0_PRESS,_PAD_START,_obj_scr_cutscene_skip_wait
 
-; =============== S C R I P T ===============================================
-byte_6B6A6:
+; !FALLTHROUGH!
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_delayed_ingame_start:
+		STORE				$04,_main_sub_idx
+		SJMP				_script_delayed_fade_out
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_delayed_next_cutscene:
 		NJSR				_native_inc_cutscene_idx
-byte_6B6A9:
+
+; !FALLTHROUGH!
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_delayed_fade_out:
 		APU_LOAD			$7B
 		SUSPEND				$20
 		SJMP				_script_fade_out
 
 ; =============== S C R I P T ===============================================
-byte_6B6B0:
+_script_sub_next_cutscene:
 		NJSR				_native_inc_cutscene_idx
 		SJMP				_script_fade_out
 
@@ -7580,32 +7588,32 @@ byte_6B6C5:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 byte_6B6CC:
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 byte_6B6CF:
-		NJSR_SYNC			_native_sub060
+		NJSR_SYNC			_native_cut_char_idxBs_10_test
 		SBEQ				byte_6B6CF
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub05E:
+_native_cut_store_char_number:
 		LDY		_scr_vars19,X
 		LDA		_scr_cur_slot_idx
-		STA		_tmp_players_lives,Y
+		STA		_tmp_array400,Y
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub05F:
+_native_cut_char_idxBs_10_clear:
 		LDY		_scr_vars19,X
-		LDX		_tmp_players_lives,Y
+		LDX		_tmp_array400,Y
 		LDA		_scr_idxBs,X
 		AND		#$EF
 		STA		_scr_idxBs,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub060:
+_native_cut_char_idxBs_10_test:
 		LDY		_scr_vars19,X
-		LDX		_tmp_players_lives,Y
+		LDX		_tmp_array400,Y
 		LDA		_scr_idxBs,X
 		AND		#$10
 		JMP		_scr_flags_update
@@ -7622,31 +7630,31 @@ _native_test_if_wnd_msg_is_over:
 		JMP		_scr_flags_update
 
 ; =============== S C R I P T   R O U T I N E ===============================
-byte_6B708:
-		NJSR				_native_sub062
+_script_cut_obj_msg_spr_animate:
+		NJSR				_native_cut_obj_spr_anim_update
 		NJSR_SYNC			_native_test_if_wnd_msg_is_over
-		SBNE				byte_6B708
+		SBNE				_script_cut_obj_msg_spr_animate
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub062:
+_native_cut_obj_spr_anim_update:
 		LDY		_obj_hps,X
 		LDA		_cur_wnd_msg_col
 		AND		#$02
 		BEQ		loc_6B71E
-		LDY		_scr_vars1C,X
+		LDY		_obj_damages,X
 loc_6B71E:
 		TYA
 		STA		_obj_spr_idxs,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_obj_cut_talk_anim_update:
+_native_cut_obj_talk_anim_update:
 		LDY		_obj_hps,X
 		LDA		_cur_wnd_msg_col
 		AND		#$02
 		BEQ		loc_6B72F
-		LDY		_scr_vars1C,X
+		LDY		_obj_damages,X
 loc_6B72F:
 		TYA
 		STA		_scr_vars19,X
@@ -7661,13 +7669,13 @@ byte_6B734:
 ; =============== S C R I P T   R O U T I N E ===============================
 byte_6B73A:
 		OBJ_HP_SET			$1B
-		VAR_1C_SET			$1C
-		SJSR				byte_6B708
+		OBJ_DAMAGE_SET		$1C
+		SJSR				_script_cut_obj_msg_spr_animate
 		SJMP				byte_6B6C2
 byte_6B744:
 		OBJ_HP_SET			$1F
-		VAR_1C_SET			$1E
-		SJSR				byte_6B708
+		OBJ_DAMAGE_SET		$1E
+		SJSR				_script_cut_obj_msg_spr_animate
 		SPR_IDX_SELECT		$1B	; _spr_libx_1B
 		SJMP				byte_6B6C2
 byte_6B750:
@@ -7699,7 +7707,7 @@ byte_6B776:
 
 ; =============== S U B R O U T I N E =======================================
 _script_sub_gadget_talk_draw:
-		NJSR				_native_obj_cut_talk_anim_update
+		NJSR				_native_cut_obj_talk_anim_update
 		NJSR				_native_cut_gadget_talk_spr_insert
 		NJSR_SYNC			_native_test_if_wnd_msg_is_over
 		SBNE				_script_sub_gadget_talk_draw
@@ -7708,14 +7716,14 @@ _script_sub_gadget_talk_draw:
 ; =============== S U B R O U T I N E =======================================
 byte_6B78D:
 		OBJ_HP_SET			$00
-		VAR_1C_SET			$03
+		OBJ_DAMAGE_SET		$03
 		SJSR				_script_sub_gadget_talk_draw
 		SJMP				_script_sub_gadget_static_draw
 
 ; =============== S C R I P T   R O U T I N E ===============================
 byte_6B797:
 		OBJ_HP_SET			$06
-		VAR_1C_SET			$09
+		OBJ_DAMAGE_SET		$09
 		SJSR				_script_sub_gadget_talk_draw
 		TARGET_DIR_SET		$06
 		SJMP				_script_sub_gadget_static_draw
@@ -7742,7 +7750,7 @@ byte_6B7BA:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_monterey_talk_draw:
-		NJSR				_native_obj_cut_talk_anim_update
+		NJSR				_native_cut_obj_talk_anim_update
 		NJSR				_native_cut_monterey_talk_spr_insert
 		NJSR_SYNC			_native_test_if_wnd_msg_is_over
 		SBNE				_script_sub_monterey_talk_draw
@@ -7751,7 +7759,7 @@ _script_sub_monterey_talk_draw:
 ; =============== S C R I P T   R O U T I N E ===============================
 byte_6B7D1:
 		OBJ_HP_SET			$06
-		VAR_1C_SET			$09
+		OBJ_DAMAGE_SET		$09
 		SJSR				_script_sub_monterey_talk_draw
 		TARGET_DIR_SET		$00
 		SJMP				_script_sub_monterey_static_draw
@@ -7813,9 +7821,9 @@ byte_6B82C:
 
 ; =============== S C R I P T ===============================================
 _script_cutscene00:
-		SRUN				$01,_script154
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cutscene_skip_wait
 		SUSPEND				$1E
-		SRUN				$01,_script155
+		SRUN				_OBJ_SCR_AUTO,_script155
 byte_6B83E:
 		NJSR_SYNC			_native_sub064
 		LOOPA				$80,byte_6B83E
@@ -7860,13 +7868,13 @@ byte_6B86D:
 		SJSR				byte_6B8AC
 		SJSR				byte_6B8AC
 		STORE				$12,_pal_anim_mode_idx
-		SRUN				$01,_script156
+		SRUN				_OBJ_SCR_AUTO,_script156
 		OBJ_X_DELTA_SET		$08
 		OBJ_Y_DELTA_SET		$00
 byte_6B896:
 		SJSR				byte_6B8AC
 		LOOPA				$1E,byte_6B896
-		SJMP				byte_6B6A6
+		SJMP				_script_sub_delayed_next_cutscene
 byte_6B8A0:
 		OBJ_X_DELTA_SET		$00
 		OBJ_Y_DELTA_SET		$00
@@ -7888,11 +7896,11 @@ _script156:
 
 ; =============== S C R I P T ===============================================
 _script_cutscene01:
-		SRUN				$01,_script154
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cutscene_skip_wait
 		OBJ_Y_POS_SET		$C0,$00
 		TARGET_DIR_SET		$00
-		SRUN				$01,_script157
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script157
+		NJSR_SYNC			_native_cut_store_char_number
 		SUSPEND				$1E
 		MSG_DISPLAY			_msg00,$5B
 		MSG_WAIT
@@ -7900,8 +7908,8 @@ _script_cutscene01:
 		MSG_DISPLAY			_msg01,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
-		SRUN				$01,_script158
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script158
+		NJSR_SYNC			_native_cut_store_char_number
 		SJSR				byte_6B6CC
 		MSG_DISPLAY			_msg02,$58
 		SJSR				byte_6B6CC
@@ -7913,30 +7921,30 @@ _script_cutscene01:
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$02
 		OBJ_Y_POS_SET		$A0,$00
-		SRUN				$01,_script159
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script159
+		NJSR_SYNC			_native_cut_store_char_number
 		TARGET_DIR_SET		$00
 		MSG_DISPLAY			_msg05,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
 		MSG_DISPLAY			_msg06,$58
 		SJSR				byte_6B6CC
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 		TARGET_DIR_SET		$02
 		MSG_DISPLAY			_msg07,$59
 		SJSR				byte_6B6CC
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 		TARGET_DIR_SET		$04
-		SRUN				$01,_script15A
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script15A
+		NJSR_SYNC			_native_cut_store_char_number
 		SJSR				byte_6B6CC
 		MSG_DISPLAY			_msg08,$5A
 		MSG_WAIT
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 		TARGET_DIR_SET		$01
 		OBJ_Y_POS_SET		$C0,$00
-		SRUN				$01,_script15B
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script15B
+		NJSR_SYNC			_native_cut_store_char_number
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
 		MSG_DISPLAY			_msg09,$56
@@ -7953,13 +7961,13 @@ _script_cutscene01:
 		SJSR				byte_6B6CC
 		MSG_DISPLAY			_msg0D,$56
 		TARGET_DIR_SET		$00
-		NJSR				_native_sub05F
+		NJSR				_native_cut_char_idxBs_10_clear
 		TARGET_DIR_SET		$01
-		NJSR				_native_sub05F
+		NJSR				_native_cut_char_idxBs_10_clear
 		MSG_WAIT
 		MSG_DISPLAY			_msg0E,$5B
 		MSG_WAIT
-		SJMP				byte_6B69F
+		SJMP				_script_sub_delayed_ingame_start
 
 ; =============== S C R I P T ===============================================
 _script157:
@@ -8082,18 +8090,18 @@ byte_6BA7A:
 
 ; =============== S C R I P T ===============================================
 _script_cutscene02:
-		SRUN				$01,_script154
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cutscene_skip_wait
 		OBJ_Y_POS_SET		$C0,$00
 		TARGET_DIR_SET		$05
-		SRUN				$01,_script15C
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script15C
+		NJSR_SYNC			_native_cut_store_char_number
 		SUSPEND				$1E
 		TARGET_DIR_SET		$00
-		SRUN				$01,_script15D
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script15D
+		NJSR_SYNC			_native_cut_store_char_number
 		TARGET_DIR_SET		$01
-		SRUN				$01,_script15E
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script15E
+		NJSR_SYNC			_native_cut_store_char_number
 		SJSR				byte_6B6CC
 		MSG_DISPLAY			_msg0F,$56
 		MSG_WAIT
@@ -8102,7 +8110,7 @@ _script_cutscene02:
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$01
 		MSG_DISPLAY			_msg11,$57
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 		MSG_WAIT
 		TARGET_DIR_SET		$05
 		MSG_DISPLAY			_msg12,$5C
@@ -8113,12 +8121,12 @@ _script_cutscene02:
 		TARGET_DIR_SET		$05
 		MSG_DISPLAY			_msg14,$5C
 		SJSR				byte_6B6CC
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 		TARGET_DIR_SET		$00
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 		TARGET_DIR_SET		$01
 		SJSR				byte_6B6CC
-		SJMP				byte_6B69F
+		SJMP				_script_sub_delayed_ingame_start
 
 ; =============== S C R I P T ===============================================
 _script15D:
@@ -8160,12 +8168,12 @@ _script15C:
 		PARAM_80_CLEAR
 		SJSR				byte_6B6C2
 		OBJ_HP_SET			$15
-		VAR_1C_SET			$16
-		SJSR				byte_6B708
+		OBJ_DAMAGE_SET		$16
+		SJSR				_script_cut_obj_msg_spr_animate
 		SJSR				byte_6B6C2
-		SJSR				byte_6B708
+		SJSR				_script_cut_obj_msg_spr_animate
 		SJSR				byte_6B6C2
-		SJSR				byte_6B708
+		SJSR				_script_cut_obj_msg_spr_animate
 		SJSR				byte_6B6C2
 		OBJ_X_DELTA_SET		$10
 		FLIP_40_SET
@@ -8179,25 +8187,25 @@ byte_6BB4C:
 
 ; =============== S C R I P T ===============================================
 _script_cutscene03:
-		SRUN				$01,_script154
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cutscene_skip_wait
 		TARGET_DIR_SET		$00
-		SRUN				$01,_script15F
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script15F
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$01
-		SRUN				$01,_script160
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script160
+		NJSR				_native_cut_store_char_number
 		SUSPEND				$30
 		TARGET_DIR_SET		$00
 		SJSR				byte_6B6CC
 		MSG_DISPLAY			_msg15,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
-		SRUN				$01,_script161
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script161
+		NJSR_SYNC			_native_cut_store_char_number
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$05
-		SRUN				$01,_script162
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script162
+		NJSR_SYNC			_native_cut_store_char_number
 		TARGET_DIR_SET		$03
 		MSG_DISPLAY			_msg16,$58
 		SJSR				byte_6B6CC
@@ -8224,7 +8232,7 @@ byte_6BBBA:
 		SCASE				byte_6BBD8
 byte_6BBD8:
 		STORE				$01,byte_E1
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 		SJMP				byte_6BBBA
 byte_6BBE2:
 		MSG_DISPLAY			_msg1C,$58
@@ -8243,7 +8251,7 @@ byte_6BBF6:
 		LOOPA				$03,byte_6BBF6
 		SUSPEND				$10
 		TARGET_DIR_SET		$01
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 byte_6BC07:
 		OBJ_X_DELTA_DEC
 		NJSR				_native_sub068
@@ -8271,7 +8279,7 @@ byte_6BC47:
 		MSG_DISPLAY			_msg22,$58
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$05
-		NJSR_SYNC			_native_sub05F
+		NJSR_SYNC			_native_cut_char_idxBs_10_clear
 		SUSPEND				$3C
 		TARGET_DIR_SET		$03
 		MSG_DISPLAY			_msg23,$58
@@ -8286,7 +8294,7 @@ byte_6BC5E:
 		TARGET_DIR_SET		$00
 		MSG_DISPLAY			_msg26,$56
 		SJSR				byte_6B6CC
-		SJMP				byte_6B69F
+		SJMP				_script_sub_delayed_ingame_start
 byte_6BC7C:
 		NJSR				_menu_init
 		MENU_CURSOR_DRAW	_menu_data01
@@ -8442,24 +8450,24 @@ byte_6BD82:
 
 ; =============== S C R I P T ===============================================
 _script_cutscene04:
-		SRUN				$01,_script154
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cutscene_skip_wait
 		TARGET_DIR_SET		$00
-		SRUN				$01,_script163
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script163
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$01
-		SRUN				$01,_script164
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script164
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$02
-		SRUN				$01,_script165
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script165
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$04
-		SRUN				$01,_script166
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script166
+		NJSR_SYNC			_native_cut_store_char_number
 		SUSPEND				$1E
 		TARGET_DIR_SET		$01
 		MSG_DISPLAY			_msg27,$57
 		SJSR				byte_6B6CC
-		SRUN				$01,_script167
+		SRUN				_OBJ_SCR_AUTO,_script167
 		SUSPEND				$3C
 		MSG_DISPLAY			_msg28,$5A
 		MSG_WAIT
@@ -8476,7 +8484,7 @@ _script_cutscene04:
 		MSG_WAIT
 		MSG_DISPLAY			_msg2D,$56
 		SJSR				byte_6B6CC
-		SJMP				byte_6B6A6
+		SJMP				_script_sub_delayed_next_cutscene
 
 ; =============== S C R I P T ===============================================
 _script163:
@@ -8536,13 +8544,13 @@ byte_6BE4F:
 
 ; =============== S C R I P T ===============================================
 _script_cutscene05:
-		SRUN				$01,_script154
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cutscene_skip_wait
 		TARGET_DIR_SET		$00
-		SRUN				$01,_script168
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script168
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$01
-		SRUN				$01,_script169
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script169
+		NJSR_SYNC			_native_cut_store_char_number
 		SUSPEND				$3C
 		SJSR				byte_6B6CC
 		MSG_DISPLAY			_msg2E,$56
@@ -8560,17 +8568,17 @@ byte_6BE7E:
 		SUSPEND				$04
 		LOOPA				$05,byte_6BE7E
 		SUSPEND				$B4
-		SJMP				byte_6B6A6
+		SJMP				_script_sub_delayed_next_cutscene
 
 ; =============== S C R I P T ===============================================
 _script_cutscene07:
-		SRUN				$01,_script154
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cutscene_skip_wait
 		TARGET_DIR_SET		$00
-		SRUN				$01,_script16A
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script16A
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$01
-		SRUN				$01,_script16B
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script16B
+		NJSR_SYNC			_native_cut_store_char_number
 		SUSPEND				$3C
 		TARGET_DIR_SET		$01
 		MSG_DISPLAY			_msg37,$57
@@ -8578,19 +8586,19 @@ _script_cutscene07:
 		TARGET_DIR_SET		$00
 		MSG_DISPLAY			_msg38,$56
 		SJSR				byte_6B6CC
-		SJMP				byte_6B69F
+		SJMP				_script_sub_delayed_ingame_start
 
 ; =============== S C R I P T ===============================================
 _script_cutscene08:
 		SUSPEND				$3C
 		MSG_DISPLAY			_msg39,$5B
 		MSG_WAIT
-		SJMP				byte_6B69F
+		SJMP				_script_sub_delayed_ingame_start
 byte_6BECE:
 		TARGET_DIR_SET		$00
-		NJSR				_native_sub05F
+		NJSR				_native_cut_char_idxBs_10_clear
 		TARGET_DIR_SET		$01
-		NJSR				_native_sub05F
+		NJSR				_native_cut_char_idxBs_10_clear
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -8653,7 +8661,7 @@ _script16B:
 
 ; =============== S C R I P T ===============================================
 _script_cutscene06:
-		SRUN				$01,_script154
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cutscene_skip_wait
 		SUSPEND				$3C
 		MSG_DISPLAY			_msg30,$5D
 		MSG_WAIT
@@ -8669,21 +8677,21 @@ _script_cutscene06:
 		MSG_WAIT
 		MSG_DISPLAY			_msg36,$5D
 		MSG_WAIT
-		SJMP				byte_6B6A6
+		SJMP				_script_sub_delayed_next_cutscene
 
 ; =============== S C R I P T ===============================================
 _script_cutscene09:
-		SRUN				$01,_script154
-		SRUN				$01,_script16C
+		SRUN				_OBJ_SCR_AUTO,_obj_scr_cutscene_skip_wait
+		SRUN				_OBJ_SCR_AUTO,_script16C
 		TARGET_DIR_SET		$00
-		SRUN				$01,_script16D
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script16D
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$01
-		SRUN				$01,_script16E
-		NJSR				_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script16E
+		NJSR				_native_cut_store_char_number
 		TARGET_DIR_SET		$02
-		SRUN				$01,_script16F
-		NJSR_SYNC			_native_sub05E
+		SRUN				_OBJ_SCR_AUTO,_script16F
+		NJSR_SYNC			_native_cut_store_char_number
 		SUSPEND				$3C
 		TARGET_DIR_SET		$02
 		MSG_DISPLAY			_msg3A,$59
@@ -8703,7 +8711,7 @@ _script_cutscene09:
 		TARGET_DIR_SET		$01
 		MSG_DISPLAY			_msg3E,$57
 		SJSR				byte_6B6CC
-		SJMP				byte_6B69F
+		SJMP				_script_sub_delayed_ingame_start
 
 		SECTION_END		0B, "GAME SCRIPTS A"
 

@@ -1511,12 +1511,12 @@ _players_animB_sub3:
 		AND		#$20
 		BNE		_j_players_animB_sub0129
 		LDY		_scr_idxAs,X
-		LDA		_scr_vars1C,Y
-		CMP		#$02
+		LDA		_obj_damages,Y
+		CMP		#_OBJ_DMG_STUN
 		BEQ		_players_animB_sub3_A
 		LDA		#$00
 		STA		_obj_hps,Y
-		STA		_scr_vars1C,Y
+		STA		_obj_damages,Y
 		LDA		_pads,X
 		AND		#$02
 		BEQ		_players_animB_sub3_A
@@ -1562,11 +1562,11 @@ _players_animB_sub3_A:
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub67:
 		LDX		_scr_idx
-		LDA		_scr_vars1C,X
-		CMP		#$02
+		LDA		_obj_damages,X
+		CMP		#_OBJ_DMG_STUN
 		BEQ		_players_animB_sub0129
 		LDY		_scr_idxAs,X
-		LDA		_scr_vars1C,Y
+		LDA		_obj_damages,Y
 		BEQ		_players_animB_sub0129
 		LDA		#$20
 		STA		_obj_x_deltas,X
@@ -1964,10 +1964,10 @@ loc_3AB53:
 		STA		_players_x_poss,X
 		LDA		_obj_y_lo_poss,X
 		STA		_players_y_poss,X
-		LDA		#$00
-		LDY		_scr_vars1C,X
-		STA		_scr_vars1C,X
-		CPY		#$02
+		LDA		#_OBJ_DMG_NONE
+		LDY		_obj_damages,X
+		STA		_obj_damages,X
+		CPY		#_OBJ_DMG_STUN
 		BNE		loc_3AB70
 		LDA		#$0C
 		BNE		loc_3AB72
@@ -2055,11 +2055,11 @@ _players_animB_sub0129_sub06_B:
 		STA		_obj_x_deltas,X
 loc_3ABEE:
 		JSR		_players_animB_sub0129_sub06_B_A
-		LDA		_scr_vars1C,X
-		CMP		#$02
+		LDA		_obj_damages,X
+		CMP		#_OBJ_DMG_STUN
 		BEQ		loc_3AC00
-		LDA		#$00
-		STA		_scr_vars1C,X
+		LDA		#_OBJ_DMG_NONE
+		STA		_obj_damages,X
 		JMP		_players_animB_sub0129_sub09_A
 loc_3AC00:
 		LDA		#$28
@@ -2089,15 +2089,15 @@ _players_animB_sub0129_sub0B:
 		STA		_players_anim_idxs,X
 		RTS
 loc_3AC2D:
-		LDA		#$00
-		STA		_scr_vars1C,X
+		LDA		#_OBJ_DMG_NONE
+		STA		_obj_damages,X
 		JSR		_players_animB_sub0129_sub0A_B
 		JMP		_players_animB_sub0129_sub02_D
 loc_3AC38:
 		LDA		#$2B
 		JSR		_apu_se_req
-		LDA		#$00
-		STA		_scr_vars1C,X
+		LDA		#_OBJ_DMG_NONE
+		STA		_obj_damages,X
 		JSR		_players_animB_sub0129_sub04_A
 		INC		_players_states,X
 		LDA		#$28
@@ -2948,7 +2948,7 @@ loc_3B1BC:
 		STA		_tmp_ptr2+1
 		STA		_tmp_ptr4+1
 		STA		byte_6
-		LDY		#$0A
+		LDY		#_OBJ_SCR_GRAB
 		JSR		_scr_load
 
 ; =============== S U B R O U T I N E =======================================
@@ -2972,7 +2972,7 @@ _players_animB_sub0129_E_sub1_sub1_A:
 		STA		_tmp_ptr4
 		STA		_tmp_ptr4+1
 		STA		byte_6
-		LDY		#$03
+		LDY		#_OBJ_SCR_THROW
 		JSR		_scr_load
 		BCS		locret_3B21D
 		TXA
@@ -3110,12 +3110,12 @@ loc_3B2DF:
 		LDA		_players_vars0C,X
 		CMP		#$1E
 		BCC		loc_3B2F9
-		LDA		#$02
-		STA		_scr_vars1C,Y
+		LDA		#_OBJ_DMG_STUN
+		STA		_obj_damages,Y
 		BNE		loc_3B2FE
 loc_3B2F9:
-		LDA		#$01
-		STA		_scr_vars1C,Y
+		LDA		#_OBJ_DMG_KILL
+		STA		_obj_damages,Y
 loc_3B2FE:
 		LDA		_players_states,X
 		CMP		#$04
@@ -3176,8 +3176,8 @@ loc_3B346:
 		BEQ		loc_3B386
 		CMP		#$02
 		BNE		loc_3B38A
-		LDA		_scr_vars1C,Y
-		CMP		#$02
+		LDA		_obj_damages,Y
+		CMP		#_OBJ_DMG_STUN
 		BNE		loc_3B38A
 loc_3B386:
 		LDA		#$10
@@ -3191,11 +3191,11 @@ loc_3B38A:
 		SBC		#$00
 		STA		_obj_y_hi_poss,Y
 loc_3B39B:
-		LDA		_scr_vars1C,Y
-		CMP		#$02
+		LDA		_obj_damages,Y
+		CMP		#_OBJ_DMG_STUN
 		BEQ		loc_3B3A7
-		LDA		#$00
-		STA		_scr_vars1C,Y
+		LDA		#_OBJ_DMG_NONE
+		STA		_obj_damages,Y
 loc_3B3A7:
 		LDX		_scr_idx
 		RTS

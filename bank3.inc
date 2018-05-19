@@ -835,19 +835,19 @@ loc_52300:
 		LDA		_tmp_ptr4+1
 		SBC		_lvl_start_scroll_hor
 		STA		_tmp_ptr4+1
-		LDA		#$00
+		LDA		#$00							; set the object type by it's idx group
 		STA		byte_6
 		LDA		byte_97
-		LDY		#$01
-		CMP		#$07
+		LDY		#_OBJ_SCR_AUTO					; objects 00-06 are _OBJ_SCR_AUTO
+		CMP		#[_obj_scr06_light_toggle_idx+1]
 		BCC		loc_52360
-		LDY		#$09
-		CMP		#$19
+		LDY		#_OBJ_SCR_SOLID					; objects 07-18 are _OBJ_SCR_SOLID
+		CMP		#[_obj_scr18_ceiling_cannon_idx+1]
 		BCC		loc_52360
-		LDY		#$0A
-		CMP		#$24
+		LDY		#_OBJ_SCR_GRAB					; objects 19-23 are _OBJ_SCR_GRAB
+		CMP		#[_obj_scr23_lvl4_box_bonus_entry_idx+1]
 		BCC		loc_52360
-		LDY		#$06
+		LDY		#_OBJ_SCR_ENEMY					; objects 24-46 are _OBJ_SCR_ENEMY
 loc_52360:
 		JMP		_scr_load
 
@@ -857,13 +857,15 @@ loc_52360:
 		ENDM
 
 _obj_lib:
+		; _OBJ_SCR_AUTO group
 		OBJ_IDX	_obj_scr00_lives_bonus			; end of level bonus room
 		OBJ_IDX	_obj_scr01_box_bonus			; box shuffle bonus room
 		OBJ_IDX	_obj_scr02_coins_game
 		OBJ_IDX	_obj_scr03_basket_game
-		OBJ_IDX	_obj_scr04_cave_pendulum
+		OBJ_IDX	_obj_scr04_cave_pendulum		; oddly enough it's in _OBJ_SCR_AUTO group
 		OBJ_IDX	_obj_scr05_door_knob
 		OBJ_IDX	_obj_scr06_light_toggle
+		; _OBJ_SCR_SOLID group
 		OBJ_IDX	_obj_scr07_concrete_brick
 		OBJ_IDX	_obj_scr08_cdv_bottle_cork
 		OBJ_IDX	_obj_scr09_sink_valve
@@ -882,6 +884,7 @@ _obj_lib:
 		OBJ_IDX	_obj_scr16_floor_switch
 		OBJ_IDX	_obj_scr17_ceiling_magnet
 		OBJ_IDX	_obj_scr18_ceiling_cannon
+		; _OBJ_SCR_GRAB group
 		OBJ_IDX	_obj_scr19						; two special cases, objects with no
 		OBJ_IDX	_obj_scr1A						; scripts, pointer is $0000 here
 		OBJ_IDX	_obj_scr1B_monterey_refill
@@ -893,6 +896,7 @@ _obj_lib:
 		OBJ_IDX	_obj_scr21_lvl_exit_right
 		OBJ_IDX	_obj_scr22_lvl5C_box_bonus_entry; TODO, REMOVE ME. both refers the same
 		OBJ_IDX	_obj_scr23_lvl4_box_bonus_entry	;  handler but different indexes
+		; _OBJ_SCR_ENEMY group
 		OBJ_IDX	_obj_scr24_spoon_rat
 		OBJ_IDX	_obj_scr25_fork_rat
 		OBJ_IDX	_obj_scr26_fake_boxA

@@ -427,11 +427,12 @@ _PAD_ANY	EQU	$FF
 ; select current sprite idx
 	MAC	SPR_IDX_SELECT
 	.BYTE	$1E
-#if {1}<$100
 	.BYTE	{1}
-#else
+	ENDM
+
+	MAC	SPR_IDX_SELECTL
+	.BYTE	$1E
 	.BYTE	{1}_idx
-#endif
 	ENDM
 
 	MAC	SPR_IDX_SELECTS

@@ -49,9 +49,9 @@ del !cd2.nes
 cd ..
 
 echo ===OLD ROM===
-g:\dos\m3checksum !cd2prev.nes
+if exist !cd2prev.nes g:\dos\m3checksum !cd2prev.nes
 echo ===NEW ROM===
-g:\dos\m3checksum !cd2.nes
+if exist !cd2.nes g:\dos\m3checksum !cd2.nes
 
 echo done.
 pause 0

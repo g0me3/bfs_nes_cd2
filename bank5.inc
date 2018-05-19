@@ -166,7 +166,7 @@ _spr_lib_list:
 
 		SPR_LIB_START	_spr_lib3
 
-		SPR_IDX	_spr_lib3_00	; copy of _spr_lib7_4C
+		SPR_IDX	_spr_lib3_00		; copy of _spr_lib7_4C
 		SPR_IDX	_spr_lib3_01
 		SPR_IDX	_spr_lib3_02
 		SPR_IDX	_spr_lib3_03

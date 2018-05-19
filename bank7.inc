@@ -6918,43 +6918,43 @@ loc_B6A82:
 		JMP		_scr_flags_update
 
 ; =============== S C R I P T ===============================================
-_script203:
-		SJSR				_script209
-		LOOPB				$03,_script203
+_script20A_anim03_sync:
+		SJSR				_script20A_anim_sync
+		LOOPB				$03,_script20A_anim03_sync
 		SRET
 
 ; =============== S C R I P T ===============================================
-_script204:
-		SJSR				_script209
-		LOOPB				$04,_script203
+_script20A_anim04_sync:
+		SJSR				_script20A_anim_sync
+		LOOPB				$04,_script20A_anim03_sync
 		SRET
 
 ; =============== S C R I P T ===============================================
-_script205:
-		SJSR				_script209
-		LOOPB				$06,_script205
+_script20A_anim06_sync:
+		SJSR				_script20A_anim_sync
+		LOOPB				$06,_script20A_anim06_sync
 		SRET
 
 ; =============== S C R I P T ===============================================
-_script206:
-		SJSR				_script209
-		LOOPB				$08,_script206
+_script20A_anim08_sync:
+		SJSR				_script20A_anim_sync
+		LOOPB				$08,_script20A_anim08_sync
 		SRET
 
 ; =============== S C R I P T ===============================================
-_script207:
-		SJSR				_script209
-		LOOPB				$0A,_script207
+_script20A_anim0A_sync:
+		SJSR				_script20A_anim_sync
+		LOOPB				$0A,_script20A_anim0A_sync
 		SRET
 
 ; =============== S C R I P T ===============================================
-_script208:
-		SJSR				_script209
-		LOOPB				$10,_script208
+_script20A_anim10_sync:
+		SJSR				_script20A_anim_sync
+		LOOPB				$10,_script20A_anim10_sync
 		SRET
 
 ; =============== S C R I P T ===============================================
-_script209:
+_script20A_anim_sync:
 		OBJ_ANIMATE_SYNC
 
 ; !FALLTHROUGH!
@@ -8278,7 +8278,7 @@ byte_B7360:
 		NJSR				_native_obj_idxCs_clear_low_nibble
 		NJSR				_native_obj_flips_20_set
 		OBJ_SIZE_SET		$20,$20
-		SPR_IDX_SELECT		$00	; _spr_libx_00
+		SPR_IDX_SELECT		$00	; _spr_lib0_00
 		PARAM_80_CLEAR
 		SRET
 
@@ -8329,7 +8329,7 @@ loc_B739F:
 _script_title:
 		OBJ_X_POS_SET		$C0,$00
 		OBJ_Y_POS_SET		$6F,$00
-		SPR_IDX_SELECT		$01	; _spr_libx_01
+		SPR_IDX_SELECT		$01	; _spr_lib0_01
 		PARAM_80_CLEAR
 		NJSR				_game_vars_init
 byte_B73BE:
@@ -8369,13 +8369,13 @@ byte_B7405:
 ; =============== S C R I P T ===============================================
 _script173:
 		OBJ_X_POS_SET		$30,$00
-		SPR_IDX_SELECT		$07	; _spr_libx_07
+		SPR_IDX_SELECT		$07	; _spr_lib0_07
 		SJMP				byte_B741A
 
 ; =============== S C R I P T ===============================================
 _script174:
 		OBJ_X_POS_SET		$B0,$00
-		SPR_IDX_SELECT		$08	; _spr_libx_08
+		SPR_IDX_SELECT		$08	; _spr_lib0_08
 byte_B741A:
 		OBJ_Y_POS_SET		$BA,$00
 		PARAM_80_CLEAR
@@ -8452,7 +8452,7 @@ _script_game_over:
 		OBJ_X_POS_SET		$80,$00
 		OBJ_Y_POS_SET		$60,$00
 		OBJ_Y_DELTA_SET		$04
-		SPR_IDX_SELECT		$14	; _spr_libx_14
+		SPR_IDX_SELECT		$14	; _spr_lib0_14
 		PARAM_80_CLEAR
 byte_B748B:
 		OBJ_ANIMATE_SYNC
@@ -9654,7 +9654,7 @@ _script_cutscene11:
 ; =============== S C R I P T ===============================================
 _obj_scr_cut11_chip:
 		SPR_LIB_SELECT		_spr_lib1
-		SPR_IDX_SELECT		_spr_lib1_1B
+		SPR_IDX_SELECTL		_spr_lib1_1B
 		OBJ_X_POS_SET		$70,$01
 		OBJ_Y_POS_SET		$E0,$00
 		PARAM_80_CLEAR
@@ -9668,7 +9668,7 @@ _obj_scr_cut11_chip:
 ; =============== S C R I P T ===============================================
 _obj_scr_cut11_dale:
 		SPR_LIB_SELECT		_spr_lib2
-		SPR_IDX_SELECT		_spr_lib2_1B
+		SPR_IDX_SELECTL		_spr_lib2_1B
 		OBJ_X_POS_SET		$40,$01
 		OBJ_Y_POS_SET		$E0,$00
 		PARAM_80_CLEAR
@@ -9689,7 +9689,7 @@ byte_B7DE8:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_cut11_monterey:
-		SPR_IDX_SELECT		_spr_lib0_1C
+		SPR_IDX_SELECTL		_spr_lib0_1C
 		TARGET_DIR_SET		$00
 		OBJ_X_POS_SET		$20,$00
 		OBJ_Y_POS_SET		$A0,$00
@@ -9702,7 +9702,7 @@ _obj_scr_cut11_monterey:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_cut11_gadget:
-		SPR_IDX_SELECT		_spr_lib0_28
+		SPR_IDX_SELECTL		_spr_lib0_28
 		TARGET_DIR_SET		$09
 		OBJ_X_POS_SET		$40,$00
 		OBJ_Y_POS_SET		$C0,$00
@@ -9729,7 +9729,7 @@ _script_cutscene12:
 ; =============== S C R I P T ===============================================
 _obj_scr_cut12_chip:
 		SPR_LIB_SELECT		_spr_lib1
-		SPR_IDX_SELECT		_spr_lib1_1B
+		SPR_IDX_SELECTL		_spr_lib1_1B
 		OBJ_X_POS_SET		$A0,$00
 		OBJ_Y_POS_SET		$80,$00
 		PARAM_80_CLEAR
@@ -9738,7 +9738,7 @@ _obj_scr_cut12_chip:
 ; =============== S C R I P T ===============================================
 _obj_scr_cut12_dale:
 		SPR_LIB_SELECT		_spr_lib2
-		SPR_IDX_SELECT		_spr_lib2_1B
+		SPR_IDX_SELECTL		_spr_lib2_1B
 		OBJ_X_POS_SET		$60,$00
 		OBJ_Y_POS_SET		$80,$00
 		FLIP_40_SET
@@ -9747,7 +9747,7 @@ _obj_scr_cut12_dale:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_cut12_monterey:
-		SPR_IDX_SELECT		_spr_lib0_1C
+		SPR_IDX_SELECTL		_spr_lib0_1C
 		TARGET_DIR_SET		$00
 		OBJ_X_POS_SET		$40,$00
 		OBJ_Y_POS_SET		$C8,$00
@@ -9757,7 +9757,7 @@ _obj_scr_cut12_monterey:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_cut12_gadget:
-		SPR_IDX_SELECT		_spr_lib0_28
+		SPR_IDX_SELECTL		_spr_lib0_28
 		TARGET_DIR_SET		$00
 		OBJ_X_POS_SET		$C0,$00
 		OBJ_Y_POS_SET		$50,$00

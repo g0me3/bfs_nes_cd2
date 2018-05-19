@@ -1294,8 +1294,11 @@ _room_objects_dummy:
 
 _BOX		EQU	$40
 _BOX_RR		EQU	$50
-_RR			EQU	$90
 _BOX_ACORN	EQU	$60
+_BOX_STAR	EQU	$70			; never used
+_CONCRETE	EQU	$80			; glitch
+_RR			EQU	$90
+_BALL		EQU	$A0			; glitch
 
 _room_prize00:
 		.BYTE	$0A,$04|_BOX_RR

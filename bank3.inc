@@ -575,7 +575,7 @@ tlm_patch06:
 ; like they forgot to shift the pointer forward or though it was already
 ; on the next resource. no. display routine does not move pointer
 ; when reached 00 on the resource.
-; see PRG4:_script_lvl2_wall_blocks_open_draw notes.
+; see PRG4:_obj_scr_lvl2_wall_blocks_open_draw notes.
 _tlm_patch_06A_unused:
 		.BYTE	$03
 		.WORD	$5364

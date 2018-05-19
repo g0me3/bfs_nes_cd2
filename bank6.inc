@@ -125,6 +125,7 @@ loc_980CA:
 		CPX		#$06
 		BCC		loc_980C0
 		RTS
+
 byte_980D0:
 		.BYTE	$00,$10,$00,$20
 
@@ -139,9 +140,6 @@ _apu_playE_A:
 		STA		_apu_tmpF3
 		JMP		(_apu_tmpF2)
 
-; =============== S U B R O U T I N E =======================================
-nullsub6:
-		RTS
 off_980E5:
 		.WORD	_apu_playE_A_sub0
 		.WORD	_apu_playE_A_sub1
@@ -154,42 +152,37 @@ off_980E5:
 _apu_playE_A_sub0:
 		LDY		#$00
 		JSR		_apu_playE_A_sub0_A
-		JSR		_apu_playE_A_sub0_B
-		JMP		nullsub6
+		JMP		_apu_playE_A_sub0_B
 
 ; =============== S U B R O U T I N E =======================================
 _apu_playE_A_sub1:
 		LDA		_apu_var12
 		BEQ		_apu_playE_A_sub4
-		JSR		_apu_playE_A_sub1_A
-		JMP		nullsub6
+		JMP		_apu_playE_A_sub1_A
+
+; =============== S U B R O U T I N E =======================================
 _apu_playE_A_sub4:
 		LDY		#$04
 		JSR		_apu_playE_A_sub0_A
-		JSR		_apu_playE_A_sub0_B
-		JMP		nullsub6
+		JMP		_apu_playE_A_sub0_B
 
 ; =============== S U B R O U T I N E =======================================
 _apu_playE_A_sub2:
 		LDY		#$08
 		JSR		_apu_playE_A_sub0_A
-		JSR		_apu_playE_A_sub0_B
-		JMP		nullsub6
+		JMP		_apu_playE_A_sub0_B
 
 ; =============== S U B R O U T I N E =======================================
 _apu_playE_A_sub3:
 		LDA		_apu_var13
-		BEQ		_j_nullsub6
+		BNE		_apu_playE_A_sub5
+		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _apu_playE_A_sub5:
 		LDY		#$0C
 		JSR		_apu_playE_A_sub0_A
-		JSR		_apu_playE_A_sub0_B
-
-; =============== S U B R O U T I N E =======================================
-_j_nullsub6:
-		JMP		nullsub6
+		JMP		_apu_playE_A_sub0_B
 
 ; =============== S U B R O U T I N E =======================================
 _apu_playE_A_sub0_A:
@@ -287,7 +280,7 @@ loc_981A7:
 ; =============== S U B R O U T I N E =======================================
 _apu_play_fade_out:
 		LDA		_apu_mus_mute_flag
-		BNE		nullsub2
+		BNE		locret_981E4
 		LDA		_apu_fade_out_flag
 		BEQ		locret_981E4
 		LDA		_apu_fade_value
@@ -308,25 +301,23 @@ locret_981E4:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_apu_play_fade_in_unref:
-		LDA		_apu_fade_in_flag
-		BEQ		nullsub2
-		INC		_apu_fade_counter
-		LDA		_apu_fade_counter
-		CMP		#$04
-		BCC		nullsub2
-		LDA		#$00
-		STA		_apu_fade_counter
-		LDA		_apu_fade_value
-		BNE		loc_981FD
-		STA		_apu_fade_in_flag
-		BEQ		nullsub2
-loc_981FD:
-		DEC		_apu_fade_value
-
-; =============== S U B R O U T I N E =======================================
-nullsub2:
-		RTS
+;_apu_play_fade_in_unref:
+;		LDA		_apu_fade_in_flag
+;		BEQ		nullsub2
+;		INC		_apu_fade_counter
+;		LDA		_apu_fade_counter
+;		CMP		#$04
+;		BCC		nullsub2
+;		LDA		#$00
+;		STA		_apu_fade_counter
+;		LDA		_apu_fade_value
+;		BNE		loc_981FD
+;		STA		_apu_fade_in_flag
+;		BEQ		nullsub2
+;loc_981FD:
+;		DEC		_apu_fade_value
+;nullsub2:
+;		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _apu_load:
@@ -363,45 +354,46 @@ _apu_mus_allow:
 
 ; =============== S U B R O U T I N E =======================================
 _apu_mus_mute:
-		LDA		#$01
-		STA		_apu_mus_mute_flag
-		LDA		#$00
-		STA		_APU_PULSE1_ENV
-		STA		_APU_PULSE2_ENV
-		STA		_APU_TRI_TIME
-		STA		_APU_TRI_LEN
-		STA		_APU_NOISE_ENV
+		LDX		#$01
+		STX		_apu_mus_mute_flag
+		DEX
+		STX		_APU_PULSE1_ENV
+		STX		_APU_PULSE2_ENV
+		STX		_APU_TRI_TIME
+		STX		_APU_TRI_LEN
+		STX		_APU_NOISE_ENV
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _apu_mus_fade_in:
-		LDA		#$00
-		STA		_apu_fade_out_flag
-		LDA		#$01
-		STA		_apu_fade_in_flag
+		LDX		#$00
+		STX		_apu_fade_out_flag
+		INX
+		STX		_apu_fade_in_flag
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _apu_mus_fade_out:
-		LDA		#$00
-		STA		_apu_fade_in_flag
-		LDA		#$01
-		STA		_apu_fade_out_flag
+		LDX		#$00
+		STX		_apu_fade_in_flag
+		INX
+		STX		_apu_fade_out_flag
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _apu_mus_stop:
-		LDA		#$00
-		STA		_apu_fade_in_flag
-		STA		_apu_fade_out_flag
 		LDX		#$00
+		STX		_apu_fade_in_flag
+		STX		_apu_fade_out_flag
 		LDY		#$04
-		JMP		_apu_chnls_stop
+		BNE		_apu_chnls_stop
 
 ; =============== S U B R O U T I N E =======================================
 _apu_snd_stop:
 		LDX		#$04
 		LDY		#$02
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
 _apu_chnls_stop:
@@ -430,9 +422,9 @@ loc_98278:
 		STA		_APU_STATUS
 		LDA		#$C0
 		STA		_PAD1_REG
-		LDA		#$00
+		LDA		#<[_apu_chnl_sp]
 		STA		_apu_cur_pc
-		LDA		#$07
+		LDA		#>[_apu_chnl_sp]
 		STA		_apu_cur_pc+1
 		LDA		#$FD
 		STA		_apu_tmpF2
@@ -580,6 +572,8 @@ loc_983A9:
 		LDA		_apu_chnl_pc_hi,X
 		STA		_apu_cur_pc+1
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
 _apu_cmd_fetch:
 		JSR		_apu_stream_get_byte
@@ -593,13 +587,11 @@ _apu_cmd_fetch:
 		STA		_apu_tmpF2
 		LDA		_apu_cmd_lib+1,Y
 		STA		_apu_tmpF3
-		LDA		off_983D4+1
+		LDA		#>[_apu_cmd_fetch-1]
 		PHA
-		LDA		off_983D4
+		LDA		#<[_apu_cmd_fetch-1]
 		PHA
 		JMP		(_apu_tmpF2)
-off_983D4:
-		.WORD	_apu_cmd_fetch-1
 
 ; =============== S U B R O U T I N E =======================================
 _apu_data_load:
@@ -723,9 +715,9 @@ _apu_cmd_lib:
 		.WORD	_apu_cmdE0
 		.WORD	_apu_cmdE1
 		.WORD	_apu_cmdE2
-		.WORD	_apu_cmdE3	; unused
-		.WORD	_apu_cmdE4	; unused
-		.WORD	_apu_cmdE5	; unused
+		.WORD	0	; _apu_cmdE3	; dummy, unused
+		.WORD	0	; _apu_cmdE4	; dummy, unused
+		.WORD	0	; _apu_cmdE5	; dummy, unused
 		.WORD	0
 		.WORD	0
 		.WORD	_apu_cmdE8
@@ -793,6 +785,8 @@ _apu_cmdD5:
 ; arg none
 _apu_cmdD6:
 		LDA		#$48
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
 _apu_cmdDX:
@@ -871,21 +865,21 @@ _apu_cmdE2:
 
 ; =============== S U B R O U T I N E =======================================
 ; dummy
-_apu_cmdE3:
-		JSR		_apu_stream_get_byte
-		RTS
+;_apu_cmdE3:
+;		JSR		_apu_stream_get_byte
+;		RTS
 
 ; =============== S U B R O U T I N E =======================================
 ; dummy
-_apu_cmdE4:
-		JSR		_apu_stream_get_byte
-		RTS
+;_apu_cmdE4:
+;		JSR		_apu_stream_get_byte
+;		RTS
 
 ; =============== S U B R O U T I N E =======================================
 ; dummy
-_apu_cmdE5:
-		JSR		_apu_stream_get_byte
-		RTS
+;_apu_cmdE5:
+;		JSR		_apu_stream_get_byte
+;		RTS
 
 ; =============== S U B R O U T I N E =======================================
 ; arg none
@@ -1017,6 +1011,7 @@ _apu_cmdFF:
 		PLA
 		PLA
 		RTS
+
 _apu_set_bitmasks:
 		.BYTE	$01,$02,$04,$08,$10,$20,$40,$80
 _apu_clear_bitmasks:
@@ -1152,6 +1147,7 @@ loc_986FB:
 		STA		_apu_vars6,X
 		INC		_apu_var13
 		RTS
+
 _apu_freq_table:
 		.WORD	$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
 		.WORD	$0000,$0FE2,$0EFE,$0E26,$0D5C,$0C9A,$0BE6,$0B3A
@@ -1164,6 +1160,7 @@ _apu_freq_table:
 		.WORD	$00A8,$009E,$0096,$008C,$0084,$007E,$0076,$0070
 		.WORD	$0068,$0062,$005E,$0058,$0052,$004E,$004A,$0046
 		.WORD	$0042,$003E,$003A,$0036
+
 _apu_mus_lib:
 		APU_IDX	_apu_mus_dummy
 		APU_IDX	_apu_mus01
@@ -2925,7 +2922,8 @@ _apu_mus74_B:
 _apu_mus_dummy:
 		.BYTE	0
 _apu_chnl_data_dummy:
-		.BYTE	$C0,$C0,$FF
+		DATA	$C0,$C0
+		ASTOP
 off_99283:
 		.WORD	byte_9929D
 		.WORD	byte_992A0
@@ -3262,8 +3260,8 @@ byte_994F4:
 		CMDD6
 		DATA	$14,$CC
 		AJMP	byte_994F4
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_995DE:
 		LOOP_START	$02
 			CMDD4
@@ -3388,8 +3386,8 @@ byte_995F0:
 		CMDD4
 		DATA	$61,$61,$C1,$A4,$CC
 		AJMP	byte_995F0
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_996D1:
 		CMDD4
 		LOOP_START	$10
@@ -3571,8 +3569,8 @@ byte_996F6:
 		CMDD3
 		DATA	$60,$C0,$61,$81,$A1,$62,$CC
 		AJMP	byte_996F6
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_997FC:
 		CMDD2
 		DATA	$71,$C3
@@ -3597,7 +3595,7 @@ _apu_mus01_D:
 		CMDE0	$05
 		CMDE9	$00
 byte_99816:
-		.BYTE	$01,$21,$23,$21,$23,$21
+		DATA	$01,$21,$23,$21,$23,$21
 		LOOP_START	$02
 			DATA	$03,$23,$01,$01,$23
 		DO_LOOP
@@ -3617,8 +3615,8 @@ byte_99816:
 		AJSR	byte_9985A
 		DATA	$03,$23,$21,$21,$01,$21,$CF
 		AJMP	byte_99816
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9985A:
 		LOOP_START	$03
 			DATA	$03,$23,$01,$01,$23
@@ -3704,8 +3702,8 @@ byte_99885:
 		CMDD4
 		DATA	$B0,$90,$70,$60,$40,$60,$40,$60,$43
 		AJMP	byte_99885
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_99929:
 		CMDD5
 		DATA	$60,$40,$60,$C0,$20,$C0
@@ -3797,8 +3795,8 @@ byte_99975:
 		CMDD4
 		DATA	$B0,$90,$70,$60,$40,$20,$10,$20,$10,$20,$13
 		AJMP	byte_99975
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_999FC:
 		DATA	$C1
 		CMDD4
@@ -3871,8 +3869,8 @@ byte_99A2B:
 			DATA	$21,$C1,$71,$C1,$90,$C0,$90,$C0,$92,$C0
 		DO_LOOP
 		AJMP	byte_99A2B
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_99A86:
 		CMDD4
 		DATA	$21,$C1,$01,$C1
@@ -3907,8 +3905,8 @@ byte_99A90:
 		DO_LOOP
 		DATA	$33,$33,$20,$20,$20,$20,$21,$21
 		AJMP	byte_99A90
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus03:
 		.BYTE	$0F
 		.WORD	_apu_mus03_A
@@ -3976,8 +3974,8 @@ byte_99ADE:
 		DATA	$50,$C0,$50,$C0,$40,$21,$70,$90,$C0,$90,$70,$C3
 		AJSR	byte_99BA6
 		AJMP	byte_99ADE
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_99B96:
 		DATA	$C1
 		CMDD5
@@ -4037,8 +4035,8 @@ byte_99BF7:
 		DATA	$40,$50,$C0,$50,$40,$C3
 		AJSR	byte_99C38
 		AJMP	byte_99BF7
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_99C29:
 		DATA	$C1
 		CMDD4
@@ -4082,8 +4080,8 @@ byte_99C66:
 		DATA	$70,$C0,$70,$C0,$70,$C0,$70,$C0,$70,$C0,$70,$C0,$70,$C0,$70,$C0
 		AJSR	byte_99C9E
 		AJMP	byte_99C66
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_99C9E:
 		CMDD2
 		DATA	$73
@@ -4128,8 +4126,8 @@ byte_99CE3:
 		DO_LOOP
 		AJSR	byte_99D0F
 		AJMP	byte_99CE3
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_99D03:
 		DATA	$01,$21,$20,$01,$00,$20,$30,$20,$30,$21,$21
 		ARET
@@ -4185,8 +4183,8 @@ byte_99D30:
 		CMDD4
 		DATA	$A3
 		AJMP	byte_99D30
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_99D71:
 		CMDD5
 		DATA	$31,$41,$31,$41,$01
@@ -4222,8 +4220,8 @@ _apu_mus04_B:
 		CMDD9	$E8
 		DATA	$C1
 		AJMP	byte_99D30
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus04_C:
 		CMDE2	$03
 		CMDE1	$03
@@ -4269,8 +4267,8 @@ byte_99DC2:
 		CMDD2
 		DATA	$61,$C1,$61,$71,$81
 		AJMP	byte_99DC2
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_99E1A:
 		CMDD2
 		DATA	$91,$C3
@@ -4303,8 +4301,8 @@ byte_99E37:
 		DO_LOOP
 		DATA	$33,$33,$21,$21,$21,$21
 		AJMP	byte_99E37
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus05:
 		.BYTE	$0F
 		.WORD	_apu_mus05_A
@@ -4364,9 +4362,8 @@ byte_99E76:
 		DATA	$51,$21,$C1,$71
 		DO_LOOP
 		AJMP	byte_99E76
-_unused_0:
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_99EE6:
 		DATA	$C1
 		CMDD4
@@ -4503,8 +4500,8 @@ byte_99F56:
 		DATA	$A1
 		DO_LOOP
 		AJMP	byte_99F56
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_99FEC:
 		CMDD2
 		DATA	$72,$C0
@@ -4573,8 +4570,8 @@ _apu_mus05_D:
 		AJSR	byte_9A06B
 		AJSR	byte_9A06B
 		AJMP	_apu_mus05_D
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9A06B:
 		LOOP_START	$03
 		DATA	$01
@@ -4646,8 +4643,8 @@ byte_9A098:
 		CMDD4
 		DATA	$00,$C3
 		AJMP	byte_9A098
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9A0FC:
 		CMDD4
 		DATA	$20,$40,$20,$40,$20,$C0,$70,$C0,$B1,$90,$C0,$70,$C0,$60,$C0
@@ -4715,8 +4712,8 @@ byte_9A149:
 		CMDD4
 		DATA	$00,$C1,$00,$C0,$03,$C3
 		AJMP	byte_9A149
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9A1A8:
 		LOOP_START	$04
 		CMDD3
@@ -4867,8 +4864,8 @@ byte_9A1E6:
 		CMDD3
 		DATA	$00,$C0,$01,$41,$51,$61
 		AJMP	byte_9A1E6
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9A280:
 		CMDD3
 		DATA	$71
@@ -4941,8 +4938,8 @@ _apu_mus06_D:
 		CMDD2
 		DATA	$11,$30,$30
 		AJMP	_apu_mus06_D
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus07:
 		.BYTE	$0F
 		.WORD	_apu_mus07_A
@@ -5063,8 +5060,8 @@ byte_9A2EC:
 		CMDD5
 		DATA	$00,$31,$40,$31,$40,$C1,$43
 		AJMP	byte_9A2EC
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9A399:
 		CMDD5
 		DATA	$00,$C0,$00
@@ -5152,8 +5149,8 @@ byte_9A3C2:
 		CMDD4
 		DATA	$41,$40,$41,$42,$40,$41,$40,$91,$90,$91,$90,$C1,$83
 		AJMP	byte_9A3C2
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9A44E:
 		DATA	$C2
 		CMDD4
@@ -5221,8 +5218,8 @@ byte_9A469:
 		CMDD3
 		DATA	$40
 		AJMP	byte_9A469
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9A4D0:
 		CMDD3
 		DATA	$92,$82,$72,$62
@@ -5245,10 +5242,10 @@ _apu_mus07_D:
 		CMDE0	$06
 		CMDE9	$06
 byte_9A4EC:
-		.BYTE	$12,$31,$30,$12,$31,$30
+		DATA	$12,$31,$30,$12,$31,$30
 		AJMP	byte_9A4EC
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus08:
 		.BYTE	$0F
 		.WORD	_apu_mus08_A
@@ -5308,8 +5305,8 @@ byte_9A50A:
 		CMDD4
 		DATA	$91,$A1,$71,$51,$C5
 		AJMP	byte_9A50A
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9A594:
 		CMDD4
 		DATA	$51,$C1,$53,$71,$51,$C1,$51,$71,$91,$C1,$91,$71,$51,$C1,$51
@@ -5338,8 +5335,8 @@ byte_9A5B7:
 		AJSR	byte_9A5D4
 		DO_LOOP
 		AJMP	byte_9A5B7
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9A5D4:
 		LOOP_START	$02
 		CMDD3
@@ -5407,8 +5404,8 @@ byte_9A603:
 		DO_LOOP
 		AJSR	byte_9A653
 		AJMP	byte_9A603
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9A643:
 		LOOP_START	$02
 		CMDD3
@@ -5442,8 +5439,8 @@ byte_9A669:
 		DO_LOOP
 		DATA	$31,$21,$21,$21
 		AJMP	byte_9A669
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus09:
 		.BYTE	$0F
 		.WORD	_apu_mus09_A
@@ -5509,8 +5506,8 @@ byte_9A68B:
 		CMDD4
 		DATA	$70,$90,$C0,$90,$C3
 		AJMP	byte_9A68B
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9A713:
 		DATA	$C1
 		CMDD4
@@ -5580,8 +5577,8 @@ byte_9A73C:
 		DATA	$41,$70,$90,$C0
 		DO_LOOP
 		AJMP	byte_9A73C
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9A7A0:
 		DATA	$C1
 		LOOP_START	$05
@@ -5655,8 +5652,8 @@ byte_9A7B5:
 		DATA	$41,$70,$90,$C0
 		DO_LOOP
 		AJMP	byte_9A7B5
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus09_D:
 		CMDE0	$07
 		CMDE9	$00
@@ -5666,8 +5663,8 @@ byte_9A829:
 		DO_LOOP
 		DATA	$01,$01,$23,$01,$21,$20,$21,$20
 		AJMP	byte_9A829
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus0A:
 		.BYTE	$0F
 		.WORD	_apu_mus0A_A
@@ -5725,8 +5722,8 @@ byte_9A852:
 		DATA	$A0,$80,$70,$51,$30,$01,$50,$30,$01,$32,$A0,$C0,$80,$C0,$70,$50
 		DATA	$30,$50,$30,$00,$32,$00,$30,$00,$20,$20,$C0,$50
 		AJMP	byte_9A852
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9A8D3:
 		CMDD4
 		DATA	$70,$50,$40,$00,$C0
@@ -5773,8 +5770,8 @@ byte_9A8F1:
 		DATA	$A0,$80,$70,$51,$30,$01,$50,$30,$01,$32,$A0,$C0,$80,$C0,$70,$50
 		DATA	$30,$50,$30,$00,$32,$00,$30,$00,$20,$20,$C0,$50
 		AJMP	byte_9A8F1
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus0A_C:
 		CMDE2	$03
 		CMDE1	$03
@@ -5888,8 +5885,8 @@ byte_9A993:
 		CMDD3
 		DATA	$A2,$85,$A0,$A0,$C0,$A0
 		AJMP	byte_9A993
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus0A_D:
 		CMDE0	$08
 		CMDE9	$01
@@ -5903,8 +5900,8 @@ byte_9AA19:
 		DO_LOOP
 		DATA	$22,$22,$22,$20,$20,$20,$20,$20,$00,$20
 		AJMP	byte_9AA19
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus0B:
 		.BYTE	$0F
 		.WORD	_apu_mus0B_A
@@ -5998,8 +5995,8 @@ byte_9AA57:
 		CMDD5
 		DATA	$21,$C1,$31
 		AJMP	byte_9AA57
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9AAF0:
 		CMDD5
 		DATA	$01
@@ -6031,8 +6028,8 @@ _apu_mus0B_B:
 		CMDD9	$F4
 		DATA	$C1
 		AJMP	byte_9AA57
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus0B_C:
 		CMDE2	$04
 		CMDE1	$00
@@ -6080,8 +6077,8 @@ byte_9AB2D:
 		CMDD4
 		DATA	$31
 		AJMP	byte_9AB2D
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9AB72:
 		CMDD3
 		DATA	$0B
@@ -6157,8 +6154,8 @@ byte_9ABB3:
 		DATA	$30,$30,$30
 		DO_LOOP
 		AJMP	byte_9ABB3
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus0C:
 		DATA	$0F
 		.WORD	_apu_mus0C_A
@@ -6198,8 +6195,8 @@ byte_9AC01:
 		CMDD5
 		DATA	$00,$C7
 		AJMP	byte_9AC01
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9AC5B:
 		DATA	$C0
 		CMDD5
@@ -6292,8 +6289,8 @@ byte_9ACCD:
 		CMDD4
 		DATA	$70,$C0,$70,$C0,$52,$70,$C7
 		AJMP	byte_9ACCD
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9AD45:
 		DATA	$C0
 		CMDD5
@@ -6354,8 +6351,8 @@ byte_9AD73:
 		CMDD3
 		DATA	$00,$C0,$02,$30,$C0,$70,$C0
 		AJMP	byte_9AD73
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9ADCC:
 		CMDD2
 		DATA	$80,$C1,$81
@@ -6382,8 +6379,8 @@ byte_9ADE3:
 		DO_LOOP
 		DATA	$21,$21,$21,$00,$20,$00,$20,$20,$00,$20,$20,$00,$20
 		AJMP	byte_9ADE3
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus0D:
 		.BYTE	$0F
 		.WORD	_apu_mus0D_A
@@ -6479,8 +6476,8 @@ byte_9AE8D:
 		CMDD5
 		DATA	$70,$60,$50,$40,$C0,$50,$40,$30,$C0,$20,$20,$C0,$20,$20,$C0,$20
 		AJMP	byte_9AE8D
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9AF05:
 		DATA	$C0
 		CMDD5
@@ -6527,8 +6524,8 @@ byte_9AF1C:
 		CMDD4
 		DATA	$B0,$A0,$C0,$B0,$A0,$90,$C0,$80,$80,$C0,$80,$80,$C0,$80
 		AJMP	byte_9AF1C
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9AF6E:
 		LOOP_START	$02
 		DATA	$C0
@@ -6587,8 +6584,8 @@ byte_9AFA4:
 		CMDD3
 		DATA	$70,$60,$50,$40,$C0,$50,$40,$30,$C0,$20,$20,$C0,$20,$20,$C0,$20
 		AJMP	byte_9AFA4
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus0E_D:
 		CMDE0	$08
 		CMDE9	$00
@@ -6609,8 +6606,8 @@ byte_9B008:
 		DO_LOOP
 		DATA	$20,$20,$20,$20,$00,$20,$20,$20,$00,$20,$20,$00,$20,$20,$00,$20
 		AJMP	byte_9B008
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus0F:
 		.BYTE	$01
 		.WORD	_apu_mus0F_A
@@ -6637,7 +6634,7 @@ _apu_mus10_A:
 		DATA	$73,$50,$C1,$40,$C1,$21,$C3
 		CMDD4
 byte_9B07D:
-		.BYTE	$75,$41,$C0,$71,$C0,$91,$C3,$41,$71,$C0,$96,$C2,$41,$C0,$71,$C0
+		DATA	$75,$41,$C0,$71,$C0,$91,$C3,$41,$71,$C0,$96,$C2,$41,$C0,$71,$C0
 		DATA	$91,$C0,$A1,$90,$C1,$A2,$92,$70,$91,$C0
 		CMDD5
 		DATA	$01,$C0,$23,$C1
@@ -6684,8 +6681,8 @@ byte_9B07D:
 		CMDE8
 		DATA	$73
 		AJMP	byte_9B07D+1
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus10_B:
 		CMDE2	$00
 		CMDE1	$03
@@ -6701,15 +6698,15 @@ byte_9B11A:
 		CMDD4
 		DATA	$01,$C0,$41,$C0,$41,$C3,$01,$41,$C0,$46,$C2,$01,$C0,$41,$C0,$41
 		DATA	$C0,$41,$40,$C1,$42,$42,$40,$51,$C0,$91,$C0,$93,$C1,$51,$91,$C0
-		.BYTE	$96,$C1,$92,$90,$91,$90,$91,$90,$91,$C0,$91,$C0,$91,$C0,$91,$C0
-		.BYTE	$B0,$C0,$B1,$C0,$B5,$C0,$90,$C0,$91,$C0,$95,$C0,$C1,$B3
+		DATA	$96,$C1,$92,$90,$91,$90,$91,$90,$91,$C0,$91,$C0,$91,$C0,$91,$C0
+		DATA	$B0,$C0,$B1,$C0,$B5,$C0,$90,$C0,$91,$C0,$95,$C0,$C1,$B3
 		CMDD5
 		DATA	$01,$C0,$21,$C0
 		CMDD4
 		DATA	$B5,$C5
 		AJMP	byte_9B11A
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus10_C:
 		CMDE2	$03
 		CMDE1	$03
@@ -6734,8 +6731,8 @@ byte_9B178:
 		CMDD2
 		DATA	$75
 		AJMP	byte_9B178
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus10_D:
 		CMDE0	$05
 		CMDE9	$00
@@ -6744,8 +6741,8 @@ byte_9B1B6:
 		CMDE9	$05
 		DATA	$12,$31,$30
 		AJMP	byte_9B1B6
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus11:
 		.BYTE	$0F
 		.WORD	_apu_mus11_A
@@ -6780,8 +6777,8 @@ byte_9B1D3:
 		DO_LOOP
 		DO_LOOP
 		AJMP	byte_9B1D3
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9B202:
 		CMDD4
 		DATA	$22,$40,$53,$22,$40,$53
@@ -6802,8 +6799,8 @@ _apu_mus11_B:
 		CMDD9	$F4
 		DATA	$C1
 		AJMP	byte_9B1D3
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus11_C:
 		CMDE2	$04
 		CMDE1	$03
@@ -6855,16 +6852,16 @@ byte_9B228:
 		DO_LOOP
 		DO_LOOP
 		AJMP	byte_9B228
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus11_D:
 		CMDE0	$05
 		CMDE9	$06
 byte_9B26F:
 		DATA	$01,$21
 		AJMP	byte_9B26F
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus12:
 		.BYTE	$0F
 		.WORD	_apu_mus12_A
@@ -6885,8 +6882,8 @@ byte_9B289:
 		AJSR	byte_9B2C8
 		DATA	$41,$41,$C1,$65,$73,$B9,$91,$71,$61
 		AJMP	byte_9B289
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9B2A9:
 		LOOP_START	$02
 		CMDD4
@@ -6909,8 +6906,8 @@ _apu_mus12_B:
 		CMDD9	$EE
 		DATA	$C1
 		AJMP	byte_9B289
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus12_C:
 		CMDE2	$05
 		CMDE1	$03
@@ -6921,8 +6918,8 @@ byte_9B2EA:
 		AJSR	byte_9B2F5
 		AJSR	byte_9B30C
 		AJMP	byte_9B2EA
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9B2F5:
 		LOOP_START	$02
 		LOOP_START	$08
@@ -6966,8 +6963,8 @@ _apu_mus12_D:
 byte_9B326:
 		DATA	$03,$23
 		AJMP	byte_9B326
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus13:
 		.BYTE	7
 		.WORD	_apu_mus13_A
@@ -6988,8 +6985,8 @@ byte_9B33E:
 		CMDD5
 		DATA	$15
 		AJMP	byte_9B33E
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9B361:
 		CMDD4
 		DATA	$60,$C0,$20,$41,$00,$C0,$61,$60,$70,$90,$70,$60,$40,$20
@@ -7002,8 +6999,8 @@ _apu_mus13_B:
 		CMDD9	$F6
 		DATA	$C0
 		AJMP	byte_9B33E
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus13_C:
 		CMDE2	$04
 		CMDE1	$03
@@ -7017,8 +7014,8 @@ byte_9B38B:
 		DATA	$70,$71,$70,$C0,$70,$70,$70,$90,$91,$91,$70,$60,$40
 		CMDE2	$04
 		AJMP	byte_9B38B
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9B3A5:
 		LOOP_START	$03
 		CMDD3
@@ -7114,8 +7111,8 @@ byte_9B3CA:
 		DATA	$40,$C0,$40,$40,$C0,$44,$C1
 		CMDDA	$0C
 		AJMP	byte_9B3CA
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9B449:
 		CMDD4
 		DATA	$94
@@ -7136,8 +7133,8 @@ _apu_mus14_B:
 		CMDD9	$F2
 		DATA	$C1
 		AJMP	byte_9B3CA
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus14_C:
 		CMDE2	$04
 		CMDE1	$03
@@ -7195,8 +7192,8 @@ byte_9B471:
 		DATA	$40,$C0,$40,$40,$C0,$42,$40,$61,$80
 		CMDDA	$0C
 		AJMP	byte_9B471
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus14_D:
 		CMDE0	$09
 		CMDE9	$00
@@ -7215,13 +7212,13 @@ byte_9B4D1:
 		AJSR	byte_9B4FD
 		DATA	$21,$20,$01,$20,$C1,$20,$21,$20
 		AJMP	byte_9B4D1
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9B4FD:
 		DATA	$02,$22,$02,$22
 		ARET
 byte_9B502:
-		.BYTE	$02,$22,$02,$20,$20,$20
+		DATA	$02,$22,$02,$20,$20,$20
 		ARET
 _apu_mus15:
 		.BYTE	$0F
@@ -7246,8 +7243,8 @@ byte_9B51C:
 		AJSR	byte_9B539
 		AJSR	byte_9B554
 		AJMP	byte_9B51C
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9B539:
 		CMDD4
 		DATA	$70,$60,$70,$90,$C0,$A1,$71,$60,$70,$90,$C0,$A2
@@ -7274,8 +7271,8 @@ _apu_mus15_B:
 		CMDD9	$F4
 		DATA	$C1
 		AJMP	byte_9B51C
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus15_C:
 		CMDE2	$04
 		CMDE1	$03
@@ -7299,16 +7296,16 @@ byte_9B579:
 		CMDD4
 		DATA	$30
 		AJMP	byte_9B579
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus15_D:
 		CMDE0	$09
 		CMDE9	$00
 byte_9B592:
 		DATA	$01,$21
 		AJMP	byte_9B592
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus16:
 		.BYTE	$0F
 		.WORD	_apu_mus16_A
@@ -7331,8 +7328,8 @@ byte_9B5AC:
 		AJSR	byte_9B5FF
 		AJSR	byte_9B5DB
 		AJMP	byte_9B5AC
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9B5C9:
 		CMDD4
 		DATA	$71,$C1,$72,$60,$71,$C1,$72,$60,$71,$C1,$72,$60,$72,$60,$72,$80
@@ -7357,8 +7354,8 @@ _apu_mus16_B:
 		CMDD9	$F4
 		DATA	$C0
 		AJMP	byte_9B5AC
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus16_C:
 		CMDE2	$04
 		CMDE1	$03
@@ -7375,16 +7372,16 @@ byte_9B62B:
 		AJSR	byte_9B5FF
 		AJSR	byte_9B5DB
 		AJMP	byte_9B62B
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus16_D:
 		CMDE0	$05
 		CMDE9	$00
 byte_9B64C:
 		DATA	$03,$23
 		AJMP	byte_9B64C
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus17:
 		.BYTE	$0F
 		.WORD	_apu_mus17_A
@@ -7401,14 +7398,14 @@ byte_9B666:
 		CMDD5
 		DATA	$21,$01,$31,$01,$C5,$01,$21,$01,$31,$01,$C5,$90,$B0,$B1,$01,$21
 		DATA	$01,$C5,$01,$21,$01,$31,$01,$C1,$21,$31,$41,$51,$41,$71,$41,$C5
-		.BYTE	$41,$51,$41,$71,$41,$C5
+		DATA	$41,$51,$41,$71,$41,$C5
 		CMDD6
 		DATA	$00,$10,$11
 		CMDD5
 		DATA	$41,$71,$41,$C5,$41,$51,$41,$71,$41,$C1,$51,$41,$31
 		AJMP	byte_9B666
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus17_B:
 		CMDE2	$00
 		CMDE1	$03
@@ -7417,8 +7414,8 @@ _apu_mus17_B:
 		CMDD9	$F4
 		DATA	$C1
 		AJMP	byte_9B666
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus17_C:
 		CMDE2	$04
 		CMDE1	$03
@@ -7442,16 +7439,16 @@ byte_9B6BC:
 		CMDD3
 		DATA	$B1,$A1
 		AJMP	byte_9B6BC
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus17_D:
 		CMDE0	$06
 		CMDE9	$05
 byte_9B6E5:
 		DATA	$31
 		AJMP	byte_9B6E5
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus18:
 		.BYTE	$0F
 		.WORD	_apu_mus18_A
@@ -7496,8 +7493,8 @@ byte_9B6FE:
 		DATA	$41,$51
 		DO_LOOP
 		AJMP	byte_9B6FE
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus18_B:
 		CMDE2	$00
 		CMDE1	$03
@@ -7506,8 +7503,8 @@ _apu_mus18_B:
 		CMDD9	$F4
 		DATA	$C1
 		AJMP	byte_9B6FE
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus18_C:
 		CMDE2	$04
 		CMDE1	$03
@@ -7523,16 +7520,16 @@ byte_9B74A:
 		DATA	$A1,$C1
 		DO_LOOP
 		AJMP	byte_9B74A
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus18_D:
 		CMDE0	$05
 		CMDE9	$06
 byte_9B75E:
 		DATA	$30
 		AJMP	byte_9B75E
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus19:
 		.BYTE	$0F
 		.WORD	_apu_mus19_A
@@ -7563,8 +7560,8 @@ byte_9B777:
 		DO_LOOP
 		CMDDA	$E8
 		AJMP	byte_9B777
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus19_B:
 		CMDE2	$00
 		CMDE1	$03
@@ -7573,8 +7570,8 @@ _apu_mus19_B:
 		CMDD9	$F0
 		DATA	$C1
 		AJMP	byte_9B777
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus19_C:
 		CMDE2	$04
 		CMDE1	$03
@@ -7598,16 +7595,16 @@ byte_9B7C3:
 		DATA	$7F
 		DO_LOOP
 		AJMP	byte_9B7C3
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus19_D:
 		CMDE0	$05
 		CMDE9	$02
 byte_9B7E4:
 		DATA	$03,$23,$03,$21,$03,$01,$23,$23,$23
 		AJMP	byte_9B7E4
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus1A:
 		.BYTE	$0F
 		.WORD	_apu_mus1A_A
@@ -7704,8 +7701,8 @@ _apu_mus1A_B:
 		DATA	$C4
 		CMDE0	$07
 		AJMP	byte_9B805
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus1A_C:
 		CMDE2	$03
 		CMDE1	$03
@@ -7927,12 +7924,12 @@ byte_9BA66:
 		CMDE8
 		DATA	$5F,$C1,$50,$C0,$51,$C1,$51,$C1,$50,$C0,$51,$C1,$70,$C0,$52,$C0
 		DATA	$50,$C0,$73,$50,$C0,$82,$C0,$82,$C0,$72,$C0,$52,$C0,$C1,$01,$21
-		.BYTE	$01,$21,$31,$21,$01,$41,$C1,$41,$27,$C1,$C1,$21,$51,$21,$51,$91
-		.BYTE	$C1,$71,$C1,$51,$C1,$71,$51,$C1,$41,$C1,$51,$C1,$51,$C3,$51,$C1
-		.BYTE	$51,$51,$CD
+		DATA	$01,$21,$31,$21,$01,$41,$C1,$41,$27,$C1,$C1,$21,$51,$21,$51,$91
+		DATA	$C1,$71,$C1,$51,$C1,$71,$51,$C1,$41,$C1,$51,$C1,$51,$C3,$51,$C1
+		DATA	$51,$51,$CD
 		AJMP	byte_9BA66
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9BAD2:
 		DATA	$C1
 		CMDD5
@@ -7976,8 +7973,8 @@ byte_9BAE7:
 		CMDD5
 		DATA	$01,$C1,$01,$01,$C1,$01,$C1,$01,$C1,$01,$C3,$01,$C1,$01,$01,$CD
 		AJMP	byte_9BAE7
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9BB48:
 		DATA	$C1
 		CMDD5
@@ -8050,8 +8047,8 @@ byte_9BB5D:
 		CMDD4
 		DATA	$01,$21,$41
 		AJMP	byte_9BB5D
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9BBA9:
 		LOOP_START	$04
 		CMDD3
@@ -8066,8 +8063,8 @@ _apu_mus1C_D:
 byte_9BBB5:
 		DATA	$03,$23
 		AJMP	byte_9BBB5
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus1D:
 		.BYTE	7
 		.WORD	_apu_mus1D_A
@@ -8099,8 +8096,8 @@ _apu_mus1D_B:
 		CMDD9	$F4
 		DATA	$C0
 		AJMP	byte_9BBCD
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus1D_C:
 		CMDE2	$04
 		CMDE1	$03
@@ -8152,8 +8149,8 @@ byte_9BC22:
 		DATA	$A1
 		DO_LOOP
 		AJMP	byte_9BC22
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus1E_B:
 		CMDE2	$00
 		CMDE1	$03
@@ -8162,8 +8159,8 @@ _apu_mus1E_B:
 		CMDD9	$F4
 		DATA	$C1
 		AJMP	byte_9BC22
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus1E_C:
 		CMDE2	$03
 		CMDE1	$03
@@ -8219,16 +8216,16 @@ byte_9BC70:
 		DATA	$51,$71,$01,$21,$01,$21
 		DO_LOOP
 		AJMP	byte_9BC70
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus1E_D:
 		CMDE0	$04
 		CMDE9	$00
 byte_9BCD5:
 		DATA	$03,$23,$03,$23,$03,$21,$23,$23,$21
 		AJMP	byte_9BCD5
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus1F:
 		.BYTE	$0F
 		.WORD	_apu_mus1F_A
@@ -8265,8 +8262,8 @@ byte_9BCF6:
 		CMDD5
 		DATA	$31,$51
 		AJMP	byte_9BCF6
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9BD35:
 		DATA	$C3
 		CMDD5
@@ -8290,8 +8287,8 @@ _apu_mus1F_B:
 		CMDD9	$EA
 		DATA	$C1
 		AJMP	byte_9BCF6
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus1F_C:
 		CMDE2	$03
 		CMDE1	$03
@@ -8318,8 +8315,8 @@ byte_9BD7F:
 		AJSR	byte_9BDC4
 		CMDDA	$0C
 		AJMP	byte_9BD7F
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 byte_9BDB8:
 		CMDD3
 		DATA	$51,$51,$81,$51,$B1
@@ -8344,8 +8341,8 @@ _apu_mus1F_D:
 byte_9BDD5:
 		DATA	$03,$23
 		AJMP	byte_9BDD5
-		DATA	$C0
-		ASTOP
+;		DATA	$C0
+;		ASTOP
 _apu_mus20:
 		.BYTE	$0F
 		.WORD	_apu_mus20_A

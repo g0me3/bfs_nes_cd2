@@ -1,0 +1,593 @@
+
+msg00:
+	Newscaster:
+	Special Bulletin:#
+	Police say
+	a downtown restaurant has
+	received a bomb threat.#
+	Unless the time bomb can
+	be found, the restaurant
+	could be destroyed.#
+	@
+msg01:
+	Chip:
+	Woah!  A time bomb!#
+	@
+msg02:
+	Gadget:
+	Chip!  What is it?#
+	@
+msg03:
+	Chip:
+	There's a time bomb
+	in a restaurant downtown!#
+	We've got to find it!#
+	@
+msg04:
+	Gadget:
+	This is an emergency!#
+	There's no time to waste!
+	Let's go, Mates!#
+	@
+msg05:
+	Chip:
+	We've got a bomb to find!#
+	@
+msg06:
+	Gadget:
+	We'll go ahead
+	to investigate!#
+	Look for us
+	and we'll give you
+	any clues we've found.#
+	@
+msg07:
+	Monterey:
+	Or give you some help...#
+	Never would o' made it
+	through the battle of the
+	brie without a bit o' help.#
+	Ahh, those were the days--#
+	@
+msg08:
+	Zipper:
+	... .. ..... ..#
+	@
+msg09:
+	Chip:
+	Right, Zipper!
+	There's no time to lose!#
+	Dale, you come with me!#
+	@
+msg0A:
+	Dale:
+	Now!?  But I was about
+	to start my afternoon nap!#
+	@
+msg0B:
+	Chip:
+	No can do, Dale!#
+	@
+msg0C:
+	Dale:
+	OK, Partner!  Let's go!#
+	@
+msg0D:
+
+	Rescue Rangers away!#
+	@
+msg0E:
+	Newscaster:
+	Also in the news...#
+	Fatcat,
+	the notorious feline felon,#
+	escaped from prison
+	last night...#
+	@
+msg0F:
+	Chip:
+	All right, spill it!
+	Who set the time bomb?#
+	@
+msg10:
+	Water Rabbit:
+	I did!#
+	Fatcat asked me
+	to create a diversion,
+	and it worked!#
+	@
+msg11:
+	Dale:
+	No way!
+	Fatcat's in prison!#
+	@
+msg12:
+	Water Rabbit:
+	Not any more!
+	He broke out last night!#
+	He's planning to steal
+	the Urn of the Pharaoh!
+	He probably has it already!#
+	You're too late!#
+	@
+msg13:
+	Chip:
+	So where's the bomb!?#
+	@
+msg14:
+	Water Rabbit:
+	Find it yourself!
+	Ha ha ha!#
+	@
+msg15:
+	Chip:
+	Gadget,
+	have you found the bomb?#
+	@
+msg16:
+	Gadget:
+	Here's the bomb!#
+	Look, it has
+	blue and red wires coming
+	out of it!#
+	We have to cut
+	one of the wires
+	to defuse it!#
+	@
+msg17:
+	Dale:
+	But, uh, what happens
+	if we cut the wrong one?#
+	@
+msg18:
+	Gadget:
+	We're doomed!#
+	@
+msg19:
+	Dale:
+	Uh oh.#
+	@
+msg1A:
+	Gadget:
+	Which one should I cut?#
+	Red or blue?  Hurry!
+
+	 >Red  Blue
+	@
+msg1B:
+	Gadget:
+	Are you sure?
+	 >Yes  No
+	@
+msg1C:
+	Gadget:
+	OK, here goes!#
+	@
+msg1D:
+
+	BOOOOM!!!#
+	@
+msg1E:
+	Gadget:
+	Just kidding.
+	We cut the right one!#
+	@
+msg1F:
+	Chip:
+	I think I'm gonna faint!#
+	@
+msg20:
+	Gadget:
+	Hey!  Where's Dale?#
+	@
+msg21:
+	Chip:
+	Oh, he passed out.#
+	@
+msg22:
+	Gadget:
+	Whew!  I guess
+	that was the right one.#
+	@
+msg23:
+	Gadget:
+	It must have been
+	a fake bomb.#
+	@
+msg24:
+	Chip:
+	Hurry!  Fatcat's done stolen
+	the Urn of the Pharaoh!#
+	It's on a ship
+	about to leave port!#
+	@
+msg25:
+	Gadget:
+	Now what does Fatcat want
+	with the Urn of the Pharaoh?#
+	@
+msg26:
+	Chip:
+	Who knows?#
+	We've just got
+	to get it back!#
+	@
+msg27:
+	Dale:
+	The Urn of the Pharaoh
+	is missing#
+	and we don't have any leads!#
+	@
+msg28:
+	Zipper:
+	..... ... ..... ..#
+	@
+msg29:
+	Chip:
+	Montey!
+	What's Zipper saying!?#
+	@
+msg2A:
+	Monterey:
+	Well, luv, he says#
+	that Fatcat and his henchmen
+	headed into a warehouse
+	by the docks!#
+	@
+msg2B:
+	Chip:
+	Really?
+	Are you sure, Zipper?#
+	@
+msg2C:
+	Zipper:
+	...#
+	@
+msg2D:
+	Chip:
+	All right!
+	C'mon!  Let's go!#
+	Fatcat better watch out!#
+	@
+msg2E:
+	Chip:
+	Woah!
+	It's pitch dark in here!#
+	I can't see
+	a bloomin' thing!#
+	@
+msg2F:
+	Dale:
+	Hey!  The door shut itself!#
+	@
+msg30:
+	Ahhh ha ha ha.
+	Welcome,
+	my little Rescue Rangers!#
+	I've waited
+	a long time for this!#
+	@
+msg31:
+	Dale:
+	Fatcat??#
+	@
+msg32:
+	Fatcat:
+	The one and only!#
+	@
+msg33:
+	Chip:
+	Fatcat!  You stole
+	the Urn of the Pharaoh!#
+
+	@
+msg34:
+	Fatcat:
+	That's right!#
+	And it's full of
+	ancient evil spirits!#
+	When I release them,
+	I'll rule the world!#
+	@
+msg35:
+	Dale:
+	You'll never get away
+	with this, Fatcat!#
+	@
+msg36:
+	Fatcat:
+	And what will you do
+	to stop me!?#
+	You're in a
+	giant refrigerator!#
+	You'll be frozen solid
+	in three minutes!
+	Ha ha ha!#
+	@
+msg37:
+	Dale:
+	Aw, nuts!
+	What are we gonna do now?#
+	@
+msg38:
+	Chip:
+	I think I see an opening!
+	Over there!#
+	Maybe
+	we can escape through it!
+	Hurry!#
+	@
+msg39:
+	You'll be frozen solid
+	in three minutes!#
+	@
+msg3A:
+	Monterey:
+	Crikey!
+	There's ghosts everywhere!#
+	Fatcat must've
+	opened the urn!#
+	@
+msg3B:
+	Chip:
+	Look!  They're coming
+	from the warehouse!#
+	@
+msg3C:
+	Dale:
+	You m-m-mean the w-warehouse
+	is h-haunted...?#
+	@
+msg3D:
+	Chip:
+	Pull yourself together,
+	Dale!  You're a Ranger!
+
+	@
+msg3E:
+	Dale:
+	Yeah, and th-th-those
+	are gh-gh-ghosts!#
+	@
+msg3F:
+	Chip:
+	We did it!  All the ghosts
+	should disappear soon!#
+	@
+msg40:
+	Fatcat:
+	Don't you Rescue Rodents
+	ever learn?#
+	@
+msg41:
+	Dale:
+	Uh oh.  It's Fatcat!#
+	@
+msg42:
+	Chip:
+	Come out here and face us!
+	Are you a cat or a mouse!?#
+	@
+msg43:
+	Fatcat:
+	Not so fast, Rangers!#
+	If you dare to face me,
+	come to the amusement park!
+	I'll be waiting!#
+	@
+msg44:
+	Dale:
+	Ooh that Fatcat!
+	We gotta stop him!#
+	@
+msg45:
+	Chip:
+	Wait, Dale!
+	It smells like a trap to me!#
+	@
+msg46:
+	Fatcat:
+	You're doomed,
+	Rescue Rangers!#
+	I control
+	this entire amusement park!
+	You'll never capture me!#
+	@
+msg47:
+	Dale:
+	Oh yeah?
+	Don't bet on it, Fatcat!#
+	@
+msg48:
+	Fatcat:
+	Ha!  You need three keys
+	to enter my control room,#
+	and they're all hidden
+	in different parts
+	of the park!  Have fun!#
+	@
+msg49:
+	Dale:
+	We've got to get the keys!#
+	@
+msg4A:
+	Monterey:
+	Righto, Dale!
+	Where should we go first?#
+	 >Clock Tower
+	  Western World
+	  Future World
+	@
+msg4B:
+	Monterey:
+	Are you sure?
+	 >Yes  No
+	@
+msg4C:
+	Chip:
+	Let's go to the
+	dict80 first!#
+	@
+msg4D:
+	Gadget:
+	We found the key!
+	Where to next!?#
+	 >dict80
+	  dict81
+	@
+msg4E:
+	Dale:
+	dict80! Hurry!#
+	@
+msg4F:
+	Monterey:
+	We've got two keys!#
+	That means the last one
+	must be in
+	dict80!#
+	@
+msg50:
+	Chip:
+	Right!  Let's go!#
+	@
+msg51:
+	Chip:
+	Shhh!
+	Fatcat is right inside!#
+	@
+msg52:
+	Gadget:
+	Let's use the keys!#
+	@
+msg53:
+	Zipper:
+	.. ... ..#
+	@
+msg54:
+	Chip:
+	It's unlocked!
+	Open the door!#
+	@
+msg55:
+	Chip:
+	We've got you now, Fatcat!
+	The Rescue Rangers are here!#
+	@
+msg56:
+	Dale:
+	Hey!  He's gone!
+	Where'd he go!?#
+	@
+msg57:
+	Gadget:
+	Look, everyone!
+	A secret passage!  Let's go!#
+	@
+msg58:
+	Chip:
+	Be careful!  This could
+	be our last stand!#
+	@
+msg59:
+
+	Let's go Rescue Rangers!#
+	@
+msg5A:
+	Fatcat:
+	Welcome, Rescue Rangers!
+	I've been waiting for you!#
+	@
+msg5B:
+	Chip:
+	You'll never get away,
+	Fatcat!#
+	@
+msg5C:
+	Dale:
+	Surrender!#
+	@
+msg5D:
+	Fatcat:
+	You'll never defeat me,
+	Rescue Rangers!#
+	I have the ultimate weapon:
+	the Fatcat Robot!#
+	@
+msg5E:
+	Dale:
+	Did you hear something!?#
+	@
+msg5F:
+	Chip:
+	Look out everyone!#
+	@
+msg60:
+	Monterey:
+	The ceiling!
+	She's giving way!#
+	@
+msg61:
+	Chip:
+	Go find cover, everyone!#
+	Dale and I will track
+	Fatcat!#
+	@
+msg62:
+	Monterey:
+	Take care of yourselves!#
+	@
+msg63:
+	Monterey:
+	Chip and Dale are trapped
+	inside!#
+	We've lost the lads forever.#
+	@
+msg64:
+	Gadget:
+	Chip!  Dale!
+	Thank goodness you're safe!#
+	@
+msg65:
+	Chip:
+	We almost didn't make it!#
+	@
+msg66:
+	Dale:
+	And we never did capture
+	Fatcat.#
+	He must still
+	be trapped inside.#
+	@
+msg67:
+	Gadget:
+	But if I know Fatcat, he had
+	his escape well planned.#
+	@
+msg68:
+	Monterey:
+	Well, if nothing else,#
+	we made
+	that blighter's life
+	a little less cushy, eh?#
+	@
+msg69:
+	Dale:
+	You said it!#
+	@
+msg6A:
+	Gadget:
+	And if
+	he ever shows up again...#
+	@
+msg6B:
+	Chip:
+	Then I guess we'll just have
+	to teach him another lesson!#
+	Right Rangers?!#
+	@
+msg6C:
+
+	Right!  Watch out, Fatcat!#
+
+	We're the Rescue Rangers!#
+	@

@@ -8,22 +8,22 @@
 		SECTION_START	0B
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_ssub_unref:
-		NJSR				_obj_move_hor_animate
-		NJSR				_nsub_obj_to_tile_collision_test_hor
-		SBCSS				byte_6800C
-		NJSR				_j_nsub_complement_x_deltas
-byte_6800C:
-		SJSRS				_ssub_obj_jump_calcs
-		SBCSS				byte_6801F
-		NJSR				_nsub_get_obj_y_delta
-		SBMIS				byte_6801C
-		NJSR				_nsub_obj_to_obj_thrown_test_concat_up
-		SRET
-byte_6801C:
-		NJSR				_scr_cmd_clear_carry
-byte_6801F:
-		SRET
+;_ssub_unref:
+;		NJSR				_obj_move_hor_animate
+;		NJSR				_nsub_obj_to_tile_collision_test_hor
+;		SBCSS				byte_6800C
+;		NJSR				_j_nsub_complement_x_deltas
+;byte_6800C:
+;		SJSRS				_ssub_obj_jump_calcs
+;		SBCSS				byte_6801F
+;		NJSR				_nsub_get_obj_y_delta
+;		SBMIS				byte_6801C
+;		NJSR				_nsub_obj_to_obj_thrown_test_concat_up
+;		SRET
+;byte_6801C:
+;		NJSR				_scr_cmd_clear_carry
+;byte_6801F:
+;		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_acorn_prize_animate:
@@ -2875,7 +2875,7 @@ _nsub_room_scrolls_init:
 		STY		_ppu_scroll_nt_vert
 		STA		_ppu_scroll_shadow_lo
 		STA		_ppu_scroll_nt_hor
-; NOTE, this is seems an odd redundant leftover from early dev stage, initialized
+; REDUNDANT, this is seems an odd redundant leftover from early dev stage, initialized
 ; on two of three large tiles scroller bosses (ghost boss and final boss). by game's
 ; logic when split screen is on and _wnd_split_ppu_ofs+1 non zero, enables additional
 ; PPU reg loading to do an additional shift to the split screen. this usually
@@ -2884,10 +2884,10 @@ _nsub_room_scrolls_init:
 ; these vars does nothing. only place where split screen is used is to divide
 ; cutscene screen with message window. but for this mode they don't use additional wnd
 ; split.... remove me
-		LDA		#$00
-		STA		_wnd_split_ppu_ofs
-		LDA		#$2B
-		STA		_wnd_split_ppu_ofs+1
+;		LDA		#$00
+;		STA		_wnd_split_ppu_ofs
+;		LDA		#$2B
+;		STA		_wnd_split_ppu_ofs+1
 ; -
 		RTS
 

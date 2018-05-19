@@ -3,11 +3,7 @@
 
 		BANK_START $07
 
-;		INCBIN "..\copyrights.txt"
-
-; =============== S U B R O U T I N E =======================================
-_j_RESET:
-		JMP		_RESET
+		INCBIN "..\copyrights.txt"
 
 ; =============== S U B R O U T I N E =======================================
 NMI:
@@ -329,15 +325,15 @@ loc_B4206:
 loc_B420D:
 		DEX
 		BNE		loc_B420D
-; NOTE, redundant leftover, althought initialized at some points in the game,
+; REDUNDANT, leftover, althought initialized at some points in the game,
 ; never actually used because initialized there where no split screen mode
 ; enabled... remove it
-		LDY		_wnd_split_ppu_ofs+1
-		BEQ		loc_B421C
-		LDA		_wnd_split_ppu_ofs
-		STY		_PPU_ADDR
-		STA		_PPU_ADDR
-loc_B421C:
+;		LDY		_wnd_split_ppu_ofs+1
+;		BEQ		loc_B421C
+;		LDA		_wnd_split_ppu_ofs
+;		STY		_PPU_ADDR
+;		STA		_PPU_ADDR
+;loc_B421C:
 ; -
 		LDX		#$01
 		JSR		_ppu_scroll_reload
@@ -395,18 +391,18 @@ _ppu_increment_1:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_ppu_increment_32_unused:
-		LDA		_ppu_ctrl_shadow
-		ORA		#$04
-		STA		_ppu_ctrl_shadow
-		STA		_PPU_CTRL
-		RTS
+;_ppu_increment_32_unused:
+;		LDA		_ppu_ctrl_shadow
+;		ORA		#$04
+;		STA		_ppu_ctrl_shadow
+;		STA		_PPU_CTRL
+;		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _mmc1_init:
 		LDX		#$7F
-		STX		_unused_3
-		STX		_unused_4
+;		STX		_unused_3
+;		STX		_unused_4
 		STX		_cur_prg_bank
 		LDA		#$1E
 
@@ -423,8 +419,9 @@ _mmc1_ctrl_set:
 		STA		$9FFF
 		LSR
 		STA		$9FFF
-		LDA		#$00
-		STA		_mmc1_busy
+;		LDA		#$00
+;		STA		_mmc1_busy
+		DEC		_mmc1_busy
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
@@ -685,9 +682,9 @@ _adc_tmp_ptr0:
 		CLC
 		ADC		_tmp_ptr0
 		STA		_tmp_ptr0
-		LDA		_tmp_ptr0+1
-		ADC		#$00
-		STA		_tmp_ptr0+1
+		BCC		.adc_exit
+		INC		_tmp_ptr0+1
+.adc_exit
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
@@ -774,33 +771,26 @@ loc_B44B8:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_msg_frame_draw_param:
-		JSR		_get_param2
-		LDA		_tmp_ptr0
-		STA		_tmpA
-		LDA		_tmp_ptr0+1
-		STA		_tmpA+1
+_msg_frame_draw:
 		TYA
 		PHA
 		STX		_ram_buf0
 		LDA		#$01
-		STA		_ram_buf0+1
 		LDY		#$00
-		JSR		_msg_frame_fill
-		JSR		_rect_draw_param
-		.WORD	_ram_buf0
+		JSR		_msg_line_draw
 		PLA
 		SEC
 		SBC		#$02
 		ORA		#$80
-		STA		_ram_buf0+1
 		LDY		#$03
-		JSR		_msg_frame_fill
-		JSR		_rect_draw_param
-		.WORD	_ram_buf0
+		JSR		_msg_line_draw
 		LDA		#$01
-		STA		_ram_buf0+1
 		LDY		#$06
+		JMP		_msg_line_draw
+
+; =============== S U B R O U T I N E =======================================
+_msg_line_draw:
+		STA		_ram_buf0+1
 		JSR		_msg_frame_fill
 		JSR		_rect_draw_param
 		.WORD	_ram_buf0
@@ -808,23 +798,26 @@ _msg_frame_draw_param:
 
 ; =============== S U B R O U T I N E =======================================
 _msg_frame_fill:
-		LDA		(_tmpA),Y
+		LDA		_msg_frame_tiles_list,Y
 		STA		_ram_buf0+2
 		INY
 		LDX		_ram_buf0
 		DEX
 		DEX
 loc_B450E:
-		LDA		(_tmpA),Y
+		LDA		_msg_frame_tiles_list,Y
 		STA		_ram_buf0+2,X
 		DEX
 		BNE		loc_B450E
 		INY
 		LDX		_ram_buf0
 		DEX
-		LDA		(_tmpA),Y
+		LDA		_msg_frame_tiles_list,Y
 		STA		_ram_buf0+2,X
 		RTS
+
+_msg_frame_tiles_list:
+		.BYTE	$A2,$A5,$A3,$A4,$40,$A4,$A0,$A5,$A1
 
 ; =============== S U B R O U T I N E =======================================
 _pal_dequeue:
@@ -921,21 +914,21 @@ _menu_init:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_get_full_menu_input_unused:
-		JSR		_get_param2
-		LDY		#$00
-		LDA		(_tmp_ptr0),Y
-		JSR		_get_hor_menu_input
-		PHP
-		LDY		#$01
-		LDA		(_tmp_ptr0),Y
-		JSR		_get_vert_menu_input
-		ROL
-		PLP
-		BCS		locret_B45C4
-		LSR
-locret_B45C4:
-		RTS
+;_get_full_menu_input_unused:
+;		JSR		_get_param2
+;		LDY		#$00
+;		LDA		(_tmp_ptr0),Y
+;		JSR		_get_hor_menu_input
+;		PHP
+;		LDY		#$01
+;		LDA		(_tmp_ptr0),Y
+;		JSR		_get_vert_menu_input
+;		ROL
+;		PLP
+;		BCS		locret_B45C4
+;		LSR
+;locret_B45C4:
+;		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _menu_idx_changed:
@@ -950,31 +943,31 @@ _menu_idx_unchanged:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_get_hor_menu_input:
-		TAY
-		LDA		_tmp47
-		STA		_tmp48
-		LDA		_pads+4,X
-		AND		#$40
-		BEQ		loc_B45E4
-		LDA		_tmp47
-		BNE		loc_B45DF
-		STY		_tmp47
-loc_B45DF:
-		DEC		_tmp47
-		JMP		_menu_idx_changed
-loc_B45E4:
-		LDA		_pads+4,X
-		AND		#$80
-		BEQ		_menu_idx_unchanged
-		INC		_tmp47
-		CPY		_tmp47
-		BEQ		loc_B45F2
-		BCS		_menu_idx_changed
-loc_B45F2:
-		LDA		#$00
-		STA		_tmp47
-		BEQ		_menu_idx_changed
+;_get_hor_menu_input:
+;		TAY
+;		LDA		_tmp47
+;		STA		_tmp48
+;		LDA		_pads+4,X
+;		AND		#$40
+;		BEQ		loc_B45E4
+;		LDA		_tmp47
+;		BNE		loc_B45DF
+;		STY		_tmp47
+;loc_B45DF:
+;		DEC		_tmp47
+;		JMP		_menu_idx_changed
+;loc_B45E4:
+;		LDA		_pads+4,X
+;		AND		#$80
+;		BEQ		_menu_idx_unchanged
+;		INC		_tmp47
+;		CPY		_tmp47
+;		BEQ		loc_B45F2
+;		BCS		_menu_idx_changed
+;loc_B45F2:
+;		LDA		#$00
+;		STA		_tmp47
+;		BEQ		_menu_idx_changed
 
 ; =============== S U B R O U T I N E =======================================
 _get_vert_menu_input:
@@ -1004,8 +997,8 @@ loc_B461C:
 		BEQ		_menu_idx_changed
 
 ; =============== S U B R O U T I N E =======================================
-_draw_menu_cursor_param_unused:
-		JSR		_get_param2
+;_draw_menu_cursor_param_unused:
+;		JSR		_get_param2
 
 ; !FALLTHROUGH!
 
@@ -1072,8 +1065,8 @@ loc_B4666:
 		LDA		#$01
 		JMP		_tlm_queue
 
-_unused_1:
-		.BYTE	$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$06,$0A,$06,$0A,$0A,$0A
+;_unused_1:
+;		.BYTE	$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$06,$0A,$06,$0A,$0A,$0A
 _num_char_table1:
 		.BYTE	$E8,$E9,$EA,$EB,$EC,$ED,$EE,$EF,$F0,$F1,$00,$00,$00,$00,$00,$00
 		.BYTE	$01
@@ -2245,13 +2238,13 @@ loc_B4DFF:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_apu_wait_unref:
-		LDA		#$01
-		JSR		_wait_for_frames
-		LDA		_apu_active_chnls_flags
-		AND		#$0F
-		BNE		_apu_wait_unref
-		RTS
+;_apu_wait_unref:
+;		LDA		#$01
+;		JSR		_wait_for_frames
+;		LDA		_apu_active_chnls_flags
+;		AND		#$0F
+;		BNE		_apu_wait_unref
+;		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _apu_mus_req:
@@ -2279,11 +2272,11 @@ _apu_se_req:
 loc_B4E3D:
 		TAY
 		CPY		#_apu_mus72_idx
-; TODO: REDUNDANT, remove me!
-		BEQ		loc_B4E4A
-		CPY		#_apu_mus72_idx
-		BEQ		loc_B4E4A
-		CPY		#_apu_mus72_idx
+; REDUNDANT
+;		BEQ		loc_B4E4A
+;		CPY		#_apu_mus72_idx
+;		BEQ		loc_B4E4A
+;		CPY		#_apu_mus72_idx
 ; -
 		BNE		loc_B4E50
 loc_B4E4A:
@@ -2329,7 +2322,8 @@ loc_B4E7A:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_rle_unpack:
+_rle_unpack_param:
+		JSR		_get_param2
 		JSR		_ppu_increment_1
 		LDA		_PPU_STATUS
 		STY		_PPU_ADDR
@@ -2385,6 +2379,8 @@ _wnd_msg_sub1_char_put:
 		LDA		#$00
 		STA		_wnd_msg_char_send_flag
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
 _wnd_msg_char_printf:
 		JSR		_wnd_msg_char_fetch
@@ -2409,6 +2405,8 @@ _wnd_msg_ctrl_return:
 		LDA		_wnd_msg_next_dict_idx
 		CMP		#$FF
 		BNE		locret_B4F42
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
 _wnd_msg_ctrl_stop:
@@ -2515,11 +2513,8 @@ _wnd_msg_sub5_clear:
 		STA		_ram_buf0+1
 		LDA		#$40
 		STA		_ram_buf0+2
-		LDA		#<[_ram_buf0]
-		STA		_tmp_ptr0
-		LDA		#>[_ram_buf0]
-		STA		_tmp_ptr0+1
-		JSR		_rect_draw
+		JSR		_rect_draw_param
+		.WORD	_ram_buf0
 		INC		_cur_wnd_msg_row
 		LDX		_cur_wnd_msg_row
 		CPX		_wnd_msg_area_heigth
@@ -2619,11 +2614,8 @@ loc_B501F:
 locret_B5030:
 		RTS
 
-_bitmasks_0:
-		.BYTE	$01,$02,$04,$08,$10,$20,$40,$80
-
 ; =============== S U B R O U T I N E =======================================
-_pal_fade_out:
+_MAIN_RESTART:
 		LDX		#$04
 		LDA		#$FF
 		JSR		_set_pal_fade_out
@@ -2636,9 +2628,9 @@ _MAIN_START:
 		LDX		#$FF
 		TXS
 		JSR		_render_off
-		LDA		#$01
-		STA		_ppu_queue0_done_flag
-		LDX		#$00
+		LDX		#$01
+		STX		_ppu_queue0_done_flag
+		DEX
 		STX		byte_30
 		STX		_ppu_queue0_increment_mode
 		STX		_ppu_queue0_flag
@@ -2646,7 +2638,7 @@ _MAIN_START:
 		STX		_room_drawB_sub_idx
 		STX		byte_92
 		STX		_ingame_mode_idx
-		STX		_wnd_split_ppu_ofs+1
+;		STX		_wnd_split_ppu_ofs+1
 		STX		_apu_load_idx_req
 		STX		_wnd_msg_sub_idx
 		STX		_stage_flags
@@ -2669,7 +2661,7 @@ _MAIN_START:
 		.WORD	_main4_ingame
 		.WORD	_main7_game_over
 		.WORD	_main8_continue
-		.WORD	_main9_capcom_logo_unused
+;		.WORD	_main9_capcom_logo_unused
 
 ; =============== S U B R O U T I N E =======================================
 _MAIN_LOOP_START:
@@ -2702,11 +2694,11 @@ _main0_license:
 		JMP		_MAIN_LOOP_START
 
 ; =============== S U B R O U T I N E =======================================
-_main9_capcom_logo_unused:
-		LDY		#_OBJ_TYPE_AUTO
-		JSR		_scr_load_param
-		.WORD	_scr_capcom_logo_unused
-		JMP		_MAIN_LOOP_START
+;_main9_capcom_logo_unused:
+;		LDY		#_OBJ_TYPE_AUTO
+;		JSR		_scr_load_param
+;		.WORD	_scr_capcom_logo_unused
+;		JMP		_MAIN_LOOP_START
 
 ; =============== S U B R O U T I N E =======================================
 _main1_intro:
@@ -2738,8 +2730,8 @@ _main3_cutscenes:
 
 ; =============== S U B R O U T I N E =======================================
 _main5_stage_complete:
-		LDA		#<[_scr_stage_complete]
-		STA		_tmp_ptr0
+		LDA		#<[_scr_stage_complete]	; NOTE, stage complete script manually loaded
+		STA		_tmp_ptr0				; into slot2 instead of auto loading
 		LDA		#>[_scr_stage_complete]
 		STA		_tmp_ptr0+1
 		LDA		#$00
@@ -3010,7 +3002,7 @@ _ingame_loop_engine:
 		JMP		_ingame_loop
 loc_B52EB:
 		JSR		_players_restore_def_max_hps
-		JMP		_pal_fade_out
+		JMP		_MAIN_RESTART
 loc_B52F1:
 		LDA		_room_flags
 		AND		#$08
@@ -3033,7 +3025,7 @@ loc_B530A:
 		BNE		_j_room_complete
 		LDA		#$07
 		STA		_main_sub_idx
-		JMP		_pal_fade_out
+		JMP		_MAIN_RESTART
 _j_room_complete:
 		JMP		_room_complete
 
@@ -3050,31 +3042,12 @@ _status_screen_info_insert:
 		JSR		_spr_reset
 		LDA		#$02
 		STA		_scr_idx
-		LDA		#<[_num_char_table0]
-		STA		_tmp_ptr42
-		LDA		#>[_num_char_table0]
-		STA		_tmp_ptr42+1
-		LDA		#$01
-		STA		_tmp49
+		JSR		_status_screen_init
 loc_B5339:
 		LDX		_tmp49
 		LDA		_players_lives,X
 		BEQ		loc_B536F
-		LDY		_players_nums,X
-		LDA		_status_screen_info_pos_list,Y
-		STA		_obj_x_lo_poss+2
-		LDX		_tmp49
-		LDA		_players_rr_ptss,X
-		LDX		#$10
-		LDY		#$00
-		JSR		_format_num99
-		LDX		_tmp49
-		SEC
-		LDA		_players_lives,X
-		SBC		#$01
-		LDX		#$10
-		LDY		#$0A
-		JSR		_format_num99
+		JSR		_status_rr_lives_draw
 		LDX		_tmp49
 		LDA		_players_nums,X
 		ASL
@@ -3089,35 +3062,16 @@ loc_B536F:
 
 ; =============== S U B R O U T I N E =======================================
 _stage_complete_info_insert:
-		LDA		#<[_num_char_table0]
-		STA		_tmp_ptr42
-		LDA		#>[_num_char_table0]
-		STA		_tmp_ptr42+1
 		LDA		#_spr_lib0_0D_idx
 		LDX		#$60
 		LDY		#$28
 		JSR		_obj2_spr_insert
-		LDA		#$01
-		STA		_tmp49
+		JSR		_status_screen_init
 loc_B5389:
 		LDX		_tmp49
 		LDA		_players_lives,X
 		BEQ		loc_B53DC
-		LDY		_players_nums,X
-		LDA		_status_screen_info_pos_list,Y
-		STA		_obj_x_lo_poss+2
-		LDX		_tmp49
-		LDA		_players_rr_ptss,X
-		LDX		#$10
-		LDY		#$00
-		JSR		_format_num99
-		LDX		_tmp49
-		SEC
-		LDA		_players_lives,X
-		SBC		#$01
-		LDX		#$10
-		LDY		#$0A
-		JSR		_format_num99
+		JSR		_status_rr_lives_draw
 		LDX		_tmp49
 		LDA		_players_rr_lvls,X
 		LDX		#$10
@@ -3141,6 +3095,35 @@ loc_B5389:
 loc_B53DC:
 		DEC		_tmp49
 		BPL		loc_B5389
+		RTS
+
+; =============== S U B R O U T I N E =======================================
+_status_screen_init:
+		LDA		#<[_num_char_table0]
+		STA		_tmp_ptr42
+		LDA		#>[_num_char_table0]
+		STA		_tmp_ptr42+1
+		LDA		#$01
+		STA		_tmp49
+		RTS
+
+; =============== S U B R O U T I N E =======================================
+_status_rr_lives_draw:
+		LDY		_players_nums,X
+		LDA		_status_screen_info_pos_list,Y
+		STA		_obj_x_lo_poss+2
+		LDX		_tmp49
+		LDA		_players_rr_ptss,X
+		LDX		#$10
+		LDY		#$00
+		JSR		_format_num99
+		LDX		_tmp49
+		SEC
+		LDA		_players_lives,X
+		SBC		#$01
+		LDX		#$10
+		LDY		#$0A
+		JSR		_format_num99
 		RTS
 
 _status_screen_info_pos_list:
@@ -3456,7 +3439,7 @@ _room_complete:
 		BCC		loc_B55F8
 		TAX
 		LDA		_extra_stages_complete_flags
-		ORA		_bitmasks_0,X
+		ORA		_bitmasks,X
 		STA		_extra_stages_complete_flags
 loc_B55F8:
 		LDX		#$00
@@ -3471,7 +3454,7 @@ loc_B5606:
 		LDA		#$05
 		STA		_main_sub_idx
 loc_B560D:
-		JMP		_pal_fade_out
+		JMP		_MAIN_RESTART
 
 _main_screens_lib:
 		.WORD	_screen_res0_license
@@ -3483,7 +3466,7 @@ _main_screens_lib:
 		.WORD	_screen_res3_ingame
 		.WORD	_screen_res7_game_over
 		.WORD	_screen_res8_continue
-		.WORD	_screen_res9_capcom_logo_unused
+;		.WORD	_screen_res9_capcom_logo_unused
 
 ; =============== S U B R O U T I N E =======================================
 _main_screen_draw:
@@ -3498,7 +3481,7 @@ _main_screen_draw:
 		.WORD	_main_screen6_draw
 		.WORD	_main_screen7_draw_game_over
 		.WORD	_main_screen8_draw_continue
-		.WORD	_screen_res0_license ; WRONG VALUE!
+;		.WORD	_screen_res0_license ; WRONG VALUE!
 
 ; =============== S U B R O U T I N E =======================================
 _main_screen_init:
@@ -3616,16 +3599,17 @@ loc_B56EF:
 		STA		_obj_global_y_shift+1
 		RTS
 
-_screen_res9_capcom_logo_unused:
-		.BYTE	$02					; _ppu_mode
-		.WORD	_room_palA_12		; _pal_bg_ptr
-		.WORD	_room_palA_12		; _pal_spr_ptr
-		.BYTE	$84					; _fill_tile
-		.BYTE	$00					; _attr_fill
-		.BYTE	$24					; _nt_ofs
-		.BYTE	$09,$09,$09,$09		; _chr_banks
-		.BYTE	$00,$00,$10,$00		; _scrolls
-		.BYTE	$F0,$00,$00,$00		; _sprites
+;_screen_res9_capcom_logo_unused:
+;		.BYTE	$02					; _ppu_mode
+;		.WORD	_room_palA_12		; _pal_bg_ptr
+;		.WORD	_room_palA_12		; _pal_spr_ptr
+;		.BYTE	$84					; _fill_tile
+;		.BYTE	$00					; _attr_fill
+;		.BYTE	$24					; _nt_ofs
+;		.BYTE	$09,$09,$09,$09		; _chr_banks
+;		.BYTE	$00,$00,$10,$00		; _scrolls
+;		.BYTE	$F0,$00,$00,$00		; _sprites
+
 _screen_res0_license:
 		.BYTE	$02					; _ppu_mode
 		.WORD	_pal0				; _pal_bg_ptr
@@ -3710,11 +3694,9 @@ _main_screen2_draw_title:
 		JSR		_mmc1_prg_set
 		LDX		#$00
 		LDY		#$20
-		LDA		#<[_rle_tlm_title]
-		STA		_tmp_ptr0
-		LDA		#>[_rle_tlm_title]
-		STA		_tmp_ptr0+1
-		JMP		_rle_unpack
+		JSR		_rle_unpack_param
+		.WORD	_rle_tlm_title
+		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _main_screen3_draw_cutscenes:
@@ -3737,16 +3719,13 @@ _main_screen3_draw_cutscenes:
 		.WORD	_rect_frame_nt_clear
 		JSR		_tlm_res_queue_param
 		.WORD	_tlm_res_frame_attr_clear
-		LDA		#$02
-		JSR		_mmc1_prg_set
 		LDA		#$41
 		STA		_tmp_ptr44
 		LDA		#$24
 		STA		_tmp_ptr44+1
 		LDX		#$1E
 		LDY		#$08
-		JSR		_msg_frame_draw_param
-		.WORD	_msg_frame_tiles_list
+		JSR		_msg_frame_draw
 		LDX		#$1C
 		LDY		#$06
 		STX		_wnd_msg_area_width
@@ -3787,11 +3766,8 @@ _main_screen5_draw_stage_complete:
 		JSR		_mmc1_prg_set
 		LDX		#$00
 		LDY		#$20
-		LDA		#<[_rle_stage_complete]
-		STA		_tmp_ptr0
-		LDA		#>[_rle_stage_complete]
-		STA		_tmp_ptr0+1
-		JSR		_rle_unpack
+		JSR		_rle_unpack_param
+		.WORD	_rle_stage_complete
 		LDA		#_apu_mus1B_idx
 		JSR		_apu_mus_req
 		LDX		#$32
@@ -3846,11 +3822,9 @@ _main_screen8_draw_continue:
 		BCC		loc_B5895
 		LDY		#$28
 loc_B5895:
-		LDA		#<[_rle_tlm_continue]
-		STA		_tmp_ptr0
-		LDA		#>[_rle_tlm_continue]
-		STA		_tmp_ptr0+1
-		JMP		_rle_unpack
+		JSR		_rle_unpack_param
+		.WORD	_rle_tlm_continue
+		RTS
 
 _screen_res3_ingame:
 		.BYTE	$02					; _ppu_mode
@@ -4171,8 +4145,8 @@ _lvl_stage_room_idx_ofs:
 		.BYTE	_stage6_ofs
 		.BYTE	_stage7_ofs
 		.BYTE	_stage8_ofs
-_unref:
-		.BYTE	$05,$02,$01,$01,$02,$01,$04,$04,$07
+;_unref:
+;		.BYTE	$05,$02,$01,$01,$02,$01,$04,$04,$07
 _lvl_inro_cutscenes_list:
 		.BYTE	$0F,$03,$FF,$04,$09,$0A,$0B,$0B,$0B
 
@@ -4272,15 +4246,15 @@ _scr_cmd_lib:
 		_CMD_IDX	_scr_cmd33_damage_set
 		_CMD_IDX	_scr_cmd34_obj_set_hp
 		_CMD_IDX	_scr_cmd35_obj_flips_set
-		_CMD_IDX	_scr_cmd36_idxCs_set			; unused
+;		_CMD_IDX	_scr_cmd36_idxCs_set			; unused
 		_CMD_IDX	_scr_cmd37_main_sub_idx_set
 		_CMD_IDX	_scr_cmd38_pal_fade_in
 		_CMD_IDX	_scr_cmd39_pal_fade_out
-		_CMD_IDX	_scr_cmd3A_tlm_res_queue		; unused
+;		_CMD_IDX	_scr_cmd3A_tlm_res_queue		; unused
 		_CMD_IDX	_scr_cmd3B_draw_menu_cursor
-		_CMD_IDX	_scr_cmd3C_hor_menu_input		; unused
+;		_CMD_IDX	_scr_cmd3C_hor_menu_input		; unused
 		_CMD_IDX	_scr_cmd3D_vert_menu_input
-		_CMD_IDX	_scr_cmd3E_msg_area_set			; unused
+;		_CMD_IDX	_scr_cmd3E_msg_area_set			; unused
 		_CMD_IDX	_scr_cmd3F_msg_display
 		_CMD_IDX	_scr_cmd40_msg_wait
 		_CMD_IDX	_scr_cmd41_break
@@ -4298,8 +4272,8 @@ _scr_cmd_lib:
 #endif
 
 ; =============== S U B R O U T I N E =======================================
-_unref_7:
-		JMP		_scr_cmd_exec
+;_unref_7:
+;		JMP		_scr_cmd_exec
 
 ; =============== S U B R O U T I N E =======================================
 _scr_exec_priority:
@@ -4506,7 +4480,7 @@ _scr_cmd05_ejsr:
 _scr_cmd37_main_sub_idx_set:
 		JSR		_scr_getc
 		STA		_main_sub_idx
-		JMP		_pal_fade_out
+		JMP		_MAIN_RESTART
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd06_jmp:
@@ -5091,16 +5065,16 @@ _scr_cmd1E_spr_idx_select:
 		JMP		_scr_cmd_fetch
 
 ; =============== S U B R O U T I N E =======================================
-_scr_cmd_unref:
-		JSR		_scr_getc
-		STA		_scr_idxBs,X
-		JMP		_scr_cmd_fetch
+;_scr_cmd_unref:
+;		JSR		_scr_getc
+;		STA		_scr_idxBs,X
+;		JMP		_scr_cmd_fetch
 
 ; =============== S U B R O U T I N E =======================================
-_scr_cmd36_idxCs_set:
-		JSR		_scr_getc
-		STA		_scr_idxCs,X
-		JMP		_scr_cmd_fetch
+;_scr_cmd36_idxCs_set:
+;		JSR		_scr_getc
+;		STA		_scr_idxCs,X
+;		JMP		_scr_cmd_fetch
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd35_obj_flips_set:
@@ -5318,10 +5292,10 @@ _scr_cmd39_pal_fade_out:
 		JMP		_scr_cmd_fetch
 
 ; =============== S U B R O U T I N E =======================================
-_scr_cmd3A_tlm_res_queue:
-		JSR		_scr_getw
-		JSR		_tlm_res_queue
-		JMP		_scr_cmd_fetch
+;_scr_cmd3A_tlm_res_queue:
+;		JSR		_scr_getw
+;		JSR		_tlm_res_queue
+;		JMP		_scr_cmd_fetch
 
 #if OPTIMIZATION=1
 ; =============== S U B R O U T I N E =======================================
@@ -5362,12 +5336,12 @@ _scr_flags_store:
 		JMP		_scr_cmd_fetch
 
 ; =============== S U B R O U T I N E =======================================
-_scr_cmd3C_hor_menu_input:
-		JSR		_scr_getc
-		TAX
-		JSR		_scr_getc
-		JSR		_get_hor_menu_input
-		JMP		_scr_flags_store
+;_scr_cmd3C_hor_menu_input:
+;		JSR		_scr_getc
+;		TAX
+;		JSR		_scr_getc
+;		JSR		_get_hor_menu_input
+;		JMP		_scr_flags_store
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd3D_vert_menu_input:
@@ -5378,16 +5352,16 @@ _scr_cmd3D_vert_menu_input:
 		JMP		_scr_flags_store
 
 ; =============== S U B R O U T I N E =======================================
-_scr_cmd3E_msg_area_set:
-		JSR		_scr_getc
-		STA		_wnd_msg_area_width
-		JSR		_scr_getc
-		STA		_wnd_msg_area_heigth
-		JSR		_scr_getc
-		STA		_wnd_msg_ppu_ofs
-		JSR		_scr_getc
-		STA		_wnd_msg_ppu_ofs+1
-		JMP		_scr_cmd_fetch
+;_scr_cmd3E_msg_area_set:
+;		JSR		_scr_getc
+;		STA		_wnd_msg_area_width
+;		JSR		_scr_getc
+;		STA		_wnd_msg_area_heigth
+;		JSR		_scr_getc
+;		STA		_wnd_msg_ppu_ofs
+;		JSR		_scr_getc
+;		STA		_wnd_msg_ppu_ofs+1
+;		JMP		_scr_cmd_fetch
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd3F_msg_display:
@@ -6120,22 +6094,22 @@ loc_B655E:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_unref_4:
-		CLC
-		LDA		_scr_timerAs,X
-		ADC		#$01
-		AND		#$3F
-		STA		_scr_timerAs,X
-		RTS
+;_unref_4:
+;		CLC
+;		LDA		_scr_timerAs,X
+;		ADC		#$01
+;		AND		#$3F
+;		STA		_scr_timerAs,X
+;		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_unref_5:
-		SEC
-		LDA		_scr_timerAs,X
-		SBC		#$01
-		AND		#$3F
-		STA		_scr_timerAs,X
-		RTS
+;_unref_5:
+;		SEC
+;		LDA		_scr_timerAs,X
+;		SBC		#$01
+;		AND		#$3F
+;		STA		_scr_timerAs,X
+;		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd_neg_carry:
@@ -6642,9 +6616,9 @@ _nsub_cmp40_obj_x_lo_pos:
 		BNE		_nsub_cmp_obj_x_lo_pos
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_cmp50_obj_x_lo_pos_unref:
-		LDA		#$50
-		BNE		_nsub_cmp_obj_x_lo_pos
+;_nsub_cmp50_obj_x_lo_pos_unref:
+;		LDA		#$50
+;		BNE		_nsub_cmp_obj_x_lo_pos
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_cmp80_obj_x_lo_pos:
@@ -8115,16 +8089,16 @@ locret_B7100:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_unref_0:
-		LDX		_scr_idx
-		LDA		_scr_idxBs,X
-		TAY
-		AND		#$40
-		BEQ		locret_B7134
-		TYA
-		AND		#$BF
-		STA		_scr_idxBs,X
-		JMP		loc_B7129
+;_unref_0:
+;		LDX		_scr_idx
+;		LDA		_scr_idxBs,X
+;		TAY
+;		AND		#$40
+;		BEQ		locret_B7134
+;		TYA
+;		AND		#$BF
+;		STA		_scr_idxBs,X
+;		JMP		loc_B7129
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_disable_from_idxCs_40_flag:
@@ -8358,10 +8332,10 @@ loc_B72C6:
 		JMP		.spr_fetch_cmd_loop
 
 ; =============== S C R I P T ===============================================
-_scr_capcom_logo_unused:
-		SUSPEND				$78
-		STORE				$00,_main_sub_idx
-		SJMP				_ssub_fade_out
+;_scr_capcom_logo_unused:
+;		SUSPEND				$78
+;		STORE				$00,_main_sub_idx
+;		SJMP				_ssub_fade_out
 
 ; =============== S C R I P T ===============================================
 _scr_license:
@@ -9198,7 +9172,7 @@ _nsub_sub174:
 		STA		_tmp_ptrE+1
 loc_B78DE:
 		LDA		_extra_stages_complete_flags
-		AND		_bitmasks_0,X
+		AND		_bitmasks,X
 		BNE		loc_B78ED
 		CLC
 		TXA

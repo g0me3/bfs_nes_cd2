@@ -1,8 +1,8 @@
 ;-------------C-O-N-S-T-A-N-T-S-----------------
 
 DEBUG			EQU		0
-OPTIMIZATION	EQU		0
-BUGFIXES		EQU		0
+OPTIMIZATION	EQU		1
+BUGFIXES		EQU		1
 
 LANG_EN			EQU		0
 LANG_JP			EQU		1
@@ -1334,20 +1334,11 @@ _total_free	SET [_total_free+_bank{1}_free]
 	#endif
 		ORG		{2}-32
 		SEI
-		INC		[$FFE0+1]
+		INC		MMC1RESET
 		CLD
-		JMP		_j_RESET
-		.BYTE	$00,$00,$00,$00,$00,$00,$00,$00
-		.BYTE	$1B
-		.BYTE	$A4
-		.BYTE	$ED
-		.BYTE	$8B
-		.BYTE	$33
-		.BYTE	4
-		.BYTE	0
-		.BYTE	0
-		.BYTE	8
-		.BYTE	$E2
+		JMP		_RESET
+		.BYTE	$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+		.BYTE	$00,$00
 		.WORD NMI
 		.WORD RESET
 		.WORD RESET
@@ -1368,23 +1359,15 @@ _total_free	SET [_total_free+_bank{1}_free]
 		ORG		{2}-33
 		.BYTE	$FF
 	#endif
-RESET:
 		ORG		{2}-32
+RESET:
 		SEI
-		INC		.
+MMC1RESET:
+		INC		MMC1RESET
 		CLD
-		JMP		_j_RESET
-		.BYTE	$00,$00,$00,$00,$00,$00,$00,$00
-		.BYTE	$1B
-		.BYTE	$B
-		.BYTE	$ED
-		.BYTE	$8B
-		.BYTE	$33
-		.BYTE	4
-		.BYTE	0
-		.BYTE	0
-		.BYTE	8
-		.BYTE	$49
+		JMP		_RESET
+		.BYTE	$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+		.BYTE	$00,$00
 		.WORD NMI
 		.WORD RESET
 		.WORD RESET

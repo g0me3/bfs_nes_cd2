@@ -376,13 +376,6 @@
 
 		SECTION_END		02, "ROOM DATA C"
 
-		SECTION_START	02A
-
-_msg_frame_tiles_list:
-		.BYTE	$A2,$A5,$A3,$A4,$40,$A4,$A0,$A5,$A1
-
-		SECTION_END		02A, "PRG7 MSG FRAME TILES"
-
 		SECTION_START	03
 
 #if LANGUAGE = LANG_EN
@@ -555,29 +548,22 @@ _dictionary:
 		DICT_DATA	_Future_World
 		.BYTE	_F,_u,_t,_u,_r,_e,__,_W,_o,_r,_l,_d,_EOL
 		DICT_DATA	_There_s_no_Time_to_
-; OPTIMIZED
 		.BYTE	_T,_h,_e,_r,_e,_apo,_s,__,_n,_o,__,_t,_i,_m,_e,__,_t,_o,__,_EOL
 		DICT_DATA	_Water_Rabbit_ddt
 		.BYTE	_W,_a,_t,_e,_r,__,_R,_a,_b,_b,_i,_t,_ddt,_EOL
 		DICT_DATA	_Newscaster_ddt
 		.BYTE	_N,_e,_w,_s,_c,_a,_s,_t,_e,_r,_ddt,_EOL
-; OPTIMIZED
 		DICT_DATA	_restaurant
 		.BYTE	_r,_e,_s,_t,_a,_u,_r,_a,_n,_t,_EOL
-; OPTIMIZED
 		DICT_DATA	_amusement_park_exc
 		.BYTE	_a,_m,_u,_s,_e,_m,_e,_n,_t,__,_p,_a,_r,_k,_exc,_EOL
-; NOTE: one more time, the same word used as "_ever,_y,_one" combo instead with
-; exclamation too! two more word might be shrinked!
 		DICT_DATA	_everyone_exc
 		.BYTE	_e,_v,_e,_r,_y,_o,_n,_e,_exc,_EOL
 		DICT_DATA	_warehouse
 		.BYTE	_w,_a,_r,_e,_h,_o,_u,_s,_e,_EOL
-; NOTE: other place "downtown" shrinked with just "do,w,n,t,o,w,n",
 		DICT_DATA	__downtown
 		.BYTE	__,_d,_o,_w,_n,_t,_o,_w,_n,_EOL
 		DICT_DATA	_give_you
-; NOTE: same case there, two more same words optimized differently
 		.BYTE	_g,_i,_v,_e,__,_y,_o,_u,_EOL
 		DICT_DATA	_I_think_I
 		.BYTE	_I,__,_t,_h,_i,_n,_k,__,_I,_EOL

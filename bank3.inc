@@ -900,14 +900,14 @@ _obj_lib:
 		OBJ_IDX	_obj_scr19						; two special cases, objects with no
 		OBJ_IDX	_obj_scr1A						; scripts, pointer is $0000 here
 		OBJ_IDX	_obj_scr1B_monterey_refill
-		OBJ_IDX	_obj_scr1D_ball_in_box			; TODO, REMOVE ME. _obj_scr1C unused
+;		OBJ_IDX	_obj_scr1D_ball_in_box			; unused dupe of 1D
 		OBJ_IDX	_obj_scr1D_ball_in_box
 		OBJ_IDX	_obj_scr1E_zipper_in_box
 		OBJ_IDX	_obj_scr1F_star_prize
 		OBJ_IDX	_obj_scr20_lvl_exit_left
 		OBJ_IDX	_obj_scr21_lvl_exit_right
-		OBJ_IDX	_obj_scr22_lvl5C_box_bonus_entry; TODO, REMOVE ME. both refers the same
-		OBJ_IDX	_obj_scr23_lvl4_box_bonus_entry	;  handler but different indexes
+		OBJ_IDX	_obj_scr22_lvl5C_box_bonus_entry; NOTE, both refers the same
+		OBJ_IDX	_obj_scr23_lvl4_box_bonus_entry	; handler but different indexes
 		; _OBJ_TYPE_ENEMY group
 		OBJ_IDX	_obj_scr24_spoon_rat
 		OBJ_IDX	_obj_scr25_fork_rat
@@ -2746,6 +2746,8 @@ _pal_anim_reset:
 		STA		_pal_anim_mode_idx
 		STA		_pal_anim_cnt
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
 nullsub12:
 		RTS
@@ -2753,6 +2755,8 @@ nullsub12:
 ; =============== S U B R O U T I N E =======================================
 _pal_anim_mode0A:
 		LDA		#$05
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
 _pal_anim_inc:
@@ -2764,6 +2768,8 @@ _pal_anim_inc:
 ; =============== S U B R O U T I N E =======================================
 _pal_anim_mode0B:
 		LDA		#$05
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
 _pal_anim_dec:
@@ -2780,7 +2786,6 @@ _pal_anim_mode01:
 ; =============== S U B R O U T I N E =======================================
 _pal_anim_mode02:
 		LDA		#$05
-loc_53560:
 		BNE		_pal_anim_dec
 
 ; =============== S U B R O U T I N E =======================================
@@ -2792,6 +2797,8 @@ _pal_anim_mode11:
 _pal_anim_mode0C:
 		JSR		_pal_anim_tbl
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
 _pal_anim_mode0D:
 		LDA		#$03
@@ -2800,6 +2807,8 @@ _pal_anim_mode0D:
 ; =============== S U B R O U T I N E =======================================
 _pal_anim_mode0E:
 		JSR		_pal_anim_tbl
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
 _pal_anim_mode0F:
@@ -2825,6 +2834,7 @@ loc_5358E:
 		STA		_pal_anim_tbl_cnt
 locret_53594:
 		RTS
+
 _pal_anim_tbl_val:
 		.BYTE	$0F,$35,$0F,$14,$0F,$20,$0F,$27
 _pal_anim_tbl_delay:
@@ -2863,6 +2873,8 @@ _pal_anim_mode05:
 		STA		_pal_anim_cnt
 		INC		_pal_anim_mode_idx
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
 _pal_anim_mode06:
 		LDA		#$05
@@ -2884,6 +2896,8 @@ _pal_anim_mode07:
 		LDA		#$30
 		STA		_pal_anim_cnt
 		INC		_pal_anim_mode_idx
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
 _pal_anim_mode08:
@@ -2957,6 +2971,7 @@ _pal_anim_mode13:
 		STA		_pal_buf+$F
 		STA		_pal_tmp_buf+$F
 		RTS
+
 _pal_anim_tbl2:
 		.BYTE	$01,$38,$01
 
@@ -3181,16 +3196,16 @@ _rect18:
 		.BYTE	$00,$00,$8D,$8F,$88
 		.BYTE	$00,$00,$8E,$8A,$C1
 		.BYTE	$00,$00,$97,$9A,$D1
-_unref_2:
-		.BYTE	$01,$0F
+;_unref_2:
+;		.BYTE	$01,$0F
 _tlm00:
 		.BYTE	$C6,$C7
 _tlm02:
 		.BYTE	$C6,$C7
 _tlm04:
 		.BYTE	$C6,$C7,$C6,$C7,$C6,$C7,$C6,$C7,$C6,$C7,$00
-_unref_9:
-		.BYTE	$01,$0F,$D6
+;_unref_9:
+;		.BYTE	$01,$0F,$D6
 _tlm01:
 		.BYTE	$D7,$D6
 _tlm03:
@@ -3216,19 +3231,19 @@ _cat_boss_bg_patch1:
 _tlm_res_license:
 		.WORD	$2A21
 		.BYTE	$D
-		.BYTE	$3D,$40,$31,$39,$39,$33,$40,$44,$49,$53,$4E,$45,$59
+		.BYTE	$3D,"@1993@DISNEY"
 		.WORD	$6521
 		.BYTE	$18
-		.BYTE	$50,$52,$4F,$44,$55,$43,$45,$44,$40,$42,$59,$40,$43,$41,$50,$43
-		.BYTE	$4F,$4D,$40,$31,$39,$39,$33,$5B
+		.BYTE	"PRODUCED@BY@CAPCOM@1993",$5B
 		.WORD	$A521
 		.BYTE	$17
-		.BYTE	$43,$41,$50,$43,$4F,$4D,$40,$55,$5C,$53,$5C,$41,$5C,$3C,$49,$4E
-		.BYTE	$43,$5C,$40,$31,$39,$39,$33
-		.WORD	$622
+		.BYTE	"CAPCOM@U",$5C,"S",$5C,"A",$5C,$3C,"INC",$5C,"@1993"
+		.WORD	$0622
 		.BYTE	$14
-		.BYTE	$4C,$49,$43,$45,$4E,$53,$45,$44,$40,$42,$59,$40,$4E,$49,$4E,$54
-		.BYTE	$45,$4E,$44,$4F
+		.BYTE	"CAH4E3@BFS@GMBH@2018"
+		.WORD	$6622
+		.BYTE	$14
+		.BYTE	"LICENSED@BY@NINTENDO"
 		.BYTE	0
 _tlm15:
 		.BYTE	$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D

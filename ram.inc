@@ -65,10 +65,10 @@ _chr1_backup:
 		.BYTE	0
 _mmc1_ctrl_shadow:
 		.BYTE	$00
-_unused_3:
-		.BYTE	0
-_unused_4:
-		.BYTE	0
+;_unused_3:
+;		.BYTE	0
+;_unused_4:
+;		.BYTE	0
 _cur_prg_bank:
 		.BYTE	0
 _mmc1_busy:
@@ -101,8 +101,8 @@ _pads_tmp:
 		.BYTE	0,0
 _pads:
 		.BYTE	0,0,0,0,0,0
-_unref_1:
-		.BYTE	0,0
+;_unref_1:
+;		.BYTE	0,0
 _main_sub_idx:
 		.BYTE	0
 _ingame_mode_idx:
@@ -271,8 +271,8 @@ byte_B1:
 		.BYTE	0
 _lvl_start_scroll_vert:
 		.BYTE	0,0
-_wnd_split_ppu_ofs:
-		.BYTE	0,0
+;_wnd_split_ppu_ofs:
+;		.BYTE	0,0
 _cur_mus_playing:
 		.BYTE	0
 _apu_load_idx_req:
@@ -327,12 +327,12 @@ byte_E3:
 		.BYTE	0
 _extra_stages_complete_flags:
 		.BYTE	0
-_unref_3:
-		.BYTE	0,0,0,0,0,0,0,0
+;_unref_3:
+;		.BYTE	0,0,0,0,0,0,0,0
 _last_scr_slot_idx:
 		.BYTE	$00
-_unref_6:
-		.BYTE	0,0
+;_unref_6:
+;		.BYTE	0,0
 _apu_load_idx:
 		.BYTE	0
 _apu_active_chnls_flags:

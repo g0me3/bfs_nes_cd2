@@ -12,7 +12,7 @@ _script_sub_unref:
 		SBCSS				byte_6800C
 		NJSR				_j_native_complement_x_deltas
 byte_6800C:
-		SJSR				_script_sub_68044
+		SJSR				_script_sub_obj_wait_jump_calcs
 		SBCSS				byte_6801F
 		NJSR				_native_get_obj_y_delta
 		SBMIS				byte_6801C
@@ -28,7 +28,7 @@ _script_acorn_prize_animate:
 		SYNC
 		NJSR				_native_get_obj_y_delta
 		SBEQS				byte_6802F
-		SJSR				_script_sub_6803E
+		SJSR				_script_sub_obj_wait_jump
 		SBCCS				byte_6802F
 		OBJ_X_DELTA_SET		$00
 byte_6802F:
@@ -37,26 +37,26 @@ byte_6802F:
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_script_sub_68036:
-		SJSR				_script_sub_6803D
-		SBCCS				_script_sub_68036
+_script_sub_obj_wait_for_jump:
+		SJSR				_script_sub_obj_wait_jump_sync
+		SBCCS				_script_sub_obj_wait_for_jump
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_script_sub_6803D:
+_script_sub_obj_wait_jump_sync:
 		SYNC
 
 ; !FALLTHROUGH!
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_script_sub_6803E:
+_script_sub_obj_wait_jump:
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_obj_to_tile_collision_test_hor
 
 ; !FALLTHROUGH!
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_script_sub_68044:
+_script_sub_obj_wait_jump_calcs:
 		NJSR				_native_obj_y_parabolic_delta_adjust
 		NJSR				_native_get_obj_y_delta
 		SBPLS				byte_6805C
@@ -82,7 +82,7 @@ _script_sub_68065:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_6806C:
-		NJSR				_native_sub13A
+		NJSR				_native_obj_mode_set_throw
 		NJSR				_native_obj_idxCs_clear_low_nibble
 		NJSR				_native_sub164
 byte_68075:
@@ -106,30 +106,30 @@ _obj_scr_common_destr:
 ; !FALLTHROUGH!
 
 ; =============== S C R I P T   R O U T I N E ===============================
-byte_68092:
+_script_sub_infinite_anim_sync:
 		OBJ_ANIMATE_SYNC
-		SJMP				byte_68092
+		SJMP				_script_sub_infinite_anim_sync
 
 ; =============== S C R I P T   R O U T I N E ===============================
-byte_68096:
+_script_sub_y_parabolic_delta_infinite_anim_sync:
 		OBJ_ANIMATE_SYNC
 		NJSR				_native_obj_y_parabolic_delta_adjust
-		SJMP				byte_68096
+		SJMP				_script_sub_y_parabolic_delta_infinite_anim_sync
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_6809D:
 		SJSR				_script_sub_680E7
 		OBJ_X_DELTA_SET		$00
-		NJSR				_scr_param_4_clear
+		NJSR				_scr_flips_04_clear
 byte_680A5:
 		SJSR				_script_sub_680C3
 		LOOPA				$3C,byte_680A5
 		LOOPB				$08,byte_680A5
-		NJSR				_scr_param_10_set
+		NJSR				_scr_flips_10_set
 byte_680B3:
 		SJSR				_script_sub_680C3
 		LOOPA				$78,byte_680B3
-		NJSR				_scr_param_10_clear
+		NJSR				_scr_flips_10_clear
 		NJSR				_players_animB_sub0129_sub06_A
 		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		SRET
@@ -141,7 +141,7 @@ _script_sub_680C3:
 		SBMIS				byte_680D4
 		NJSR				_native_obj_to_tile_collision_test_down
 		SBCSS				byte_680D3
-		SJSR				_script_sub_68044
+		SJSR				_script_sub_obj_wait_jump_calcs
 byte_680D3:
 		SRET
 byte_680D4:
@@ -150,8 +150,8 @@ byte_680D4:
 		OBJ_X_DELTA_SET		$C0
 		NJSR				_native_sub11B
 		NJSR				_native_sub11C
-		NJSR				_native_scr_params_set04_hi_nibble_clear
-		SJMP				byte_68092
+		NJSR				_native_obj_mode_set_mode4
+		SJMP				_script_sub_infinite_anim_sync
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_680E7:
@@ -162,7 +162,7 @@ _script_sub_680E7:
 		NJSR				_players_animB_sub3_B_A
 		NJSR				_players_animB_sub0129_sub0E_A
 byte_680F5:
-		SJSR				_script_sub_6803D
+		SJSR				_script_sub_obj_wait_jump_sync
 		SBCSS				byte_68101
 		NJSR				_native_get_obj_var0D
 		SBPLS				byte_680F5
@@ -173,7 +173,7 @@ byte_68101:
 _script_sub_68102:
 		OBJ_Y_DELTA_SET		$00
 		NJSR				_native_obj_idxCs_clear_low_nibble
-		NJSR				_scr_param_10_clear
+		NJSR				_scr_flips_10_clear
 byte_6810A:
 		SYNC
 		NJSR				_players_animB_sub0129_sub06_C
@@ -196,46 +196,46 @@ _obj_scr24_spoon_rat:
 		NJSR				_native_sub10E
 		NJSR				_native_obj_hor_delta_toggle
 byte_68132:
-		SPR_IDX_SELECT		_spr_lib7_00
-		SJSR				_script_sub_6814C
-		SPR_IDX_SELECT		_spr_lib7_01
-		SJSR				_script_sub_6814C
+		SPR_IDX_SELECT		_spr_lib7_00				; 4-frame walk animation
+		SJSR				_script_sub_spoon_rat_ai	; fast enough delta to get all
+		SPR_IDX_SELECT		_spr_lib7_01				; its path for only 4 steps here
+		SJSR				_script_sub_spoon_rat_ai
 		SPR_IDX_SELECT		_spr_lib7_02
-		SJSR				_script_sub_6814C
+		SJSR				_script_sub_spoon_rat_ai
 		SPR_IDX_SELECT		_spr_lib7_01
-		SJSR				_script_sub_6814C
+		SJSR				_script_sub_spoon_rat_ai
 byte_68146:
-		NJSR				_native_obj_hor_move_reverse
+		NJSR				_native_obj_hor_move_reverse	; when reached end of path, flip x
 		SJMP				byte_68132
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_script_sub_6814C:
+_script_sub_spoon_rat_ai:
 		SYNC
-		NJSR				_native_sub131
+		NJSR				_native_obj_to_throw_collision_test_range40				; player's box watch
 		SBCCS				byte_6816A
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_move_hor_animate		; if no player, just walk
 		NJSR				_native_obj_to_tile_collision_test_hor
-		SBCSS				byte_6815F
-		BREAK				byte_68146
+		SBCSS				byte_6815F					; auto detect obstacles
+		BREAK				byte_68146					; turn back if reached any solid object
 byte_6815F:
 		NJSR				_native_obj_to_tile_collision_test_down
-		SBCC				_script_sub_68036
-		LOOPA				$08,_script_sub_6814C
+		SBCC				_script_sub_obj_wait_for_jump
+		LOOPA				$08,_script_sub_spoon_rat_ai; repeat 8 times for 1 step
 		SRET
 byte_6816A:
 		NJSR				_native_sub132
-		SPR_IDX_SELECT		$03	; _spr_libx_03
+		SPR_IDX_SELECT		_spr_lib7_03
 		SUSPEND				$08
-		SPR_IDX_SELECT		$04	; _spr_libx_04
+		SPR_IDX_SELECT		_spr_lib7_04
 		APU_LOAD			$5E
-		NJSR				_native_sub10C
+		NJSR				_native_obj_to_throw_collision_test_range20
 		SBCSS				byte_6817E
-		NJSR				_native_sub10D
+		NJSR				_native_obj_stun_from_idxAs_test
 byte_6817E:
 		SUSPEND				$08
-		SPR_IDX_SELECT		$05	; _spr_libx_05
+		SPR_IDX_SELECT		_spr_lib7_05
 		SUSPEND				$08
-		SPR_IDX_SELECT		$00	; _spr_libx_00
+		SPR_IDX_SELECT		_spr_lib7_00
 		SUSPEND				$08
 		NJSR				_native_sub10E
 		NJSR				_native_obj_hor_delta_toggle
@@ -243,7 +243,7 @@ byte_6817E:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr_24_spoon_rat_destr:
-		SPR_IDX_SELECT		$06	; _spr_libx_06
+		SPR_IDX_SELECT		_spr_lib7_06
 		NJSR				_native_get_obj_hp
 		SBEQ				_obj_scr_common_destr
 		SJSR				_script_sub_6809D
@@ -251,11 +251,11 @@ _obj_scr_24_spoon_rat_destr:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr25_fork_rat:
-		DESTR_PC_SET		_obj_scr_common_destr
-		SPR_LIB_SELECT		_spr_lib7
+		DESTR_PC_SET		_obj_scr_common_destr		; fork rat can be killed with throwable
+		SPR_LIB_SELECT		_spr_lib7					; projectile in any ai mode, no beat off
 		SPR_IDX_SELECT		_spr_lib7_07
 		OBJ_HP_SET			$01
-		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL				; deadly rat!
 		OBJ_SIZE_SET		$08,$18
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		OBJ_X_DELTA_SET		$F0
@@ -263,89 +263,93 @@ _obj_scr25_fork_rat:
 		NJSR				_native_sub10E
 		NJSR				_native_obj_hor_delta_toggle
 byte_681B8:
-		SPR_IDX_SELECT		_spr_lib7_08
-		SJSR				_script_sub_681D2
+		SPR_IDX_SELECT		_spr_lib7_08				; same 4-step path as for
+		SJSR				_script_sub_fork_rat_passive_ai	; spoon rat, passive phase
 		SPR_IDX_SELECT		_spr_lib7_09
-		SJSR				_script_sub_681D2
+		SJSR				_script_sub_fork_rat_passive_ai
 		SPR_IDX_SELECT		_spr_lib7_0A
-		SJSR				_script_sub_681D2
+		SJSR				_script_sub_fork_rat_passive_ai
 		SPR_IDX_SELECT		_spr_lib7_09
-		SJSR				_script_sub_681D2
+		SJSR				_script_sub_fork_rat_passive_ai
 		NJSR				_native_obj_hor_move_reverse
 		SJMP				byte_681B8
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_script_sub_681D2:
-		OBJ_ANIMATE_SYNC
-		NJSR				_native_sub115
-		SBCSS				byte_681DF
-		NJSR				_native_sub17E
-		SBCCS				byte_681E4
+_script_sub_fork_rat_passive_ai:
+		OBJ_ANIMATE_SYNC								; not sure why they put this animation here
+		NJSR				_native_obj_y_collision_test_from_byte_AB
+		SBCSS				byte_681DF					; skip if player not on the same y pos
+		NJSR				_native_obj_x_range50_test_from_byte_AB
+		SBCCS				byte_681E4					; test if player get in close range
 byte_681DF:
-		LOOPA				$08,_script_sub_681D2
+		LOOPA				$08,_script_sub_fork_rat_passive_ai	; unless loop animation as usual
 		SRET
 byte_681E4:
-		LOOPA_RESET
+		LOOPA_RESET										; start active phase
 		LOOPB_RESET
 		NJSR				_native_sub10E
 		NJSR				_native_obj_hor_delta_toggle
-		BREAK				byte_681EF
-byte_681EF:
-		SPR_IDX_SELECT		$07	; _spr_libx_07
+		BREAK				_obj_scr_fork_rat_throw		; exit sub, jump to new obj ai code
+
+; =============== O B J E C T   S C R I P T =================================
+_obj_scr_fork_rat_throw:
+		SPR_IDX_SELECT		_spr_lib7_07				; first throw its fork
 		SUSPEND				$10
-		SPR_IDX_SELECT		$0C	; _spr_libx_0C
+		SPR_IDX_SELECT		_spr_lib7_0C				; animate 3 phases, throw
 		SUSPEND				$10
 		APU_LOAD			$5F
-		SPR_IDX_SELECT		$0D	; _spr_libx_0D
-		SRUN				_OBJ_SCR_ENEMY,_script100
+		SPR_IDX_SELECT		_spr_lib7_0D
+		SRUN				_OBJ_SCR_ENEMY,_obj_scr_fork_rat_projectile
 		SUSPEND				$10
-		SPR_IDX_SELECT		$07	; _spr_libx_07
+		SPR_IDX_SELECT		_spr_lib7_07				; then one more phase to release
 		SUSPEND				$10
 byte_68205:
-		SPR_IDX_SELECT		$08	; _spr_libx_08
-		SJSR				_script_sub_6821C
-		SPR_IDX_SELECT		$09	; _spr_libx_09
-		SJSR				_script_sub_6821C
-		SPR_IDX_SELECT		$0A	; _spr_libx_0A
-		SJSR				_script_sub_6821C
-		SPR_IDX_SELECT		$09	; _spr_libx_09
-		SJSR				_script_sub_6821C
+		SPR_IDX_SELECT		_spr_lib7_08				; now cycling the active animations
+		SJSR				_script_sub_fork_rat_active_ai
+		SPR_IDX_SELECT		_spr_lib7_09
+		SJSR				_script_sub_fork_rat_active_ai
+		SPR_IDX_SELECT		_spr_lib7_0A
+		SJSR				_script_sub_fork_rat_active_ai
+		SPR_IDX_SELECT		_spr_lib7_09
+		SJSR				_script_sub_fork_rat_active_ai
 		SJMP				byte_68205
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_script_sub_6821C:
+_script_sub_fork_rat_active_ai:
 		SYNC
-		NJSR				_obj_move_hor_animate
-		NJSR				_native_obj_to_tile_collision_test_hor
+		NJSR				_obj_move_hor_animate		; move horizontally
+		NJSR				_native_obj_to_tile_collision_test_hor	; when tile obstacles
+		SBCCS				byte_68231					; jump up on them
+		NJSR				_native_obj_to_tile_collision_test_down	; or hop off
 		SBCCS				byte_68231
-		NJSR				_native_obj_to_tile_collision_test_down
-		SBCCS				byte_68231
-		LOOPA				$08,_script_sub_6821C
-		SRET
+		LOOPA				$08,_script_sub_fork_rat_active_ai	; else, loop 8 times and
+		SRET											; return for new phase
 byte_68231:
 		LOOPA_RESET
-		SPR_IDX_SELECT		$09	; _spr_libx_09
-		OBJ_Y_DELTA_SET		$C0
-		SJMP				_script_sub_68036
+		SPR_IDX_SELECT		_spr_lib7_09				; jump up animation start
+		OBJ_Y_DELTA_SET		$C0							; set jump speed, do common code
+		SJMP				_script_sub_obj_wait_for_jump
 
 ; =============== S C R I P T ===============================================
-_script100:
-		DESTR_PC_SET		byte_68252
+_obj_scr_fork_rat_projectile:
+		DESTR_PC_SET		_obj_scr_fork_rat_projectile_destr
 		OBJ_HP_SET			$01
-		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
-		OBJ_SIZE_SET		$08,$04
+		OBJ_DAMAGE_SET		_OBJ_DMG_KILL				; do not fear a rat, fear its FORK!
+		OBJ_SIZE_SET		$08,$04						; one hit you are in the morgue
 		SPR_LIB_SELECT		_spr_lib7
-		SPR_IDX_SELECT		$0E	; _spr_libx_0E
+		SPR_IDX_SELECT		_spr_lib7_0E
 		OBJ_Y_POS_MOVE		$F0
 		OBJ_X_DELTA_SET		$30
 		NJSR				_native_obj_hor_bounce13
 		PARAM_80_CLEAR
-		SJMP				byte_68092
-byte_68252:
+		SJMP				_script_sub_infinite_anim_sync
+
+; =============== O B J E C T   S C R I P T =================================
+_obj_scr_fork_rat_projectile_destr:
 		OBJ_X_DELTA_SET		$0C
 		OBJ_Y_DELTA_SET		$E0
 		NJSR				_players_animB_sub3_B_A
-		SJMP				byte_68096
+		SJMP				_script_sub_y_parabolic_delta_infinite_anim_sync
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr26_fake_boxA:
@@ -361,9 +365,9 @@ _obj_scr26_fake_boxA:
 		NJSR				_native_sub10E
 byte_68273:
 		SYNC
-		NJSR				_native_sub17E
+		NJSR				_native_obj_x_range50_test_from_byte_AB
 		SBCSS				byte_68273
-		NJSR				_native_sub115
+		NJSR				_native_obj_y_collision_test_from_byte_AB
 		SBCSS				byte_68273
 		APU_LOAD			$60
 		OBJ_SIZE_SET		$08,$18
@@ -378,7 +382,7 @@ byte_68273:
 		SPR_IDX_SELECT		$14	; _spr_libx_14
 		OBJ_Y_DELTA_SET		$D0
 		SUSPEND				$08
-		SJSR				_script_sub_68036
+		SJSR				_script_sub_obj_wait_for_jump
 		OBJ_X_DELTA_SET		$F0
 		OBJ_Y_DELTA_SET		$00
 		NJSR				_native_obj_hor_delta_toggle
@@ -407,7 +411,7 @@ byte_682D1:
 		LOOPA_RESET
 		SPR_IDX_SELECT		$14	; _spr_libx_14
 		OBJ_Y_DELTA_SET		$C0
-		SJMP				_script_sub_68036
+		SJMP				_script_sub_obj_wait_for_jump
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr27_honey_bee:
@@ -442,7 +446,7 @@ byte_68314:
 		SPR_IDX_SELECT		$1B	; _spr_libx_1B
 		SJSR				_script_sub_6833A
 		LOOPA				$02,byte_68314
-		SRUN				_OBJ_SCR_STUN,_script101
+		SRUN				_OBJ_SCR_STUNB,_script101
 byte_68326:
 		SPR_IDX_SELECT		$16	; _spr_libx_16
 		SJSR				_script_sub_6833A
@@ -469,7 +473,7 @@ _script101:
 		SPR_IDX_SELECT		$1C	; _spr_libx_1C
 		OBJ_Y_DELTA_SET		$08
 		PARAM_80_CLEAR
-		SJMP				byte_68096
+		SJMP				_script_sub_y_parabolic_delta_infinite_anim_sync
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr28_green_ceiling_bat:
@@ -483,7 +487,7 @@ _obj_scr28_green_ceiling_bat:
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 byte_6836B:
-		NJSR_SYNC			_native_sub112
+		NJSR_SYNC			_native_obj_x_range60_test_from_byte_AB
 		SBCSS				byte_6836B
 		TARGET_DIR_SET		$00
 byte_68373:
@@ -526,7 +530,7 @@ byte_683A5:
 _script_sub_683BF:
 		SYNC
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub112
+		NJSR				_native_obj_x_range60_test_from_byte_AB
 		SBCCS				byte_683CE
 		LOOPA				$08,_script_sub_683BF
 		SRET
@@ -583,7 +587,7 @@ _script_sub_6841E:
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr2A_pink_fish:
 		DESTR_PC_SET		_obj_scr_common_destr
-		NJSR				_scr_param_4_set
+		NJSR				_scr_flips_04_set
 		SPR_LIB_SELECT		_spr_lib7
 		OBJ_HP_SET			$01
 		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
@@ -596,12 +600,12 @@ byte_68434:
 		SPR_IDX_SELECT		$1E	; _spr_libx_1E
 		SUSPEND				$04
 		NJSR				_native_sub114
-		NJSR				_scr_param_4_clear
+		NJSR				_scr_flips_04_clear
 		OBJ_Y_DELTA_SET		$B7
 		SJSR				_script_sub_6846D
 		OBJ_Y_DELTA_SET		$00
 		SJSR				_script_sub_6846D
-		NJSR				_scr_param_4_set
+		NJSR				_scr_flips_04_set
 		NJSR				_native_sub114
 		APU_LOAD			$65
 		SPR_IDX_SELECT		$23	; _spr_libx_23
@@ -649,9 +653,9 @@ byte_68497:
 		OBJ_SIZE_SET		$08,$0F
 byte_6849A:
 		SJSR				_script_sub_68514
-		NJSR				_native_sub115
+		NJSR				_native_obj_y_collision_test_from_byte_AB
 		SBCSS				byte_6849A
-		NJSR				_native_sub116
+		NJSR				_native_obj_x_range30_test_from_byte_AB
 		SBCSS				byte_6849A
 		NJSR				_native_sub10E
 byte_684AC:
@@ -701,7 +705,7 @@ _script_sub_68514:
 		SYNC
 		NJSR				_native_obj_to_tile_collision_test_down
 		SBCSS				byte_6851E
-		SJSR				_script_sub_68036
+		SJSR				_script_sub_obj_wait_for_jump
 byte_6851E:
 		SRET
 
@@ -865,21 +869,21 @@ _obj_scr2D_candle_dancing_destr:
 		OBJ_SIZE_SET		$05,$18
 		SJSR				_script_sub_680E7
 		OBJ_X_DELTA_SET		$00
-		NJSR				_scr_param_4_clear
+		NJSR				_scr_flips_04_clear
 byte_68657:
 		SPR_IDX_SELECT		$3B	; _spr_libx_3B
 		SJSR				_script_sub_6867F
 		SPR_IDX_SELECT		$3C	; _spr_libx_3C
 		SJSR				_script_sub_6867F
 		LOOPB				$14,byte_68657
-		NJSR				_scr_param_10_set
+		NJSR				_scr_flips_10_set
 byte_68668:
 		SPR_IDX_SELECT		$3B	; _spr_libx_3B
 		SJSR				_script_sub_6867F
 		SPR_IDX_SELECT		$3C	; _spr_libx_3C
 		SJSR				_script_sub_6867F
 		LOOPB				$05,byte_68668
-		NJSR				_scr_param_10_clear
+		NJSR				_scr_flips_10_clear
 		NJSR				_players_animB_sub0129_sub06_A
 		SJMP				_obj_scr2D_candle_dancing
 
@@ -890,7 +894,7 @@ _script_sub_6867F:
 		SBMIS				byte_68694
 		NJSR				_native_obj_to_tile_collision_test_down
 		SBCSS				byte_6868F
-		SJSR				_script_sub_68044
+		SJSR				_script_sub_obj_wait_jump_calcs
 byte_6868F:
 		LOOPA				$0C,_script_sub_6867F
 		SRET
@@ -901,8 +905,8 @@ byte_68694:
 		OBJ_X_DELTA_SET		$C0
 		NJSR				_native_sub11B
 		NJSR				_native_sub11C
-		NJSR				_native_scr_params_set04_hi_nibble_clear
-		SJMP				byte_68092
+		NJSR				_native_obj_mode_set_mode4
+		SJMP				_script_sub_infinite_anim_sync
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr2E_ghost_dogA:
@@ -1001,7 +1005,7 @@ byte_68763:
 byte_68766:
 		NJSR				_obj_vert_animate
 		OBJ_ANIMATE_SYNC
-		NJSR				_native_sub128
+		NJSR				_native_obj_x_range40_test_from_byte_AB
 		SBCSS				byte_68773
 		BREAK				byte_68778
 byte_68773:
@@ -1150,9 +1154,9 @@ byte_6886D:
 		BREAK				byte_6885D
 byte_6887A:
 		NJSR				_native_obj_to_tile_collision_test_down
-		SBCC				_script_sub_68036
+		SBCC				_script_sub_obj_wait_for_jump
 		LOOPA				$0E,byte_6886D
-		NJSR				_native_sub116
+		NJSR				_native_obj_x_range30_test_from_byte_AB
 		SBCCS				byte_6888B
 		SRET
 byte_6888B:
@@ -1166,7 +1170,7 @@ byte_68895:
 		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCCS				byte_688A9
 		NJSR				_native_obj_to_tile_collision_test_down
-		SBCC				_script_sub_68036
+		SBCC				_script_sub_obj_wait_for_jump
 		LOOPA				$20,byte_68895
 byte_688A9:
 		BREAK				byte_68841
@@ -1195,13 +1199,13 @@ byte_688CE:
 		SPR_IDX_SELECT		$57	; _spr_libx_57
 byte_688D9:
 		SJSR				_script_sub_688F8
-		NJSR				_native_sub116
+		NJSR				_native_obj_x_range30_test_from_byte_AB
 		SBCCS				byte_6890C
 		LOOPA				$08,byte_688D9
 		SPR_IDX_SELECT		$58	; _spr_libx_58
 byte_688E8:
 		SJSR				_script_sub_688F8
-		NJSR				_native_sub116
+		NJSR				_native_obj_x_range30_test_from_byte_AB
 		SBCCS				byte_6890C
 		LOOPA				$08,byte_688E8
 		SJMP				byte_688CE
@@ -1215,11 +1219,11 @@ _script_sub_688F8:
 		NJSR				_native_obj_hor_move_reverse
 byte_68905:
 		NJSR				_native_obj_to_tile_collision_test_down
-		SBCC				_script_sub_68036
+		SBCC				_script_sub_obj_wait_for_jump
 		SRET
 byte_6890C:
 		OBJ_Y_DELTA_SET		$C0
-		SJSR				_script_sub_68036
+		SJSR				_script_sub_obj_wait_for_jump
 byte_68911:
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_obj_to_tile_collision_test_hor
@@ -1255,38 +1259,38 @@ _script106:
 		OBJ_X_POS_MOVE		$08
 		OBJ_Y_POS_MOVE		$12
 		SPR_LIB_SELECT		_spr_lib7
-		NJSR				_scr_param_4_set
+		NJSR				_scr_flips_04_set
 		PARAM_80_CLEAR
 		SPR_IDX_SELECT		$4B	; _spr_libx_4B
 		SUSPEND				$14
 		SPR_IDX_SELECT		$69	; _spr_libx_69
 		SUSPEND				$14
-		NJSR				_scr_param_4_clear
+		NJSR				_scr_flips_04_clear
 		OBJ_SIZE_SET		$05,$10
 		OBJ_HP_SET			$01
 		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		SPR_IDX_SELECT		$59	; _spr_libx_59
 		SUSPEND				$3C
 		APU_LOAD			$4E
-		SJMP				byte_68096
+		SJMP				_script_sub_y_parabolic_delta_infinite_anim_sync
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr33_hammer_mole:
 		DESTR_PC_SET		byte_689C0
-		NJSR				_scr_param_4_set
+		NJSR				_scr_flips_04_set
 		SPR_LIB_SELECT		_spr_lib7
 		OBJ_HP_SET			$01
 		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$08,$14
 byte_68983:
 		SYNC
-		NJSR				_native_sub128
+		NJSR				_native_obj_x_range40_test_from_byte_AB
 		SBCSS				byte_68983
 		NJSR				_native_sub10E
 		PARAM_80_CLEAR
 		SPR_IDX_SELECT		$64	; _spr_libx_64
 		SUSPEND				$08
-		NJSR				_scr_param_4_clear
+		NJSR				_scr_flips_04_clear
 		SPR_IDX_SELECT		$65	; _spr_libx_65
 		SUSPEND				$08
 byte_68999:
@@ -1300,7 +1304,7 @@ byte_68999:
 		LOOPA				$02,byte_68999
 		SPR_IDX_SELECT		$65	; _spr_libx_65
 		SUSPEND				$08
-		NJSR				_scr_param_4_set
+		NJSR				_scr_flips_04_set
 		SPR_IDX_SELECT		$64	; _spr_libx_64
 		SUSPEND				$08
 		PARAM_80_SET
@@ -1399,7 +1403,7 @@ byte_68A4E:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_68A69:
-		NJSR				_native_sub116
+		NJSR				_native_obj_x_range30_test_from_byte_AB
 		SBCSS				_script_sub_68A77
 		NJSR				_native_sub10E
 		LOOPA_RESET
@@ -1417,7 +1421,7 @@ _script_sub_68A77:
 		NJSR				_native_obj_hor_move_reverse
 byte_68A86:
 		NJSR				_native_obj_to_tile_collision_test_down
-		SBCC				_script_sub_68036
+		SBCC				_script_sub_obj_wait_for_jump
 		LOOPA				$07,_script_sub_68A77
 		SRET
 
@@ -1470,7 +1474,7 @@ byte_68ADB:
 		SJSR				_script_sub_68B0D
 		SPR_IDX_SELECT		$08	; _spr_libx_08
 		SJSR				_script_sub_68B0D
-		NJSR				_native_sub128
+		NJSR				_native_obj_x_range40_test_from_byte_AB
 		SBCSS				byte_68ADB
 		SRUN				_OBJ_SCR_ENEMY,_script10B
 		SBCSS				byte_68ADB
@@ -1582,7 +1586,7 @@ byte_68BA5:
 		LOOPA_RESET
 		SPR_IDX_SELECT		$6F	; _spr_libx_6F
 		OBJ_Y_DELTA_SET		$C0
-		SJSR				_script_sub_68036
+		SJSR				_script_sub_obj_wait_for_jump
 		BREAK				byte_68B79
 
 ; =============== O B J E C T   S C R I P T =================================
@@ -1630,9 +1634,9 @@ byte_68BF6:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_68C0D:
-		NJSR				_native_sub115
+		NJSR				_native_obj_y_collision_test_from_byte_AB
 		SBCSS				_script_sub_68C22
-		NJSR				_native_sub112
+		NJSR				_native_obj_x_range60_test_from_byte_AB
 		SBCSS				_script_sub_68C22
 		NJSR				_native_sub10E
 		NJSR				_native_obj_hor_delta_toggle
@@ -1652,7 +1656,7 @@ byte_68C37:
 		LOOPA_RESET
 		SPR_IDX_SELECT		$45	; _spr_libx_45
 		OBJ_Y_DELTA_SET		$C0
-		SJMP				_script_sub_68036
+		SJMP				_script_sub_obj_wait_for_jump
 
 ; =============== S C R I P T ===============================================
 _script10C:
@@ -1666,7 +1670,7 @@ _script10C:
 		OBJ_Y_DELTA_SET		$E0
 		NJSR				_native_obj_hor_bounce13
 		PARAM_80_CLEAR
-		SJMP				byte_68096
+		SJMP				_script_sub_y_parabolic_delta_infinite_anim_sync
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr3C_violet_bug_fall:
@@ -1690,7 +1694,7 @@ byte_68C71:
 byte_68C7F:
 		SJSR				_script_sub_violet_bug_anim	; fly for 2 frames, then
 		LOOPA				$02,byte_68C7F				; drop projectile
-		SRUN				_OBJ_SCR_STUN,_obj_scr_violet_bug_sparkle
+		SRUN				_OBJ_SCR_STUNB,_obj_scr_violet_bug_sparkle
 		SJMP				byte_68C7F					; loop until out of screen
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -1710,7 +1714,7 @@ byte_68C9C:
 		SPR_IDX_SELECT		_spr_lib7_72
 		SJSR				_script_sub_violet_bug_float_anim
 		LOOPA				$06,byte_68C9C
-		SRUN				_OBJ_SCR_STUN,_obj_scr_violet_bug_sparkle
+		SRUN				_OBJ_SCR_STUNB,_obj_scr_violet_bug_sparkle
 		SJMP				byte_68C9C
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -1786,7 +1790,7 @@ byte_68D2F:
 		SJMP				byte_68D1A
 byte_68D35:
 		SYNC
-		NJSR				_native_sub131
+		NJSR				_native_obj_to_throw_collision_test_range40
 		SBCSS				byte_68D3F
 		BREAK				byte_68D56
 byte_68D3F:
@@ -1796,7 +1800,7 @@ byte_68D3F:
 		BREAK				byte_68D2F
 byte_68D4B:
 		NJSR				_native_obj_to_tile_collision_test_down
-		SBCC				_script_sub_68036
+		SBCC				_script_sub_obj_wait_for_jump
 		LOOPA				$0E,byte_68D35
 		SRET
 
@@ -1814,7 +1818,7 @@ byte_68D61:
 byte_68D6B:
 		NJSR				_native_get_obj_hp
 		SBEQ				_obj_scr_common_destr
-		NJSR				_scr_param_4_clear
+		NJSR				_scr_flips_04_clear
 		SJMP				byte_68D61
 
 ; =============== O B J E C T   S C R I P T =================================
@@ -1849,7 +1853,7 @@ byte_68DA7:
 		SBCSS				byte_68DB4
 		NJSR				_native_obj_hor_move_reverse
 byte_68DB4:
-		SJSR				_script_sub_68044
+		SJSR				_script_sub_obj_wait_jump_calcs
 		SBCCS				byte_68DA7
 		SPR_IDX_SELECT		$75	; _spr_libx_75
 		SUSPEND				$04
@@ -1873,7 +1877,7 @@ byte_68DD1:
 byte_68DDB:
 		LOOPA_RESET
 		LOOPB_RESET
-		NJSR				_scr_param_4_clear
+		NJSR				_scr_flips_04_clear
 		OBJ_HP_SET			$02
 		SJSR				byte_68DF9
 		SJSR				byte_68DF9
@@ -2124,7 +2128,7 @@ byte_68FC0:
 		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_X_DELTA_SET		$00
 		OBJ_Y_DELTA_SET		$01
-		NJSR				_native_sub13A
+		NJSR				_native_obj_mode_set_throw
 byte_68FCB:
 		SYNC
 		NJSR				_native_obj_y_parabolic_delta_adjust
@@ -2134,7 +2138,7 @@ byte_68FCB:
 		SBNE				byte_68FCB
 		SJMP				byte_6A669
 byte_68FDE:
-		NJSR				_native_sub13B
+		NJSR				_native_obj_mode_set_solid_no_damage
 		NJSR				_native_obj_hor_move_reverse
 		OBJ_X_DELTA_SET		$08
 		OBJ_Y_DELTA_SET		$00
@@ -2318,7 +2322,7 @@ byte_6913F:
 		SJSR				_script_animate10
 		NJSR				_native_sub007
 		SBCC				byte_6913F
-		NJSR				_native_sub13B
+		NJSR				_native_obj_mode_set_solid_no_damage
 byte_6914B:
 		SYNC
 		NJSR				_native_get_obj_var0D
@@ -2333,13 +2337,13 @@ byte_69161:
 		OBJ_ANIMATE_SYNC
 		NJSR				_native_sub016
 		SBNE				byte_69161
-		SJMP				byte_68096
+		SJMP				_script_sub_y_parabolic_delta_infinite_anim_sync
 byte_6916B:
-		NJSR				_native_sub13E
+		NJSR				_native_obj_mode_set_bullet
 		OBJ_X_DELTA_SET		$10
 		OBJ_Y_DELTA_SET		$E0
 		NJSR				_players_animB_sub3_B_A
-		SJMP				byte_68096
+		SJMP				_script_sub_y_parabolic_delta_infinite_anim_sync
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub006:
@@ -2720,11 +2724,11 @@ byte_69443:
 		PARAM_80_CLEAR
 		OBJ_FLIP_SET		$08
 		NJSR				_native_sub13D
-		SBCS				byte_68096
-		SJSR				_script_sub_68036
+		SBCS				_script_sub_y_parabolic_delta_infinite_anim_sync
+		SJSR				_script_sub_obj_wait_for_jump
 		OBJ_Y_DELTA_SET		$EC
 		SPR_IDX_SELECT		$12	; _spr_libx_12
-		SJSR				_script_sub_68036
+		SJSR				_script_sub_obj_wait_for_jump
 		SPR_IDX_SELECT		$11	; _spr_libx_11
 		SJMP				byte_69AFA
 
@@ -2781,7 +2785,7 @@ _load_pal_patch00:
 
 ; =============== S C R I P T ===============================================
 byte_694CA:
-		NJSR				_scr_param_4_set
+		NJSR				_scr_flips_04_set
 		PARAM_80_SET
 		APU_LOAD			$70
 		PAL_FADE_OUT		$04,$87
@@ -3226,7 +3230,7 @@ byte_698B5:
 byte_698C8:
 		SRET
 byte_698C9:
-		SJSR				_script_sub_6803D
+		SJSR				_script_sub_obj_wait_jump_sync
 		SBCS				byte_698D3
 		LOOPA				$06,byte_698C9
 byte_698D3:
@@ -3394,7 +3398,7 @@ byte_69A07:
 		SJMP				byte_69A07
 byte_69A0E:
 		SYNC
-		NJSR				_scr_param_4_clear
+		NJSR				_scr_flips_04_clear
 byte_69A12:
 		NJSR				_native_get_obj3_hp
 		SBNE				byte_69A1B
@@ -3518,12 +3522,12 @@ byte_69AD8:
 		PARAM_80_CLEAR
 		OBJ_FLIP_SET		$08
 		NJSR				_native_sub13D
-		SBCS				byte_68096
-		SJSR				_script_sub_68036
+		SBCS				_script_sub_y_parabolic_delta_infinite_anim_sync
+		SJSR				_script_sub_obj_wait_for_jump
 		OBJ_Y_DELTA_SET		$E8
-		SJSR				_script_sub_68036
+		SJSR				_script_sub_obj_wait_for_jump
 byte_69AFA:
-		NJSR				_native_sub13B
+		NJSR				_native_obj_mode_set_solid_no_damage
 		SJSR				_script_sub_68065
 byte_69B00:
 		SJSR				_script_sub_6806C
@@ -3533,7 +3537,7 @@ byte_69B08:
 		OBJ_ANIMATE_SYNC
 		NJSR				_native_sub016
 		SBNE				byte_69B08
-		SJMP				byte_68096
+		SJMP				_script_sub_y_parabolic_delta_infinite_anim_sync
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub016:
@@ -4045,7 +4049,7 @@ _script12D:
 		OBJ_Y_DELTA_SET		$E8
 		NJSR				_native_sub01E
 byte_69F15:
-		SJSR				_script_sub_6803D
+		SJSR				_script_sub_obj_wait_jump_sync
 		SBCS				byte_69F23
 		LOOPA				$06,byte_69F15
 		FLIP_40_TOGGLE
@@ -4094,18 +4098,18 @@ _script12B:
 		SPR_LIB_SELECT		_spr_lib8
 		SPR_IDX_SELECT		$4C	; _spr_libx_4C
 		PARAM_80_CLEAR
-		SJSR				_script_sub_68036
+		SJSR				_script_sub_obj_wait_for_jump
 		APU_LOAD			$2B
 		OBJ_Y_DELTA_SET		$F0
-		SJSR				_script_sub_68036
+		SJSR				_script_sub_obj_wait_for_jump
 		APU_LOAD			$2B
-		NJSR				_native_sub13B
+		NJSR				_native_obj_mode_set_solid_no_damage
 byte_69F73:
 		SJSR				byte_69FB5
 		NJSR				_native_get_obj_var0D
 		SBPL				byte_69F73
 byte_69F7C:
-		NJSR				_native_sub13A
+		NJSR				_native_obj_mode_set_throw
 		NJSR				_native_obj_idxCs_clear_low_nibble
 byte_69F82:
 		SJSR				byte_69FB5
@@ -4139,9 +4143,9 @@ byte_69FBC:
 		SBPL				byte_69FCA
 		NJSR				_native_sub033
 		OBJ_Y_POS_MOVE		$08
-		NJSR				_scr_param_4_clear
+		NJSR				_scr_flips_04_clear
 byte_69FCA:
-		NJSR				_native_sub13A
+		NJSR				_native_obj_mode_set_throw
 		OBJ_HP_SET			$01
 		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
 		OBJ_SIZE_SET		$0C,$0E
@@ -4543,7 +4547,7 @@ _script_sub_1up_text_float_up:
 
 ; =============== S C R I P T ===============================================
 _script_sub_prize_text_float_animate_with_se:
-		NJSR				_native_sub15E
+		NJSR				_native_obj_mode_set_auto
 		APU_LOAD			$37
 
 ; FALLTHROUGH!
@@ -4596,14 +4600,14 @@ _script_sub_6A268:
 _obj_scr1D_big_ball_box:
 		SJSR				_script_sub_6A268
 		DESTR_PC_SET		byte_6A2A0
-		NJSR				_native_sub13B
+		NJSR				_native_obj_mode_set_solid_no_damage
 		SPR_LIB_SELECT		_spr_lib4
 		OBJ_HP_SET			$01
 		OBJ_SIZE_SET		$06,$0E
 		SJMP				byte_6A2BD
 byte_6A28B:
 		OBJ_X_DELTA_SET		$00
-		NJSR				_native_sub160
+		NJSR				_native_obj_idxBs_20_clear
 byte_6A290:
 		SYNC
 		NJSR				_native_get_obj_var0D
@@ -4620,7 +4624,7 @@ byte_6A2A0:
 		OBJ_DAMAGE_SET		_OBJ_DMG_STUN
 byte_6A2AE:
 		NJSR				_native_sub11C
-		NJSR				_native_scr_params_set05_hi_nibble_clear
+		NJSR				_native_obj_mode_set_ball
 		SJSR				_script_sub_6A2CF
 		NJSR				_far_players_animB_sub0129_G
 		SBPL				byte_6A28B
@@ -4679,7 +4683,7 @@ _native_sub023:
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr1E_big_zipper_box:
 		SJSR				_script_sub_6A268
-		NJSR				_native_sub13B
+		NJSR				_native_obj_mode_set_solid_no_damage
 		NJSR				_native_idxBs_20_set
 		OBJ_FLIP_SET		$20
 		SPR_LIB_SELECT		_spr_lib5
@@ -4689,7 +4693,7 @@ _obj_scr1E_big_zipper_box:
 		CHR_SELECT			$01,$00
 		PARAM_80_CLEAR
 		OBJ_Y_DELTA_SET		$D7
-		SJSR				_script_sub_68036
+		SJSR				_script_sub_obj_wait_for_jump
 byte_6A330:
 		NJSR_SYNC			_native_obj_to_obj_jump_up_test
 		SBCC				byte_6A330
@@ -4876,7 +4880,7 @@ byte_6A470:
 		NJSR				_native_obj_idxCs_80_set
 		OBJ_X_DELTA_SET		$E8
 		OBJ_Y_DELTA_SET		$E8
-		SJMP				byte_68092
+		SJMP				_script_sub_infinite_anim_sync
 byte_6A498:
 		SPR_IDX_SELECT		$17	; _spr_libx_17
 		OBJ_ANIMATE_SYNC
@@ -4912,7 +4916,7 @@ loc_6A4BE:
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr09_sink_valve:
 		NJSR				_native_idxBs_20_set
-		NJSR				_scr_param_4_set
+		NJSR				_scr_flips_04_set
 		SPR_LIB_SELECT		_spr_lib5
 		SPR_IDX_SELECT		$09	; _spr_libx_09
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
@@ -4944,7 +4948,7 @@ byte_6A4FC:
 		OBJ_FLIP_SET		$00
 		OBJ_HP_SET			$01
 		OBJ_X_DELTA_SET		$00
-		NJSR				_native_sub160
+		NJSR				_native_obj_idxBs_20_clear
 byte_6A507:
 		SYNC
 		NJSR				_native_get_obj_var0D
@@ -4972,7 +4976,7 @@ byte_6A535:
 		APU_LOAD			$24
 byte_6A53E:
 		NJSR				_native_sub11C
-		NJSR				_native_scr_params_set05_hi_nibble_clear
+		NJSR				_native_obj_mode_set_ball
 		OBJ_HP_SET			$FF
 		OBJ_DAMAGE_SET		_OBJ_DMG_STUN
 		SPR_IDX_SELECT		$00	; _spr_libx_00
@@ -5031,7 +5035,7 @@ byte_6A5A8:
 		SJSR				_script_sub_6A5BA
 		NJSR				_native_sub027
 		SBCC				byte_6A5A8
-		NJSR				_native_scr_params_set09_hi_nibble_clear
+		NJSR				_native_obj_mode_set_solid
 		SJSR				_script_sub_6A5BA
 		SJMP				byte_6A5A8
 
@@ -5102,7 +5106,7 @@ byte_6A627:
 		NJSR_SYNC			_native_sub02E
 		SJMP				byte_6A615
 byte_6A630:
-		NJSR				_native_sub13A
+		NJSR				_native_obj_mode_set_throw
 		NJSR				_native_obj_idxCs_80_set
 		NJSR				_native_sub02A
 		SBNE				byte_6A653
@@ -5129,7 +5133,7 @@ byte_6A65A:
 byte_6A666:
 		SBNE				byte_6A65A
 byte_6A669:
-		NJSR_SYNC			_native_sub15E
+		NJSR_SYNC			_native_obj_mode_set_auto
 		SPR_IDX_SELECT		$03	; _spr_libx_03
 		SYNC
 		SPR_IDX_SELECT		$04	; _spr_libx_04
@@ -5162,14 +5166,14 @@ _native_sub02B:
 _native_sub02C:
 		LDA		_obj_heights,Y
 		BEQ		_native_sub02D
-		JSR		_native_sub13A
-		JMP		_scr_param_4_set
+		JSR		_native_obj_mode_set_throw
+		JMP		_scr_flips_04_set
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub02D:
 		INC		_obj_y_lo_poss,X
-		JSR		_native_scr_params_set09_hi_nibble_clear
-		JMP		_scr_param_4_clear
+		JSR		_native_obj_mode_set_solid
+		JMP		_scr_flips_04_clear
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub02E:
@@ -5564,7 +5568,7 @@ byte_6A925:
 		STORE				<[tlm_patch09],_tmp_ptr4B
 		STORE				>[tlm_patch09],_tmp_ptr4B+1
 		SJSR				_script_sub_macro_patch_draw
-		NJSR				_native_scr_params_set0A_hi_nibble_clear
+		NJSR				_native_obj_mode_set_grab
 		OBJ_X_POS_SET		$F0,$00
 		OBJ_Y_POS_SET		$C0,$00
 		PARAM_80_SET
@@ -5715,7 +5719,7 @@ byte_6AA49:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr06_light_toggle:
-		NJSR				_scr_param_4_set
+		NJSR				_scr_flips_04_set
 		NJSR				_native_obj_idxCs_clear_low_nibble
 byte_6AA56:
 		SJSR				byte_6AA67
@@ -5780,7 +5784,7 @@ byte_6AAC1:
 		SPR_IDX_SELECT		$5B	; _spr_libx_5B
 		SJSR				byte_6AACE
 byte_6AACE:
-		NJSR				_scr_param_4_clear
+		NJSR				_scr_flips_04_clear
 		TARGET_FOLLOW
 		SYNC
 		SRET
@@ -6021,7 +6025,7 @@ loc_6AC74:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr13_cave_rock:
-		NJSR				_native_sub13E
+		NJSR				_native_obj_mode_set_bullet
 		NJSR				_native_idxBs_20_set
 		OBJ_HP_SET			$01
 		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
@@ -6030,11 +6034,11 @@ _obj_scr13_cave_rock:
 		SPR_IDX_SELECT		$38	; _spr_libx_38
 		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 byte_6AC8A:
-		NJSR_SYNC			_native_sub116
+		NJSR_SYNC			_native_obj_x_range30_test_from_byte_AB
 		SBCS				byte_6AC8A
 		OBJ_Y_DELTA_SET		$18
 		APU_LOAD			$71
-		SJMP				byte_68096
+		SJMP				_script_sub_y_parabolic_delta_infinite_anim_sync
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr04_cave_pendulum:
@@ -6209,7 +6213,7 @@ byte_6ADCF:
 byte_6ADDD:
 		SYNC
 		NJSR				_obj_vert_animate
-		NJSR				_native_sub16E
+		NJSR				_native_obj_x_range_width_test_from_byte_AB
 		SBCS				byte_6ADEA
 		NJSR				_native_sub042
 byte_6ADEA:
@@ -6265,13 +6269,13 @@ byte_6AE2D:
 		SJSR				byte_6AE46
 		LOOPA				$1E,byte_6AE2D
 		PARAM_80_SET
-		NJSR				_scr_param_4_set
+		NJSR				_scr_flips_04_set
 		SUSPEND				$78
 		SJMP				byte_6AE2C
 byte_6AE46:
 		OBJ_HP_SET			$01
 		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
-		NJSR_SYNC			_scr_param_4_clear
+		NJSR_SYNC			_scr_flips_04_clear
 		LOOPB				$02,byte_6AE46
 		SRET
 
@@ -6746,7 +6750,7 @@ _lives_bonus_obj_scr_red_ball_common:
 		OBJ_Y_POS_SET		$C0,$00
 		OBJ_SIZE_SET		$06,$10
 		SPR_LIB_SELECT		_spr_lib5
-		SPR_IDX_SELECT		$1B	; _spr_libx_1B
+		SPR_IDX_SELECT		_spr_lib5_1B
 		PARAM_80_CLEAR
 		OBJ_HP_SET			$01
 		SJSR				_script_sub_68065
@@ -6759,7 +6763,7 @@ byte_6B185:
 		OBJ_Y_DELTA_SET		$C0
 		OBJ_HP_SET			$01
 		OBJ_DAMAGE_SET		_OBJ_DMG_KILL
-		SJMP				byte_68092
+		SJMP				_script_sub_infinite_anim_sync
 
 ; =============== S C R I P T ===============================================
 _script_j_kill:
@@ -6819,14 +6823,14 @@ _script14B:
 		NJSR				_native_obj_hor_delta_toggle
 		FLIP_40_CLEAR
 byte_6B1EE:
-		SPR_IDX_SELECT		$17	; _spr_libx_17
+		SPR_IDX_SELECT		_spr_lib5_17
 		FLIP_40_CLEAR
 		SJSR				byte_6B207
-		SPR_IDX_SELECT		$18	; _spr_libx_18
+		SPR_IDX_SELECT		_spr_lib5_18
 		SJSR				byte_6B207
-		SPR_IDX_SELECT		$19	; _spr_libx_19
+		SPR_IDX_SELECT		_spr_lib5_19
 		SJSR				byte_6B207
-		SPR_IDX_SELECT		$18	; _spr_libx_18
+		SPR_IDX_SELECT		_spr_lib5_18
 		FLIP_40_SET
 		SJSR				byte_6B207
 		SJMP				byte_6B1EE
@@ -6844,7 +6848,7 @@ byte_6B21A:
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub04C:
-		JSR		_scr_param_4_clear
+		JSR		_scr_flips_04_clear
 		JSR		_j_native_complement_x_deltas
 		INC		_obj_hps,X
 		LDA		_obj_x_deltas,X
@@ -6878,7 +6882,7 @@ loc_6B255:
 		BNE		loc_6B266
 		INC		byte_DF
 loc_6B25B:
-		JSR		_scr_param_4_set
+		JSR		_scr_flips_04_set
 		LDA		#$00
 		STA		_obj_x_deltas,X
 		STA		_obj_hps,X
@@ -6890,7 +6894,7 @@ _script47:
 		DESTR_PC_SET		_script47
 		OBJ_SIZE_SET		$06,$10
 		SPR_LIB_SELECT		_spr_lib5
-		SPR_IDX_SELECT		$1B	; _spr_libx_1B
+		SPR_IDX_SELECT		_spr_lib5_1B
 		PARAM_80_CLEAR
 		SJSR				_script_sub_6806C
 		NJSR				_native_sub030
@@ -6901,7 +6905,7 @@ byte_6B27A:
 		OBJ_X_DELTA_SET		$08
 		OBJ_Y_DELTA_SET		$E8
 		NJSR				_players_animB_sub67_A
-		SJMP				byte_68096
+		SJMP				_script_sub_y_parabolic_delta_infinite_anim_sync
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr03_basket_game:
@@ -7023,7 +7027,7 @@ _obj_scr_basket_game_ball_common:
 ; =============== S C R I P T ===============================================
 _obj_scr_basket_game_ball_loop:
 		OBJ_X_DELTA_SET		$00
-		NJSR				_native_sub160
+		NJSR				_native_obj_idxBs_20_clear
 byte_6B357:
 		SYNC
 		NJSR				_native_get_obj_var0D
@@ -7043,7 +7047,7 @@ _obj_scr_basket_game_ball_destr:
 ; =============== S C R I P T ===============================================
 _obj_scr_basket_game_ball_test:
 		NJSR				_native_sub11C
-		NJSR				_native_scr_params_set05_hi_nibble_clear
+		NJSR				_native_obj_mode_set_ball
 		NJSR				_native_obj_idxCs_clear_low_nibble
 byte_6B37C:
 		SJSR				_script_sub_6B393
@@ -7973,7 +7977,7 @@ _script_cutscene01:
 _script157:
 		OBJ_X_POS_SET		$B8,$00
 		SPR_LIB_SELECT		_spr_lib1
-		SPR_IDX_SELECT		$1B	; _spr_libx_1B
+		SPR_IDX_SELECT		_spr_lib1_1B
 		PARAM_80_CLEAR
 		SJSR				byte_6B6C2
 		SJSR				byte_6B750
@@ -8000,19 +8004,19 @@ _script15B:
 		OBJ_X_DELTA_SET		$10
 		SJSR				_script_sub_B7533
 		SJSR				_script_sub_B7533
-		SPR_IDX_SELECT		$05	; _spr_libx_05
+		SPR_IDX_SELECT		_spr_lib2_05
 		OBJ_Y_DELTA_SET		$C0
 		OBJ_HP_SET			$01
-		SJSR				_script_sub_68036
+		SJSR				_script_sub_obj_wait_for_jump
 		SJSR				_script_sub_B7555
-		SPR_IDX_SELECT		$1B	; _spr_libx_1B
+		SPR_IDX_SELECT		_spr_lib2_1B
 		SJSR				byte_6B6C2
 		SJSR				byte_6B75D
 		SJSR				byte_6B73A
 		SJSR				byte_6B73A
 		OBJ_X_DELTA_SET		$00
 		OBJ_Y_DELTA_SET		$10
-		SJSR				_script_sub_68036
+		SJSR				_script_sub_obj_wait_for_jump
 		SJSR				_script_sub_B7555
 		OBJ_X_DELTA_SET		$10
 byte_6B9F5:
@@ -8055,7 +8059,7 @@ byte_6BA35:
 		LOOPA				$04,byte_6BA35
 		OBJ_Y_DELTA_SET		$C0
 		OBJ_HP_SET			$01
-		SJSR				_script_sub_68036
+		SJSR				_script_sub_obj_wait_for_jump
 		SPR_IDX_SELECT		$1C	; _spr_libx_1C
 		TARGET_DIR_SET		$00
 		SJSR				_script_sub_monterey_static_draw
@@ -8063,7 +8067,7 @@ byte_6BA35:
 		SPR_IDX_SELECT		$24	; _spr_libx_24
 		OBJ_Y_DELTA_SET		$C0
 		OBJ_HP_SET			$01
-		SJSR				_script_sub_68036
+		SJSR				_script_sub_obj_wait_for_jump
 byte_6BA56:
 		SJSR				byte_6B7DD
 		LOOPA				$08,byte_6BA56

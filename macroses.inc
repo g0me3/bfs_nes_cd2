@@ -153,22 +153,22 @@ SPR_LIB	SET		.
 ; _OBJ_SCR_AUTO		- general purpose global scripts with its own destructors
 ; _OBJ_SCR_PLAYER	- only PLAYER objects
 ; _OBJ_SCR_THROW	- throwable objects like boxes, used also as projectiles
-; _OBJ_SCR_MODE4	- unused
+; _OBJ_SCR_STUNA		- special kind anti-player stunning projectiles bouncing from enemy
 ; _OBJ_SCR_BALL		- special object for basket game
 ; _OBJ_SCR_ENEMY	- all harmless objects, including projectiles
 ; _OBJ_SCR_BULLET	- player damaging projectile
-; _OBJ_SCR_STUN		- player stunning projectile
+; _OBJ_SCR_STUNB	- player stunning projectile
 ; _OBJ_SCR_SOLID	- solid sprite objects, jumpable, throwable, harmless to player
 ; _OBJ_SCR_GRAB		- harmless objects to grab by the player, disappear upon collision
 
 _OBJ_SCR_AUTO	EQU	$01
 _OBJ_SCR_PLAYER	EQU	$02
 _OBJ_SCR_THROW	EQU	$03
-_OBJ_SCR_MODE4	EQU	$04
+_OBJ_SCR_STUNA	EQU	$04
 _OBJ_SCR_BALL	EQU	$05
 _OBJ_SCR_ENEMY	EQU	$06
 _OBJ_SCR_BULLET	EQU	$07
-_OBJ_SCR_STUN	EQU	$08
+_OBJ_SCR_STUNB	EQU	$08
 _OBJ_SCR_SOLID	EQU	$09
 _OBJ_SCR_GRAB	EQU	$0A
 

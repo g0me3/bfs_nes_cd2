@@ -3847,7 +3847,7 @@ _main_screen6_draw:
 
 ; =============== S U B R O U T I N E =======================================
 _main_screen4_draw_ingame_A:
-		LDA		#$81
+		LDA		#$80|_OBJ_SCR_AUTO
 		STA		_scr_params
 		STA		_scr_params+1
 		STA		_scr_params+2
@@ -5712,28 +5712,28 @@ _scr_param_80_clear:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_scr_param_10_clear:
+_scr_flips_10_clear:
 		LDA		_obj_flips,X
 		AND		#$EF
 		STA		_obj_flips,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_scr_param_10_set:
+_scr_flips_10_set:
 		LDA		_obj_flips,X
 		ORA		#$10
 		STA		_obj_flips,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_scr_param_4_set:
+_scr_flips_04_set:
 		LDA		_obj_flips,X
 		ORA		#$04
 		STA		_obj_flips,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_scr_param_4_clear:
+_scr_flips_04_clear:
 		LDA		_obj_flips,X
 		AND		#$FB
 		STA		_obj_flips,X
@@ -5764,8 +5764,8 @@ _native_sub145:
 		LDA		_scr_idxCs,X
 		AND		#$DF
 		STA		_scr_idxCs,X
-		JSR		_scr_param_4_clear
-		JSR		_scr_param_10_clear
+		JSR		_scr_flips_04_clear
+		JSR		_scr_flips_10_clear
 locret_B647E:
 		RTS
 
@@ -6104,25 +6104,25 @@ loc_B6619:
 		JMP		_scr_flags_update
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub131:
+_native_obj_to_throw_collision_test_range40:
 		LDA		#$40
-		BNE		_native_sub131_ex
+		BNE		_native_obj_to_throw_collision_test
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub10C:
+_native_obj_to_throw_collision_test_range20:
 		LDA		#$20
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub131_ex:
+_native_obj_to_throw_collision_test:
 		STA		_tmp_ptrE
 		LDY		#$0B
 loc_B6626:
 		LDA		_scr_params,Y
 		AND		#$0F
-		CMP		#$03
+		CMP		#_OBJ_SCR_THROW
 		BNE		loc_B667C
 		LDA		_obj_spr_libs,Y
-		CMP		#$03
+		CMP		#_spr_lib3_idx
 		BNE		loc_B667C
 		LDA		_scr_idxBs,Y
 		BMI		loc_B667C
@@ -6155,7 +6155,7 @@ loc_B6665:
 		CMP		_tmp_ptrE
 		BCS		loc_B667C
 loc_B6677:
-		JSR		_native_sub115_ex
+		JSR		_native_obj_to_obj_y_collision_test
 		BCC		loc_B6682
 loc_B667C:
 		DEY
@@ -6167,7 +6167,7 @@ loc_B6682:
 		JMP		_scr_flags_flush_clc
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub10D:
+_native_obj_stun_from_idxAs_test:
 		LDY		_scr_idxAs,X
 		LDA		_obj_damages,Y
 		CMP		#_OBJ_DMG_STUN
@@ -6178,33 +6178,33 @@ locret_B6698:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub16E:
+_native_obj_x_range_width_test_from_byte_AB:
 		SEC
 		LDA		_obj_widths,X
 		ADC		#$06
-		BNE		_native_sub16E_ex
+		BNE		_native_obj_x_range_test_from_byte_AB
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub116:
+_native_obj_x_range30_test_from_byte_AB:
 		LDA		#$30
-		BNE		_native_sub16E_ex
+		BNE		_native_obj_x_range_test_from_byte_AB
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub128:
+_native_obj_x_range40_test_from_byte_AB:
 		LDA		#$40
-		BNE		_native_sub16E_ex
+		BNE		_native_obj_x_range_test_from_byte_AB
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub17E:
+_native_obj_x_range50_test_from_byte_AB:
 		LDA		#$50
-		BNE		_native_sub16E_ex
+		BNE		_native_obj_x_range_test_from_byte_AB
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub112:
+_native_obj_x_range60_test_from_byte_AB:
 		LDA		#$60
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub16E_ex:
+_native_obj_x_range_test_from_byte_AB:
 		STA		_tmp_ptrE
 		LDY		byte_AB
 		SEC
@@ -6224,11 +6224,13 @@ loc_B66CB:
 		JMP		_scr_flags_update
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub115:
+_native_obj_y_collision_test_from_byte_AB:
 		LDY		byte_AB
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
-_native_sub115_ex:
+_native_obj_to_obj_y_collision_test:
 		SEC
 		LDA		_obj_y_lo_poss,X
 		SBC		_obj_y_lo_poss,Y
@@ -6605,9 +6607,9 @@ _players_animB_sub0129_sub06_C:
 		STA		_obj_flips,X
 		LDA		_scr_params,X
 		AND		#$0F
-		CMP		#$02
+		CMP		#_OBJ_SCR_PLAYER
 		BEQ		loc_B68C0
-		CMP		#$06
+		CMP		#_OBJ_SCR_ENEMY
 		BNE		loc_B68CA
 loc_B68C0:
 		LDA		_obj_flips,Y
@@ -6652,52 +6654,54 @@ _native_sub11C:
 		JMP		_native_obj_idxCs_80_set
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub15E:
-		LDA		#$01
-		BNE		_native_scr_params_set_hi_nibble_clear
+_native_obj_mode_set_auto:
+		LDA		#_OBJ_SCR_AUTO
+		BNE		_native_obj_mode_change
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub13A:
-		LDA		#$03
-		BNE		_native_scr_params_set_hi_nibble_clear
+_native_obj_mode_set_throw:
+		LDA		#_OBJ_SCR_THROW
+		BNE		_native_obj_mode_change
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub13E:
-		LDA		#$07
-		BNE		_native_scr_params_set_hi_nibble_clear
+_native_obj_mode_set_bullet:
+		LDA		#_OBJ_SCR_BULLET
+		BNE		_native_obj_mode_change
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub160:
+_native_obj_idxBs_20_clear:
 		LDA		_scr_idxBs,X
 		AND		#$DF
 		STA		_scr_idxBs,X
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub13B:
+_native_obj_mode_set_solid_no_damage:
 		LDA		#_OBJ_DMG_NONE
 		STA		_obj_damages,X
 
-; =============== S U B R O U T I N E =======================================
-_native_scr_params_set09_hi_nibble_clear:
-		LDA		#$09
-		BNE		_native_scr_params_set_hi_nibble_clear
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_native_scr_params_set0A_hi_nibble_clear:
-		LDA		#$0A
-		BNE		_native_scr_params_set_hi_nibble_clear
+_native_obj_mode_set_solid:
+		LDA		#_OBJ_SCR_SOLID
+		BNE		_native_obj_mode_change
 
 ; =============== S U B R O U T I N E =======================================
-_native_scr_params_set05_hi_nibble_clear:
-		LDA		#$05
-		BNE		_native_scr_params_set_hi_nibble_clear
+_native_obj_mode_set_grab:
+		LDA		#_OBJ_SCR_GRAB
+		BNE		_native_obj_mode_change
 
 ; =============== S U B R O U T I N E =======================================
-_native_scr_params_set04_hi_nibble_clear:
-		LDA		#$04
+_native_obj_mode_set_ball:
+		LDA		#_OBJ_SCR_BALL
+		BNE		_native_obj_mode_change
 
 ; =============== S U B R O U T I N E =======================================
-_native_scr_params_set_hi_nibble_clear:
+_native_obj_mode_set_mode4:
+		LDA		#_OBJ_SCR_STUNA
+
+; =============== S U B R O U T I N E =======================================
+_native_obj_mode_change:
 		STA		_tmp_ptr0
 		LDA		_scr_params,X
 		AND		#$F0
@@ -6868,7 +6872,7 @@ _native_sub11E:
 loc_B6A4A:
 		LDA		_scr_params,Y
 		AND		#$0F
-		CMP		#$06
+		CMP		#_OBJ_SCR_ENEMY
 		BNE		loc_B6A5B
 		LDA		_obj_spr_libs,Y
 		CMP		#$09
@@ -6960,7 +6964,7 @@ _script20A:
 		NJSR				_native_sub144
 		SBEQ				byte_B6AC6
 		APU_LOAD			$2F
-		NJSR				_scr_param_10_set
+		NJSR				_scr_flips_10_set
 byte_B6AC6:
 		NJSR				_native_sub145
 		SRET
@@ -6993,7 +6997,7 @@ _obj_scr_common_small_boss_destr:
 		OBJ_X_DELTA_SET		$F0
 		OBJ_Y_DELTA_SET		$C0
 		NJSR				_players_animB_sub3_B_A
-		NJSR				_scr_param_10_set
+		NJSR				_scr_flips_10_set
 byte_B6AFD:
 		OBJ_ANIMATE_SYNC
 		NJSR				_native_obj_y_parabolic_delta_adjust
@@ -7440,16 +7444,16 @@ _scripts_manager_loop:
 ; -
 		JSR		_switch_param_ret
 		.WORD	0
-		.WORD	_far_prg4_scr_exec_priority
-		.WORD	_far_players_manager
-		.WORD	_far_prg4_scr_exec_priority
-		.WORD	_far_prg4_scr_exec_priority
-		.WORD	_far_prg4_scr_exec_priority
-		.WORD	_enemy_manager
-		.WORD	_far_prg4_scr_exec_priority
-		.WORD	_far_prg4_scr_exec_priority
-		.WORD	_far_prg4_scr_exec_priority
-		.WORD	_far_prg4_scr_exec_priority
+		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_SCR_AUTO
+		.WORD	_far_players_manager		;	_OBJ_SCR_PLAYER
+		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_SCR_THROW
+		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_SCR_STUNA
+		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_SCR_BALL
+		.WORD	_enemy_manager				;	_OBJ_SCR_ENEMY
+		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_SCR_BULLET
+		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_SCR_STUNB
+		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_SCR_SOLID
+		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_SCR_GRAB
 loc_B6DA4:
 		LDX		_scr_idx
 		LDA		_scr_params,X
@@ -7504,11 +7508,11 @@ loc_B6DFC:
 loc_B6DFE:
 		LDA		_scr_params,Y
 		AND		#$0F
-		CMP		#$02
+		CMP		#_OBJ_SCR_PLAYER
 		BCC		loc_B6E20
-		CMP		#$09
+		CMP		#_OBJ_SCR_SOLID
 		BEQ		loc_B6E0F
-		CMP		#$06
+		CMP		#_OBJ_SCR_ENEMY
 		BCS		loc_B6E20
 loc_B6E0F:
 		LDA		_obj_flips,Y
@@ -7555,7 +7559,7 @@ loc_B6E5B:
 		STA		_obj_hps,Y
 		STA		_obj_damages,Y
 loc_B6E6A:
-		JSR		_scr_param_4_set
+		JSR		_scr_flips_04_set
 		LDA		_obj_spr_libs,X
 		CMP		#$08
 		BNE		loc_B6E79
@@ -7678,22 +7682,22 @@ loc_B6F36:
 		BNE		loc_B6F50
 		LDA		_scr_params,Y
 		AND		#$0F
-		CMP		#$05
+		CMP		#_OBJ_SCR_BALL
 		BEQ		loc_B6F7E
-		CMP		#$09
+		CMP		#_OBJ_SCR_SOLID
 		BEQ		loc_B6F7E
 		BNE		loc_B6F83
 loc_B6F50:
 		LDA		_scr_params,Y
 		AND		#$0F
-		CMP		#$02
+		CMP		#_OBJ_SCR_PLAYER
 		BCC		loc_B6F83
 		BEQ		loc_B6F77
-		CMP		#$05
+		CMP		#_OBJ_SCR_BALL
 		BEQ		loc_B6F7E
-		CMP		#$09
+		CMP		#_OBJ_SCR_SOLID
 		BEQ		loc_B6F7E
-		CMP		#$06
+		CMP		#_OBJ_SCR_ENEMY
 		BNE		loc_B6F83
 		LDA		_scr_idxBs,Y
 		BMI		loc_B6F83
@@ -7718,9 +7722,9 @@ loc_B6F86:
 loc_B6F88:
 		LDA		_scr_params,X
 		AND		#$0F
-		CMP		#$05
+		CMP		#_OBJ_SCR_BALL
 		BNE		loc_B6FA9
-		CPY		#$02
+		CPY		#_OBJ_SCR_PLAYER
 		BCS		loc_B6FA9
 		LDA		_obj_flips,Y
 		AND		#$04
@@ -8528,7 +8532,7 @@ byte_B752A:
 		SPR_IDX_SELECT		$0C	; _spr_libx_0C
 		OBJ_X_DELTA_SET		$F0
 		OBJ_Y_DELTA_SET		$DF
-		SJMP				byte_68096
+		SJMP				_script_sub_y_parabolic_delta_infinite_anim_sync
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_B7533:

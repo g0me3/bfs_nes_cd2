@@ -1770,12 +1770,12 @@ loc_3AA1C:
 		BEQ		loc_3AA36
 		DEC		_players_vars0F,X
 		BNE		loc_3AA36
-		JSR		_scr_param_10_clear
+		JSR		_scr_flips_10_clear
 		LDA		_obj_hps,X
 		BEQ		loc_3AA36
 		LDA		_scr_idxBs,X
 		BMI		loc_3AA36
-		JSR		_scr_param_4_clear
+		JSR		_scr_flips_04_clear
 loc_3AA36:
 		LDA		_players_vars07,X
 		AND		#$40
@@ -2431,8 +2431,8 @@ loc_3AE87:
 		STA		_obj_x_lo_poss,X
 loc_3AE90:
 		JSR		_players_obj_insert
-		JSR		_scr_param_4_set
-		JSR		_scr_param_10_set
+		JSR		_scr_flips_04_set
+		JSR		_scr_flips_10_set
 		LDA		#$3C
 		STA		_players_vars0F,X
 		JMP		_players_animB_sub0129_sub02_D
@@ -2769,8 +2769,8 @@ _players_animB_sub0129_A_A:
 		LDA		#$40
 		STA		_players_vars0F,X
 		JSR		_scr_param_80_clear
-		JSR		_scr_param_10_set
-		JMP		_scr_param_4_set
+		JSR		_scr_flips_10_set
+		JMP		_scr_flips_04_set
 
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_E_sub2_A:

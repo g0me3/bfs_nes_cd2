@@ -3038,7 +3038,7 @@ _players_animB_sub0129_F_sub2_A_A:
 		LDA		_room_flags
 		AND		#$08
 		BEQ		locret_3B27D
-		LDA		_stage4_frames_cnt
+		LDA		_timer_frames_cnt
 locret_3B27D:
 		RTS
 

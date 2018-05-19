@@ -9,13 +9,13 @@
 _script_sub_unref:
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
-		SBCCS				byte_6800C
+		SBCSS				byte_6800C
 		NJSR				_native_sub105
 byte_6800C:
 		SJSR				_script_sub_68044
-		SBCCS				byte_6801F
+		SBCSS				byte_6801F
 		NJSR				_native_get_obj_y_delta
-		SBPLS				byte_6801C
+		SBMIS				byte_6801C
 		NJSR				_native_sub107
 		SRET
 byte_6801C:
@@ -27,19 +27,19 @@ byte_6801F:
 _script_sub_68020:
 		SYNC
 		NJSR				_native_get_obj_y_delta
-		SBNES				byte_6802F
+		SBEQS				byte_6802F
 		SJSR				_script_sub_6803E
-		SBCSS				byte_6802F
+		SBCCS				byte_6802F
 		OBJ_SET_X_DELTA		$00
 byte_6802F:
 		NJSR				_native_get_obj_hp
-		SBEQS				_script_sub_68020
+		SBNES				_script_sub_68020
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_68036:
 		SJSR				_script_sub_6803D
-		SBCSS				_script_sub_68036
+		SBCCS				_script_sub_68036
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -59,25 +59,25 @@ _script_sub_6803E:
 _script_sub_68044:
 		NJSR				_native_sub109
 		NJSR				_native_get_obj_y_delta
-		SBMIS				byte_6805C
+		SBPLS				byte_6805C
 		NJSR				_obj_vert_animate
 		NJSR				_native_sub10A
-		SBCCS				byte_68058
+		SBCSS				byte_68058
 		OBJ_SET_Y_DELTA		$01
 byte_68058:
 		NJSR				_scr_flags_flush_clc
 		SRET
 byte_6805C:
 		NJSR				_native_sub10B
-		SBCSS				byte_68064
+		SBCCS				byte_68064
 		OBJ_SET_Y_DELTA		$00
 byte_68064:
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_68065:
-		NJMP				_native_get_obj_var0D
-		SBMIS				_script_sub_68065
+		NJSR_SYNC			_native_get_obj_var0D
+		SBPLS				_script_sub_68065
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -87,8 +87,8 @@ _script_sub_6806C:
 		NJSR				_native_sub164
 byte_68075:
 		NJSR				_native_get_obj_var0D
-		SBMIS				byte_68081
-		NJMP				_players_animB_sub0129_sub06_C
+		SBPLS				byte_68081
+		NJSR_SYNC			_players_animB_sub0129_sub06_C
 		SJMP				byte_68075
 byte_68081:
 		NJSR				_native_sub12B
@@ -96,17 +96,23 @@ byte_68081:
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_script_sub_68087:
+_obj_scr_common_destr:
 		APU_LOAD			$2D
 		VAR_1C_SET			$00
 		OBJ_SET_X_DELTA		$BD
 		OBJ_SET_Y_DELTA		$BD
 		NJSR				_players_animB_sub3_B_A
+
+; !FALLTHROUGH!
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_68092:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		SJMP				byte_68092
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_68096:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		NJSR				_native_sub109
 		SJMP				byte_68096
 
@@ -132,9 +138,9 @@ byte_680B3:
 _script_sub_680C3:
 		SYNC
 		NJSR				_native_get_obj_var0D
-		SBPLS				byte_680D4
+		SBMIS				byte_680D4
 		NJSR				_native_sub118
-		SBCCS				byte_680D3
+		SBCSS				byte_680D3
 		SJSR				_script_sub_68044
 byte_680D3:
 		SRET
@@ -157,9 +163,9 @@ _script_sub_680E7:
 		NJSR				_players_animB_sub0129_sub0E_A
 byte_680F5:
 		SJSR				_script_sub_6803D
-		SBCCS				byte_68101
+		SBCSS				byte_68101
 		NJSR				_native_get_obj_var0D
-		SBMIS				byte_680F5
+		SBPLS				byte_680F5
 byte_68101:
 		SRET
 
@@ -172,13 +178,13 @@ byte_6810A:
 		SYNC
 		NJSR				_players_animB_sub0129_sub06_C
 		NJSR				_native_get_obj_var0D
-		SBPLS				byte_6810A
+		SBMIS				byte_6810A
 		APU_LOAD			$24
 		SRET
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr24_spoon_rat:
-		DESTR_PC_SET		byte_6818F
+		DESTR_PC_SET		_obj_scr_24_spoon_rat_destr
 		SPR_LIB_SELECT		$07
 		SPR_IDX_SELECT		$00
 		OBJ_SET_SIZE		$08,$18
@@ -206,14 +212,14 @@ byte_68146:
 _script_sub_6814C:
 		SYNC
 		NJSR				_native_sub131
-		SBCSS				byte_6816A
+		SBCCS				byte_6816A
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
-		SBCCS				byte_6815F
+		SBCSS				byte_6815F
 		BREAK				byte_68146
 byte_6815F:
 		NJSR				_native_sub118
-		SBCS				_script_sub_68036
+		SBCC				_script_sub_68036
 		LOOPA				$08,_script_sub_6814C
 		SRET
 byte_6816A:
@@ -223,7 +229,7 @@ byte_6816A:
 		SPR_IDX_SELECT		$04
 		APU_LOAD			$5E
 		NJSR				_native_sub10C
-		SBCCS				byte_6817E
+		SBCSS				byte_6817E
 		NJSR				_native_sub10D
 byte_6817E:
 		SUSPEND				$08
@@ -234,16 +240,18 @@ byte_6817E:
 		NJSR				_native_sub10E
 		NJSR				_native_sub10F
 		SRET
-byte_6818F:
+
+; =============== O B J E C T   S C R I P T =================================
+_obj_scr_24_spoon_rat_destr:
 		SPR_IDX_SELECT		$06
 		NJSR				_native_get_obj_hp
-		SBNE				_script_sub_68087
+		SBEQ				_obj_scr_common_destr
 		SJSR				_script_sub_6809D
 		SJMP				_obj_scr24_spoon_rat
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr25_fork_rat:
-		DESTR_PC_SET		_script_sub_68087
+		DESTR_PC_SET		_obj_scr_common_destr
 		SPR_LIB_SELECT		$07
 		SPR_IDX_SELECT		$07
 		OBJ_SET_HP			$01
@@ -268,11 +276,11 @@ byte_681B8:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_681D2:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		NJSR				_native_sub115
-		SBCCS				byte_681DF
+		SBCSS				byte_681DF
 		NJSR				_native_sub17E
-		SBCSS				byte_681E4
+		SBCCS				byte_681E4
 byte_681DF:
 		LOOPA				$08,_script_sub_681D2
 		SRET
@@ -309,9 +317,9 @@ _script_sub_6821C:
 		SYNC
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
-		SBCSS				byte_68231
+		SBCCS				byte_68231
 		NJSR				_native_sub118
-		SBCSS				byte_68231
+		SBCCS				byte_68231
 		LOOPA				$08,_script_sub_6821C
 		SRET
 byte_68231:
@@ -341,7 +349,7 @@ byte_68252:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr26_fake_boxA:
-		DESTR_PC_SET		_script_sub_68087
+		DESTR_PC_SET		_obj_scr_common_destr
 		OBJ_MOVE_X_POS		$F8
 		SPR_LIB_SELECT		$07
 		SPR_IDX_SELECT		$4C
@@ -354,9 +362,9 @@ _obj_scr26_fake_boxA:
 byte_68273:
 		SYNC
 		NJSR				_native_sub17E
-		SBCCS				byte_68273
+		SBCSS				byte_68273
 		NJSR				_native_sub115
-		SBCCS				byte_68273
+		SBCSS				byte_68273
 		APU_LOAD			$60
 		OBJ_SET_SIZE		$08,$18
 		SPR_IDX_SELECT		$0F
@@ -390,9 +398,9 @@ _script_sub_682BC:
 		SYNC
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
-		SBCSS				byte_682D1
+		SBCCS				byte_682D1
 		NJSR				_native_sub118
-		SBCSS				byte_682D1
+		SBCCS				byte_682D1
 		LOOPA				$08,_script_sub_682BC
 		SRET
 byte_682D1:
@@ -403,7 +411,7 @@ byte_682D1:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr27_honey_bee:
-		DESTR_PC_SET		_script_sub_68087
+		DESTR_PC_SET		_obj_scr_common_destr
 		SPR_LIB_SELECT		$07
 		SPR_IDX_SELECT		$16
 		OBJ_SET_HP			$01
@@ -465,7 +473,7 @@ _script101:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr28_green_ceiling_bat:
-		DESTR_PC_SET		_script_sub_68087
+		DESTR_PC_SET		_obj_scr_common_destr
 		OBJ_MOVE_Y_POS		$FC
 		SPR_LIB_SELECT		$07
 		SPR_IDX_SELECT		$28
@@ -475,8 +483,8 @@ _obj_scr28_green_ceiling_bat:
 		SJSR				_script201
 		NJSR				_native_sub10E
 byte_6836B:
-		NJMP				_native_sub112
-		SBCCS				byte_6836B
+		NJSR_SYNC			_native_sub112
+		SBCSS				byte_6836B
 		TARGET_DIR_SET		$00
 byte_68373:
 		NJSR				_native_sub10E
@@ -491,7 +499,7 @@ byte_68382:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr29_green_floor_bat:
-		DESTR_PC_SET		_script_sub_68087
+		DESTR_PC_SET		_obj_scr_common_destr
 		SPR_LIB_SELECT		$07
 		SPR_IDX_SELECT		$26
 		OBJ_SET_SIZE		$08,$18
@@ -519,7 +527,7 @@ _script_sub_683BF:
 		SYNC
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub112
-		SBCSS				byte_683CE
+		SBCCS				byte_683CE
 		LOOPA				$08,_script_sub_683BF
 		SRET
 byte_683CE:
@@ -531,7 +539,7 @@ byte_683D5:
 		SJSR				_script_sub_68408
 		LOOPA				$02,byte_683D5
 		NJSR				_native_sub113
-		SBMIS				byte_683E5
+		SBPLS				byte_683E5
 		SJSR				_script_sub_68408
 byte_683E5:
 		NJSR				_native_sub10E
@@ -542,11 +550,11 @@ byte_683ED:
 byte_683EF:
 		SPR_IDX_SELECT		$29
 byte_683F1:
-		NJMP				_native_sub122
+		NJSR_SYNC			_native_sub122
 		LOOPA				$04,byte_683F1
 		SPR_IDX_SELECT		$2A
 byte_683FA:
-		NJMP				_native_sub122
+		NJSR_SYNC			_native_sub122
 		LOOPA				$04,byte_683FA
 		LOOPB				$02,byte_683EF
 		SJMP				byte_683ED
@@ -574,7 +582,7 @@ _script_sub_6841E:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr2A_pink_fish:
-		DESTR_PC_SET		_script_sub_68087
+		DESTR_PC_SET		_obj_scr_common_destr
 		NJSR				_scr_param_4_set
 		SPR_LIB_SELECT		$07
 		OBJ_SET_HP			$01
@@ -603,7 +611,7 @@ byte_68434:
 		PARAM_80_SET
 		SUSPEND				$F0
 		NJSR				_native_sub113
-		SBMIS				byte_68434
+		SBPLS				byte_68434
 		SUSPEND				$78
 		SJMP				byte_68434
 
@@ -642,9 +650,9 @@ byte_68497:
 byte_6849A:
 		SJSR				_script_sub_68514
 		NJSR				_native_sub115
-		SBCCS				byte_6849A
+		SBCSS				byte_6849A
 		NJSR				_native_sub116
-		SBCCS				byte_6849A
+		SBCSS				byte_6849A
 		NJSR				_native_sub10E
 byte_684AC:
 		OBJ_MOVE_Y_POS		$FE
@@ -663,7 +671,7 @@ byte_684AC:
 		SJSR				_script_sub_6851F
 		SPR_IDX_SELECT		$2E
 		SRUN				$07,_script102
-		SBCCS				byte_6849A
+		SBCSS				byte_6849A
 		NJSR				_native_sub117
 		OBJ_SET_SIZE		$08,$28
 byte_684E0:
@@ -692,7 +700,7 @@ byte_6850A:
 _script_sub_68514:
 		SYNC
 		NJSR				_native_sub118
-		SBCCS				byte_6851E
+		SBCSS				byte_6851E
 		SJSR				_script_sub_68036
 byte_6851E:
 		SRET
@@ -707,7 +715,7 @@ byte_68527:
 		SPR_IDX_SELECT		$31
 		OBJ_SET_SIZE		$08,$1C
 		NJSR				_native_get_obj_hp
-		SBNE				_script_sub_68087
+		SBEQ				_obj_scr_common_destr
 		SJSR				_script_sub_6809D
 		SJMP				byte_6848E
 
@@ -719,7 +727,7 @@ _script102:
 byte_68542:
 		NJSR				_native_sub04A_A
 		OBJ_MOVE_Y_POS		$18
-		NJMP				_native_sub119
+		NJSR_SYNC			_native_sub119
 		SJMP				byte_68542
 
 ; =============== O B J E C T   S C R I P T =================================
@@ -737,52 +745,58 @@ byte_68561:
 		OBJ_SET_X_DELTA		$E0
 		NJSR				_native_sub10F
 byte_68569:
-		SJSR				byte_685AE
+		SJSR				_script_sub_685AE
 		LOOPA				$04,byte_68569
-		SJSR				byte_6859D
+		SJSR				_script_sub_6859D
 		OBJ_SET_X_DELTA		$F0
 		OBJ_SET_Y_DELTA		$CF
-		SJSR				byte_685CD
+		SJSR				_script_sub_685CD
 		NJSR				_native_sub110
 		OBJ_SET_X_DELTA		$10
 		OBJ_SET_Y_DELTA		$CF
-		SJSR				byte_685CD
+		SJSR				_script_sub_685CD
 		SJMP				byte_68561
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_68587:
 		OBJ_SET_X_DELTA		$00
 		TARGET_DIR_SET		$18
-		SJSR				byte_685AE
+		SJSR				_script_sub_685AE
 		TARGET_DIR_SET		$1A
-		SJSR				byte_685AE
+		SJSR				_script_sub_685AE
 		TARGET_DIR_SET		$1C
-		SJSR				byte_685AE
+		SJSR				_script_sub_685AE
 		TARGET_DIR_SET		$1E
-		SJMP				byte_685AE
-byte_6859D:
+		SJMP				_script_sub_685AE
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_6859D:
 		OBJ_SET_X_DELTA		$00
 		TARGET_DIR_SET		$1C
-		SJSR				byte_685AE
+		SJSR				_script_sub_685AE
 		TARGET_DIR_SET		$1A
-		SJSR				byte_685AE
+		SJSR				_script_sub_685AE
 		TARGET_DIR_SET		$18
-		SJMP				byte_685AE
-byte_685AE:
-		SJSR				byte_685EA
+		SJMP				_script_sub_685AE
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_685AE:
+		SJSR				_script_sub_685EA
 		SPR_IDX_SELECT		$33
-		SJSR				byte_685EA
+		SJSR				_script_sub_685EA
 		SPR_IDX_SELECT		$34
-		SJSR				byte_685EA
+		SJSR				_script_sub_685EA
 		SPR_IDX_SELECT		$35
-		SJSR				byte_685EA
+		SJSR				_script_sub_685EA
 		SPR_IDX_SELECT		$36
-		SJSR				byte_685EA
+		SJSR				_script_sub_685EA
 		SPR_IDX_SELECT		$37
-		SJSR				byte_685EA
+		SJSR				_script_sub_685EA
 		SPR_IDX_SELECT		$32
 		SRET
-byte_685CD:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_685CD:
 		NJSR				_native_sub10F
 		SPR_IDX_SELECT		$38
 		SUSPEND				$06
@@ -792,43 +806,45 @@ byte_685CD:
 		SUSPEND				$06
 		TARGET_DIR_SET		$1E
 byte_685DE:
-		SJSR				byte_685AE
+		SJSR				_script_sub_685AE
 		NJSR				_native_get_obj_y_delta
-		SBEQS				byte_685DE
+		SBNES				byte_685DE
 		OBJ_SET_X_DELTA		$00
 		SRET
-byte_685EA:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_685EA:
 		NJSR				_native_sub000
 		NJSR				_native_get_obj_y_delta
-		SBMIS				byte_685F5
+		SBPLS				byte_685F5
 		APU_LOAD			$6B
 byte_685F5:
 		SYNC
 		NJSR				_native_get_obj_y_delta
-		SBEQS				byte_68613
+		SBNES				byte_68613
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
-		SBCCS				byte_6860A
+		SBCSS				byte_6860A
 		OBJ_SET_Y_DELTA		$CF
 		SJMP				byte_68638
 byte_6860A:
 		NJSR				_native_sub118
-		SBCSS				byte_68636
+		SBCCS				byte_68636
 		SJMP				byte_68638
 byte_68613:
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
 		NJSR				_native_sub109
 		NJSR				_native_get_obj_y_delta
-		SBPLS				byte_6862D
+		SBMIS				byte_6862D
 		NJSR				_native_sub10B
-		SBCSS				byte_68638
+		SBCCS				byte_68638
 		OBJ_SET_Y_DELTA		$00
 		SJMP				byte_68638
 byte_6862D:
 		NJSR				_obj_vert_animate
 		NJSR				_native_sub10A
-		SBCCS				byte_68638
+		SBCSS				byte_68638
 byte_68636:
 		OBJ_SET_Y_DELTA		$01
 byte_68638:
@@ -845,36 +861,38 @@ _native_sub000:
 _obj_scr2D_candle_dancing_destr:
 		SPR_IDX_SELECT		$3B
 		NJSR				_native_get_obj_hp
-		SBNE				_script_sub_68087
+		SBEQ				_obj_scr_common_destr
 		OBJ_SET_SIZE		$05,$18
 		SJSR				_script_sub_680E7
 		OBJ_SET_X_DELTA		$00
 		NJSR				_scr_param_4_clear
 byte_68657:
 		SPR_IDX_SELECT		$3B
-		SJSR				byte_6867F
+		SJSR				_script_sub_6867F
 		SPR_IDX_SELECT		$3C
-		SJSR				byte_6867F
+		SJSR				_script_sub_6867F
 		LOOPB				$14,byte_68657
 		NJSR				_scr_param_10_set
 byte_68668:
 		SPR_IDX_SELECT		$3B
-		SJSR				byte_6867F
+		SJSR				_script_sub_6867F
 		SPR_IDX_SELECT		$3C
-		SJSR				byte_6867F
+		SJSR				_script_sub_6867F
 		LOOPB				$05,byte_68668
 		NJSR				_scr_param_10_clear
 		NJSR				_players_animB_sub0129_sub06_A
 		SJMP				_obj_scr2D_candle_dancing
-byte_6867F:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_6867F:
 		SYNC
 		NJSR				_native_get_obj_var0D
-		SBPLS				byte_68694
+		SBMIS				byte_68694
 		NJSR				_native_sub118
-		SBCCS				byte_6868F
+		SBCSS				byte_6868F
 		SJSR				_script_sub_68044
 byte_6868F:
-		LOOPA				$0C,byte_6867F
+		LOOPA				$0C,_script_sub_6867F
 		SRET
 byte_68694:
 		SPR_IDX_SELECT		$5C
@@ -890,12 +908,12 @@ byte_68694:
 _obj_scr2E_ghost_dogA:
 		SJSR				_script202
 byte_686AC:
-		NJMP				_native_sub11E
-		SBEQS				byte_686AC
+		NJSR_SYNC			_native_sub11E
+		SBNES				byte_686AC
 		NJSR				_native_cmp40_obj_x_lo_pos
-		SBCCS				byte_686AC
-		NJSR				_native_cmpC0_obj_x_lo_pos
 		SBCSS				byte_686AC
+		NJSR				_native_cmpC0_obj_x_lo_pos
+		SBCCS				byte_686AC
 		SRUN				$06,_script103
 		SUSPEND				$3D
 		SJMP				byte_686AC
@@ -903,7 +921,7 @@ byte_686AC:
 ; =============== S C R I P T ===============================================
 _script103:
 		SUSPEND				$1E
-		DESTR_PC_SET		_script_sub_68087
+		DESTR_PC_SET		_obj_scr_common_destr
 		SPR_LIB_SELECT		$09
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
@@ -917,22 +935,24 @@ _script103:
 		NJSR				_native_sub10F
 byte_686E7:
 		SPR_IDX_SELECT		$00
-		SJSR				byte_6870C
+		SJSR				_script_sub_6870C
 		SPR_IDX_SELECT		$01
-		SJSR				byte_6870C
+		SJSR				_script_sub_6870C
 		SPR_IDX_SELECT		$02
-		SJSR				byte_6870C
+		SJSR				_script_sub_6870C
 		LOOPA				$03,byte_686E7
 		SPR_IDX_SELECT		$03
-		SJSR				byte_6870C
+		SJSR				_script_sub_6870C
 		SPR_IDX_SELECT		$04
-		SJSR				byte_6870C
+		SJSR				_script_sub_6870C
 		SPR_IDX_SELECT		$05
-		SJSR				byte_6870C
+		SJSR				_script_sub_6870C
 		SJMP				byte_686E7
-byte_6870C:
-		NJMP				_native_sub122
-		LOOPA				$04,byte_6870C
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_6870C:
+		NJSR_SYNC			_native_sub122
+		LOOPA				$04,_script_sub_6870C
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -946,11 +966,11 @@ _native_sub001:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr2F_ghost_dogB:
-		NJMP				_native_sub11E
-		SBNES				byte_68729
+		NJSR_SYNC			_native_sub11E
+		SBEQS				byte_68729
 		KILL
 byte_68729:
-		DESTR_PC_SET		_script_sub_68087
+		DESTR_PC_SET		_obj_scr_common_destr
 		SPR_LIB_SELECT		$09
 		SPR_IDX_SELECT		$00
 		OBJ_SET_HP			$01
@@ -961,29 +981,31 @@ byte_68729:
 		TARGET_DIR_SET		$20
 byte_6873F:
 		SPR_IDX_SELECT		$00
-		SJSR				byte_68751
+		SJSR				_script_sub_68751
 		SPR_IDX_SELECT		$01
-		SJSR				byte_68751
+		SJSR				_script_sub_68751
 		SPR_IDX_SELECT		$02
-		SJSR				byte_68751
+		SJSR				_script_sub_68751
 		SJMP				byte_6873F
-byte_68751:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_68751:
 		NJSR				_native_sub123
 		NJSR				_native_sub124
 		NJSR				_native_sub125
-		SBEQS				byte_68763
+		SBNES				byte_68763
 		NJSR				_native_sub126
 		SJMP				byte_68766
 byte_68763:
 		NJSR				_native_sub127
 byte_68766:
 		NJSR				_obj_vert_animate
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		NJSR				_native_sub128
-		SBCCS				byte_68773
+		SBCSS				byte_68773
 		BREAK				byte_68778
 byte_68773:
-		LOOPB				$04,byte_68751
+		LOOPB				$04,_script_sub_68751
 		SRET
 byte_68778:
 		TARGET_LOCK			$18
@@ -992,28 +1014,30 @@ byte_68778:
 		LOOPA_RESET
 byte_68781:
 		SPR_IDX_SELECT		$00
-		SJSR				byte_687A2
+		SJSR				_script_sub_687A2
 		SPR_IDX_SELECT		$01
-		SJSR				byte_687A2
+		SJSR				_script_sub_687A2
 		SPR_IDX_SELECT		$02
-		SJSR				byte_687A2
+		SJSR				_script_sub_687A2
 		SPR_IDX_SELECT		$03
-		SJSR				byte_687A2
+		SJSR				_script_sub_687A2
 		SPR_IDX_SELECT		$04
-		SJSR				byte_687A2
+		SJSR				_script_sub_687A2
 		SPR_IDX_SELECT		$05
-		SJSR				byte_687A2
+		SJSR				_script_sub_687A2
 		SJMP				byte_68781
-byte_687A2:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_687A2:
 		SYNC
 		TARGET_DIR_SET		$FF
 		TARGET_FOLLOW
-		LOOPA				$04,byte_687A2
+		LOOPA				$04,_script_sub_687A2
 		SRET
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr2C_sailor_monkey:
-		DESTR_PC_SET		_script_sub_68087
+		DESTR_PC_SET		_obj_scr_common_destr
 		SPR_LIB_SELECT		$07
 		SPR_IDX_SELECT		$4D
 		OBJ_SET_HP			$02
@@ -1024,7 +1048,7 @@ _obj_scr2C_sailor_monkey:
 byte_687BE:
 		APU_LOAD			$68
 byte_687C0:
-		NJMP				_obj_vert_animate
+		NJSR_SYNC			_obj_vert_animate
 		LOOPA				$08,byte_687C0
 		LOOPB				$04,byte_687BE
 		NJSR				_native_sub129
@@ -1072,13 +1096,13 @@ byte_68805:
 byte_68818:
 		SPR_IDX_SELECT		$50
 byte_6881A:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		OBJ_INC_Y_DELTA
 		OBJ_INC_Y_DELTA
 		LOOPA				$08,byte_6881A
 		SPR_IDX_SELECT		$51
 byte_68823:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		OBJ_INC_Y_DELTA
 		OBJ_INC_Y_DELTA
 		LOOPA				$08,byte_68823
@@ -1097,22 +1121,24 @@ _obj_scr30_penguin:
 byte_68841:
 		OBJ_SET_X_DELTA		$18
 		SPR_IDX_SELECT		$52
-		SJSR				byte_68867
+		SJSR				_script_sub_68867
 		OBJ_SET_X_DELTA		$10
 		SPR_IDX_SELECT		$53
-		SJSR				byte_68867
+		SJSR				_script_sub_68867
 		OBJ_SET_X_DELTA		$E8
 		SPR_IDX_SELECT		$54
-		SJSR				byte_68867
+		SJSR				_script_sub_68867
 		OBJ_SET_X_DELTA		$F0
 		SPR_IDX_SELECT		$53
-		SJSR				byte_68867
+		SJSR				_script_sub_68867
 byte_6885D:
 		SPR_IDX_SELECT		$53
 		SUSPEND				$1E
 		NJSR				_native_sub110
 		SJMP				byte_68841
-byte_68867:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_68867:
 		LOOPA_RESET
 		APU_LOAD			$40
 		NJSR				_native_sub10F
@@ -1120,14 +1146,14 @@ byte_6886D:
 		SYNC
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
-		SBCCS				byte_6887A
+		SBCSS				byte_6887A
 		BREAK				byte_6885D
 byte_6887A:
 		NJSR				_native_sub118
-		SBCS				_script_sub_68036
+		SBCC				_script_sub_68036
 		LOOPA				$0E,byte_6886D
 		NJSR				_native_sub116
-		SBCSS				byte_6888B
+		SBCCS				byte_6888B
 		SRET
 byte_6888B:
 		SPR_IDX_SELECT		$55
@@ -1138,22 +1164,22 @@ byte_68895:
 		SYNC
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
-		SBCSS				byte_688A9
+		SBCCS				byte_688A9
 		NJSR				_native_sub118
-		SBCS				_script_sub_68036
+		SBCC				_script_sub_68036
 		LOOPA				$20,byte_68895
 byte_688A9:
 		BREAK				byte_68841
 byte_688AC:
 		SPR_IDX_SELECT		$56
 		NJSR				_native_get_obj_hp
-		SBNE				_script_sub_68087
+		SBEQ				_obj_scr_common_destr
 		SJSR				_script_sub_6809D
 		SJMP				_obj_scr30_penguin
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr31_ski_rat:
-		DESTR_PC_SET		_script_sub_68087
+		DESTR_PC_SET		_obj_scr_common_destr
 		SPR_LIB_SELECT		$07
 		SPR_IDX_SELECT		$57
 		OBJ_SET_SIZE		$0C,$18
@@ -1168,26 +1194,28 @@ byte_688CE:
 		APU_LOAD			$41
 		SPR_IDX_SELECT		$57
 byte_688D9:
-		SJSR				byte_688F8
+		SJSR				_script_sub_688F8
 		NJSR				_native_sub116
-		SBCSS				byte_6890C
+		SBCCS				byte_6890C
 		LOOPA				$08,byte_688D9
 		SPR_IDX_SELECT		$58
 byte_688E8:
-		SJSR				byte_688F8
+		SJSR				_script_sub_688F8
 		NJSR				_native_sub116
-		SBCSS				byte_6890C
+		SBCCS				byte_6890C
 		LOOPA				$08,byte_688E8
 		SJMP				byte_688CE
-byte_688F8:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_688F8:
 		SYNC
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
-		SBCCS				byte_68905
+		SBCSS				byte_68905
 		NJSR				_native_sub110
 byte_68905:
 		NJSR				_native_sub118
-		SBCS				_script_sub_68036
+		SBCC				_script_sub_68036
 		SRET
 byte_6890C:
 		OBJ_SET_Y_DELTA		$C0
@@ -1196,8 +1224,8 @@ byte_68911:
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
 		NJSR				_native_sub12C
-		NJMP				_native_get_obj_x_delta
-		SBEQS				byte_68911
+		NJSR_SYNC			_native_get_obj_x_delta
+		SBNES				byte_68911
 		SUSPEND				$0A
 		NJSR				_native_sub110
 		OBJ_SET_X_DELTA		$E0
@@ -1207,11 +1235,11 @@ byte_6892C:
 		APU_LOAD			$41
 		SPR_IDX_SELECT		$57
 byte_68930:
-		SJSR				byte_688F8
+		SJSR				_script_sub_688F8
 		LOOPA				$08,byte_68930
 		SPR_IDX_SELECT		$58
 byte_68939:
-		SJSR				byte_688F8
+		SJSR				_script_sub_688F8
 		LOOPA				$08,byte_68939
 		SJMP				byte_6892C
 
@@ -1253,7 +1281,7 @@ _obj_scr33_hammer_mole:
 byte_68983:
 		SYNC
 		NJSR				_native_sub128
-		SBCCS				byte_68983
+		SBCSS				byte_68983
 		NJSR				_native_sub10E
 		PARAM_80_CLEAR
 		SPR_IDX_SELECT		$64
@@ -1280,7 +1308,7 @@ byte_68999:
 		SJMP				byte_68983
 byte_689C0:
 		SPR_IDX_SELECT		$40
-		SJMP				_script_sub_68087
+		SJMP				_obj_scr_common_destr
 
 ; =============== S C R I P T ===============================================
 _script107:
@@ -1305,24 +1333,26 @@ _script108:
 		PARAM_80_CLEAR
 		FLIP_40_CLEAR
 byte_689E8:
-		SJSR				byte_689FB
+		SJSR				_script_sub_689FB
 		FLIP_80_SET
-		SJSR				byte_689FB
+		SJSR				_script_sub_689FB
 		FLIP_40_SET
-		SJSR				byte_689FB
+		SJSR				_script_sub_689FB
 		FLIP_80_CLEAR
-		SJSR				byte_689FB
+		SJSR				_script_sub_689FB
 		FLIP_40_CLEAR
 		SJMP				byte_689E8
-byte_689FB:
-		JMP_OBJ_ANIMATE
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_689FB:
+		OBJ_ANIMATE_SYNC
 		NJSR				_native_sub109
-		LOOPA				$04,byte_689FB
+		LOOPA				$04,_script_sub_689FB
 		SRET
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr34_mecha_dog:
-		DESTR_PC_SET		_script_sub_68087
+		DESTR_PC_SET		_obj_scr_common_destr
 		SPR_LIB_SELECT		$07
 		SPR_IDX_SELECT		$5E
 		OBJ_SET_SIZE		$0C,$18
@@ -1336,13 +1366,13 @@ byte_68A1D:
 		APU_LOAD			$3E
 byte_68A1F:
 		SPR_IDX_SELECT		$5E
-		SJSR				byte_68A69
+		SJSR				_script_sub_68A69
 		SPR_IDX_SELECT		$5F
-		SJSR				byte_68A69
+		SJSR				_script_sub_68A69
 		SPR_IDX_SELECT		$5E
-		SJSR				byte_68A69
+		SJSR				_script_sub_68A69
 		SPR_IDX_SELECT		$5F
-		SJSR				byte_68A69
+		SJSR				_script_sub_68A69
 		LOOPB				$02,byte_68A1F
 		NJSR				_native_sub110
 		SJMP				byte_68A1D
@@ -1356,43 +1386,47 @@ byte_68A3D:
 		NJSR				_native_sub10F
 byte_68A4E:
 		SPR_IDX_SELECT		$62
-		SJSR				byte_68A77
+		SJSR				_script_sub_68A77
 		APU_LOAD			$68
 		SPR_IDX_SELECT		$63
-		SJSR				byte_68A77
+		SJSR				_script_sub_68A77
 		SPR_IDX_SELECT		$41
-		SJSR				byte_68A77
+		SJSR				_script_sub_68A77
 		APU_LOAD			$68
 		SPR_IDX_SELECT		$42
-		SJSR				byte_68A77
+		SJSR				_script_sub_68A77
 		SJMP				byte_68A4E
-byte_68A69:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_68A69:
 		NJSR				_native_sub116
-		SBCCS				byte_68A77
+		SBCSS				_script_sub_68A77
 		NJSR				_native_sub10E
 		LOOPA_RESET
 		LOOPB_RESET
 		BREAK				byte_68A3D
-byte_68A77:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_68A77:
 		SYNC
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
-		SBCCS				byte_68A86
+		SBCSS				byte_68A86
 		LOOPA_RESET
 		LOOPB_RESET
 		NJSR				_native_sub110
 byte_68A86:
 		NJSR				_native_sub118
-		SBCS				_script_sub_68036
-		LOOPA				$07,byte_68A77
+		SBCC				_script_sub_68036
+		LOOPA				$07,_script_sub_68A77
 		SRET
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr35_red_bird_with_egg:
 		SJSR				_script202
 byte_68A94:
-		NJMP				_native_sub11E
-		SBEQS				byte_68A94
+		NJSR_SYNC			_native_sub11E
+		SBNES				byte_68A94
 		SUSPEND				$1E
 		SRUN				$06,_script109
 		SUSPEND				$1E
@@ -1402,14 +1436,16 @@ byte_68A94:
 _obj_scr36_red_bird:
 		SJSR				_script202
 byte_68AA8:
-		NJMP				_native_sub11E
-		SBEQS				byte_68AA8
+		NJSR_SYNC			_native_sub11E
+		SBNES				byte_68AA8
 		SUSPEND				$1E
 		SRUN				$06,_script10A
 		SUSPEND				$1E
 		SJMP				byte_68AA8
-byte_68AB9:
-		DESTR_PC_SET		_script_sub_68087
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_68AB9:
+		DESTR_PC_SET		_obj_scr_common_destr
 		SPR_LIB_SELECT		$09
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
@@ -1425,68 +1461,76 @@ byte_68AB9:
 ; =============== S C R I P T ===============================================
 _script109:
 		OBJ_SET_X_DELTA		$18
-		SJSR				byte_68AB9
+		SJSR				_script_sub_68AB9
 byte_68ADB:
 		SPR_IDX_SELECT		$06
-		SJSR				byte_68B01
+		SJSR				_script_sub_68B01
 		APU_LOAD			$39
 		SPR_IDX_SELECT		$07
-		SJSR				byte_68B0D
+		SJSR				_script_sub_68B0D
 		SPR_IDX_SELECT		$08
-		SJSR				byte_68B0D
+		SJSR				_script_sub_68B0D
 		NJSR				_native_sub128
-		SBCCS				byte_68ADB
+		SBCSS				byte_68ADB
 		SRUN				$06,_script10B
-		SBCCS				byte_68ADB
+		SBCSS				byte_68ADB
 		OBJ_SET_X_DELTA		$20
 		NJSR				_native_sub10F
 		SJMP				byte_68B1A
-byte_68B01:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_68B01:
 		OBJ_SET_Y_DELTA		$DF
 byte_68B03:
 		OBJ_INC_Y_DELTA
 		OBJ_INC_Y_DELTA
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		LOOPB				$20,byte_68B03
 		OBJ_SET_Y_DELTA		$21
 		SRET
-byte_68B0D:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_68B0D:
 		OBJ_DEC_Y_DELTA
 		OBJ_DEC_Y_DELTA
-		JMP_OBJ_ANIMATE
-		LOOPB				$10,byte_68B0D
+		OBJ_ANIMATE_SYNC
+		LOOPB				$10,_script_sub_68B0D
 		SRET
 
 ; =============== S C R I P T ===============================================
 _script10A:
 		OBJ_SET_X_DELTA		$20
-		SJSR				byte_68AB9
+		SJSR				_script_sub_68AB9
 byte_68B1A:
 		SPR_IDX_SELECT		$09
-		SJSR				byte_68B2E
+		SJSR				_script_sub_68B2E
 		APU_LOAD			$39
 		SPR_IDX_SELECT		$0A
-		SJSR				byte_68B39
+		SJSR				_script_sub_68B39
 		SPR_IDX_SELECT		$0B
-		SJSR				byte_68B39
+		SJSR				_script_sub_68B39
 		SJMP				byte_68B1A
-byte_68B2E:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_68B2E:
 		OBJ_SET_Y_DELTA		$EF
 byte_68B30:
 		OBJ_INC_Y_DELTA
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		LOOPB				$20,byte_68B30
 		OBJ_SET_Y_DELTA		$11
 		SRET
-byte_68B39:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_68B39:
 		OBJ_DEC_Y_DELTA
-		JMP_OBJ_ANIMATE
-		LOOPB				$10,byte_68B39
+		OBJ_ANIMATE_SYNC
+		LOOPB				$10,_script_sub_68B39
 		SRET
 
 ; =============== S C R I P T ===============================================
 _script10B:
-		DESTR_PC_SET		_script_sub_68087
+		DESTR_PC_SET		_obj_scr_common_destr
 		OBJ_MOVE_Y_POS		$10
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
@@ -1499,7 +1543,7 @@ byte_68B53:
 		SYNC
 		NJSR				_native_sub109
 		NJSR				_native_sub10B
-		SBCSS				byte_68B53
+		SBCCS				byte_68B53
 		OBJ_SET_Y_DELTA		$00
 		APU_LOAD			$3B
 		SPR_IDX_SELECT		$6B
@@ -1511,26 +1555,28 @@ byte_68B53:
 		SPR_IDX_SELECT		$6F
 		SUSPEND				$08
 		OBJ_SET_X_DELTA		$10
-		NJMP				_native_sub10E
-		NJMP				_native_sub10F
+		NJSR_SYNC			_native_sub10E
+		NJSR_SYNC			_native_sub10F
 byte_68B79:
 		SPR_IDX_SELECT		$6E
-		SJSR				byte_68B90
+		SJSR				_script_sub_68B90
 		SPR_IDX_SELECT		$6F
-		SJSR				byte_68B90
+		SJSR				_script_sub_68B90
 		SPR_IDX_SELECT		$70
-		SJSR				byte_68B90
+		SJSR				_script_sub_68B90
 		SPR_IDX_SELECT		$6F
-		SJSR				byte_68B90
+		SJSR				_script_sub_68B90
 		SJMP				byte_68B79
-byte_68B90:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_68B90:
 		SYNC
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
-		SBCSS				byte_68BA5
+		SBCCS				byte_68BA5
 		NJSR				_native_sub118
-		SBCSS				byte_68BA5
-		LOOPA				$08,byte_68B90
+		SBCCS				byte_68BA5
+		LOOPA				$08,_script_sub_68B90
 		SRET
 byte_68BA5:
 		LOOPA_RESET
@@ -1541,7 +1587,7 @@ byte_68BA5:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr37_javelin_rat:
-		DESTR_PC_SET		_script_sub_68087
+		DESTR_PC_SET		_obj_scr_common_destr
 		SPR_LIB_SELECT		$07
 		SPR_IDX_SELECT		$43
 		OBJ_SET_SIZE		$0C,$18
@@ -1553,13 +1599,13 @@ _obj_scr37_javelin_rat:
 		NJSR				_native_sub10F
 byte_68BC9:
 		SPR_IDX_SELECT		$44
-		SJSR				byte_68C0D
+		SJSR				_script_sub_68C0D
 		SPR_IDX_SELECT		$45
-		SJSR				byte_68C0D
+		SJSR				_script_sub_68C0D
 		SPR_IDX_SELECT		$46
-		SJSR				byte_68C0D
+		SJSR				_script_sub_68C0D
 		SPR_IDX_SELECT		$45
-		SJSR				byte_68C0D
+		SJSR				_script_sub_68C0D
 		SJMP				byte_68BC9
 byte_68BE0:
 		SPR_IDX_SELECT		$47
@@ -1573,30 +1619,34 @@ byte_68BE0:
 		SUSPEND				$2A
 byte_68BF6:
 		SPR_IDX_SELECT		$44
-		SJSR				byte_68C22
+		SJSR				_script_sub_68C22
 		SPR_IDX_SELECT		$45
-		SJSR				byte_68C22
+		SJSR				_script_sub_68C22
 		SPR_IDX_SELECT		$46
-		SJSR				byte_68C22
+		SJSR				_script_sub_68C22
 		SPR_IDX_SELECT		$45
-		SJSR				byte_68C22
+		SJSR				_script_sub_68C22
 		SJMP				byte_68BF6
-byte_68C0D:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_68C0D:
 		NJSR				_native_sub115
-		SBCCS				byte_68C22
+		SBCSS				_script_sub_68C22
 		NJSR				_native_sub112
-		SBCCS				byte_68C22
+		SBCSS				_script_sub_68C22
 		NJSR				_native_sub10E
 		NJSR				_native_sub10F
 		BREAK				byte_68BE0
-byte_68C22:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_68C22:
 		SYNC
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
-		SBCSS				byte_68C37
+		SBCCS				byte_68C37
 		NJSR				_native_sub118
-		SBCSS				byte_68C37
-		LOOPA				$0B,byte_68C22
+		SBCCS				byte_68C37
+		LOOPA				$0B,_script_sub_68C22
 		SRET
 byte_68C37:
 		LOOPA_RESET
@@ -1622,10 +1672,10 @@ _script10C:
 _obj_scr3C_violet_bug_fall:
 		SJSR				byte_68CCC
 byte_68C5A:
-		NJMP				_native_cmp20_obj_x_lo_pos
-		SBCCS				byte_68C5A
-		NJSR				_native_cmpE0_obj_x_lo_pos
+		NJSR_SYNC			_native_cmp20_obj_x_lo_pos
 		SBCSS				byte_68C5A
+		NJSR				_native_cmpE0_obj_x_lo_pos
+		SBCCS				byte_68C5A
 		OBJ_SET_Y_DELTA		$20
 byte_68C68:
 		SJSR				byte_68C8D
@@ -1642,6 +1692,8 @@ byte_68C7F:
 		LOOPA				$02,byte_68C7F
 		SRUN				$08,_script10D
 		SJMP				byte_68C7F
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_68C8D:
 		SPR_IDX_SELECT		$71
 		SJSR				_script_animate10
@@ -1660,21 +1712,25 @@ byte_68C9C:
 		LOOPA				$06,byte_68C9C
 		SRUN				$08,_script10D
 		SJMP				byte_68C9C
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_68CB1:
 		NJSR				_native_sub123
 		NJSR				_native_sub124
 		NJSR				_native_sub125
-		SBEQS				byte_68CC3
+		SBNES				byte_68CC3
 		NJSR				_native_sub126
 		SJMP				byte_68CC6
 byte_68CC3:
 		NJSR				_native_sub127
 byte_68CC6:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		LOOPB				$08,byte_68CB1
 		SRET
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_68CCC:
-		DESTR_PC_SET		_script_sub_68087
+		DESTR_PC_SET		_obj_scr_common_destr
 		SPR_LIB_SELECT		$07
 		SPR_IDX_SELECT		$71
 		OBJ_SET_HP			$01
@@ -1709,7 +1765,7 @@ _obj_scr39_hedgehog:
 		SJSR				_script201
 		NJSR				_native_sub10E
 byte_68D0B:
-		DESTR_PC_SET		_script_sub_68087
+		DESTR_PC_SET		_obj_scr_common_destr
 		OBJ_SET_SIZE		$0A,$0C
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
@@ -1731,18 +1787,20 @@ byte_68D2F:
 byte_68D35:
 		SYNC
 		NJSR				_native_sub131
-		SBCCS				byte_68D3F
+		SBCSS				byte_68D3F
 		BREAK				byte_68D56
 byte_68D3F:
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
-		SBCCS				byte_68D4B
+		SBCSS				byte_68D4B
 		BREAK				byte_68D2F
 byte_68D4B:
 		NJSR				_native_sub118
-		SBCS				_script_sub_68036
+		SBCC				_script_sub_68036
 		LOOPA				$0E,byte_68D35
 		SRET
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_68D56:
 		DESTR_PC_SET		byte_68D6B
 		OBJ_SET_SIZE		$0A,$0E
@@ -1755,7 +1813,7 @@ byte_68D61:
 		SJMP				byte_68D0B
 byte_68D6B:
 		NJSR				_native_get_obj_hp
-		SBNE				_script_sub_68087
+		SBEQ				_obj_scr_common_destr
 		NJSR				_scr_param_4_clear
 		SJMP				byte_68D61
 
@@ -1765,8 +1823,8 @@ _obj_scr3A_running_cock:
 byte_68D7A:
 		SYNC
 		NJSR				_native_cmp08_obj_x_lo_pos
-		SBCSS				byte_68D7A
-		DESTR_PC_SET		_script_sub_68087
+		SBCCS				byte_68D7A
+		DESTR_PC_SET		_obj_scr_common_destr
 		SPR_LIB_SELECT		$07
 		SPR_IDX_SELECT		$75
 		OBJ_SET_SIZE		$08,$20
@@ -1788,11 +1846,11 @@ byte_68DA7:
 		SYNC
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
-		SBCCS				byte_68DB4
+		SBCSS				byte_68DB4
 		NJSR				_native_sub110
 byte_68DB4:
 		SJSR				_script_sub_68044
-		SBCSS				byte_68DA7
+		SBCCS				byte_68DA7
 		SPR_IDX_SELECT		$75
 		SUSPEND				$04
 		SRET
@@ -1840,11 +1898,13 @@ byte_68E07:
 		LOOPA				$02,byte_68E07
 		LOOPB				$02,byte_68DFB
 		SRET
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_68E18:
 		NJSR				_native_get_obj_hp
-		SBEQ				byte_68DDB
+		SBNE				byte_68DDB
 		SPR_IDX_SELECT		$3A
-		SJMP				_script_sub_68087
+		SJMP				_obj_scr_common_destr
 
 ; =============== S C R I P T ===============================================
 _script10F:
@@ -1858,6 +1918,10 @@ _script10E:
 		OBJ_SET_X_DELTA		$D0
 		OBJ_MOVE_X_POS		$F8
 		FLIP_40_SET
+
+; !FALLTHROUGH!
+
+; =============== S C R I P T ===============================================
 byte_68E30:
 		NJSR				_native_sub12B
 		SPR_LIB_SELECT		$05
@@ -1871,12 +1935,14 @@ byte_68E3D:
 		SPR_IDX_SELECT		$40
 		SJSR				byte_68E4A
 		SJMP				byte_68E3D
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_68E4A:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		NJSR				_native_sub104
-		SBCS				byte_68E5C
+		SBCC				byte_68E5C
 		NJSR				_native_sub118
-		SBCS				byte_68E5C
+		SBCC				byte_68E5C
 		LOOPA				$06,byte_68E4A
 		SRET
 byte_68E5C:
@@ -1916,7 +1982,7 @@ byte_68E9E:
 		OBJ_SET_Y_DELTA		$00
 		NJSR				_native_sub10E
 		NJSR				_native_sub113
-		SBMI				byte_68EAE
+		SBPL				byte_68EAE
 		SJSR				byte_68F2E
 byte_68EAE:
 		SJSR				byte_68F2E
@@ -1925,7 +1991,7 @@ byte_68EB4:
 		OBJ_SET_X_DELTA		$20
 		NJSR				_native_sub10F
 		NJSR				_native_sub113
-		SBMI				byte_68EC2
+		SBPL				byte_68EC2
 		SJSR				byte_68EC8
 byte_68EC2:
 		SJSR				byte_68EC8
@@ -1939,21 +2005,21 @@ byte_68ECF:
 		SJSR				_script20A
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub135
-		SBCS				byte_68EDF
+		SBCC				byte_68EDF
 		NJSR				_native_sub110
 byte_68EDF:
 		NJSR				_native_sub118
-		SBCS				byte_68EEA
+		SBCC				byte_68EEA
 		LOOPB				$0A,byte_68ECF
 		SRET
 byte_68EEA:
 		NJSR				_scr_reset_slot
 		NJSR				_native_cmp40_obj_y_lo_pos
-		SBNE				byte_68F01
+		SBEQ				byte_68F01
 		NJSR				_native_cmpC0_obj_y_lo_pos
-		SBNE				byte_68EFF
+		SBEQ				byte_68EFF
 		NJSR				_native_sub113
-		SBMI				byte_68F01
+		SBPL				byte_68F01
 byte_68EFF:
 		OBJ_SET_Y_DELTA		$AE
 byte_68F01:
@@ -2012,7 +2078,7 @@ byte_68F68:
 		SJSR				byte_68F75
 		SJMP				byte_68F68
 byte_68F75:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		NJSR				_native_sub109
 		LOOPA				$03,byte_68F75
 		SRET
@@ -2021,8 +2087,8 @@ byte_68F75:
 _script110:
 		SUSPEND				$F0
 byte_68F80:
-		NJMP				_native_sub138
-		SBCC				byte_68F80
+		NJSR_SYNC			_native_sub138
+		SBCS				byte_68F80
 		SUSPEND				$3C
 		SRUN				$03,_script112
 		SJMP				_script110
@@ -2063,9 +2129,9 @@ byte_68FCB:
 		SYNC
 		NJSR				_native_sub109
 		NJSR				_native_sub10B
-		SBCC				byte_68FDE
+		SBCS				byte_68FDE
 		NJSR				_native_get_obj_hp
-		SBEQ				byte_68FCB
+		SBNE				byte_68FCB
 		SJMP				byte_6A669
 byte_68FDE:
 		NJSR				_native_sub13B
@@ -2076,11 +2142,11 @@ byte_68FDE:
 byte_68FEB:
 		SYNC
 		NJSR				_native_get_obj_var0D
-		SBPL				_script46
+		SBMI				_script46
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub13C
 		NJSR				_native_sub118
-		SBCC				byte_68FEB
+		SBCS				byte_68FEB
 		SJMP				byte_68FC0
 
 ; =============== O B J E C T   S C R I P T =================================
@@ -2108,6 +2174,8 @@ byte_69024:
 		SJSR				byte_69039
 		SJSR				byte_69076
 		SJMP				byte_69024
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_69039:
 		OBJ_SET_X_DELTA		$00
 		OBJ_SET_Y_DELTA		$00
@@ -2124,6 +2192,8 @@ byte_69056:
 		SJSR				byte_690B0
 		LOOPA				$03,byte_69056
 		SRET
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_6905E:
 		OBJ_SET_X_DELTA		$E0
 		OBJ_SET_Y_DELTA		$19
@@ -2135,6 +2205,8 @@ byte_69065:
 		NJSR				_native_sub110
 		NJSR				_native_sub114
 		SRET
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_69076:
 		OBJ_SET_X_DELTA		$E0
 		OBJ_SET_Y_DELTA		$20
@@ -2229,15 +2301,15 @@ _script113:
 		VAR_1C_SET			$01
 		OBJ_SET_SIZE		$06,$10
 		PARAM_80_CLEAR
-		NJMP				_native_sub006
+		NJSR_SYNC			_native_sub006
 byte_69120:
 		NJSR				_native_sub109
-		NJMP				_obj_vert_animate
+		NJSR_SYNC			_obj_vert_animate
 		LOOPA				$20,byte_69120
 		TARGET_LOCK			$40
 		NJSR				_native_sub111
 		NJSR				_native_sub13D
-		SBCC				_script1FE
+		SBCS				_script1FE
 		SJSR				_script1FF
 		OBJ_SET_X_DELTA		$18
 		OBJ_SET_Y_DELTA		$00
@@ -2245,22 +2317,22 @@ byte_69120:
 byte_6913F:
 		SJSR				_script_animate10
 		NJSR				_native_sub007
-		SBCS				byte_6913F
+		SBCC				byte_6913F
 		NJSR				_native_sub13B
 byte_6914B:
 		SYNC
 		NJSR				_native_get_obj_var0D
-		SBPL				byte_6915B
+		SBMI				byte_6915B
 		NJSR				_native_sub008
-		SBCC				byte_6916B
+		SBCS				byte_6916B
 		SJMP				byte_6914B
 byte_6915B:
 		SJSR				_script_sub_6806C
 		NJSR				_native_sub030
 byte_69161:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		NJSR				_native_sub016
-		SBEQ				byte_69161
+		SBNE				byte_69161
 		SJMP				byte_68096
 byte_6916B:
 		NJSR				_native_sub13E
@@ -2334,10 +2406,10 @@ byte_691E3:
 		SJMP				_script206
 byte_691EA:
 		NJSR				_native_cmpC0_obj_y_lo_pos
-		SBCS				byte_69229
+		SBCC				byte_69229
 byte_691F0:
 		NJSR				_native_cmp80_obj_x_lo_pos
-		SBEQ				byte_691FC
+		SBNE				byte_691FC
 		SJSR				byte_691E3
 		NJSR				_native_sub10E
 byte_691FC:
@@ -2359,7 +2431,7 @@ byte_6920C:
 		LOOPA				$02,byte_6920C
 byte_69223:
 		NJSR				_native_cmp80_obj_y_lo_pos
-		SBCC				byte_691F0
+		SBCS				byte_691F0
 byte_69229:
 		OBJ_SET_X_DELTA		$18
 		NJSR				_native_sub10F
@@ -2387,13 +2459,13 @@ byte_6924C:
 		OBJ_SET_X_DELTA		$00
 byte_6925C:
 		NJSR				_native_get_obj_y_delta
-		SBNE				byte_69269
+		SBEQ				byte_69269
 		SYNC
 		SJSR				byte_6927B
 		SJMP				byte_6925C
 byte_69269:
 		NJSR				_native_cmp80_obj_x_lo_pos
-		SBNE				byte_691D7
+		SBEQ				byte_691D7
 		SJSR				byte_691E3
 		NJSR				_native_sub110
 		SJSR				byte_691E3
@@ -2402,21 +2474,21 @@ byte_6927B:
 		SJSR				_script20A
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_get_obj_y_delta
-		SBEQ				byte_69290
+		SBNE				byte_69290
 		NJSR				_native_sub118
-		SBCS				byte_6928E
+		SBCC				byte_6928E
 		SRET
 byte_6928E:
 		OBJ_SET_Y_DELTA		$B0
 byte_69290:
 		SPR_IDX_SELECT		$26
 		NJSR				_native_sub109
-		SBMI				byte_6929C
+		SBPL				byte_6929C
 		NJSR				_obj_vert_animate
 		SRET
 byte_6929C:
 		NJSR				_native_sub10B
-		SBCS				byte_692A4
+		SBCC				byte_692A4
 		OBJ_SET_Y_DELTA		$00
 byte_692A4:
 		SRET
@@ -2433,8 +2505,8 @@ _native_sub009:
 _script114:
 		OBJ_SET_FLIP		$08
 byte_692AE:
-		NJMP				_native_sub00A
-		SBCC				byte_692AE
+		NJSR_SYNC			_native_sub00A
+		SBCS				byte_692AE
 		SRUN				$09,_script116
 		SJMP				byte_692AE
 
@@ -2473,8 +2545,8 @@ _script116:
 		OBJ_SET_HP			$01
 		PARAM_80_CLEAR
 byte_692F1:
-		NJMP				_native_get_obj_var0D
-		SBPL				_script46
+		NJSR_SYNC			_native_get_obj_var0D
+		SBMI				_script46
 		SJMP				byte_692F1
 
 ; =============== S C R I P T ===============================================
@@ -2546,7 +2618,7 @@ byte_69380:
 		LOOPA				$1E,byte_69380
 		SPR_IDX_SELECT		$10
 		APU_LOAD			$6C
-		NJMP				_native_box_bonus_4prizes_shuffle
+		NJSR_SYNC			_native_box_bonus_4prizes_shuffle
 		NJSR				_native_sub12A
 		SSWITCH				_tmp_ptrE+1
 		SCASE				byte_69412
@@ -2555,7 +2627,7 @@ byte_69380:
 byte_6939A:
 		OBJ_SET_X_DELTA		$F9
 		NJSR				_native_sub113
-		SBMI				byte_693AF
+		SBPL				byte_693AF
 byte_693A2:
 		SJSR				byte_693BC
 		SJSR				byte_693C9
@@ -2583,7 +2655,7 @@ byte_693CB:
 byte_693D6:
 		OBJ_SET_X_DELTA		$E8
 		NJSR				_native_sub113
-		SBMI				byte_693E7
+		SBPL				byte_693E7
 		SJSR				byte_693F0
 		SJSR				byte_69400
 		SJMP				byte_69330
@@ -2648,7 +2720,7 @@ byte_69443:
 		PARAM_80_CLEAR
 		OBJ_SET_FLIP		$08
 		NJSR				_native_sub13D
-		SBCC				byte_68096
+		SBCS				byte_68096
 		SJSR				_script_sub_68036
 		OBJ_SET_Y_DELTA		$EC
 		SPR_IDX_SELECT		$12
@@ -2662,7 +2734,7 @@ _script119:
 		OBJ_MOVE_Y_POS		$CA
 		SPR_LIB_SELECT		$08
 		SPR_IDX_SELECT		$13
-		NJMP				_native_sub111
+		NJSR_SYNC			_native_sub111
 		TARGET_LOCK			$30
 		OBJ_SET_SIZE		$08,$10
 		OBJ_SET_HP			$01
@@ -2678,7 +2750,7 @@ byte_69486:
 		SJMP				byte_69486
 byte_69492:
 		NJSR				_native_sub144
-		SBNE				byte_6949E
+		SBEQ				byte_6949E
 		APU_LOAD			$2F
 		SRUN				$01,_script11A
 byte_6949E:
@@ -2714,7 +2786,7 @@ byte_694CA:
 		APU_LOAD			$70
 		PAL_FADE_OUT		$04,$87
 		SUSPEND				$80
-		SJMP				byte_B6B07
+		SJMP				_script_sub_stage_complete_flag_set
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub00B:
@@ -2844,11 +2916,11 @@ byte_69594:
 		SCASE				byte_6961F
 byte_695A5:
 		NJSR				_native_cmp40_obj_y_lo_pos
-		SBNE				byte_695B9
+		SBEQ				byte_695B9
 		NJSR				_native_cmpC0_obj_y_lo_pos
-		SBNE				byte_695B7
+		SBEQ				byte_695B7
 		NJSR				_native_sub113
-		SBMI				byte_695B9
+		SBPL				byte_695B9
 byte_695B7:
 		OBJ_SET_Y_DELTA		$AE
 byte_695B9:
@@ -2875,9 +2947,9 @@ _script_sub_695DD:
 		SJSR				_script20A
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub135
-		SBCC				byte_695F5
+		SBCS				byte_695F5
 		NJSR				_native_sub118
-		SBCS				byte_695FC
+		SBCC				byte_695FC
 		LOOPA				$0A,_script_sub_695DD
 		SRET
 byte_695F5:
@@ -2892,12 +2964,12 @@ byte_69600:
 		SJSR				_script20A
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub109
-		SBMI				byte_69613
+		SBPL				byte_69613
 		NJSR				_obj_vert_animate
 		SJMP				byte_69600
 byte_69613:
 		NJSR				_native_sub10B
-		SBCS				byte_69600
+		SBCC				byte_69600
 		OBJ_SET_Y_DELTA		$00
 		LOOPA_RESET
 		BREAK				byte_695C6
@@ -2934,7 +3006,7 @@ _script11D:
 		TARGET_LOCK			$40
 		NJSR				_native_sub00E
 		NJSR				_native_sub13D
-		SBCC				_script1FE
+		SBCS				_script1FE
 		SJSR				_script1FF
 		SPR_IDX_SELECT		$3B
 		OBJ_SET_X_DELTA		$18
@@ -2943,7 +3015,7 @@ _script11D:
 byte_69671:
 		SJSR				_script_animate10
 		NJSR				_native_sub007
-		SBCS				byte_69671
+		SBCC				byte_69671
 		DESTR_PC_SET		byte_69B00
 		OBJ_SET_X_DELTA		$00
 		SJMP				byte_69AFA
@@ -3020,15 +3092,15 @@ byte_69785:
 byte_697AD:
 		SJSR				byte_69859
 		NJSR				_native_sub113
-		SBMI				byte_697BF
+		SBPL				byte_697BF
 		NJSR				_native_cmpC0_obj_y_lo_pos
-		SBEQ				byte_697BF
+		SBNE				byte_697BF
 		SJSR				byte_697D8
 byte_697BF:
 		SJSR				byte_69845
 		SJSR				byte_697ED
 		NJSR				_native_sub113
-		SBMI				byte_697CF
+		SBPL				byte_697CF
 		OBJ_SET_Y_DELTA		$AC
 		APU_LOAD			$54
 byte_697CF:
@@ -3067,19 +3139,19 @@ byte_69813:
 		SJSR				_script20A
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub149
-		SBEQ				byte_69840
+		SBNE				byte_69840
 		NJSR				_native_get_obj_y_delta
-		SBEQ				byte_6982C
+		SBNE				byte_6982C
 		NJSR				_native_sub118
-		SBCC				byte_69840
+		SBCS				byte_69840
 byte_6982C:
 		NJSR				_native_sub109
-		SBMI				byte_69838
+		SBPL				byte_69838
 		NJSR				_obj_vert_animate
 		SJMP				byte_69840
 byte_69838:
 		NJSR				_native_sub10B
-		SBCS				byte_69840
+		SBCC				byte_69840
 		OBJ_SET_Y_DELTA		$00
 byte_69840:
 		LOOPA				$08,byte_69813
@@ -3125,7 +3197,7 @@ byte_6987C:
 		OBJ_SET_Y_DELTA		$D0
 		NJSR				_native_sub10F
 		NJSR				_native_sub13D
-		SBCS				byte_698A7
+		SBCC				byte_698A7
 byte_69891:
 		SPR_IDX_SELECT		$32
 		SJSR				byte_6989E
@@ -3133,7 +3205,7 @@ byte_69891:
 		SJSR				byte_6989E
 		SJMP				byte_69891
 byte_6989E:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		NJSR				_native_sub109
 		LOOPA				$06,byte_6989E
 		SRET
@@ -3146,16 +3218,16 @@ byte_698A7:
 byte_698B5:
 		SPR_IDX_SELECT		$32
 		SJSR				byte_698C9
-		SBCC				byte_698C8
+		SBCS				byte_698C8
 		SPR_IDX_SELECT		$33
 		SJSR				byte_698C9
-		SBCC				byte_698C8
+		SBCS				byte_698C8
 		SJMP				byte_698B5
 byte_698C8:
 		SRET
 byte_698C9:
 		SJSR				_script_sub_6803D
-		SBCC				byte_698D3
+		SBCS				byte_698D3
 		LOOPA				$06,byte_698C9
 byte_698D3:
 		LOOPA_RESET
@@ -3185,7 +3257,7 @@ byte_69906:
 		LOOPB				$06,byte_69906
 byte_6990D:
 		NJSR				_native_sub010
-		SBNE				byte_69924
+		SBEQ				byte_69924
 		OBJ_SET_X_DELTA		$E0
 		SPR_IDX_SELECT		$00
 		STORE				$0B,_pal_anim_mode_idx
@@ -3194,7 +3266,7 @@ byte_6990D:
 		SJMP				byte_6994D
 byte_69924:
 		NJSR				_native_sub00F
-		SBCS				byte_6994D
+		SBCC				byte_6994D
 		NJSR				_native_sub12A
 		SSWITCH				_tmp_ptrE+1
 		SCASE				byte_69936
@@ -3225,7 +3297,7 @@ byte_69961:
 byte_69969:
 		NJSR				_native_sub011
 		NJSR				_native_sub144
-		SBNE				byte_69978
+		SBEQ				byte_69978
 		APU_LOAD			$2F
 		SRUN				$01,_script121
 byte_69978:
@@ -3243,7 +3315,7 @@ byte_69989:
 		NJSR				_native_sub012
 		SUSPEND				$20
 		LOOPB				$04,byte_69989
-		SJMP				byte_B6B07
+		SJMP				_script_sub_stage_complete_flag_set
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub00F:
@@ -3325,7 +3397,7 @@ byte_69A0E:
 		NJSR				_scr_param_4_clear
 byte_69A12:
 		NJSR				_native_get_obj3_hp
-		SBEQ				byte_69A1B
+		SBNE				byte_69A1B
 		OBJ_SET_SIZE		$00,$00
 byte_69A1B:
 		SRET
@@ -3347,7 +3419,7 @@ byte_69A32:
 byte_69A35:
 		SJSR				byte_69A0E
 		NJSR				_native_idxBs_10_test
-		SBEQ				byte_69A35
+		SBNE				byte_69A35
 		SJSR				byte_69A6E
 		APU_LOAD			$63
 		SRUN				$07,_script122
@@ -3446,7 +3518,7 @@ byte_69AD8:
 		PARAM_80_CLEAR
 		OBJ_SET_FLIP		$08
 		NJSR				_native_sub13D
-		SBCC				byte_68096
+		SBCS				byte_68096
 		SJSR				_script_sub_68036
 		OBJ_SET_Y_DELTA		$E8
 		SJSR				_script_sub_68036
@@ -3458,9 +3530,9 @@ byte_69B00:
 		OBJ_SET_FLIP		$08
 		NJSR				_native_sub030
 byte_69B08:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		NJSR				_native_sub016
-		SBEQ				byte_69B08
+		SBNE				byte_69B08
 		SJMP				byte_68096
 
 ; =============== S U B R O U T I N E =======================================
@@ -3480,7 +3552,7 @@ loc_69B28:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr46_lvl6_final_boss:
-		NJSR				_native_sub019
+		NJSR				_native_lvl6_final_boss_init
 		STORE				$00,_ppu_scroll_nt_vert
 		STORE				$1F,_apu_load_idx_req
 		SRUN				$01,_script124
@@ -3489,18 +3561,18 @@ _obj_scr46_lvl6_final_boss:
 		SRUN				$01,_script127
 		NJSR				_native_idxBs_10_set
 byte_69B49:
-		NJMP				_native_idxBs_10_test
-		SBEQ				byte_69B49
+		NJSR_SYNC			_native_idxBs_10_test
+		SBNE				byte_69B49
 		CHR_BANK			$00,$1C
 		CHR_BANK			$01,$0D
 		STORE				<[_tileset05],_room_tileset_ptr
 		STORE				>[_tileset05],_room_tileset_ptr+1
 byte_69B5D:
-		NJMP				_native_sub14F
+		NJSR_SYNC			_native_sub14F
 		LOOPA				$0F,byte_69B5D
 		LOOPB				$10,byte_69B5D
 		NJSR				_pal_bg003_reload
-		DESTR_PC_SET		byte_69D30
+		DESTR_PC_SET		_obj_scr46_lvl6_final_boss_destr
 		NJSR				_native_sub134
 		SPR_LIB_SELECT		$08
 		SPR_IDX_SELECT		$51
@@ -3522,11 +3594,11 @@ byte_69B5D:
 		SRUN				$06,_script12A
 		SJSR				byte_69C7E
 byte_69BA5:
-		SJSR				byte_69D06
+		SJSR				_script_sub_69D06
 		LOOPA				$30,byte_69BA5
 		OBJ_SET_Y_DELTA		$40
 byte_69BAE:
-		SJSR				byte_69D06
+		SJSR				_script_sub_69D06
 		LOOPA				$10,byte_69BAE
 		SJSR				byte_69C4E
 byte_69BB8:
@@ -3536,36 +3608,36 @@ byte_69BBB:
 		SRUN				$06,_script12A
 		SJSR				byte_69C7E
 byte_69BC4:
-		SJSR				byte_69D06
+		SJSR				_script_sub_69D06
 		LOOPA				$C0,byte_69BC4
 		OBJ_SET_Y_DELTA		$00
 		OBJ_SET_SIZE		$00,$00
 byte_69BD0:
-		SJSR				byte_69CDC
+		SJSR				_script_sub_69CDC
 		LOOPB				$3C,byte_69BD0
 		SRUN				$03,_script12B
 		NJSR				_native_sub01D
 		SRUN				$01,_script12C
 byte_69BE2:
-		SJSR				byte_69CDC
+		SJSR				_script_sub_69CDC
 		LOOPB				$B4,byte_69BE2
 		OBJ_SET_SIZE		$28,$70
 		OBJ_SET_Y_DELTA		$40
 byte_69BEE:
-		SJSR				byte_69D06
+		SJSR				_script_sub_69D06
 		LOOPA				$34,byte_69BEE
 		SJSR				byte_69C4E
 		NJSR				_native_sub01C
-		SBCC				byte_69C10
+		SBCS				byte_69C10
 		NJSR				_native_box_bonus_4prizes_shuffle
 		SRUN				$07,_script12D
 byte_69C05:
-		SJSR				byte_69CDC
+		SJSR				_script_sub_69CDC
 		LOOPB				$3C,byte_69C05
 		SRUN				$07,_script12D
 byte_69C10:
 		NJSR				_native_cmpC0_obj_x_lo_pos
-		SBEQ				byte_69BB8
+		SBNE				byte_69BB8
 		NJSR				_native_sub12A
 		SSWITCH				_tmp_ptrE+1
 		SCASE				byte_69C22
@@ -3576,19 +3648,19 @@ byte_69C22:
 		SCASE				byte_69C2F
 		SCASE				byte_69C29
 byte_69C29:
-		NJMP				_native_sub151
+		NJSR_SYNC			_native_sub151
 		SJMP				byte_69C40
 byte_69C2F:
 		SSWITCH				byte_E1
 		SCASE				byte_69C3C
 		SCASE				byte_69C36
 byte_69C36:
-		NJMP				_native_sub14C
+		NJSR_SYNC			_native_sub14C
 		SJMP				byte_69C40
 byte_69C3C:
 		SRUN				$01,_script12E
 byte_69C40:
-		SJSR				byte_69CDC
+		SJSR				_script_sub_69CDC
 		LOOPB				$B4,byte_69C40
 		LOOPA				$02,byte_69C10
 		SJMP				byte_69BBB
@@ -3611,7 +3683,7 @@ byte_69C4E:
 		APU_LOAD			$44
 		SRET
 byte_69C76:
-		SJSR				byte_69D06
+		SJSR				_script_sub_69D06
 		LOOPA				$04,byte_69C76
 		SRET
 byte_69C7E:
@@ -3621,31 +3693,31 @@ byte_69C7E:
 		SJMP				byte_69CB5
 byte_69C88:
 		NJSR				_native_sub01C
-		SBCS				byte_69CAD
+		SBCC				byte_69CAD
 byte_69C8E:
 		TARGET_DIR_SET		$08
 		SJSR				byte_69CB5
 byte_69C93:
-		SJSR				byte_69CDC
+		SJSR				_script_sub_69CDC
 		LOOPB				$3C,byte_69C93
 		APU_LOAD			$30
 		TARGET_DIR_SET		$0A
 		SJSR				byte_69CB5
 byte_69CA1:
-		SJSR				byte_69CDC
+		SJSR				_script_sub_69CDC
 		LOOPB				$3C,byte_69CA1
 		LOOPA				$03,byte_69C8E
 		SRET
 byte_69CAD:
-		SJSR				byte_69CDC
+		SJSR				_script_sub_69CDC
 		LOOPB				$F0,byte_69CAD
 		SRET
 byte_69CB5:
 		NJSR				_native_sub017
 byte_69CB8:
-		SJSR				byte_69CDC
-		NJSR				_native_sub152
-		SBEQ				byte_69CB8
+		SJSR				_script_sub_69CDC
+		NJSR				_native_tlm_patch_line_draw
+		SBNE				byte_69CB8
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -3663,15 +3735,17 @@ off_69CD0:
 		.WORD	tlm_patch03
 		.WORD	tlm_patch04
 		.WORD	tlm_patch05
-byte_69CDC:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_69CDC:
 		NJSR				_native_sub144
-		SBNE				byte_69CFC
+		SBEQ				byte_69CFC
 		APU_LOAD			$2F
 		SRUN				$01,_script12F
 		NJSR				_native_sub01C
-		SBCC				byte_69CFC
+		SBCS				byte_69CFC
 		NJSR				_native_sub018
-		SBNE				byte_69CFC
+		SBEQ				byte_69CFC
 		STORE				$00,byte_E2
 		SRUN				$01,_script130
 byte_69CFC:
@@ -3683,14 +3757,16 @@ byte_69CFC:
 _native_sub018:
 		LDA		byte_E2
 		JMP		_scr_flags_update
-byte_69D06:
-		SJSR				byte_69CDC
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_69D06:
+		SJSR				_script_sub_69CDC
 		NJSR				_native_sub146
 		NJSR				_native_sub147
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub019:
+_native_lvl6_final_boss_init:
 		LDA		#$01
 		STA		byte_E0
 		STA		byte_E1
@@ -3708,7 +3784,9 @@ _pal_bg003_reload:
 		LDA		#<[_pal_bg003]
 		LDY		#>[_pal_bg003]
 		JMP		_far_prg3_pal_bg_reload
-byte_69D30:
+
+; =============== O B J E C T   S C R I P T =================================
+_obj_scr46_lvl6_final_boss_destr:
 		OBJ_SET_Y_DELTA		$00
 		SRUN				$01,_script12F
 		SRUN				$01,_script130
@@ -3716,7 +3794,7 @@ byte_69D30:
 		APU_LOAD			$70
 		PAL_FADE_OUT		$04,$C7
 		SUSPEND				$80
-		SJMP				byte_B6B07
+		SJMP				_script_sub_stage_complete_flag_set
 
 ; =============== S C R I P T ===============================================
 _script130:
@@ -3725,8 +3803,8 @@ _script130:
 		SUSPEND				$13
 		LOOPA				$05,_script130
 		APU_LOAD			$46
-		NJMP				_cat_boss_bg_patch0_draw
-		NJMP				_cat_boss_bg_patch1_draw
+		NJSR_SYNC			_cat_boss_bg_patch0_draw
+		NJSR_SYNC			_cat_boss_bg_patch1_draw
 byte_69D5B:
 		NJSR				_native_sub01B
 		SRUN				$01,_script131
@@ -3745,7 +3823,7 @@ _script132:
 		SPR_LIB_SELECT		$08
 		SPR_IDX_SELECT		$4D
 		PARAM_80_CLEAR
-		NJMP				_native_sub01A
+		NJSR_SYNC			_native_sub01A
 		SJMP				byte_689E8
 
 ; =============== S U B R O U T I N E =======================================
@@ -3869,7 +3947,7 @@ byte_69E48:
 byte_69E4F:
 		SJSR				byte_69E42
 		NJSR				_native_idxBs_10_test
-		SBEQ				byte_69E4F
+		SBNE				byte_69E4F
 		SRET
 
 ; =============== S C R I P T ===============================================
@@ -3967,7 +4045,7 @@ _script12D:
 		NJSR				_native_sub01E
 byte_69F15:
 		SJSR				_script_sub_6803D
-		SBCC				byte_69F23
+		SBCS				byte_69F23
 		LOOPA				$06,byte_69F15
 		FLIP_40_TOGGLE
 		SJMP				byte_69F15
@@ -4024,7 +4102,7 @@ _script12B:
 byte_69F73:
 		SJSR				byte_69FB5
 		NJSR				_native_get_obj_var0D
-		SBMI				byte_69F73
+		SBPL				byte_69F73
 byte_69F7C:
 		NJSR				_native_sub13A
 		NJSR				_native_sub134
@@ -4032,7 +4110,7 @@ byte_69F82:
 		SJSR				byte_69FB5
 		NJSR				_players_animB_sub0129_sub06_C
 		NJSR				_native_get_obj_var0D
-		SBPL				byte_69F82
+		SBMI				byte_69F82
 		APU_LOAD			$24
 		OBJ_SET_FLIP		$08
 		NJSR				_native_sub12B
@@ -4041,23 +4119,23 @@ byte_69F82:
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$FF
 byte_69F9F:
-		JSR_OBJ_ANIMATE
+		OBJ_ANIMATE
 		SJSR				byte_69FB5
 		NJSR				_native_sub016
-		SBEQ				byte_69F9F
+		SBNE				byte_69F9F
 		APU_LOAD			$30
 byte_69FAB:
 		SJSR				byte_69FB5
-		JSR_OBJ_ANIMATE
+		OBJ_ANIMATE
 		NJSR				_native_sub109
 		SJMP				byte_69FAB
 byte_69FB5:
-		NJMP				_native_sub01F
-		SBNE				byte_69FBC
+		NJSR_SYNC			_native_sub01F
+		SBEQ				byte_69FBC
 		SRET
 byte_69FBC:
 		NJSR				_native_get_obj_var0D
-		SBMI				byte_69FCA
+		SBPL				byte_69FCA
 		NJSR				_native_sub033
 		OBJ_MOVE_Y_POS		$08
 		NJSR				_scr_param_4_clear
@@ -4130,12 +4208,14 @@ byte_6A045:
 		SJMP				byte_6A045
 byte_6A04B:
 		PARAM_80_CLEAR
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
 		PARAM_80_SET
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
 		SRET
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_6A052:
 		APU_LOAD			$46
 		SPR_LIB_SELECT		$08
@@ -4150,6 +4230,8 @@ byte_6A052:
 		SUSPEND				$08
 		PARAM_80_SET
 		SRET
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_6A069:
 		APU_LOAD			$46
 		SPR_LIB_SELECT		$08
@@ -4173,11 +4255,11 @@ byte_6A083:
 		APU_LOAD			$43
 byte_6A085:
 		SPR_IDX_SELECT		$3F
-		NJMP				_native_sub020
-		NJMP				_native_sub020
+		NJSR_SYNC			_native_sub020
+		NJSR_SYNC			_native_sub020
 		SPR_IDX_SELECT		$54
-		NJMP				_native_sub020
-		NJMP				_native_sub020
+		NJSR_SYNC			_native_sub020
+		NJSR_SYNC			_native_sub020
 		LOOPA				$0A,byte_6A085
 		SJMP				byte_6A083
 
@@ -4316,7 +4398,7 @@ loc_6A173:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr20_lvl_exit_left:
-		SJSR				byte_6A19A
+		SJSR				_script_sub_6A19A
 		NJSR				_native_sub156
 		KILL
 
@@ -4329,24 +4411,30 @@ _obj_scr21_lvl_exit_right:
 _obj_scr22_box_bonus_entry:
 _obj_scr23_box_bonus_entry:
 		SJSR				byte_6A193
-		NJSR				_native_sub157
+		NJSR				_native_inc_stage_room_idx
 		KILL
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_6A189:
 		SJSR				byte_6A193
-		NJSR				_native_sub157
-		NJSR				_native_sub157
+		NJSR				_native_inc_stage_room_idx
+		NJSR				_native_inc_stage_room_idx
 		KILL
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_6A193:
-		SJSR				byte_6A19A
+		SJSR				_script_sub_6A19A
 		NJSR				_native_sub158
 		SRET
-byte_6A19A:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_6A19A:
 		OBJ_SET_SIZE		$06,$10
 byte_6A19D:
 		OBJ_SET_HP			$01
 		SJSR				_script200
 		NJSR				_native_sub159
-		SBEQ				byte_6A19D
+		SBNE				byte_6A19D
 		SRET
 		OBJ_MOVE_Y_POS		$08
 byte_6A1AB:
@@ -4363,7 +4451,7 @@ byte_6A1AB:
 		SRET
 
 ; =============== O B J E C T   S C R I P T =================================
-_obj_scr1B_rokfor_refill:
+_obj_scr1B_monterey_refill:
 		OBJ_MOVE_X_POS		$50
 		OBJ_MOVE_X_POS		$50
 		OBJ_SET_X_DELTA		$F0
@@ -4396,7 +4484,7 @@ byte_6A204:
 		SPR_IDX_SELECT		$1C
 		TARGET_DIR_SET		$00
 byte_6A208:
-		NJMP				_native_sub15B
+		NJSR_SYNC			_native_sub15B
 		LOOPB				$1E,byte_6A208
 		SRET
 
@@ -4414,7 +4502,7 @@ byte_6A217:
 		OBJ_SET_Y_DELTA		$D8
 		SJSR				byte_6A25D
 		SJSR				_script_sub_68020
-		NJSR				_native_sub15C
+		NJSR				_native_set_def_max_hps_from_idxAs
 		KILL
 
 ; =============== O B J E C T   S C R I P T =================================
@@ -4425,7 +4513,7 @@ _obj_scr1F_star_prize:
 		OBJ_SET_HP			$01
 		PARAM_80_CLEAR
 		SJSR				_script200
-		NJSR				_native_sub15D
+		NJSR				_native_inc_players_lives_from_idxAs
 
 ; =============== S C R I P T ===============================================
 _script151:
@@ -4444,11 +4532,15 @@ byte_6A247:
 		LOOPA				$04,byte_6A247
 		SUSPEND				$14
 		KILL
+; REDUNDANT, script can't go here, because it's already killed
 		OBJ_SET_Y_DELTA		$D7
+;-
+
+; =============== O B J E C T   S C R I P T =================================
 _script41:
 		SJSR				byte_6A25D
 		SJSR				_script_sub_68020
-		NJSR				_native_sub15F
+		NJSR				_native_increment_players_hps
 		KILL
 byte_6A25D:
 		SPR_LIB_SELECT		$06
@@ -4481,9 +4573,9 @@ byte_6A28B:
 byte_6A290:
 		SYNC
 		NJSR				_native_get_obj_var0D
-		SBPL				byte_6A2A0
+		SBMI				byte_6A2A0
 		SJSR				byte_6A589
-		SBCC				byte_6A290
+		SBCS				byte_6A290
 		SJMP				byte_6A2AE
 byte_6A2A0:
 		SJSR				_script_sub_6806C
@@ -4497,7 +4589,7 @@ byte_6A2AE:
 		NJSR				_native_sub161
 		SJSR				byte_6A2CF
 		NJSR				_far_players_animB_sub0129_G
-		SBMI				byte_6A28B
+		SBPL				byte_6A28B
 byte_6A2BD:
 		OBJ_SET_Y_DELTA		$E0
 		SJSR				byte_6A2CF
@@ -4507,12 +4599,12 @@ byte_6A2BD:
 		SJSR				byte_6A2CF
 		SJMP				byte_6A28B
 byte_6A2CF:
-		NJMP				_native_sub022
+		NJSR_SYNC			_native_sub022
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$02
 		NJSR				_native_sub109
 		SJSR				byte_6A557
-		SBCS				byte_6A2CF
+		SBCC				byte_6A2CF
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -4563,8 +4655,8 @@ _obj_scr1E_big_zipper_box:
 		OBJ_SET_Y_DELTA		$D7
 		SJSR				_script_sub_68036
 byte_6A330:
-		NJMP				_native_sub162
-		SBCS				byte_6A330
+		NJSR_SYNC			_native_sub162
+		SBCC				byte_6A330
 		SRUN				$01,_script136
 		SUSPEND				$B0
 		SRUN				$01,_script137
@@ -4573,12 +4665,12 @@ byte_6A330:
 ; =============== S C R I P T ===============================================
 _script137:
 		SRUN				$01,_script138
-		NJMP				_native_sub117
+		NJSR_SYNC			_native_sub117
 		SUSPEND				$24
 		OBJ_MOVE_X_POS		$C0
 		OBJ_SET_SIZE		$40,$00
 byte_6A351:
-		NJMP				_native_sub024
+		NJSR_SYNC			_native_sub024
 		SJMP				byte_6A351
 
 ; =============== S U B R O U T I N E =======================================
@@ -4681,8 +4773,8 @@ _script138:
 byte_6A404:
 		APU_LOAD			$4B
 byte_6A406:
-		NJMP				_native_sub025
-		SBCC				_script_idle
+		NJSR_SYNC			_native_sub025
+		SBCS				_script_idle
 		LOOPA				$28,byte_6A406
 		SJMP				byte_6A404
 
@@ -4751,13 +4843,13 @@ byte_6A470:
 		SJMP				byte_68092
 byte_6A498:
 		SPR_IDX_SELECT		$17
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
 		SPR_IDX_SELECT		$18
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -4791,8 +4883,8 @@ _obj_scr09_sink_valve:
 byte_6A4D0:
 		NJSR				_native_idxBs_10_set
 byte_6A4D3:
-		NJMP				_native_idxBs_10_test
-		SBEQ				byte_6A4D3
+		NJSR_SYNC			_native_idxBs_10_test
+		SBNE				byte_6A4D3
 		APU_LOAD			$69
 		SUSPEND				$08
 		SPR_IDX_SELECT		$0A
@@ -4820,19 +4912,19 @@ byte_6A4FC:
 byte_6A507:
 		SYNC
 		NJSR				_native_get_obj_var0D
-		SBPL				byte_6A517
+		SBMI				byte_6A517
 		SJSR				byte_6A589
-		SBCC				byte_6A507
+		SBCS				byte_6A507
 		SJMP				byte_6A53E
 byte_6A517:
 		NJSR				_native_sub164
 		NJSR				_native_sub134
 byte_6A51D:
 		NJSR				_native_get_obj_var0D
-		SBMI				byte_6A535
+		SBPL				byte_6A535
 		NJSR				_native_get_obj_hp
-		SBNE				byte_6A52F
-		NJMP				_native_sub02B
+		SBEQ				byte_6A52F
+		NJSR_SYNC			_native_sub02B
 		SJMP				byte_6A51D
 byte_6A52F:
 		NJSR				_native_sub032
@@ -4852,26 +4944,26 @@ byte_6A54A:
 		SYNC
 		NJSR				_native_sub109
 		SJSR				byte_6A557
-		SBCS				byte_6A54A
+		SBCC				byte_6A54A
 		SJMP				byte_6A4FC
 byte_6A557:
 		NJSR				_native_idxBs_20_set
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub13C
-		SBCC				byte_6A569
+		SBCS				byte_6A569
 		NJSR				_native_sub104
-		SBCC				byte_6A56B
+		SBCS				byte_6A56B
 byte_6A569:
 		OBJ_SET_X_DELTA		$00
 byte_6A56B:
 		NJSR				_native_sub109
 		NJSR				_native_get_obj_y_delta
-		SBMI				byte_6A589
+		SBPL				byte_6A589
 		NJSR				_obj_vert_animate
 		NJSR				_native_sub165
-		SBCS				byte_6A583
+		SBCC				byte_6A583
 		NJSR				_native_sub10A
-		SBCC				byte_6A585
+		SBCS				byte_6A585
 byte_6A583:
 		OBJ_SET_Y_DELTA		$01
 byte_6A585:
@@ -4880,9 +4972,9 @@ byte_6A585:
 byte_6A589:
 		NJSR				_obj_vert_animate
 		NJSR				_native_sub107
-		SBCC				byte_6A598
+		SBCS				byte_6A598
 		NJSR				_native_sub118
-		SBCS				byte_6A59A
+		SBCC				byte_6A59A
 byte_6A598:
 		OBJ_SET_Y_DELTA		$00
 byte_6A59A:
@@ -4891,19 +4983,19 @@ byte_6A59B:
 		NJSR				_native_idxBs_20_set
 		OBJ_SET_X_DELTA		$00
 		NJSR				_native_get_obj_y_delta
-		SBPL				byte_6A5A8
+		SBMI				byte_6A5A8
 		OBJ_SET_Y_DELTA		$00
 byte_6A5A8:
 		SJSR				byte_6A5BA
 		NJSR				_native_sub027
-		SBCS				byte_6A5A8
+		SBCC				byte_6A5A8
 		NJSR				_native_sub166
 		SJSR				byte_6A5BA
 		SJMP				byte_6A5A8
 byte_6A5BA:
 		SYNC
 		NJSR				_native_get_obj_var0D
-		SBMI				byte_6A5C4
+		SBPL				byte_6A5C4
 		NJSR				_native_sub028
 byte_6A5C4:
 		SRET
@@ -4943,6 +5035,8 @@ _native_sub029:
 		STA		_obj_flips,X
 		JSR		_native_sub10F
 		JMP		_native_sub167
+
+; =============== O B J E C T   S C R I P T =================================
 _script46:
 		DESTR_PC_SET		_script46
 		NJSR				_native_sub134
@@ -4954,27 +5048,27 @@ _script46:
 		PARAM_80_CLEAR
 byte_6A615:
 		NJSR				_native_get_obj_var0D
-		SBMI				byte_6A630
+		SBPL				byte_6A630
 		NJSR				_native_get_obj_hp
-		SBEQ				byte_6A627
+		SBNE				byte_6A627
 		NJSR				_native_sub033
 		SJMP				byte_6A669
 byte_6A627:
 		NJSR				_native_sub02B
-		NJMP				_native_sub02E
+		NJSR_SYNC			_native_sub02E
 		SJMP				byte_6A615
 byte_6A630:
 		NJSR				_native_sub13A
 		NJSR				_native_sub12B
 		NJSR				_native_sub02A
-		SBEQ				byte_6A653
+		SBNE				byte_6A653
 		APU_LOAD			$27
 		NJSR				_native_sub02F
 		OBJ_SET_Y_DELTA		$F0
 byte_6A643:
 		SPR_IDX_SELECT		$00
 		NJSR				_native_sub02E
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		LOOPA				$08,byte_6A643
 		NJSR				_native_sub129
 		SJMP				byte_6A643
@@ -4983,15 +5077,15 @@ byte_6A653:
 		APU_LOAD			$24
 		NJSR				_native_sub030
 byte_6A65A:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		NJSR				_native_get_obj_hp
-		SBMI				byte_6A666
+		SBPL				byte_6A666
 		NJSR				_native_sub105
 		OBJ_SET_HP			$01
 byte_6A666:
-		SBEQ				byte_6A65A
+		SBNE				byte_6A65A
 byte_6A669:
-		NJMP				_native_sub15E
+		NJSR_SYNC			_native_sub15E
 		SPR_IDX_SELECT		$03
 		SYNC
 		SPR_IDX_SELECT		$04
@@ -5096,14 +5190,14 @@ byte_6A700:
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub031:
-		JSR		_native_get_obj_low_nibble_var0D
+		JSR		_native_get_idxBs_low_nibble
 		LDA		_players_vars09,Y
 		STA		_obj_spr_idxs,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub032:
-		JSR		_native_get_obj_low_nibble_var0D
+		JSR		_native_get_idxBs_low_nibble
 		LDA		_obj_y_lo_poss,Y
 		STA		_obj_y_lo_poss,X
 		CLC
@@ -5115,7 +5209,7 @@ _native_sub033:
 		LDA		_scr_idxBs,X
 		AND		#$7F
 		STA		_scr_idxBs,X
-		JSR		_native_get_obj_low_nibble_var0D
+		JSR		_native_get_idxBs_low_nibble
 		LDA		_scr_idxBs,Y
 		AND		#$BF
 		STA		_scr_idxBs,Y
@@ -5152,7 +5246,7 @@ byte_6A744:
 		SJMP				byte_6A744
 byte_6A77C:
 		NJSR				_native_sub04A_A
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		LOOPA				$04,byte_6A77C
 		SRET
 
@@ -5181,32 +5275,66 @@ _obj_scr08_cdv_bottle_cork:
 		OBJ_SET_X_DELTA		$10
 		OBJ_SET_Y_DELTA		$C0
 byte_6A7BB:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		NJSR				_native_sub109
 		NJSR				_native_sub162
-		SBCS				byte_6A7BB
+		SBCC				byte_6A7BB
 		NJSR				_native_sub169
 		SJMP				byte_6A7BB
 
 ; =============== O B J E C T   S C R I P T =================================
-_obj_scr0A_lvl1_bonus_button:
+_obj_scr0A_lvl2_bonus_button:
 		SJSR				byte_6A7F1
 		SJSR				byte_6A7FF
-		SRUN				$01,_script139
+		SRUN				$01,_script_lvl2_wall_blocks_open_draw
 byte_6A7D5:
 		SJSR				byte_6A812
 		SJSR				byte_6A7FF
 		SJMP				byte_6A7D5
 
 ; =============== S C R I P T ===============================================
-_script139:
+; draws an animation of removing wall bricks blocking the entry to
+; the basket bonus room warp
+;
+; BUG: there are three possible states of the blocking bricks. Fully bumped,
+; half-sinked and fully sinked. The corresponding tiles are 80, 84 and 82
+; in CHR ROM for this room.
+;
+; judging from script below, they planned to sink this blocking bricks in two
+; frames one by one. the second drawing call does nothing because there is no
+; proper data pointer initialization, and after the previous call this ptr
+; points to 00.
+;
+; don't know wether this is a bug or they removed it on purpose, but currently
+; we see one-frame anim when block sing to its full state.
+; if we assume, the second draw should draw the half-sink state, the animation
+; looks odd... most probably, the unused patch should go first (as an evidence,
+; it's macro tile idx is 45, but for used patch macrotile is 46. but then why
+; both blocks put in the CHR ROM in reverse order... not sure how I need to fix
+; it here, but assume the reverse order is a correct one.
+;
+; FIX, restores missing ptr setting and swapping both tiles to be animated
+; in a more likely proper way.
+;
+_script_lvl2_wall_blocks_open_draw:
+#if BUGFIXES=1
+		STORE				<[_tlm_patch_06A_unused],_tmp_ptr4B	; load tlm patch ptr
+		STORE				>[_tlm_patch_06A_unused],_tmp_ptr4B+1
+#else
+		STORE				<[tlm_patch06],_tmp_ptr4B	; load tlm patch ptr
+		STORE				>[tlm_patch06],_tmp_ptr4B+1
+#endif
+		SJSR				_script_sub_tlm_patch_draw	; draw full patch
+		APU_LOAD			$4E							; start a sound and wait
+		SUSPEND				$08							; for a while...
+#if BUGFIXES=1
 		STORE				<[tlm_patch06],_tmp_ptr4B
 		STORE				>[tlm_patch06],_tmp_ptr4B+1
-		SJSR				_script20C
-		APU_LOAD			$4E
-		SUSPEND				$08
-		SJSR				_script20C
+#endif
+		SJSR				_script_sub_tlm_patch_draw
 		KILL
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_6A7F1:
 		NJSR				_native_idxBs_20_set
 		SPR_LIB_SELECT		$05
@@ -5218,7 +5346,7 @@ byte_6A7F1:
 byte_6A7FF:
 		SYNC
 		NJSR				_native_sub162
-		SBCS				byte_6A7FF
+		SBCC				byte_6A7FF
 		SPR_IDX_SELECT		$0D
 		OBJ_SET_SIZE		$05,$08
 		NJSR				_native_sub169
@@ -5227,14 +5355,14 @@ byte_6A7FF:
 byte_6A812:
 		SYNC
 		NJSR				_native_sub162
-		SBCC				byte_6A812
+		SBCS				byte_6A812
 byte_6A819:
 		NJSR				_native_idxBs_10_clear
 		SUSPEND				$08
 		SPR_IDX_SELECT		$0E
 		OBJ_SET_SIZE		$05,$0A
 		NJSR				_native_sub162
-		SBCS				byte_6A82D
+		SBCC				byte_6A82D
 		NJSR				_native_sub169
 		SRET
 byte_6A82D:
@@ -5242,7 +5370,7 @@ byte_6A82D:
 		SPR_IDX_SELECT		$0C
 		OBJ_SET_SIZE		$05,$0D
 		NJSR				_native_sub162
-		SBCS				byte_6A83D
+		SBCC				byte_6A83D
 		NJSR				_native_sub169
 byte_6A83D:
 		SRET
@@ -5258,16 +5386,16 @@ byte_6A84D:
 		SJSR				byte_6A7FF
 byte_6A850:
 		NJSR				_native_sub14C
-		SBEQ				byte_6A863
+		SBNE				byte_6A863
 		NJSR				_native_sub162
 		SYNC
-		SBCC				byte_6A850
+		SBCS				byte_6A850
 		SJSR				byte_6A819
 		SJMP				byte_6A84D
 byte_6A863:
 		STORE				<[tlm_patch07],_tmp_ptr4B
 		STORE				>[tlm_patch07],_tmp_ptr4B+1
-		SJSR				_script20C
+		SJSR				_script_sub_tlm_patch_draw
 		SRUN				$0A,_script13B
 		APU_LOAD			$4F
 byte_6A874:
@@ -5295,7 +5423,7 @@ _obj_scr0C_lvl3_bonus_button:
 		SJSR				byte_6A7FF
 		STORE				<[tlm_patch08],_tmp_ptr4B
 		STORE				>[tlm_patch08],_tmp_ptr4B+1
-		SJSR				_script20C
+		SJSR				_script_sub_tlm_patch_draw
 		SRUN				$0A,_script13C
 		APU_LOAD			$4F
 byte_6A8A8:
@@ -5332,18 +5460,18 @@ _script13E:
 		OBJ_SET_Y_DELTA		$E0
 		NJSR				_native_sub12B
 		NJSR				_native_sub13D
-		SBCC				byte_6A8EC
+		SBCS				byte_6A8EC
 byte_6A8DD:
 		SPR_IDX_SELECT		$12
 		OBJ_DEC_Y_DELTA
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
 		SPR_IDX_SELECT		$1A
 		OBJ_DEC_Y_DELTA
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
 		SJMP				byte_6A8DD
 byte_6A8EC:
 		KILL
@@ -5351,9 +5479,9 @@ byte_6A8EC:
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr0E:
 		NJSR				_native_sub16B
-		SBEQ				byte_6A8FD
+		SBNE				byte_6A8FD
 byte_6A8F3:
-		NJSR				_native_sub157
+		NJSR				_native_inc_stage_room_idx
 		LOOPA				$05,byte_6A8F3
 		NJSR				_MAIN_START
 byte_6A8FD:
@@ -5372,11 +5500,11 @@ byte_6A917:
 		LOOPA				$03,byte_6A917
 		NJSR				_native_sub14B
 byte_6A925:
-		NJMP				_native_sub035
-		SBNE				byte_6A925
+		NJSR_SYNC			_native_sub035
+		SBEQ				byte_6A925
 		STORE				<[tlm_patch09],_tmp_ptr4B
 		STORE				>[tlm_patch09],_tmp_ptr4B+1
-		SJSR				_script20C
+		SJSR				_script_sub_tlm_patch_draw
 		NJSR				_native_sub16C
 		OBJ_SET_X_POS		$F0,$00
 		OBJ_SET_Y_POS		$C0,$00
@@ -5414,7 +5542,7 @@ _script13F:
 byte_6A972:
 		SYNC
 		NJSR				_native_sub162
-		SBCS				byte_6A972
+		SBCC				byte_6A972
 		SPR_IDX_SELECT		$15
 		OBJ_SET_SIZE		$05,$06
 		NJSR				_native_sub169
@@ -5422,20 +5550,20 @@ byte_6A972:
 byte_6A984:
 		SYNC
 		NJSR				_native_sub162
-		SBCC				byte_6A984
+		SBCS				byte_6A984
 		NJSR				_native_idxBs_10_clear
 		SUSPEND				$08
 		SPR_IDX_SELECT		$16
 		OBJ_SET_SIZE		$05,$08
 		NJSR				_native_sub162
-		SBCS				byte_6A99E
+		SBCC				byte_6A99E
 		NJSR				_native_sub169
 byte_6A99E:
 		SUSPEND				$04
 		SPR_IDX_SELECT		$14
 		OBJ_SET_SIZE		$05,$0C
 		NJSR				_native_sub162
-		SBCS				byte_6A9AE
+		SBCC				byte_6A9AE
 		NJSR				_native_sub169
 byte_6A9AE:
 		SJMP				byte_6A972
@@ -5506,7 +5634,7 @@ byte_6AA22:
 		SJMP				_script201
 byte_6AA31:
 		SYNC
-		JSR_OBJ_ANIMATE
+		OBJ_ANIMATE
 		NJSR				_native_sub16D
 		NJSR				_native_sub163
 		SRET
@@ -5548,11 +5676,11 @@ _obj_scr3E_ghost_painting:
 		OBJ_MOVE_Y_POS		$FC
 		SJSR				_script202
 byte_6AA75:
-		NJMP				_native_sub036
-		SBNE				byte_6AA75
+		NJSR_SYNC			_native_sub036
+		SBEQ				byte_6AA75
 byte_6AA7B:
-		NJMP				_native_sub036
-		SBEQ				byte_6AA7B
+		NJSR_SYNC			_native_sub036
+		SBNE				byte_6AA7B
 		SRUN				$06,_script140
 		SJMP				byte_6AA75
 
@@ -5613,21 +5741,21 @@ byte_6AAEA:
 		SPR_IDX_SELECT		$33
 		SJSR				byte_6AAFD
 		NJSR				_native_get_obj_x_delta
-		SBNE				byte_6AAEA
+		SBEQ				byte_6AAEA
 		SPR_IDX_SELECT		$34
 		SJSR				byte_6AAFD
 		SJMP				byte_6AAEA
 byte_6AAFD:
 		SYNC
 		NJSR				_native_sub038
-		SBNE				byte_6AB0A
+		SBEQ				byte_6AB0A
 		NJSR				_native_sub109
 		SJMP				byte_6AB0F
 byte_6AB0A:
 		OBJ_SET_Y_DELTA		$00
 		NJSR				_native_sub037
 byte_6AB0F:
-		JSR_OBJ_ANIMATE
+		OBJ_ANIMATE
 		NJSR				_native_sub16D
 		LOOPA				$04,byte_6AAFD
 		SRET
@@ -5674,19 +5802,19 @@ byte_6AB55:
 byte_6AB5A:
 		SJSR				byte_6ABA9
 		NJSR				_native_sub03D
-		SBCS				byte_6AB5A
+		SBCC				byte_6AB5A
 		SPR_IDX_SELECT		$13
 		SJSR				byte_6AB98
 byte_6AB68:
 		SJSR				byte_6ABA9
 		NJSR				_native_sub03E
-		SBCS				byte_6AB77
+		SBCC				byte_6AB77
 		NJSR				_native_sub03B
 		SJMP				byte_6AB55
 byte_6AB77:
 		NJSR				_native_sub03C
-		SBNE				byte_6AB90
-		SBCS				byte_6AB88
+		SBEQ				byte_6AB90
+		SBCC				byte_6AB88
 		SPR_IDX_SELECT		$14
 		NJSR				_native_sub039
 		SJMP				byte_6AB68
@@ -5701,7 +5829,7 @@ byte_6AB90:
 byte_6AB98:
 		SJSR				byte_6ABA9
 		NJSR				_native_sub03E
-		SBCC				byte_6ABA6
+		SBCS				byte_6ABA6
 		LOOPA				$08,byte_6AB98
 		SRET
 byte_6ABA6:
@@ -5843,8 +5971,8 @@ _obj_scr13_cave_rock:
 		SPR_IDX_SELECT		$38
 		SJSR				_script201
 byte_6AC8A:
-		NJMP				_native_sub116
-		SBCC				byte_6AC8A
+		NJSR_SYNC			_native_sub116
+		SBCS				byte_6AC8A
 		OBJ_SET_Y_DELTA		$18
 		APU_LOAD			$71
 		SJMP				byte_68096
@@ -5883,7 +6011,7 @@ _script142:
 		SPR_IDX_SELECT		$41
 		PARAM_80_CLEAR
 byte_6ACD0:
-		NJMP				_native_sub03F
+		NJSR_SYNC			_native_sub03F
 		SJMP				byte_6ACD0
 
 ; =============== S U B R O U T I N E =======================================
@@ -5936,13 +6064,13 @@ _obj_scr16_floor_switch:
 		SPR_LIB_SELECT		$05
 		PARAM_80_CLEAR
 		NJSR				_native_sub040
-		SBNE				byte_6AD4F
+		SBEQ				byte_6AD4F
 		SJMP				byte_6AD5C
 byte_6AD40:
-		NJMP				_native_sub041
-		SBCS				byte_6AD40
+		NJSR_SYNC			_native_sub041
+		SBCC				byte_6AD40
 		NJSR				_native_sub040
-		SBEQ				byte_6AD4F
+		SBNE				byte_6AD4F
 		SJMP				byte_6AD5C
 byte_6AD4F:
 		SPR_IDX_SELECT		$2B
@@ -6006,12 +6134,12 @@ byte_6ADB7:
 		SJSR				byte_6ADDD
 		LOOPA				$16,byte_6ADB7
 byte_6ADBE:
-		NJMP				_obj_vert_animate
+		NJSR_SYNC			_obj_vert_animate
 		LOOPA				$0A,byte_6ADBE
 		SUSPEND				$78
 		OBJ_SET_Y_DELTA		$40
-		NJMP				_obj_vert_animate
-		NJMP				_obj_vert_animate
+		NJSR_SYNC			_obj_vert_animate
+		NJSR_SYNC			_obj_vert_animate
 byte_6ADCF:
 		SJSR				byte_6ADDD
 		LOOPA				$06,byte_6ADCF
@@ -6022,7 +6150,7 @@ byte_6ADDD:
 		SYNC
 		NJSR				_obj_vert_animate
 		NJSR				_native_sub16E
-		SBCC				byte_6ADEA
+		SBCS				byte_6ADEA
 		NJSR				_native_sub042
 byte_6ADEA:
 		SRET
@@ -6047,8 +6175,8 @@ byte_6AE00:
 		SPR_IDX_SELECT		$2E
 		OBJ_SET_SIZE		$10,$0F
 byte_6AE05:
-		NJMP				_native_sub162
-		SBCS				byte_6AE05
+		NJSR_SYNC			_native_sub162
+		SBCC				byte_6AE05
 		SPR_IDX_SELECT		$39
 		SUSPEND				$78
 		OBJ_SET_SIZE		$00,$00
@@ -6083,7 +6211,7 @@ byte_6AE2D:
 byte_6AE46:
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
-		NJMP				_scr_param_4_clear
+		NJSR_SYNC			_scr_param_4_clear
 		LOOPB				$02,byte_6AE46
 		SRET
 
@@ -6095,7 +6223,7 @@ _obj_scr17_ceiling_magnet:
 		OBJ_SET_SIZE		$08,$10
 		SJSR				_script201
 byte_6AE5F:
-		NJMP				_native_sub043
+		NJSR_SYNC			_native_sub043
 		SJMP				byte_6AE5F
 
 ; =============== S U B R O U T I N E =======================================
@@ -6168,26 +6296,26 @@ byte_6AEDB:
 		SUSPEND				$08
 byte_6AEE3:
 		NJSR				_native_sub138
-		SBCC				byte_6AEED
+		SBCS				byte_6AEED
 		SRUN				$07,_script143
 byte_6AEED:
 		SJSR				_script_animate32
 		NJSR				_native_sub105
 		NJSR				_native_sub16F
-		SBCC				byte_6AEE3
+		SBCS				byte_6AEE3
 		SPR_IDX_SELECT		$30
 		SUSPEND				$08
 		SPR_IDX_SELECT		$31
 		SUSPEND				$08
 byte_6AF01:
 		NJSR				_native_sub138
-		SBCC				byte_6AF0B
+		SBCS				byte_6AF0B
 		SRUN				$07,_script144
 byte_6AF0B:
 		SJSR				_script_animate32
 		NJSR				_native_sub105
 		NJSR				_native_sub16F
-		SBCS				byte_6AF01
+		SBCC				byte_6AF01
 		SJMP				byte_6AEDB
 
 ; =============== S C R I P T ===============================================
@@ -6214,74 +6342,85 @@ byte_6AF25:
 byte_6AF39:
 		SYNC
 		NJSR				_native_get_obj_y_delta
-		SBMI				byte_6AF4C
+		SBPL				byte_6AF4C
 		NJSR				_obj_vert_animate
 		NJSR				_native_sub10A
-		SBCS				byte_6AF52
+		SBCC				byte_6AF52
 		SJMP				byte_6AF57
 byte_6AF4C:
 		NJSR				_native_sub10B
-		SBCS				byte_6AF57
+		SBCC				byte_6AF57
 byte_6AF52:
 		NJSR				_native_sub129
 		APU_LOAD			$54
 byte_6AF57:
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub104
-		SBCC				byte_6AF39
+		SBCS				byte_6AF39
 		NJSR				_native_sub105
 		APU_LOAD			$54
 		SJMP				byte_6AF39
 
 ; =============== S C R I P T ===============================================
-_script177:
+_script_fade_out:
 		STORE				$00,_pal_anim_mode_idx
 		PAL_FADE_OUT		$04,$FF
 		SUSPEND				$14
 		STORE				$40,_stage_flags
 		SJMP				_script_idle
-byte_6AF78:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_30_sec_timer_init:
 		OBJ_SET_X_POS		$70,$00
-		STORE				$1E,_stage4_seconds_cnt
+		STORE				$1E,_timer_seconds_cnt
 		STORE				$00,byte_DE
 		STORE				$00,byte_DF
 		SPR_LIB_SELECT		$00
 		SPR_IDX_SELECT		$10
 		SRET
-byte_6AF8C:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_timer_seconds_tick:
 		APU_LOAD			$3A
 		NJSR				_native_sub021
-		STORE				$3B,_stage4_frames_cnt
+		STORE				$3B,_timer_frames_cnt
 		SRET
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_6AF96:
-		STORE				$FF,_stage4_frames_cnt
+		STORE				$FF,_timer_frames_cnt
 byte_6AF9A:
-		NJMP				_native_sub044
+		NJSR_SYNC			_native_timer_spr_insert
 		LOOPA				$F0,byte_6AF9A
+
+; !FALLTHROUGH!
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_6AFA1:
-		SJMP				byte_B6B07
+		SJMP				_script_sub_stage_complete_flag_set
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub044:
+_native_timer_spr_insert:
 		LDA		#<[_num_char_table1]
 		STA		_tmp_ptr42
 		LDA		#>[_num_char_table1]
 		STA		_tmp_ptr42+1
 		LDX		#$00
 		LDY		#$00
-		LDA		_stage4_seconds_cnt
+		LDA		_timer_seconds_cnt
 		JSR		_format_num99
 		LDA		#<[_obj_spr_lib_insert]
 		LDY		#>[_obj_spr_lib_insert]
 		JSR		_farcall
-		LDA		_stage4_seconds_cnt
+		LDA		_timer_seconds_cnt
 		JMP		_scr_flags_update
 
+; =============== S C R I P T   R O U T I N E ===============================
 byte_6AFC1:
-		NJMP				_native_sub044
+		NJSR_SYNC			_native_timer_spr_insert
 		LOOPA				$3C,byte_6AFC1
 		CHR_BANK			$01,$0B
-		NJMP				_native_sub045
+		NJSR_SYNC			_native_sub045
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$28
 		PARAM_80_CLEAR
@@ -6337,9 +6476,9 @@ locret_6B022:
 ; =============== S U B R O U T I N E =======================================
 _native_sub047:
 		LDA		_players_lives
-		STA		byte_410
+		STA		_tmp_players_lives
 		LDA		_players_lives+1
-		STA		byte_410+1
+		STA		_tmp_players_lives+1
 		LDA		byte_DE
 		CMP		byte_DF
 		BEQ		locret_6B03C
@@ -6355,26 +6494,26 @@ locret_6B03C:
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr00_lives_bonus:
 		NJSR				_native_box_bonus_3prizes_shuffle
-		SRUN				$06,_script145
-		SRUN				$06,_script146
-		SRUN				$06,_script147
-		SRUN				$09,_script148
-		SRUN				$09,_script149
-		SJSR				byte_6AF78
-		STORE				$0A,_stage4_seconds_cnt
+		SRUN				$06,_lives_bonus_obj_scr_2p_star
+		SRUN				$06,_lives_bonus_obj_scr_1p_star
+		SRUN				$06,_lives_bonus_obj_scr_no_star
+		SRUN				$09,_lives_bonus_obj_scr_player1_red_ball
+		SRUN				$09,_lives_bonus_obj_scr_player2_red_ball
+		SJSR				_script_30_sec_timer_init
+		STORE				$0A,_timer_seconds_cnt
 		OBJ_SET_Y_POS		$38,$00
 byte_6B05E:
-		NJMP				_native_sub044
+		NJSR_SYNC			_native_timer_spr_insert
 		LOOPA				$3C,byte_6B05E
-		SJSR				byte_6AF8C
+		SJSR				_script_timer_seconds_tick
 byte_6B068:
 		NJSR				_native_sub170
-		SBNE				byte_6B074
-		NJMP				_native_sub044
-		SBEQ				byte_6B068
+		SBEQ				byte_6B074
+		NJSR_SYNC			_native_timer_spr_insert
+		SBNE				byte_6B068
 byte_6B074:
 		NJSR				_native_sub171
-		SJMP				_script177
+		SJMP				_script_fade_out
 byte_6B07A:
 		SRUN				$01,_script14A
 		NJSR				_native_sub117
@@ -6382,7 +6521,7 @@ byte_6B07A:
 		OBJ_SET_HP			$01
 		OBJ_SET_SIZE		$08,$10
 		NJSR				_native_sub113
-		SBMI				byte_6B095
+		SBPL				byte_6B095
 		OBJ_SET_X_POS		$08,$01
 		SJMP				byte_6B09B
 byte_6B095:
@@ -6390,80 +6529,96 @@ byte_6B095:
 		NJSR				_native_sub105
 byte_6B09B:
 		SRET
-byte_6B09C:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_6B09C:
 		SJSR				_script_animate16
 		NJSR				_native_sub129
 		SRET
 byte_6B0A3:
 		SUSPEND				$1E
-		NJMP				_native_sub105
+		NJSR_SYNC			_native_sub105
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub048:
-		JSR		_native_sub049
+_native_give_players_2_lives:
+		JSR		_native_give_players_1_life
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub049:
+_native_give_players_1_life:
 		LDX		_scr_idx
-		JSR		_native_sub049_A
-		JMP		_native_sub049_B
+		JSR		_native_get_idxBs_low_nibble_from_idxAs
+		JMP		_native_inc_players_lives
 
 ; =============== S C R I P T ===============================================
-_script145:
+_lives_bonus_obj_scr_2p_star:
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$1E
 		PARAM_80_CLEAR
 		OBJ_MOVE_Y_POS		$40
 		OBJ_SET_X_DELTA		$BC
 		OBJ_SET_Y_DELTA		$F8
-		DESTR_PC_SET		byte_6B109
+		DESTR_PC_SET		_lives_bonus_obj_scr_2p_star_destr
 		SJSR				byte_6B07A
 byte_6B0C5:
-		SJSR				byte_6B09C
+		SJSR				_script_sub_6B09C
 		LOOPB				$04,byte_6B0C5
 		SJSR				byte_6B0A3
 		SJMP				byte_6B0C5
 
 ; =============== S C R I P T ===============================================
-_script146:
+_lives_bonus_obj_scr_1p_star:
 		SPR_LIB_SELECT		$06
 		SPR_IDX_SELECT		$01
 		PARAM_80_CLEAR
 		OBJ_MOVE_Y_POS		$58
 		OBJ_SET_X_DELTA		$D2
 		OBJ_SET_Y_DELTA		$F8
-		DESTR_PC_SET		byte_6B116
+		DESTR_PC_SET		_lives_bonus_obj_scr_1p_star_destr
 		SJSR				byte_6B07A
 byte_6B0E3:
-		SJSR				byte_6B09C
+		SJSR				_script_sub_6B09C
 		LOOPB				$06,byte_6B0E3
 		SJSR				byte_6B0A3
 		SJMP				byte_6B0E3
 
 ; =============== S C R I P T ===============================================
-_script147:
+_lives_bonus_obj_scr_no_star:
 		OBJ_MOVE_Y_POS		$7F
 		OBJ_SET_X_DELTA		$E4
 		OBJ_SET_Y_DELTA		$F0
-		DESTR_PC_SET		byte_6B11F
+		DESTR_PC_SET		_lives_bonus_obj_scr_no_star_destr
 		SJSR				byte_6B07A
 byte_6B0FC:
-		SJSR				byte_6B09C
+		SJSR				_script_sub_6B09C
 		LOOPB				$0A,byte_6B0FC
 		SJSR				byte_6B0A3
 		SJMP				byte_6B0FC
-byte_6B109:
+
+; =============== S C R I P T   R O U T I N E ===============================
+; 2P bonus floater object
+;
+_lives_bonus_obj_scr_2p_star_destr:
 		NJSR				_players_animB_sub0129_sub06_A
-		NJSR				_native_sub048
+		NJSR				_native_give_players_2_lives
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$1F
 		SJMP				byte_6A23B
-byte_6B116:
+
+; =============== S C R I P T   R O U T I N E ===============================
+; 1P bonus floater object
+;
+_lives_bonus_obj_scr_1p_star_destr:
 		NJSR				_players_animB_sub0129_sub06_A
-		NJSR				_native_sub049
+		NJSR				_native_give_players_1_life
 		SJMP				_script151
-byte_6B11F:
+
+; =============== S C R I P T   R O U T I N E ===============================
+; no bonus bloater object
+;
+_lives_bonus_obj_scr_no_star_destr:
 		NJSR				_players_animB_sub0129_sub06_A
 		KILL
 
@@ -6482,7 +6637,7 @@ byte_6B126:
 		SJSR				byte_6B13D
 		SJMP				byte_6B126
 byte_6B13D:
-		NJMP				_native_sub04A
+		NJSR_SYNC			_native_sub04A
 		LOOPB				$06,byte_6B13D
 		SRET
 
@@ -6506,18 +6661,22 @@ _native_get_player2_lives:
 		JMP		_scr_flags_update
 
 ; =============== S C R I P T ===============================================
-_script148:
+_lives_bonus_obj_scr_player1_red_ball:
 		NJSR				_native_get_player1_lives
-		SBNE				byte_6B191
+		SBEQ				_script_j_kill
 		OBJ_SET_X_POS		$10,$00
-		SJMP				byte_6B171
+		SJMP				_lives_bonus_obj_scr_red_ball_common
 
 ; =============== S C R I P T ===============================================
-_script149:
+_lives_bonus_obj_scr_player2_red_ball:
 		NJSR				_native_get_player2_lives
-		SBNE				byte_6B191
+		SBEQ				_script_j_kill
 		OBJ_SET_X_POS		$F0,$00
-byte_6B171:
+
+; !FALLTHROUGH!
+
+; =============== S C R I P T ===============================================
+_lives_bonus_obj_scr_red_ball_common:
 		PARAM_40_SET
 		DESTR_PC_SET		byte_6B185
 		OBJ_SET_Y_POS		$C0,$00
@@ -6527,13 +6686,19 @@ byte_6B171:
 		PARAM_80_CLEAR
 		OBJ_SET_HP			$01
 		SJSR				_script_sub_68065
+
+; !FALLTHROUGH!
+
+; =============== S C R I P T ===============================================
 byte_6B185:
 		SJSR				_script_sub_6806C
 		OBJ_SET_Y_DELTA		$C0
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
 		SJMP				byte_68092
-byte_6B191:
+
+; =============== S C R I P T ===============================================
+_script_j_kill:
 		KILL
 
 ; =============== O B J E C T   S C R I P T =================================
@@ -6546,11 +6711,11 @@ byte_6B197:
 		OBJ_MOVE_Y_POS		$30
 		LOOPA				$04,byte_6B197
 		OBJ_SET_Y_POS		$13,$00
-		SJSR				byte_6AF78
-		SJSR				byte_6AF8C
+		SJSR				_script_30_sec_timer_init
+		SJSR				_script_timer_seconds_tick
 byte_6B1AB:
-		NJMP				_native_sub044
-		SBEQ				byte_6B1AB
+		NJSR_SYNC			_native_timer_spr_insert
+		SBNE				byte_6B1AB
 		SJMP				byte_6AFC1
 
 ; =============== S U B R O U T I N E =======================================
@@ -6604,10 +6769,10 @@ byte_6B1EE:
 byte_6B207:
 		SYNC
 		NJSR				_native_sub04D
-		SBNE				byte_6B21A
+		SBEQ				byte_6B21A
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_get_obj_hp
-		SBEQ				byte_6B21A
+		SBNE				byte_6B21A
 		NJSR				_native_sub04C
 byte_6B21A:
 		LOOPA				$08,byte_6B207
@@ -6655,6 +6820,8 @@ loc_6B25B:
 		STA		_obj_hps,X
 loc_6B266:
 		JMP		_scr_flags_update
+
+; =============== O B J E C T   S C R I P T =================================
 _script47:
 		DESTR_PC_SET		_script47
 		OBJ_SET_SIZE		$06,$10
@@ -6664,9 +6831,9 @@ _script47:
 		SJSR				_script_sub_6806C
 		NJSR				_native_sub030
 byte_6B27A:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		NJSR				_native_get_obj_hp
-		SBEQ				byte_6B27A
+		SBNE				byte_6B27A
 		OBJ_SET_X_DELTA		$08
 		OBJ_SET_Y_DELTA		$E8
 		NJSR				_players_animB_sub67_A
@@ -6676,18 +6843,18 @@ byte_6B27A:
 _obj_scr03_basket_bonus:
 		SRUN				$01,_script14C
 		NJSR				_native_sub04E
-		SJSR				byte_6AF78
-		STORE				$3C,_stage4_seconds_cnt
+		SJSR				_script_30_sec_timer_init
+		STORE				$3C,_timer_seconds_cnt
 		OBJ_SET_Y_POS		$18,$00
 byte_6B29C:
-		NJMP				_native_sub044
+		NJSR_SYNC			_native_timer_spr_insert
 		LOOPA				$B4,byte_6B29C
 		SRUN				$05,_script14D
 		SRUN				$05,_script14E
-		SJSR				byte_6AF8C
+		SJSR				_script_timer_seconds_tick
 byte_6B2AE:
-		NJMP				_native_sub044
-		SBEQ				byte_6B2AE
+		NJSR_SYNC			_native_timer_spr_insert
+		SBNE				byte_6B2AE
 		SJMP				byte_6AFC1
 
 ; =============== S U B R O U T I N E =======================================
@@ -6728,9 +6895,9 @@ _script14C:
 		SUSPEND				$B4
 byte_6B2F5:
 		NJSR				_native_cmp40_obj_x_lo_pos
-		SBCC				byte_6B30D
-		NJSR				_native_cmpC0_obj_x_lo_pos
 		SBCS				byte_6B30D
+		NJSR				_native_cmpC0_obj_x_lo_pos
+		SBCC				byte_6B30D
 		NJSR				_native_sub12A
 		SSWITCH				_tmp_ptrE+1
 		SCASE				byte_6B310
@@ -6739,7 +6906,7 @@ byte_6B2F5:
 byte_6B30D:
 		NJSR				_native_sub110
 byte_6B310:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		LOOPA				$26,byte_6B310
 		SJMP				byte_6B2F5
 byte_6B318:
@@ -6788,9 +6955,9 @@ byte_6B352:
 byte_6B357:
 		SYNC
 		NJSR				_native_get_obj_var0D
-		SBPL				byte_6B367
+		SBMI				byte_6B367
 		SJSR				byte_6A589
-		SBCC				byte_6B357
+		SBCS				byte_6B357
 		SJMP				byte_6B373
 byte_6B367:
 		SJSR				_script_sub_6806C
@@ -6806,18 +6973,18 @@ byte_6B37C:
 		SJSR				byte_6B393
 		OBJ_SET_Y_DELTA		$E0
 		NJSR				_native_cmp50_obj_y_lo_pos
-		SBCC				byte_6B37C
+		SBCS				byte_6B37C
 		NJSR				_far_players_animB_sub0129_G
-		SBMI				byte_6B352
+		SBPL				byte_6B352
 		SJSR				byte_6B393
 		SJMP				byte_6B352
 byte_6B393:
-		NJMP				_native_sub04F
+		NJSR_SYNC			_native_sub04F
 		NJSR				_native_sub100
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$02
 		SJSR				byte_6A557
-		SBCS				byte_6B393
+		SBCC				byte_6B393
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -6834,15 +7001,15 @@ byte_6B3AB:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr01_box_bonus:
-		NJSR				_native_sub052
-		NJSR				_native_sub051_ex
+		NJSR				_native_box_bonusA
+		NJSR				_native_box_bonusB
 		NJSR				_native_box_bonus_4prizes_shuffle
 byte_6B3BC:
 		NJSR				_native_box_bonus_box_obj_insert
 		LOOPA				$04,byte_6B3BC
 		OBJ_SET_Y_POS		$18,$00
-		SJSR				byte_6AF78
-		STORE				$0A,_stage4_seconds_cnt
+		SJSR				_script_30_sec_timer_init
+		STORE				$0A,_timer_seconds_cnt
 		SJSR				_script_sub_6B415
 		NJSR				_native_idxBs_10_set
 		NJSR				_native_sub051
@@ -6850,14 +7017,14 @@ byte_6B3BC:
 		SJSR				_script_sub_6B418
 		NJSR				_native_idxBs_10_clear
 		SJSR				_script_sub_6B418
-		NJSR				_native_sub051_ex
+		NJSR				_native_box_bonusB
 		NJSR				_native_idxBs_10_set
-		SJSR				byte_6AF8C
+		SJSR				_script_timer_seconds_tick
 byte_6B3EB:
 		NJSR				_native_sub056
-		SBNE				byte_6B3FA
-		NJMP				_native_sub044
-		SBEQ				byte_6B3EB
+		SBEQ				byte_6B3FA
+		NJSR_SYNC			_native_timer_spr_insert
+		SBNE				byte_6B3EB
 		NJSR				_native_sub057
 byte_6B3FA:
 		NJSR				_native_sub050
@@ -6869,9 +7036,9 @@ _native_sub050:
 		STA		_obj_hps
 		LDA		_players_def_max_hps+1
 		STA		_obj_hps+1
-		LDA		byte_410
+		LDA		_tmp_players_lives
 		STA		_players_lives
-		LDA		byte_410+1
+		LDA		_tmp_players_lives+1
 		STA		_players_lives+1
 		RTS
 
@@ -6883,7 +7050,7 @@ _script_sub_6B415:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_6B418:
-		NJMP				_native_sub044
+		NJSR_SYNC			_native_timer_spr_insert
 		LOOPA				$78,_script_sub_6B418
 		SRET
 
@@ -6899,7 +7066,7 @@ _native_sub051:
 ; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub051_ex:
+_native_box_bonusB:
 		LDA		#$03
 loc_6B432:
 		PHA
@@ -6918,7 +7085,7 @@ byte_6B446:
 		.BYTE	$03,$06,$09,$0C
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub052:
+_native_box_bonusA:
 		LDY		#$03
 		LDA		#$F4
 loc_6B44E:
@@ -7124,19 +7291,19 @@ loc_6B59D:
 _obj_scr_box_bonus_boxA:
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$37
-		SJMP				_obj_scr_box_bonus_boxD89AB_ex
+		SJMP				_obj_scr_box_bonus_box_common
 
 ; =============== S C R I P T ===============================================
 _obj_scr_box_bonus_boxB:
 		SPR_LIB_SELECT		$06
 		SPR_IDX_SELECT		$01
-		SJMP				_obj_scr_box_bonus_boxD89AB_ex
+		SJMP				_obj_scr_box_bonus_box_common
 
 ; =============== S C R I P T ===============================================
 _obj_scr_box_bonus_boxC:
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$24
-		SJMP				_obj_scr_box_bonus_boxD89AB_ex
+		SJMP				_obj_scr_box_bonus_box_common
 
 ; =============== S C R I P T ===============================================
 _obj_scr_box_bonus_boxD:
@@ -7146,7 +7313,7 @@ _obj_scr_box_bonus_boxD:
 ; !FALLTHROUGH!
 
 ; =============== S C R I P T ===============================================
-_obj_scr_box_bonus_boxD89AB_ex:
+_obj_scr_box_bonus_box_common:
 		PARAM_80_CLEAR
 		OBJ_SET_HP			$01
 		OBJ_SET_SIZE		$06,$0C
@@ -7159,17 +7326,17 @@ _obj_scr_box_bonus_boxD89AB_ex:
 		SPR_LIB_SELECT		$03
 		SPR_IDX_SELECT		$00
 byte_6B5D2:
-		NJMP				_native_sub058
-		SBNE				byte_6B5D2
+		NJSR_SYNC			_native_sub058
+		SBEQ				byte_6B5D2
 byte_6B5D8:
 		NJSR				_native_sub055
 		SJSR				_script_animate10
 		NJSR				_native_sub058
-		SBEQ				byte_6B5D8
+		SBNE				byte_6B5D8
 		NJSR				_native_sub054
 byte_6B5E7:
-		NJMP				_native_sub058
-		SBNE				byte_6B5E7
+		NJSR_SYNC			_native_sub058
+		SBEQ				byte_6B5E7
 		KILL
 
 ; =============== S U B R O U T I N E =======================================
@@ -7184,7 +7351,7 @@ _script42:
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$37
 		PARAM_80_CLEAR
-		NJSR				_native_sub059
+		NJSR				_native_increment_continues
 		SJMP				_script_idle
 
 ; =============== S C R I P T ===============================================
@@ -7192,7 +7359,7 @@ _script43:
 		SPR_LIB_SELECT		$06
 		SPR_IDX_SELECT		$01
 		PARAM_80_CLEAR
-		NJSR				_native_sub05A
+		NJSR				_native_inc_tmp_player_lives
 		SRUN				$01,_script151
 		SJMP				_script_idle
 
@@ -7201,7 +7368,7 @@ _script44:
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$24
 		PARAM_80_CLEAR
-		NJSR				_native_sub05B
+		NJSR				_native_add_players_30_rr_ptss
 		SRUN				$01,_script152
 		SJMP				_script_idle
 
@@ -7216,7 +7383,7 @@ _script45:
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$25
 		PARAM_80_CLEAR
-		NJSR				_native_sub05C
+		NJSR				_native_add_players_10_rr_ptss
 		SRUN				$01,_script153
 		SJMP				_script_idle
 
@@ -7227,7 +7394,7 @@ _script153:
 		SJMP				byte_6A240
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub059:
+_native_increment_continues:
 		LDA		_continues
 		CMP		#$09
 		BCS		locret_6B647
@@ -7236,28 +7403,28 @@ locret_6B647:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub05A:
+_native_inc_tmp_player_lives:
 		LDY		_scr_idxAs,X
-		LDA		byte_410,Y
+		LDA		_tmp_players_lives,Y
 		CMP		#$0A
 		BCS		locret_6B658
 		CLC
 		ADC		#$01
-		STA		byte_410,Y
+		STA		_tmp_players_lives,Y
 locret_6B658:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub05B:
+_native_add_players_30_rr_ptss:
 		LDA		#$1E
-		BNE		_native_sub05C_ex
+		BNE		_native_add_players_rr_ptss
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub05C:
+_native_add_players_10_rr_ptss:
 		LDA		#$0A
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub05C_ex:
+_native_add_players_rr_ptss:
 		CLC
 		LDY		_scr_idxAs,X
 		ADC		_players_rr_ptss,Y
@@ -7269,27 +7436,27 @@ loc_6B66C:
 		RTS
 
 ; =============== S C R I P T ===============================================
-_script_cutscenes:
+_script_cutscenes_start:
 		SSWITCH				_cutscene_idx
-		SCASE				_scr_cutscene00
-		SCASE				_scr_cutscene01
-		SCASE				_scr_cutscene02
-		SCASE				_scr_cutscene03
-		SCASE				_scr_cutscene04
-		SCASE				_scr_cutscene05
-		SCASE				_scr_cutscene06
-		SCASE				_scr_cutscene07
-		SCASE				_scr_cutscene08
-		SCASE				_scr_cutscene09
-		SCASE				_scr_cutscene0A
-		SCASE				_scr_cutscene0B
-		SCASE				_scr_cutscene0C
-		SCASE				_scr_cutscene0D
-		SCASE				_scr_cutscene0E
-		SCASE				_scr_cutscene0F
-		SCASE				_scr_cutscene10
-		SCASE				_scr_cutscene11
-		SCASE				_scr_cutscene12
+		SCASE				_script_cutscene00
+		SCASE				_script_cutscene01
+		SCASE				_script_cutscene02
+		SCASE				_script_cutscene03
+		SCASE				_script_cutscene04
+		SCASE				_script_cutscene05
+		SCASE				_script_cutscene06
+		SCASE				_script_cutscene07
+		SCASE				_script_cutscene08
+		SCASE				_script_cutscene09
+		SCASE				_script_cutscene0A
+		SCASE				_script_cutscene0B
+		SCASE				_script_cutscene0C
+		SCASE				_script_cutscene0D
+		SCASE				_script_cutscene0E
+		SCASE				_script_cutscene0F
+		SCASE				_script_cutscene10
+		SCASE				_script_cutscene11
+		SCASE				_script_cutscene12
 
 ; =============== S C R I P T ===============================================
 _script154:
@@ -7298,18 +7465,22 @@ _script154:
 byte_6B69F:
 		STORE				$04,_main_sub_idx
 		SJMP				byte_6B6A9
+
+; =============== S C R I P T ===============================================
 byte_6B6A6:
-		NJSR				_native_sub05D
+		NJSR				_native_inc_cutscene_idx
 byte_6B6A9:
 		APU_LOAD			$7B
 		SUSPEND				$20
-		SJMP				_script177
+		SJMP				_script_fade_out
+
+; =============== S C R I P T ===============================================
 byte_6B6B0:
-		NJSR				_native_sub05D
-		SJMP				_script177
+		NJSR				_native_inc_cutscene_idx
+		SJMP				_script_fade_out
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub05D:
+_native_inc_cutscene_idx:
 		LDX		_cutscene_idx
 		INX
 		CPX		#$13
@@ -7318,30 +7489,31 @@ _native_sub05D:
 loc_6B6BF:
 		STX		_cutscene_idx
 		RTS
+
 byte_6B6C2:
 		NJSR				_native_idxBs_10_set
 byte_6B6C5:
-		NJMP				_native_idxBs_10_test
-		SBEQ				byte_6B6C5
+		NJSR_SYNC			_native_idxBs_10_test
+		SBNE				byte_6B6C5
 		SRET
 byte_6B6CC:
-		NJMP				_native_sub05F
+		NJSR_SYNC			_native_sub05F
 byte_6B6CF:
-		NJMP				_native_sub060
-		SBNE				byte_6B6CF
+		NJSR_SYNC			_native_sub060
+		SBEQ				byte_6B6CF
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub05E:
 		LDY		_scr_vars19,X
 		LDA		_scr_cur_slot_idx
-		STA		byte_410,Y
+		STA		_tmp_players_lives,Y
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub05F:
 		LDY		_scr_vars19,X
-		LDX		byte_410,Y
+		LDX		_tmp_players_lives,Y
 		LDA		_scr_idxBs,X
 		AND		#$EF
 		STA		_scr_idxBs,X
@@ -7350,13 +7522,13 @@ _native_sub05F:
 ; =============== S U B R O U T I N E =======================================
 _native_sub060:
 		LDY		_scr_vars19,X
-		LDX		byte_410,Y
+		LDX		_tmp_players_lives,Y
 		LDA		_scr_idxBs,X
 		AND		#$10
 		JMP		_scr_flags_update
 byte_6B6FC:
-		NJMP				_native_sub061
-		SBEQ				byte_6B6FC
+		NJSR_SYNC			_native_sub061
+		SBNE				byte_6B6FC
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -7365,8 +7537,8 @@ _native_sub061:
 		JMP		_scr_flags_update
 byte_6B708:
 		NJSR				_native_sub062
-		NJMP				_native_sub061
-		SBEQ				byte_6B708
+		NJSR_SYNC			_native_sub061
+		SBNE				byte_6B708
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -7428,14 +7600,14 @@ byte_6B773:
 		NJSR				_native_idxBs_10_set
 byte_6B776:
 		NJSR				_native_sub173
-		NJMP				_native_idxBs_10_test
-		SBEQ				byte_6B776
+		NJSR_SYNC			_native_idxBs_10_test
+		SBNE				byte_6B776
 		SRET
 byte_6B780:
 		NJSR				_native_sub063
 		NJSR				_native_sub173
-		NJMP				_native_sub061
-		SBEQ				byte_6B780
+		NJSR_SYNC			_native_sub061
+		SBNE				byte_6B780
 		SRET
 byte_6B78D:
 		OBJ_SET_HP			$00
@@ -7461,14 +7633,14 @@ byte_6B7B7:
 		NJSR				_native_idxBs_10_set
 byte_6B7BA:
 		NJSR				_native_sub15B
-		NJMP				_native_idxBs_10_test
-		SBEQ				byte_6B7BA
+		NJSR_SYNC			_native_idxBs_10_test
+		SBNE				byte_6B7BA
 		SRET
 byte_6B7C4:
 		NJSR				_native_sub063
 		NJSR				_native_sub15B
-		NJMP				_native_sub061
-		SBEQ				byte_6B7C4
+		NJSR_SYNC			_native_sub061
+		SBNE				byte_6B7C4
 		SRET
 byte_6B7D1:
 		OBJ_SET_HP			$06
@@ -7491,26 +7663,26 @@ byte_6B7F1:
 		OBJ_SET_Y_DELTA		$F8
 byte_6B7F8:
 		SPR_IDX_SELECT		$17
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
 		SPR_IDX_SELECT		$18
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
 		NJSR				_native_sub129
 		NJSR				_native_idxBs_10_test
-		SBNE				byte_6B823
+		SBEQ				byte_6B823
 		LOOPB				$28,byte_6B7F8
 byte_6B80F:
 		SPR_IDX_SELECT		$34
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
 		SPR_IDX_SELECT		$35
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
+		OBJ_ANIMATE_SYNC
 		NJSR				_native_sub129
 		LOOPB				$02,byte_6B80F
 		SJMP				byte_6B7F8
@@ -7522,17 +7694,17 @@ byte_6B825:
 		SJSR				byte_6B82C
 		SPR_IDX_SELECT		$18
 byte_6B82C:
-		NJMP				_native_sub122
+		NJSR_SYNC			_native_sub122
 		LOOPB				$03,byte_6B82C
 		SRET
 
 ; =============== S C R I P T ===============================================
-_scr_cutscene00:
+_script_cutscene00:
 		SRUN				$01,_script154
 		SUSPEND				$1E
 		SRUN				$01,_script155
 byte_6B83E:
-		NJMP				_native_sub064
+		NJSR_SYNC			_native_sub064
 		LOOPA				$80,byte_6B83E
 		LOOPB				$02,byte_6B83E
 		KILL
@@ -7602,12 +7774,12 @@ _script156:
 		SJMP				_script156
 
 ; =============== S C R I P T ===============================================
-_scr_cutscene01:
+_script_cutscene01:
 		SRUN				$01,_script154
 		OBJ_SET_Y_POS		$C0,$00
 		TARGET_DIR_SET		$00
 		SRUN				$01,_script157
-		NJMP				_native_sub05E
+		NJSR_SYNC			_native_sub05E
 		SUSPEND				$1E
 		MSG_DISPLAY			_msg00,$5B
 		MSG_WAIT
@@ -7616,7 +7788,7 @@ _scr_cutscene01:
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
 		SRUN				$01,_script158
-		NJMP				_native_sub05E
+		NJSR_SYNC			_native_sub05E
 		SJSR				byte_6B6CC
 		MSG_DISPLAY			_msg02,$58
 		SJSR				byte_6B6CC
@@ -7629,29 +7801,29 @@ _scr_cutscene01:
 		TARGET_DIR_SET		$02
 		OBJ_SET_Y_POS		$A0,$00
 		SRUN				$01,_script159
-		NJMP				_native_sub05E
+		NJSR_SYNC			_native_sub05E
 		TARGET_DIR_SET		$00
 		MSG_DISPLAY			_msg05,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
 		MSG_DISPLAY			_msg06,$58
 		SJSR				byte_6B6CC
-		NJMP				_native_sub05F
+		NJSR_SYNC			_native_sub05F
 		TARGET_DIR_SET		$02
 		MSG_DISPLAY			_msg07,$59
 		SJSR				byte_6B6CC
-		NJMP				_native_sub05F
+		NJSR_SYNC			_native_sub05F
 		TARGET_DIR_SET		$04
 		SRUN				$01,_script15A
-		NJMP				_native_sub05E
+		NJSR_SYNC			_native_sub05E
 		SJSR				byte_6B6CC
 		MSG_DISPLAY			_msg08,$5A
 		MSG_WAIT
-		NJMP				_native_sub05F
+		NJSR_SYNC			_native_sub05F
 		TARGET_DIR_SET		$01
 		OBJ_SET_Y_POS		$C0,$00
 		SRUN				$01,_script15B
-		NJMP				_native_sub05E
+		NJSR_SYNC			_native_sub05E
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
 		MSG_DISPLAY			_msg09,$56
@@ -7796,19 +7968,19 @@ byte_6BA7A:
 		KILL
 
 ; =============== S C R I P T ===============================================
-_scr_cutscene02:
+_script_cutscene02:
 		SRUN				$01,_script154
 		OBJ_SET_Y_POS		$C0,$00
 		TARGET_DIR_SET		$05
 		SRUN				$01,_script15C
-		NJMP				_native_sub05E
+		NJSR_SYNC			_native_sub05E
 		SUSPEND				$1E
 		TARGET_DIR_SET		$00
 		SRUN				$01,_script15D
-		NJMP				_native_sub05E
+		NJSR_SYNC			_native_sub05E
 		TARGET_DIR_SET		$01
 		SRUN				$01,_script15E
-		NJMP				_native_sub05E
+		NJSR_SYNC			_native_sub05E
 		SJSR				byte_6B6CC
 		MSG_DISPLAY			_msg0F,$56
 		MSG_WAIT
@@ -7817,7 +7989,7 @@ _scr_cutscene02:
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$01
 		MSG_DISPLAY			_msg11,$57
-		NJMP				_native_sub05F
+		NJSR_SYNC			_native_sub05F
 		MSG_WAIT
 		TARGET_DIR_SET		$05
 		MSG_DISPLAY			_msg12,$5C
@@ -7828,9 +8000,9 @@ _scr_cutscene02:
 		TARGET_DIR_SET		$05
 		MSG_DISPLAY			_msg14,$5C
 		SJSR				byte_6B6CC
-		NJMP				_native_sub05F
+		NJSR_SYNC			_native_sub05F
 		TARGET_DIR_SET		$00
-		NJMP				_native_sub05F
+		NJSR_SYNC			_native_sub05F
 		TARGET_DIR_SET		$01
 		SJSR				byte_6B6CC
 		SJMP				byte_6B69F
@@ -7893,7 +8065,7 @@ byte_6BB4C:
 		KILL
 
 ; =============== S C R I P T ===============================================
-_scr_cutscene03:
+_script_cutscene03:
 		SRUN				$01,_script154
 		TARGET_DIR_SET		$00
 		SRUN				$01,_script15F
@@ -7908,11 +8080,11 @@ _scr_cutscene03:
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
 		SRUN				$01,_script161
-		NJMP				_native_sub05E
+		NJSR_SYNC			_native_sub05E
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$05
 		SRUN				$01,_script162
-		NJMP				_native_sub05E
+		NJSR_SYNC			_native_sub05E
 		TARGET_DIR_SET		$03
 		MSG_DISPLAY			_msg16,$58
 		SJSR				byte_6B6CC
@@ -7930,7 +8102,7 @@ byte_6BBBA:
 		MSG_DISPLAY			_msg1A,$58
 		SJSR				byte_6B6CC
 		SJSR				byte_6BC7C
-		NJMP				_native_sub066
+		NJSR_SYNC			_native_sub066
 		MSG_DISPLAY			_msg1B,$58
 		SJSR				byte_6B6CC
 		SJSR				byte_6BC7C
@@ -7939,7 +8111,7 @@ byte_6BBBA:
 		SCASE				byte_6BBD8
 byte_6BBD8:
 		STORE				$01,byte_E1
-		NJMP				_native_sub05F
+		NJSR_SYNC			_native_sub05F
 		SJMP				byte_6BBBA
 byte_6BBE2:
 		MSG_DISPLAY			_msg1C,$58
@@ -7958,13 +8130,13 @@ byte_6BBF6:
 		LOOPA				$03,byte_6BBF6
 		SUSPEND				$10
 		TARGET_DIR_SET		$01
-		NJMP				_native_sub05F
+		NJSR_SYNC			_native_sub05F
 byte_6BC07:
 		OBJ_DEX_X_DELTA
 		NJSR				_native_sub068
 		SUSPEND				$04
 		LOOPA				$03,byte_6BC07
-		NJMP				_ppu_pal_apply
+		NJSR_SYNC			_ppu_pal_apply
 		APU_LOAD			$13
 		TARGET_DIR_SET		$03
 		MSG_DISPLAY			_msg1D,$58
@@ -7986,7 +8158,7 @@ byte_6BC47:
 		MSG_DISPLAY			_msg22,$58
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$05
-		NJMP				_native_sub05F
+		NJSR_SYNC			_native_sub05F
 		SUSPEND				$3C
 		TARGET_DIR_SET		$03
 		MSG_DISPLAY			_msg23,$58
@@ -8156,7 +8328,7 @@ byte_6BD82:
 		KILL
 
 ; =============== S C R I P T ===============================================
-_scr_cutscene04:
+_script_cutscene04:
 		SRUN				$01,_script154
 		TARGET_DIR_SET		$00
 		SRUN				$01,_script163
@@ -8169,7 +8341,7 @@ _scr_cutscene04:
 		NJSR				_native_sub05E
 		TARGET_DIR_SET		$04
 		SRUN				$01,_script166
-		NJMP				_native_sub05E
+		NJSR_SYNC			_native_sub05E
 		SUSPEND				$1E
 		TARGET_DIR_SET		$01
 		MSG_DISPLAY			_msg27,$57
@@ -8245,19 +8417,19 @@ _script167:
 		PARAM_80_CLEAR
 		OBJ_SET_X_DELTA		$F8
 byte_6BE4F:
-		JMP_OBJ_ANIMATE
+		OBJ_ANIMATE_SYNC
 		LOOPA				$80,byte_6BE4F
 		KILL
 
 ; =============== S C R I P T ===============================================
-_scr_cutscene05:
+_script_cutscene05:
 		SRUN				$01,_script154
 		TARGET_DIR_SET		$00
 		SRUN				$01,_script168
 		NJSR				_native_sub05E
 		TARGET_DIR_SET		$01
 		SRUN				$01,_script169
-		NJMP				_native_sub05E
+		NJSR_SYNC			_native_sub05E
 		SUSPEND				$3C
 		SJSR				byte_6B6CC
 		MSG_DISPLAY			_msg2E,$56
@@ -8268,24 +8440,24 @@ _scr_cutscene05:
 		MSG_WAIT
 byte_6BE7E:
 		SJSR				byte_6BECE
-		NJMP				_ppu_pal_apply
+		NJSR_SYNC			_ppu_pal_apply
 		SUSPEND				$10
 		SJSR				byte_6BECE
-		NJMP				_pal_patch03_load
+		NJSR_SYNC			_pal_patch03_load
 		SUSPEND				$04
 		LOOPA				$05,byte_6BE7E
 		SUSPEND				$B4
 		SJMP				byte_6B6A6
 
 ; =============== S C R I P T ===============================================
-_scr_cutscene07:
+_script_cutscene07:
 		SRUN				$01,_script154
 		TARGET_DIR_SET		$00
 		SRUN				$01,_script16A
 		NJSR				_native_sub05E
 		TARGET_DIR_SET		$01
 		SRUN				$01,_script16B
-		NJMP				_native_sub05E
+		NJSR_SYNC			_native_sub05E
 		SUSPEND				$3C
 		TARGET_DIR_SET		$01
 		MSG_DISPLAY			_msg37,$57
@@ -8296,7 +8468,7 @@ _scr_cutscene07:
 		SJMP				byte_6B69F
 
 ; =============== S C R I P T ===============================================
-_scr_cutscene08:
+_script_cutscene08:
 		SUSPEND				$3C
 		MSG_DISPLAY			_msg39,$5B
 		MSG_WAIT
@@ -8367,7 +8539,7 @@ _script16B:
 		SJSR				byte_6B73A
 
 ; =============== S C R I P T ===============================================
-_scr_cutscene06:
+_script_cutscene06:
 		SRUN				$01,_script154
 		SUSPEND				$3C
 		MSG_DISPLAY			_msg30,$5D
@@ -8387,7 +8559,7 @@ _scr_cutscene06:
 		SJMP				byte_6B6A6
 
 ; =============== S C R I P T ===============================================
-_scr_cutscene09:
+_script_cutscene09:
 		SRUN				$01,_script154
 		SRUN				$01,_script16C
 		TARGET_DIR_SET		$00
@@ -8398,7 +8570,7 @@ _scr_cutscene09:
 		NJSR				_native_sub05E
 		TARGET_DIR_SET		$02
 		SRUN				$01,_script16F
-		NJMP				_native_sub05E
+		NJSR_SYNC			_native_sub05E
 		SUSPEND				$3C
 		TARGET_DIR_SET		$02
 		MSG_DISPLAY			_msg3A,$59

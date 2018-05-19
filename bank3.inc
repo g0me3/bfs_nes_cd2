@@ -570,6 +570,11 @@ tlm_patch06:
 		.WORD	$5364
 		.BYTE	$46,$46,$46
 		.BYTE	$00
+; BUG, seems this patch intended to be displayed after a while, when
+; tlm_patch06 is drawn. however, there is no proper pointer initialization
+; like they forgot to shift the pointer forward or though it was already
+; on the next resource. no. display routine does not move pointer
+; when reached 00 of the resource. see PRG4:_script_lvl2_wall_blocks_open_draw notes.
 _tlm_patch_06A_unused:
 		.BYTE	$03
 		.WORD	$5364
@@ -860,7 +865,7 @@ _obj_lib:
 		OBJ_IDX	_obj_scr07_concrete_brick
 		OBJ_IDX	_obj_scr08_cdv_bottle_cork
 		OBJ_IDX	_obj_scr09_sink_valve
-		OBJ_IDX	_obj_scr0A_lvl1_bonus_button
+		OBJ_IDX	_obj_scr0A_lvl2_bonus_button
 		OBJ_IDX	_obj_scr0B_basket_bonus_entry
 		OBJ_IDX	_obj_scr0C_lvl3_bonus_button
 		OBJ_IDX	_obj_scr0D_big_fan
@@ -879,7 +884,7 @@ _obj_scr19_idx	SET	[[.-_obj_lib]>>1]
 		.WORD	0								; two special cases
 _obj_scr1A_idx	SET	[[.-_obj_lib]>>1]
 		.WORD	0								; objects with no script assigned
-		OBJ_IDX	_obj_scr1B_rokfor_refill
+		OBJ_IDX	_obj_scr1B_monterey_refill
 		OBJ_IDX	_obj_scr1D_big_ball_box			; _obj_scr1C unused
 		OBJ_IDX	_obj_scr1D_big_ball_box
 		OBJ_IDX	_obj_scr1E_big_zipper_box
@@ -974,7 +979,7 @@ _room_objects02:
 		OBJ_ENTRY	$6F,$5A,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects03:
-		OBJ_ENTRY	$08,$49,_obj_scr1B_rokfor_refill
+		OBJ_ENTRY	$08,$49,_obj_scr1B_monterey_refill
 		.BYTE	$FF
 _room_objects05:
 		OBJ_ENTRY	$4F,$18,_obj_scr3F_lvl1_boss_water_rabbit
@@ -987,7 +992,7 @@ _room_objects06:
 		OBJ_ENTRY	$3E,$7D,_obj_scr2A_pink_fish
 		OBJ_ENTRY	$4C,$7C,_obj_scr29_green_floor_bat
 		OBJ_ENTRY	$52,$7D,_obj_scr2A_pink_fish
-		OBJ_ENTRY	$69,$75,_obj_scr0A_lvl1_bonus_button
+		OBJ_ENTRY	$69,$75,_obj_scr0A_lvl2_bonus_button
 		OBJ_ENTRY	$6B,$74,_obj_scr0B_basket_bonus_entry
 		OBJ_ENTRY	$7E,$7C,_obj_scr21_lvl_exit_right
 		.BYTE	$FF

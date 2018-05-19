@@ -4,6 +4,7 @@ DEBUG			EQU		1
 
 ; experimental, does not work by now
 OPTIMIZATION	EQU		0
+BUGFIXES		EQU		0
 
 LANG_EN			EQU		0
 LANG_JP			EQU		1
@@ -126,7 +127,7 @@ _STOP	EQU	$FF
 	ENDM
 
 ; execute native code, then exit script, return control to the engine
-	MAC	NJMP
+	MAC	NJSR_SYNC
 	.BYTE	$03
 	.WORD	{1}
 	ENDM
@@ -207,82 +208,82 @@ TMP_CMD_PC	SET	.
 
 ; set of branches equivalent of 6502 set
 ; script if EQUAL branch
-	MAC	SBEQ
+	MAC	SBNE
 		SBRANCH	{1},0,1
 	ENDM
 
 ; script if CARRY=1 branch
-	MAC	SBCS
+	MAC	SBCC
 		SBRANCH	{1},1,1
 	ENDM
 
 ; script if NEG=1 branch
-	MAC	SBMI
+	MAC	SBPL
 		SBRANCH	{1},2,1
 	ENDM
 
 ; script if NO EQUAL branch
-	MAC	SBNE
+	MAC	SBEQ
 		SBRANCH	{1},3,1
 	ENDM
 
 ; script if CARRY=0 branch
-	MAC	SBCC
+	MAC	SBCS
 		SBRANCH	{1},4,1
 	ENDM
 
 ; script if NEG=0 branch
-	MAC	SBPL
+	MAC	SBMI
 		SBRANCH	{1},5,1
 	ENDM
 
 ; set of 8-bit ofs branches
 #if OPTIMIZATION=1
-	MAC	SBEQS
+	MAC	SBNES
 		SBRANCH	{1},0,0
 	ENDM
 
-	MAC	SBCSS
+	MAC	SBCCS
 		SBRANCH	{1},1,0
 	ENDM
 
-	MAC	SBMIS
+	MAC	SBPLS
 		SBRANCH	{1},2,0
 	ENDM
 
-	MAC	SBNES
+	MAC	SBEQS
 		SBRANCH	{1},3,0
 	ENDM
 
-	MAC	SBCCS
+	MAC	SBCSS
 		SBRANCH	{1},4,0
 	ENDM
 
-	MAC	SBPLS
+	MAC	SBMIS
 		SBRANCH	{1},5,0
 	ENDM
 #else
-	MAC	SBEQS
+	MAC	SBNES
 		SBRANCH	{1},0,1
 	ENDM
 
-	MAC	SBCSS
+	MAC	SBCCS
 		SBRANCH	{1},1,1
 	ENDM
 
-	MAC	SBMIS
+	MAC	SBPLS
 		SBRANCH	{1},2,1
 	ENDM
 
-	MAC	SBNES
+	MAC	SBEQS
 		SBRANCH	{1},3,1
 	ENDM
 
-	MAC	SBCCS
+	MAC	SBCSS
 		SBRANCH	{1},4,1
 	ENDM
 
-	MAC	SBPLS
+	MAC	SBMIS
 		SBRANCH	{1},5,1
 	ENDM
 #endif
@@ -351,14 +352,14 @@ _PAD_ANY	EQU	$FF
 	.BYTE	{1}
 	ENDM
 
-; do animations for one frame, delay with animations of some kind
-; seems should return some values or flags
-	MAC	JMP_OBJ_ANIMATE
+; do animation and return to the engine
+; sync to the next frame
+	MAC	OBJ_ANIMATE_SYNC
 	.BYTE	$18
 	ENDM
 
-; same as previous but without results
-	MAC	JSR_OBJ_ANIMATE
+; same as previous but continue with the script execution
+	MAC	OBJ_ANIMATE
 	.BYTE	$19
 	ENDM
 

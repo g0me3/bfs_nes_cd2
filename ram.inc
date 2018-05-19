@@ -163,11 +163,11 @@ _pal_fade_delay:
 		.BYTE	0
 _debug_invulnerability_flag:
 		.BYTE	0
-_stage4_minutes_cnt:
+_timer_minutes_cnt:
 		.BYTE	0
-_stage4_seconds_cnt:
+_timer_seconds_cnt:
 		.BYTE	0
-_stage4_frames_cnt:
+_timer_frames_cnt:
 		.BYTE	0
 _rand_seed:
 		.BYTE	0
@@ -470,7 +470,7 @@ _scr_vars20:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _scr_vars21:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
-byte_410:
+_tmp_players_lives:
 		.BYTE	0,0
 _unused_344:
 		.BYTE	0,0,0,0

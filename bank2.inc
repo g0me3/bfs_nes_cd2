@@ -1818,7 +1818,7 @@ _players_animB_sub0129_sub01:
 
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub01_B:
-		LDA		#_apu_mus72_idx
+		LDA		#$72
 		JSR		_apu_se_req
 		LDA		#$00
 		STA		_players_vars0B,X
@@ -2062,7 +2062,7 @@ loc_3ABEE:
 		STA		_obj_damages,X
 		JMP		_players_animB_sub0129_sub09_A
 loc_3AC00:
-		LDA		#_apu_mus28_idx
+		LDA		#$28
 		JSR		_apu_se_req
 		LDX		_scr_idx
 		LDA		#$0B
@@ -2094,7 +2094,7 @@ loc_3AC2D:
 		JSR		_players_animB_sub0129_sub0A_B
 		JMP		_players_animB_sub0129_sub02_D
 loc_3AC38:
-		LDA		#_apu_mus2B_idx
+		LDA		#$2B
 		JSR		_apu_se_req
 		LDA		#_OBJ_DMG_NONE
 		STA		_obj_damages,X
@@ -2133,7 +2133,7 @@ loc_3AC6A:
 
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub0E:
-		LDA		#_apu_mus26_idx
+		LDA		#$26
 		JSR		_apu_se_req
 		LDX		_scr_idx
 		LDA		#$0F
@@ -2236,7 +2236,7 @@ loc_3AD13:
 		LDA		_nmi_frames_counter
 		AND		#$0F
 		BNE		loc_3AD2D
-		LDA		#_apu_mus47_idx
+		LDA		#$47
 		JSR		_apu_se_req
 loc_3AD2D:
 		JSR		_players_animB_sub0129_sub12_A
@@ -2394,7 +2394,7 @@ loc_3AE0D:
 		STA		_players_anim_idxs,X
 		LDA		#$15
 		STA		_players_states,X
-		LDA		#_apu_mus2C_idx
+		LDA		#$2C
 		JSR		_apu_se_req
 		JMP		_players_animB_sub0129_sub04_A
 loc_3AE4F:
@@ -2744,7 +2744,7 @@ locret_3B089:
 
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_A:
-		LDA		#_apu_mus25_idx
+		LDA		#$25
 		JSR		_apu_se_req
 		LDA		#$09
 		STA		_players_states,X
@@ -2870,7 +2870,7 @@ loc_3B146:
 		STA		_players_states,Y
 loc_3B169:
 		JSR		_players_pickup_obj_flags_update
-		LDA		#_apu_mus52_idx
+		LDA		#$52
 		JSR		_apu_se_req
 
 ; =============== S U B R O U T I N E =======================================
@@ -2976,7 +2976,7 @@ _players_pickup_obj_load:
 		TXA
 		TAY
 		JSR		_players_pickup_obj_flags_update
-		LDA		#_apu_mus52_idx
+		LDA		#$52
 		JSR		_apu_se_req
 locret_3B21D:
 		RTS
@@ -3789,7 +3789,7 @@ loc_3B721:
 		ADC		_lvl_start_scroll_vert
 		STA		byte_9
 		JSR		_sys_screen_cur_meta_update
-		LDA		#_apu_mus22_idx
+		LDA		#$22
 		JSR		_apu_se_req
 		RTS
 
@@ -4160,7 +4160,7 @@ _room_cfg00:
 		.WORD	_room_objects00		; _enemies_ptr
 		.BYTE	$1E					; _mmc1_ctrl
 		.BYTE	$F0					; _split_pos
-		.BYTE	_apu_mus03_idx		; _music_idx
+		.BYTE	$03					; _music_idx
 		.BYTE	$00,$00				; field_14
 		.WORD	_room_pal00			; _bg_pal_ptr
 		.BYTE	$00					; field_18
@@ -4178,7 +4178,7 @@ _room_cfg01:
 		.WORD	_room_objects01
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus03_idx
+		.BYTE	$03
 		.BYTE	$00,$00
 		.WORD	_room_pal01
 		.BYTE	$00
@@ -4196,7 +4196,7 @@ _room_cfg02:
 		.WORD	_room_objects02
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus03_idx
+		.BYTE	$03
 		.BYTE	$00,$00
 		.WORD	_room_pal01
 		.BYTE	$00
@@ -4214,7 +4214,7 @@ _room_cfg03:
 		.WORD	_room_objects03
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus03_idx
+		.BYTE	$03
 		.BYTE	$00,$00
 		.WORD	_room_pal03
 		.BYTE	$8C
@@ -4232,7 +4232,7 @@ _room_cfg05:
 		.WORD	_room_objects05
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus0D_idx
+		.BYTE	$0D
 		.BYTE	$01,$01
 		.WORD	_room_pal05
 		.BYTE	$07
@@ -4250,7 +4250,7 @@ _room_cfg06:
 		.WORD	_room_objects06
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus04_idx
+		.BYTE	$04
 		.BYTE	$00,$02
 		.WORD	_room_pal06
 		.BYTE	$0E
@@ -4268,7 +4268,7 @@ _room_cfg07:
 		.WORD	_room_objects07
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus04_idx
+		.BYTE	$04
 		.BYTE	$00,$02
 		.WORD	_room_pal06
 		.BYTE	$0E
@@ -4286,7 +4286,7 @@ _room_cfg08:
 		.WORD	_room_objects08
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus0D_idx
+		.BYTE	$0D
 		.BYTE	$00,$00
 		.WORD	_room_pal06
 		.BYTE	$15
@@ -4304,7 +4304,7 @@ _room_cfg0D:
 		.WORD	_room_objects0D
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus05_idx
+		.BYTE	$05
 		.BYTE	$00,$00
 		.WORD	_room_pal0D
 		.BYTE	$4D
@@ -4322,7 +4322,7 @@ _room_cfg10:
 		.WORD	_room_objects10
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus05_idx
+		.BYTE	$05
 		.BYTE	$00,$00
 		.WORD	_room_pal0D
 		.BYTE	$1C
@@ -4340,7 +4340,7 @@ _room_cfg0E:
 		.WORD	_room_objects0E
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus0D_idx
+		.BYTE	$0D
 		.BYTE	$00,$00
 		.WORD	_room_pal0D
 		.BYTE	$23
@@ -4358,7 +4358,7 @@ _room_cfg1F:
 		.WORD	_room_objects1F
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus06_idx
+		.BYTE	$06
 		.BYTE	$03,$03
 		.WORD	_room_pal1F
 		.BYTE	$2A
@@ -4376,7 +4376,7 @@ _room_cfg20:
 		.WORD	_room_objects20
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus0D_idx
+		.BYTE	$0D
 		.BYTE	$00,$03
 		.WORD	_room_pal1F
 		.BYTE	$31
@@ -4394,7 +4394,7 @@ _room_cfg14:
 		.WORD	_room_objects14
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus07_idx
+		.BYTE	$07
 		.BYTE	$00,$04
 		.WORD	_room_pal14
 		.BYTE	$38
@@ -4412,7 +4412,7 @@ _room_cfg15:
 		.WORD	_room_objects15
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus07_idx
+		.BYTE	$07
 		.BYTE	$00,$00
 		.WORD	_room_pal15
 		.BYTE	$38
@@ -4430,7 +4430,7 @@ _room_cfg17:
 		.WORD	_room_objects17
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus07_idx
+		.BYTE	$07
 		.BYTE	$00,$00
 		.WORD	_room_pal15
 		.BYTE	$38
@@ -4448,7 +4448,7 @@ _room_cfg1A:
 		.WORD	_room_objects1A
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus07_idx
+		.BYTE	$07
 		.BYTE	$00,$00
 		.WORD	_room_pal15
 		.BYTE	$38
@@ -4466,7 +4466,7 @@ _room_cfg16:
 		.WORD	_room_objects16
 		.BYTE	$1F
 		.BYTE	$F0
-		.BYTE	_apu_mus0D_idx
+		.BYTE	$0D
 		.BYTE	$00,$00
 		.WORD	_room_pal16
 		.BYTE	$3F
@@ -4484,7 +4484,7 @@ _room_cfg13:
 		.WORD	_room_objects13
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus0B_idx
+		.BYTE	$0B
 		.BYTE	$02,$09
 		.WORD	_room_pal13
 		.BYTE	$46
@@ -4502,7 +4502,7 @@ _room_cfg21:
 		.WORD	_room_objects12
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus08_idx
+		.BYTE	$08
 		.BYTE	$00,$00
 		.WORD	_room_pal21
 		.BYTE	$4D
@@ -4520,7 +4520,7 @@ _room_cfg22:
 		.WORD	_room_objects22
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus08_idx
+		.BYTE	$08
 		.BYTE	$00,$00
 		.WORD	_room_pal22
 		.BYTE	$0E
@@ -4538,7 +4538,7 @@ _room_cfg23:
 		.WORD	_room_objects23
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus08_idx
+		.BYTE	$08
 		.BYTE	$00,$00
 		.WORD	_room_pal22
 		.BYTE	$0E
@@ -4556,7 +4556,7 @@ _room_cfg24:
 		.WORD	_room_objects24
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus08_idx
+		.BYTE	$08
 		.BYTE	$00,$00
 		.WORD	_room_pal22
 		.BYTE	$0E
@@ -4574,7 +4574,7 @@ _room_cfg25:
 		.WORD	_room_objects25
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus0D_idx
+		.BYTE	$0D
 		.BYTE	$00,$00
 		.WORD	_room_pal21
 		.BYTE	$54
@@ -4592,7 +4592,7 @@ _room_cfg26:
 		.WORD	_room_objects26
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus09_idx
+		.BYTE	$09
 		.BYTE	$00,$00
 		.WORD	_room_pal26
 		.BYTE	$00
@@ -4610,7 +4610,7 @@ _room_cfg27:
 		.WORD	_room_objects27
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus09_idx
+		.BYTE	$09
 		.BYTE	$00,$00
 		.WORD	_room_pal26
 		.BYTE	$00
@@ -4628,7 +4628,7 @@ _room_cfg29:
 		.WORD	_room_objects28
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus09_idx
+		.BYTE	$09
 		.BYTE	$00,$00
 		.WORD	_room_pal26
 		.BYTE	$69
@@ -4646,7 +4646,7 @@ _room_cfg2A:
 		.WORD	_room_objects2A
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus0D_idx
+		.BYTE	$0D
 		.BYTE	$00,$00
 		.WORD	_room_pal2A
 		.BYTE	$62
@@ -4664,7 +4664,7 @@ _room_cfg2B:
 		.WORD	_room_objects2B
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus0C_idx
+		.BYTE	$0C
 		.BYTE	$04,$0C
 		.WORD	_room_pal2B
 		.BYTE	$00
@@ -4682,7 +4682,7 @@ _room_cfg2C:
 		.WORD	_room_objects2C
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus0C_idx
+		.BYTE	$0C
 		.BYTE	$04,$0C
 		.WORD	_room_pal2B
 		.BYTE	$5B
@@ -4700,7 +4700,7 @@ _room_cfg2E:
 		.WORD	_room_objects2E
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus0C_idx
+		.BYTE	$0C
 		.BYTE	$04,$0C
 		.WORD	_room_pal2B
 		.BYTE	$69
@@ -4718,7 +4718,7 @@ _room_cfg2F:
 		.WORD	_room_objects2F
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus0C_idx
+		.BYTE	$0C
 		.BYTE	$00,$0C
 		.WORD	_room_pal2B
 		.BYTE	$70
@@ -4736,7 +4736,7 @@ _room_cfg30:
 		.WORD	_room_objects30
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus0C_idx
+		.BYTE	$0C
 		.BYTE	$00,$0C
 		.WORD	_room_pal2B
 		.BYTE	$00
@@ -4754,7 +4754,7 @@ _room_cfg32:
 		.WORD	_room_objects33
 		.BYTE	$1F
 		.BYTE	$F0
-		.BYTE	_apu_mus0D_idx
+		.BYTE	$0D
 		.BYTE	$00,$00
 		.WORD	_room_pal2B
 		.BYTE	$77
@@ -4772,7 +4772,7 @@ _room_cfgB_00:
 		.WORD	_room_objects0B
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus10_idx
+		.BYTE	$10
 		.BYTE	$00,$91
 		.WORD	_room_palB
 		.BYTE	$00
@@ -4790,7 +4790,7 @@ _room_cfg18:
 		.WORD	_room_objects18
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus1C_idx
+		.BYTE	$1C
 		.BYTE	$00,$00
 		.WORD	_room_pal18
 		.BYTE	$7E
@@ -4808,7 +4808,7 @@ _room_cfg09:
 		.WORD	_room_objects09
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus1C_idx
+		.BYTE	$1C
 		.BYTE	$00,$00
 		.WORD	_room_pal09
 		.BYTE	$00
@@ -4826,7 +4826,7 @@ _room_cfg0A:
 		.WORD	_room_objects0A
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus1C_idx
+		.BYTE	$1C
 		.BYTE	$00,$00
 		.WORD	_room_pal0A
 		.BYTE	$00
@@ -4844,7 +4844,7 @@ _cutscene_cfg12:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	_apu_mus1A_idx
+		.BYTE	$1A
 		.BYTE	$00,$00
 		.WORD	_room_palA_12
 		.BYTE	$8C
@@ -4862,7 +4862,7 @@ _cutscene_cfg00:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$B0
-		.BYTE	_apu_mus0F_idx
+		.BYTE	$0F
 		.BYTE	$00,$00
 		.WORD	_room_palA_00
 		.BYTE	$A1
@@ -4880,7 +4880,7 @@ _cutscene_cfg01:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	_apu_mus02_idx
+		.BYTE	$02
 		.BYTE	$00,$00
 		.WORD	_room_palA_01
 		.BYTE	$8C
@@ -4898,7 +4898,7 @@ _cutscene_cfg02:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	_apu_mus12_idx
+		.BYTE	$12
 		.BYTE	$00,$00
 		.WORD	_room_pal01
 		.BYTE	$07
@@ -4916,7 +4916,7 @@ _cutscene_cfg03:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	_apu_mus17_idx
+		.BYTE	$17
 		.BYTE	$00,$00
 		.WORD	_room_pal01
 		.BYTE	$8C
@@ -4934,7 +4934,7 @@ _cutscene_cfg04:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	_apu_mus16_idx
+		.BYTE	$16
 		.BYTE	$00,$00
 		.WORD	_room_palA_04
 		.BYTE	$8C
@@ -4952,7 +4952,7 @@ _cutscene_cfg06:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	_apu_mus15_idx
+		.BYTE	$15
 		.BYTE	$00,$00
 		.WORD	_room_palA_06
 		.BYTE	$8C
@@ -4970,7 +4970,7 @@ _cutscene_cfg05:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	_apu_mus0F_idx
+		.BYTE	$0F
 		.BYTE	$00,$00
 		.WORD	_room_palA_05
 		.BYTE	$8C
@@ -4988,7 +4988,7 @@ _cutscene_cfg07:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	_apu_mus0F_idx
+		.BYTE	$0F
 		.BYTE	$00,$00
 		.WORD	_room_pal13
 		.BYTE	$8C
@@ -5006,7 +5006,7 @@ _cutscene_cfg09:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	_apu_mus14_idx
+		.BYTE	$14
 		.BYTE	$00,$00
 		.WORD	_room_palA_09
 		.BYTE	$8C
@@ -5024,7 +5024,7 @@ _cutscene_cfg0A:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	_apu_mus11_idx
+		.BYTE	$11
 		.BYTE	$00,$00
 		.WORD	_room_pal06
 		.BYTE	$8C
@@ -5042,7 +5042,7 @@ _cutscene_cfg0B:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	_apu_mus15_idx
+		.BYTE	$15
 		.BYTE	$00,$00
 		.WORD	_room_palA_0B
 		.BYTE	$8C
@@ -5060,7 +5060,7 @@ _cutscene_cfg0C:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	_apu_mus0A_idx
+		.BYTE	$0A
 		.BYTE	$00,$00
 		.WORD	_room_palA_0C
 		.BYTE	$8C
@@ -5078,7 +5078,7 @@ _cutscene_cfg0D:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	_apu_mus0A_idx
+		.BYTE	$0A
 		.BYTE	$00,$00
 		.WORD	_room_palA_0D
 		.BYTE	$8C
@@ -5096,7 +5096,7 @@ _cutscene_cfg0E:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	_apu_mus12_idx
+		.BYTE	$12
 		.BYTE	$00,$00
 		.WORD	_room_palA_0E
 		.BYTE	$8C
@@ -5114,7 +5114,7 @@ _cutscene_cfg0F:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	_apu_mus18_idx
+		.BYTE	$18
 		.BYTE	$00,$00
 		.WORD	_room_pal2B
 		.BYTE	$8C
@@ -5132,7 +5132,7 @@ _cutscene_cfg10:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$FF
-		.BYTE	_apu_mus18_idx
+		.BYTE	$18
 		.BYTE	$00,$00
 		.WORD	_room_pal2B
 		.BYTE	$8C
@@ -5150,7 +5150,7 @@ _cutscene_cfg11:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	_apu_mus19_idx
+		.BYTE	$19
 		.BYTE	$00,$00
 		.WORD	_room_palA_11
 		.BYTE	$8C

@@ -565,6 +565,17 @@ tlm_patch03:
 		.WORD	$2E4C
 		.BYTE	$CC,$CD,$CE,$CF
 		.BYTE	$00
+#if BUGFIXES==1
+tlm_patch06:
+		.BYTE	$03
+		.WORD	$5364
+		.BYTE	$45,$45,$45
+		.BYTE	$00
+		.BYTE	$03
+		.WORD	$5364
+		.BYTE	$46,$46,$46
+		.BYTE	$00
+#else
 tlm_patch06:
 		.BYTE	$03
 		.WORD	$5364
@@ -582,6 +593,7 @@ _tlm_patch_06A_unused:
 		.BYTE	$45,$45,$45
 		.BYTE	$00
 ; -
+#endif
 tlm_patch07:
 		.BYTE	$03
 		.WORD	$526C

@@ -1438,7 +1438,7 @@ _players_manager:
 		TAY								; for 2 on even frames. if selected player
 		LDA		_players_lives,Y		; is dead, other player is handled instead
 		BNE		loc_3A7BB				; here we toggle 0 to 1 with this table
-		LDA		byte_3A72C,Y			; TODO: optimize me, XOR is kjist enough!
+		LDA		byte_3A72C,Y			; TODO: optimize me, XOR is jãst enough!
 		TAY
 loc_3A7BB:
 		STY		_players_macro_overlap_test_idx		; currently selected player for this frame
@@ -1826,7 +1826,6 @@ _players_state0A_A:
 _players_state01:
 		JSR		_players_state01_A
 		BCS		_players_state01_B
-; TODO: BCC is just enough here!
 		JMP		_players_state01_C
 
 ; =============== S U B R O U T I N E =======================================
@@ -2924,14 +2923,14 @@ _players_tile_pickup_handlers:
 		BNE		_players_pickup_prize_replace	; always replace with prize only
 		LDA		_tmp_ptr4
 		JSR		_switch
-		.WORD	_players_pickup_prize_replace	; empty box, default handler, if no objects, do nothing
-		.WORD	_players_pickup_rr_replace		; box with rr, replace meta with RR meta F9
-		.WORD	_players_pickup_prize_replace	; acorn
-		.WORD	_players_pickup_prize_replace	; star
-		.WORD	_players_pickup_prize_replace	; concrete
-		.WORD	_sys_screen_cur_meta_update		; rr itself, only clears the meta
-		.WORD	_players_pickup_prize_replace	; red ballA
-		.WORD	_players_pickup_prize_replace	; red ballB
+		.WORD	_players_pickup_prize_replace	; F4 empty box, default handler, if no objects, do nothing
+		.WORD	_players_pickup_rr_replace		; F5 box with rr, replace meta with RR meta F9
+		.WORD	_players_pickup_prize_replace	; F6 acorn
+		.WORD	_players_pickup_prize_replace	; F7 star
+		.WORD	_players_pickup_prize_replace	; F8 concrete
+		.WORD	_sys_screen_cur_meta_update		; F9 rr itself, only clears the meta
+		.WORD	_players_pickup_prize_replace	; FA red ballA
+		.WORD	_players_pickup_prize_replace	; FB red ballB
 nullsub8:
 		RTS
 
@@ -3011,6 +3010,7 @@ _players_pickup_obj_load:
 locret_3B21D:
 		RTS
 
+; regular pickup prizes list
 _obj_prizes_list:
 		.WORD	0
 		.WORD	0
@@ -3020,6 +3020,7 @@ _obj_prizes_list:
 		.WORD	0
 		.WORD	0
 		.WORD	0
+; pickup prizes list for bonus room
 _obj_prizes_listB:
 		.WORD	_obj_scr_box_bonus_prize_continue
 		.WORD	_obj_scr_box_bonus_prize_1up
@@ -3029,6 +3030,7 @@ _obj_prizes_listB:
 		.WORD	0
 		.WORD	0
 		.WORD	0
+; regular pickup replacements for different macros
 _obj_pickups_list:
 		.WORD	_obj_scr_box
 		.WORD	_obj_scr_box
@@ -3111,19 +3113,19 @@ _players_obj_carried_deploy_control:
 		LDA		_scr_idxBs,X
 		AND		#$40
 		BEQ		loc_3B2D0
-		LDA		_players_x_speeds,X
+		LDA		_players_x_speeds,X			; when player is moving with constant speed
 		BEQ		loc_3B2D0
-		LDA		_pads,X
+		LDA		_pads,X						; with LEFT/RIGHT pressed
 		AND		#_PAD_LEFT|_PAD_RIGHT
 		BEQ		loc_3B2D0
-		INC		_players_vars0C,X
+		INC		_players_vars0C,X			; increment run counter
 		BNE		loc_3B2D4
 		LDA		#$1E
-		STA		_players_vars0C,X
-		BNE		loc_3B2D4
+		STA		_players_vars0C,X			; this is test if we run more than 256 and wrap
+		BNE		loc_3B2D4					; to clamp value to max
 loc_3B2D0:
 		LDA		#$00
-		STA		_players_vars0C,X
+		STA		_players_vars0C,X			; when we release buttons, counter resets
 loc_3B2D4:
 		LDY		_scr_idxBs,X
 		TYA
@@ -3135,20 +3137,20 @@ loc_3B2DF:
 		AND		#$0F
 		TAY
 		LDA		_scr_params,Y
-		AND		#_OBJ_TYPE_MASK
-		CMP		#_OBJ_TYPE_ENEMY
+		AND		#_OBJ_TYPE_MASK				; for all types of objects except ENEMIES
+		CMP		#_OBJ_TYPE_ENEMY			; NOTE, including BOX and PLAYERS!
 		BEQ		loc_3B2FE
-		LDA		_players_vars0C,X
+		LDA		_players_vars0C,X			; we test if we run enough with carried boject
 		CMP		#$1E
 		BCC		loc_3B2F9
-		LDA		#_OBJ_DMG_STUN
+		LDA		#_OBJ_DMG_STUN				; then change it's damage value to STUN (02)!
 		STA		_obj_damages,Y
 		BNE		loc_3B2FE
 loc_3B2F9:
-		LDA		#_OBJ_DMG_KILL
+		LDA		#_OBJ_DMG_KILL				; else set it as KILL (10)
 		STA		_obj_damages,Y
 loc_3B2FE:
-		LDA		_players_states,X
+		LDA		_players_states,X			;
 		CMP		#$04
 		BNE		loc_3B307
 		JMP		loc_3B3A7
@@ -3331,7 +3333,7 @@ byte_3B40F:
 		.BYTE	_spr_lib1_0B_idx
 		.BYTE	_spr_lib1_04_idx
 		.BYTE	_spr_lib1_04_idx
-		.BYTE	$00
+		.BYTE	$00							; NOTE: this is not sprite indexes! they used differently
 		.BYTE	$8C
 		.BYTE	$00
 		.BYTE	$88
@@ -3984,7 +3986,7 @@ loc_3B843:
 		BCC		loc_3B853
 		JSR		_players_state12_A_A_A
 loc_3B853:
-		JSR		_players_state12_A_B_A
+		JSR		_obj_thrown_to_obj_collision_test
 		LDA		byte_95
 		STA		_obj_heights,X
 		BCC		loc_3B872
@@ -4036,7 +4038,7 @@ loc_3B8AE:
 ; =============== S U B R O U T I N E =======================================
 _players_state05_A_B:
 		INC		_obj_y_lo_poss,X
-		JSR		_players_state12_A_B_A
+		JSR		_obj_thrown_to_obj_collision_test
 		PHP
 		DEC		_obj_y_lo_poss,X
 		PLP
@@ -4075,7 +4077,7 @@ loc_3B8FD:
 		BCC		loc_3B905
 		JSR		_players_state12_A_A_A
 loc_3B905:
-		JSR		_players_state12_A_B_A
+		JSR		_obj_thrown_to_obj_collision_test
 		BCC		loc_3B910
 		JSR		_nsub_obj_to_obj_x_concat_left
 		JSR		_players_default_state_select_F_A_B
@@ -4108,7 +4110,7 @@ loc_3B93E:
 		BCC		loc_3B946
 		JSR		_players_state12_A_A_A
 loc_3B946:
-		JSR		_players_state12_A_B_A
+		JSR		_obj_thrown_to_obj_collision_test
 		BCC		_players_state12_A_B_D
 		JSR		_nsub_obj_to_obj_x_concat_right
 		JSR		_players_default_state_select_F_A_B

@@ -329,7 +329,7 @@ _extra_stages_complete_flags:
 		.BYTE	0
 _unref_3:
 		.BYTE	0,0,0,0,0,0,0,0
-_scr_cur_slot_idx:
+_last_scr_slot_idx:
 		.BYTE	$00
 _unref_6:
 		.BYTE	0,0
@@ -484,8 +484,10 @@ _obj_damages:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _obj_hps:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
+; idx for object linked with current object
 _scr_idxCs:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
+; idx of the object that collide with current object
 _scr_idxAs:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _scr_vars20:

@@ -18,7 +18,7 @@ byte_6800C:
 		SBCSS				byte_6801F
 		NJSR				_nsub_get_obj_y_delta
 		SBMIS				byte_6801C
-		NJSR				_nsub_sub107
+		NJSR				_nsub_obj_to_obj_thrown_test_concat_up
 		SRET
 byte_6801C:
 		NJSR				_scr_cmd_clear_carry
@@ -84,9 +84,9 @@ _ssub_obj_wait_for_pickup:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_obj_wait_for_throw:
-		NJSR				_nsub_obj_type_change_throw
+		NJSR				_nsub_obj_type_change_pbullet
 		NJSR				_nsub_obj_idxCs_C0_clear
-		NJSR				_nsub_sub164
+		NJSR				_nsub_vars21_80_load
 byte_68075:
 		NJSR				_nsub_get_obj_idxBs
 		SBPLS				byte_68081
@@ -99,10 +99,10 @@ byte_68081:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _obj_scr_common_destr:
-		APU_SE_SET			_apu_mus2D
-		DAMAGE_SET			_OBJ_DMG_NONE
-		DELTA_X_SET			$BD
-		DELTA_Y_SET			$BD
+		APU_SE_SET			_apu_mus2D				; death sound
+		DAMAGE_SET			_OBJ_DMG_NONE			; turns harmless
+		DELTA_X_SET			$BD						; jump off delta (back and up)
+		DELTA_Y_SET			$BD						; adjust hor movement direction
 		NJSR				_nsub_obj_from_idxAs_hor_delta_toggle
 
 ; !FALLTHROUGH!
@@ -151,20 +151,20 @@ byte_680D4:
 		DAMAGE_SET			_OBJ_DMG_STUN
 		DELTA_X_SET			$C0
 		NJSR				_nsub_sub11B
-		NJSR				_nsub_sub11C
+		NJSR				_nsub_obj_stun_no_extra_flips_init
 		NJSR				_nsub_obj_type_change_stunA
 		SJMPS				_ssub_infinite_anim_sync
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_common_stun_init:
-		DAMAGE_SET			_OBJ_DMG_NONE		; stunned objects harmless
-		APU_SE_SET			_apu_mus2E			; also stun sparkle sound
-		DELTA_X_SET			$F0					; jump off a little
-		DELTA_Y_SET			$D0					; now toggle hot delta according to
+		DAMAGE_SET			_OBJ_DMG_NONE			; stunned objects harmless
+		APU_SE_SET			_apu_mus2E				; also stun sparkle sound
+		DELTA_X_SET			$F0						; jump off a little
+		DELTA_Y_SET			$D0						; now toggle hot delta according to
 		NJSR				_nsub_obj_from_idxAs_hor_delta_toggle	; projectile direction
 		NJSR				_nsub_stun_sparkles_obj_scr_run	; start sparkles object
 byte_680F5:
-		SJSR				_ssub_obj_jump_sync	; animate jump-off
+		SJSR				_ssub_obj_jump_sync		; animate jump-off
 		SBCSS				byte_68101
 		NJSR				_nsub_get_obj_idxBs
 		SBPLS				byte_680F5
@@ -190,7 +190,7 @@ _obj_scr24_spoon_rat:
 		SPR_LIB_SET			_spr_lib7
 		SPR_IDX_SET			_spr_lib7_00
 		SIZE_SET			$08,$18
-		HP_SET				$02
+		HP_SET				$02						; 2 hp! first hit always stun it!
 		DAMAGE_SET			_OBJ_DMG_KILL
 		SJSR				_ssub_obj_show_wait_for_idxCs_80_set
 		DELTA_X_SET			$F0
@@ -198,9 +198,9 @@ _obj_scr24_spoon_rat:
 		NJSR				_nsub_sub10E
 		NJSR				_nsub_obj_hor_delta_toggle
 byte_68132:
-		SPR_IDX_SET			_spr_lib7_00				; 4-frame walk animation
-		SJSRS				_ssub_spoon_rat_ai	; fast enough delta to get all
-		SPR_IDX_SET			_spr_lib7_01				; its path for only 4 steps here
+		SPR_IDX_SET			_spr_lib7_00			; 4-frame walk animation
+		SJSRS				_ssub_spoon_rat_ai		; fast enough delta to get all
+		SPR_IDX_SET			_spr_lib7_01			; its path for only 4 steps here
 		SJSRS				_ssub_spoon_rat_ai
 		SPR_IDX_SET			_spr_lib7_02
 		SJSRS				_ssub_spoon_rat_ai
@@ -213,16 +213,16 @@ byte_68146:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_spoon_rat_ai:
 		SYNC
-		NJSR				_nsub_obj_to_throw_collision_test_range40		; player's box watch
+		NJSR				_nsub_obj_to_throw_collision_test_range40	; player's box watch
 		SBCCS				byte_6816A
-		NJSR				_obj_move_hor_animate		; if no player, just walk
+		NJSR				_obj_move_hor_animate	; if no player, just walk
 		NJSR				_nsub_obj_to_tile_collision_test_hor
-		SBCSS				byte_6815F					; auto detect obstacles
-		BREAK				byte_68146					; turn back if reached any solid object
+		SBCSS				byte_6815F				; auto detect obstacles
+		BREAK				byte_68146				; turn back if reached any solid object
 byte_6815F:
 		NJSR				_nsub_obj_to_tile_collision_test_down
 		SBCC				_ssub_obj_wait_for_jump
-		LOOP_A				$08,_ssub_spoon_rat_ai; repeat 8 times for 1 step
+		LOOP_A				$08,_ssub_spoon_rat_ai	; repeat 8 times for 1 step
 		SRET
 byte_6816A:
 		NJSR				_nsub_sub132
@@ -253,11 +253,11 @@ _obj_scr_24_spoon_rat_destr:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr25_fork_rat:
-		DESTR_PC_SET		_obj_scr_common_destr		; fork rat can be killed with throwable
-		SPR_LIB_SET			_spr_lib7					; projectile in any ai mode, no beat off
+		DESTR_PC_SET		_obj_scr_common_destr	; fork rat can be killed with throwable
+		SPR_LIB_SET			_spr_lib7				; projectile in any ai mode, no beat off
 		SPR_IDX_SET			_spr_lib7_07
-		HP_SET				$01
-		DAMAGE_SET			_OBJ_DMG_KILL				; deadly rat!
+		HP_SET				$01						; fork rat only 01 hp, so dies immediately!
+		DAMAGE_SET			_OBJ_DMG_KILL			; deadly rat!
 		SIZE_SET			$08,$18
 		SJSR				_ssub_obj_show_wait_for_idxCs_80_set
 		DELTA_X_SET			$F0
@@ -265,7 +265,7 @@ _obj_scr25_fork_rat:
 		NJSR				_nsub_sub10E
 		NJSR				_nsub_obj_hor_delta_toggle
 byte_681B8:
-		SPR_IDX_SET			_spr_lib7_08				; same 4-step path as for
+		SPR_IDX_SET			_spr_lib7_08			; same 4-step path as for
 		SJSRS				_ssub_fork_rat_passive_ai	; spoon rat, passive phase
 		SPR_IDX_SET			_spr_lib7_09
 		SJSRS				_ssub_fork_rat_passive_ai
@@ -280,33 +280,33 @@ byte_681B8:
 _ssub_fork_rat_passive_ai:
 		ANIMATE_HV_SYNC								; not sure why they put this animation here
 		NJSR				_nsub_obj_y_collision_test_from_players_macro_overlap_test_idx
-		SBCSS				byte_681DF					; skip if player not on the same y pos
+		SBCSS				byte_681DF				; skip if player not on the same y pos
 		NJSR				_nsub_obj_x_range50_test_from_players_macro_overlap_test_idx
-		SBCCS				byte_681E4					; test if player get in close range
+		SBCCS				byte_681E4				; test if player get in close range
 byte_681DF:
 		LOOP_A				$08,_ssub_fork_rat_passive_ai	; unless loop animation as usual
 		SRET
 byte_681E4:
-		LOOP_A_STOP										; start active phase
+		LOOP_A_STOP									; start active phase
 		LOOP_B_STOP
 		NJSR				_nsub_sub10E
 		NJSR				_nsub_obj_hor_delta_toggle
-		BREAK				_obj_scr_fork_rat_throw		; exit sub, jump to new obj ai code
+		BREAK				_obj_scr_fork_rat_throw	; exit sub, jump to new obj ai code
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr_fork_rat_throw:
-		SPR_IDX_SET			_spr_lib7_07				; first throw its fork
+		SPR_IDX_SET			_spr_lib7_07			; first throw its fork
 		SUSPEND				$10
-		SPR_IDX_SET			_spr_lib7_0C				; animate 3 phases, throw
+		SPR_IDX_SET			_spr_lib7_0C			; animate 3 phases, throw
 		SUSPEND				$10
 		APU_SE_SET			_apu_mus5F
 		SPR_IDX_SET			_spr_lib7_0D
 		SRUN				_OBJ_TYPE_ENEMY,_obj_scr_fork_rat_projectile
 		SUSPEND				$10
-		SPR_IDX_SET			_spr_lib7_07				; then one more phase to release
+		SPR_IDX_SET			_spr_lib7_07			; then one more phase to release
 		SUSPEND				$10
 byte_68205:
-		SPR_IDX_SET			_spr_lib7_08				; now cycling the active animations
+		SPR_IDX_SET			_spr_lib7_08			; now cycling the active animations
 		SJSRS				_ssub_fork_rat_active_ai
 		SPR_IDX_SET			_spr_lib7_09
 		SJSRS				_ssub_fork_rat_active_ai
@@ -319,25 +319,25 @@ byte_68205:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_fork_rat_active_ai:
 		SYNC
-		NJSR				_obj_move_hor_animate		; move horizontally
-		NJSR				_nsub_obj_to_tile_collision_test_hor	; when tile obstacles
-		SBCCS				byte_68231					; jump up on them
+		NJSR				_obj_move_hor_animate	; move horizontally
+		NJSR				_nsub_obj_to_tile_collision_test_hor; when tile obstacles
+		SBCCS				byte_68231				; jump up on them
 		NJSR				_nsub_obj_to_tile_collision_test_down	; or hop off
 		SBCCS				byte_68231
-		LOOP_A				$08,_ssub_fork_rat_active_ai	; else, loop 8 times and
-		SRET											; return for new phase
+		LOOP_A				$08,_ssub_fork_rat_active_ai; else, loop 8 times and
+		SRET										; return for new phase
 byte_68231:
 		LOOP_A_STOP
-		SPR_IDX_SET			_spr_lib7_09				; jump up animation start
-		DELTA_Y_SET			$C0							; set jump speed, do common code
+		SPR_IDX_SET			_spr_lib7_09			; jump up animation start
+		DELTA_Y_SET			$C0						; set jump speed, do common code
 		SJMP				_ssub_obj_wait_for_jump
 
 ; =============== S C R I P T ===============================================
 _obj_scr_fork_rat_projectile:
 		DESTR_PC_SET		_obj_scr_fork_rat_projectile_destr
 		HP_SET				$01
-		DAMAGE_SET			_OBJ_DMG_KILL				; do not fear a rat, fear its FORK!
-		SIZE_SET			$08,$04						; one hit you are in the morgue
+		DAMAGE_SET			_OBJ_DMG_KILL			; do not fear a rat, fear its FORK!
+		SIZE_SET			$08,$04					; one hit you are in the morgue
 		SPR_LIB_SET			_spr_lib7
 		SPR_IDX_SET			_spr_lib7_0E
 		POS_Y_MOVE			$F0
@@ -402,61 +402,61 @@ byte_682A5:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_fake_boxA_anim_sync:
 		SYNC
-		NJSR				_obj_move_hor_animate					; move object horizontally
-		NJSR				_nsub_obj_to_tile_collision_test_hor	; keep tracking of obstacles
+		NJSR				_obj_move_hor_animate	; move object horizontally
+		NJSR				_nsub_obj_to_tile_collision_test_hor; keep tracking of obstacles
 		SBCCS				byte_682D1
 		NJSR				_nsub_obj_to_tile_collision_test_down	; also floor tiles
 		SBCCS				byte_682D1
-		LOOP_A				$08,_ssub_fake_boxA_anim_sync			; animate for 8 frames
+		LOOP_A				$08,_ssub_fake_boxA_anim_sync	; animate for 8 frames
 		SRET
 byte_682D1:
-		LOOP_A_STOP													; when any obstacle detected, do jump
+		LOOP_A_STOP									; when any obstacle detected, do jump
 		SPR_IDX_SET			_spr_lib7_14
 		DELTA_Y_SET			$C0
 		SJMP				_ssub_obj_wait_for_jump
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr27_honey_bee:
-		DESTR_PC_SET		_obj_scr_common_destr					; regular enemy
+		DESTR_PC_SET		_obj_scr_common_destr	; regular enemy
 		SPR_LIB_SET			_spr_lib7
-		SPR_IDX_SET			_spr_lib7_16							; select sprite
+		SPR_IDX_SET			_spr_lib7_16			; select sprite
 		HP_SET				$01
-		DAMAGE_SET			_OBJ_DMG_KILL							; regular damage and deadly status
+		DAMAGE_SET			_OBJ_DMG_KILL			; regular damage and deadly status
 		SIZE_SET			$08,$10
-		DELTA_X_SET			$10										; move fast horizontally with small
-		DELTA_Y_SET			$04										; movement down, so move diagonally
+		DELTA_X_SET			$10						; move fast horizontally with small
+		DELTA_Y_SET			$04						; movement down, so move diagonally
 		SJSR				_ssub_obj_show_wait_for_idxCs_80_set
 		NJSR				_nsub_sub10E
 		NJSR				_nsub_obj_hor_delta_toggle
 byte_682F4:
-		SPR_IDX_SET			_spr_lib7_16							; buzz animation and se
-		APU_SE_SET			_apu_mus61								; while moving
+		SPR_IDX_SET			_spr_lib7_16			; buzz animation and se
+		APU_SE_SET			_apu_mus61				; while moving
 		SJSR				_ssub_anim_sync_frames3
 		SPR_IDX_SET			_spr_lib7_17
 		APU_SE_SET			_apu_mus61
 		SJSR				_ssub_anim_sync_frames3
 		LOOP_A				$08,byte_682F4
 byte_68306:
-		SPR_IDX_SET			_spr_lib7_18							; then stop and spit some honey anim
+		SPR_IDX_SET			_spr_lib7_18			; then stop and spit some honey anim
 		SJSRS				_ssub_honey_bee_anim_delay_with_se
 		SPR_IDX_SET			_spr_lib7_19
 		SJSRS				_ssub_honey_bee_anim_delay_with_se
 		LOOP_A				$02,byte_68306
 byte_68314:
-		SPR_IDX_SET			_spr_lib7_1A							; another part of anim
+		SPR_IDX_SET			_spr_lib7_1A			; another part of anim
 		SJSRS				_ssub_honey_bee_anim_delay_with_se
 		SPR_IDX_SET			_spr_lib7_1B
 		SJSRS				_ssub_honey_bee_anim_delay_with_se
 		LOOP_A				$02,byte_68314
 		SRUN				_OBJ_TYPE_STUNB,_obj_scr_honey_bee_projectile	; release projectile down
 byte_68326:
-		SPR_IDX_SET			_spr_lib7_16							; little more still animations
-		SJSRS				_ssub_honey_bee_anim_delay_with_se		; then continue to move, repeat
+		SPR_IDX_SET			_spr_lib7_16			; little more still animations
+		SJSRS				_ssub_honey_bee_anim_delay_with_se	; then continue to move, repeat
 		SPR_IDX_SET			_spr_lib7_17
 		SJSRS				_ssub_honey_bee_anim_delay_with_se
 		LOOP_A				$02,byte_68326
-		NJSR				_nsub_complement_y_deltas				; invert diagonal moving, so it will be
-		SJMPS				byte_682F4								; saw-lipe pattern
+		NJSR				_nsub_complement_y_deltas; invert diagonal moving, so it will be
+		SJMPS				byte_682F4				; saw-lipe pattern
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_honey_bee_anim_delay_with_se:
@@ -466,12 +466,12 @@ _ssub_honey_bee_anim_delay_with_se:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_honey_bee_projectile:
-		NJSR				_nsub_obj_idxCs_80_set					; projectile does stunning
+		NJSR				_nsub_obj_idxCs_80_set	; projectile does stunning
 		POS_Y_MOVE			$08
 		HP_SET				$01
-		DAMAGE_SET			_OBJ_DMG_STUN							; with positive delta set
-		SIZE_SET			$02,$04									; it will fall straight down
-		SPR_LIB_SET			_spr_lib7								; until reach out of screen area
+		DAMAGE_SET			_OBJ_DMG_STUN			; with positive delta set
+		SIZE_SET			$02,$04					; it will fall straight down
+		SPR_LIB_SET			_spr_lib7				; until reach out of screen area
 		SPR_IDX_SET			_spr_lib7_1C
 		DELTA_Y_SET			$08
 		SPRITE_ON
@@ -479,7 +479,7 @@ _obj_scr_honey_bee_projectile:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr28_green_ceiling_bat:
-		DESTR_PC_SET		_obj_scr_common_destr				; usual initialization
+		DESTR_PC_SET		_obj_scr_common_destr	; usual initialization
 		POS_Y_MOVE			$FC
 		SPR_LIB_SET			_spr_lib7
 		SPR_IDX_SET			_spr_lib7_28
@@ -490,29 +490,29 @@ _obj_scr28_green_ceiling_bat:
 		NJSR				_nsub_sub10E
 byte_6836B:
 		NJSR_SYNC			_nsub_obj_x_range60_test_from_players_macro_overlap_test_idx
-		SBCSS				byte_6836B							; wait for player in hor range
-		TIMER_B_SET			$00									; take off direction
+		SBCSS				byte_6836B				; wait for player in hor range
+		TIMER_B_SET			$00						; take off direction
 byte_68373:
-		NJSR				_nsub_sub10E						; animate prepare to follow target
+		NJSR				_nsub_sub10E			; animate prepare to follow target
 		SJSRS				_ssub_green_bat_flying_anim
 		LOOP_A				$03,byte_68373
 		NJSR				_nsub_obj_to_player_set_tangent; lock on target
 		TARGET_LOCK			$20
 byte_68382:
-		TIMER_B_SET			$FF									; now animate following target
+		TIMER_B_SET			$FF						; now animate following target
 		SJSRS				_ssub_green_bat_flying_anim
 		SJMPS				byte_68382
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr29_green_floor_bat:
-		DESTR_PC_SET		_obj_scr_common_destr				; init same as for seiling rat
-		SPR_LIB_SET			_spr_lib7							; as most of other objects also
+		DESTR_PC_SET		_obj_scr_common_destr	; init same as for seiling rat
+		SPR_LIB_SET			_spr_lib7				; as most of other objects also
 		SPR_IDX_SET			_spr_lib7_26
 		SIZE_SET			$08,$18
 		HP_SET				$01
 		DAMAGE_SET			_OBJ_DMG_KILL
 		SJSR				_ssub_obj_show_wait_for_idxCs_80_set	; floor bat does not stand still
-		DELTA_X_SET			$F0									; but moving constantly horizontally
+		DELTA_X_SET			$F0						; but moving constantly horizontally
 		DELTA_Y_SET			$00
 		NJSR				_nsub_sub10E
 		NJSR				_nsub_obj_hor_delta_toggle
@@ -525,32 +525,32 @@ byte_683A5:
 		SJSRS				_ssub_green_gloor_bat_ai
 		SPR_IDX_SET			_spr_lib7_26
 		SJSRS				_ssub_green_gloor_bat_ai
-		NJSR				_nsub_obj_hor_move_reverse			; walk back after one cycle
+		NJSR				_nsub_obj_hor_move_reverse	; walk back after one cycle
 		SJMPS				byte_683A5
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_green_gloor_bat_ai:
-		SYNC													; while moving horizontally
-		NJSR				_obj_move_hor_animate				; wait for player get in range
+		SYNC										; while moving horizontally
+		NJSR				_obj_move_hor_animate	; wait for player get in range
 		NJSR				_nsub_obj_x_range60_test_from_players_macro_overlap_test_idx
 		SBCCS				byte_683CE
 		LOOP_A				$08,_ssub_green_gloor_bat_ai
 		SRET
 byte_683CE:
 		LOOP_A_STOP
-		TIMER_A_SET			$30									; immediately start to take off
-		TARGET_LOCK			$20									; and lock on target
+		TIMER_A_SET			$30						; immediately start to take off
+		TARGET_LOCK			$20						; and lock on target
 		TIMER_B_SET			$FF
 byte_683D5:
-		SJSRS				_ssub_green_bat_flying_anim			; common anims for all bats
+		SJSRS				_ssub_green_bat_flying_anim	; common anims for all bats
 		LOOP_A				$02,byte_683D5
-		NJSR				_nsub_get_rand_flags				; add an extra random take off cycle
-		SBPLS				byte_683E5							; to appear higher sometimes
+		NJSR				_nsub_get_rand_flags	; add an extra random take off cycle
+		SBPLS				byte_683E5				; to appear higher sometimes
 		SJSRS				_ssub_green_bat_flying_anim
 byte_683E5:
-		NJSR				_nsub_sub10E						; when target point reached,
-		DELTA_X_SET			$20									; change movement to horiaontal
-		NJSR				_nsub_obj_hor_delta_toggle			; without targeting
+		NJSR				_nsub_sub10E			; when target point reached,
+		DELTA_X_SET			$20						; change movement to horiaontal
+		NJSR				_nsub_obj_hor_delta_toggle	; without targeting
 byte_683ED:
 		APU_SE_SET			_apu_mus64
 byte_683EF:
@@ -567,7 +567,7 @@ byte_683FA:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_green_bat_flying_anim:
-		APU_SE_SET			_apu_mus64							; alying anim with following target
+		APU_SE_SET			_apu_mus64				; alying anim with following target
 		SIZE_SET			$0C,$10
 		SPR_IDX_SET			_spr_lib7_29
 		SJSRS				_ssub_green_bat_target_follow_sync
@@ -581,14 +581,14 @@ _ssub_green_bat_flying_anim:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_green_bat_target_follow_sync:
-		TARGET_FOLLOW											; routine to optimize script for size
+		TARGET_FOLLOW								; routine to optimize script for size
 		SYNC
 		LOOP_B				$04,_ssub_green_bat_target_follow_sync
 		SRET
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr2A_pink_fish:
-		DESTR_PC_SET		_obj_scr_common_destr				; disable movement
+		DESTR_PC_SET		_obj_scr_common_destr	; disable movement
 		NJSR				_scr_flips_04_set
 		SPR_LIB_SET			_spr_lib7
 		HP_SET				$01
@@ -596,28 +596,28 @@ _obj_scr2A_pink_fish:
 		SIZE_SET			$08,$20
 byte_68434:
 		SPRITE_ON
-		APU_SE_SET			_apu_mus65							; splash sound
-		SPR_IDX_SET			_spr_lib7_1D						; splash anim display
+		APU_SE_SET			_apu_mus65				; splash sound
+		SPR_IDX_SET			_spr_lib7_1D			; splash anim display
 		SUSPEND				$04
 		SPR_IDX_SET			_spr_lib7_1E
 		SUSPEND				$04
-		NJSR				_nsub_obj_y_lo_maskF0				; trim y pos by macro-tile grid
-		NJSR				_scr_flips_04_clear					; enable movement
-		DELTA_Y_SET			$B7									; set jump up
+		NJSR				_nsub_obj_y_lo_maskF0	; trim y pos by macro-tile grid
+		NJSR				_scr_flips_04_clear		; enable movement
+		DELTA_Y_SET			$B7						; set jump up
 		SJSRS				_ssub_pink_fish_anim
 		DELTA_Y_SET			$00
-		SJSRS				_ssub_pink_fish_anim				; now we fall down
-		NJSR				_scr_flips_04_set					; when hit the water, disable again
+		SJSRS				_ssub_pink_fish_anim	; now we fall down
+		NJSR				_scr_flips_04_set		; when hit the water, disable again
 		NJSR				_nsub_obj_y_lo_maskF0
-		APU_SE_SET			_apu_mus65							; splash se and animation one more time
+		APU_SE_SET			_apu_mus65				; splash se and animation one more time
 		SPR_IDX_SET			_spr_lib7_23
 		SUSPEND				$04
 		SPR_IDX_SET			_spr_lib7_24
 		SUSPEND				$04
-		SPRITE_OFF												; disable obj
+		SPRITE_OFF									; disable obj
 		SUSPEND				$F0
-		NJSR				_nsub_get_rand_flags				; now with probability 50/50 jump again
-		SBPLS				byte_68434							; or suspend for 2 seconds
+		NJSR				_nsub_get_rand_flags	; now with probability 50/50 jump again
+		SBPLS				byte_68434				; or suspend for 2 seconds
 		SUSPEND				$78
 		SJMPS				byte_68434
 
@@ -634,7 +634,7 @@ _ssub_pink_fish_anim:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_pink_fish_move_sync:
-		SYNC											; each cycle 9 frames long
+		SYNC										; each cycle 9 frames long
 		DELTA_Y_INC									; vertical move with acceleration
 		DELTA_Y_INC
 		NJSR				_obj_vert_anim
@@ -643,33 +643,33 @@ _ssub_pink_fish_move_sync:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr2B_fake_boxB:
-		POS_X_MOVE			$F8								; adjust hor position
-		DESTR_PC_SET		_obj_scr_fake_boxB_destr		; set collision handler
+		POS_X_MOVE			$F8						; adjust hor position
+		DESTR_PC_SET		_obj_scr_fake_boxB_destr; set collision handler
 _sloc_fake_boxB_main_loop:
-		SPR_LIB_SET			_spr_lib7						; set small box sprite
+		SPR_LIB_SET			_spr_lib7				; set small box sprite
 		SPR_IDX_SET			_spr_lib7_4C
 		HP_SET				$02
-		DAMAGE_SET			_OBJ_DMG_KILL					; deadly
+		DAMAGE_SET			_OBJ_DMG_KILL			; deadly
 		SPRITE_ON
 byte_68497:
-		SIZE_SET			$08,$0F							; size 16x15
+		SIZE_SET			$08,$0F					; size 16x15
 byte_6849A:
-		SJSRS				_ssub_fake_boxB_sync_anim		; anim and tile collision test
+		SJSRS				_ssub_fake_boxB_sync_anim	; anim and tile collision test
 		NJSR				_nsub_obj_y_collision_test_from_players_macro_overlap_test_idx
-		SBCSS				byte_6849A						; test if player is on the same line
+		SBCSS				byte_6849A				; test if player is on the same line
 		NJSR				_nsub_obj_x_range30_test_from_players_macro_overlap_test_idx
-		SBCSS				byte_6849A						; test if player in close range
+		SBCSS				byte_6849A				; test if player in close range
 		NJSR				_nsub_sub10E
 byte_684AC:
-		POS_Y_MOVE			$FE								; player appears
-		SJSRS				_ssub_fake_boxB_sync_anim06		; start shaking, 6 frames up
-		POS_Y_MOVE			$02								; 6 frames down shifts
-		APU_SE_SET			_apu_mus60						; play box bouncing sound
-		SJSRS				_ssub_fake_boxB_sync_anim06		; wait for more 12 frames
+		POS_Y_MOVE			$FE						; player appears
+		SJSRS				_ssub_fake_boxB_sync_anim06	; start shaking, 6 frames up
+		POS_Y_MOVE			$02						; 6 frames down shifts
+		APU_SE_SET			_apu_mus60				; play box bouncing sound
+		SJSRS				_ssub_fake_boxB_sync_anim06	; wait for more 12 frames
 		SJSRS				_ssub_fake_boxB_sync_anim06
-		LOOP_A				$03,byte_684AC					; repeat 3 times
+		LOOP_A				$03,byte_684AC			; repeat 3 times
 		NJSR				_nsub_sub10E
-		SPR_IDX_SET			_spr_lib7_2B					; now open the box anim
+		SPR_IDX_SET			_spr_lib7_2B			; now open the box anim
 		SJSRS				_ssub_fake_boxB_sync_anim06
 		SPR_IDX_SET			_spr_lib7_2C
 		SJSRS				_ssub_fake_boxB_sync_anim06
@@ -677,16 +677,16 @@ byte_684AC:
 		SJSRS				_ssub_fake_boxB_sync_anim06
 		SPR_IDX_SET			_spr_lib7_2E
 		SRUN				_OBJ_TYPE_EBULLET,_obj_scr_fake_box_head	; add additional projectile-like object
-		SBCSS				byte_6849A						; to expand damaging bounding box
-		NJSR				_nsub_obj_to_obj_idxCs_link		; link new object to current object
+		SBCSS				byte_6849A				; to expand damaging bounding box
+		NJSR				_nsub_link_to_last_obj_slot	; link new object to current object
 		SIZE_SET			$08,$28
 byte_684E0:
-		SJSRS				_ssub_fake_boxB_sync_anim06		; now animate snake tongue
+		SJSRS				_ssub_fake_boxB_sync_anim06	; now animate snake tongue
 		SPR_IDX_SET			_spr_lib7_2F
 		SJSRS				_ssub_fake_boxB_sync_anim06
 		SPR_IDX_SET			_spr_lib7_30
 		LOOP_A				$14,byte_684E0
-		NJSR				_nsub_obj_disable_from_idxCs_40_flag	; when over, close box back
+		NJSR				_nsub_obj_disable_from_idxCs_40_flag; when over, close box back
 		SPR_IDX_SET			_spr_lib7_2E
 		SJSRS				_ssub_fake_boxB_sync_anim06
 		SPR_IDX_SET			_spr_lib7_2D
@@ -696,10 +696,10 @@ byte_684E0:
 		SPR_IDX_SET			_spr_lib7_2B
 		SJSRS				_ssub_fake_boxB_sync_anim06
 		SPR_IDX_SET			_spr_lib7_4C
-		SIZE_SET			$08,$10							; shring object size
+		SIZE_SET			$08,$10					; shring object size
 byte_6850A:
-		SJSRS				_ssub_fake_boxB_sync_anim06		; delay between cycles
-		LOOP_A				$0A,byte_6850A					; then repeat algo again
+		SJSRS				_ssub_fake_boxB_sync_anim06	; delay between cycles
+		LOOP_A				$0A,byte_6850A			; then repeat algo again
 		SJMPS				byte_68497
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -708,10 +708,10 @@ byte_6850A:
 ; and may fall from somewhere...
 ;
 _ssub_fake_boxB_sync_anim:
-		SYNC								; sync with core and perform ground collision test
+		SYNC										; sync with core and perform ground collision test
 		NJSR				_nsub_obj_to_tile_collision_test_down
-		SBCSS				byte_6851E		; since vert delta is zero, when no ground under...
-		SJSR				_ssub_obj_wait_for_jump		; ...jump call causes falling down
+		SBCSS				byte_6851E				; since vert delta is zero, when no ground under...
+		SJSR				_ssub_obj_wait_for_jump	; ...jump call causes falling down
 byte_6851E:
 		SRET
 
@@ -733,12 +733,12 @@ _obj_scr_fake_boxB_destr:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_fake_box_head:
-		HP_SET				$FF					; not sure why obj in STUN mode
-		DAMAGE_SET			_OBJ_DMG_STUN		; still damages like KILL, seems HP=$FF causes it
+		HP_SET				$FF						; not sure why obj in STUN mode
+		DAMAGE_SET			_OBJ_DMG_STUN			; still damages like KILL, seems HP=$FF causes it
 		SIZE_SET			$08,$10
 byte_68542:
 		NJSR				_nsub_obj_linked_idxCs_follow	; follow the main object position
-		POS_Y_MOVE			$18					; adjust to head area
+		POS_Y_MOVE			$18						; adjust to head area
 		NJSR_SYNC			_nsub_obj_hor_bounce0C	; invisible object bouncing... odd
 		SJMPS				byte_68542
 
@@ -746,35 +746,35 @@ byte_68542:
 _obj_scr2D_candle_dancing:
 		DESTR_PC_SET		_obj_scr2D_candle_dancing_destr
 		SPR_LIB_SET			_spr_lib7
-		SPR_IDX_SET			_spr_lib7_32		; usual init with special collision handler
+		SPR_IDX_SET			_spr_lib7_32			; usual init with special collision handler
 		HP_SET				$02
-		DAMAGE_SET			_OBJ_DMG_KILL		; two hp enemy, also may be stunned
+		DAMAGE_SET			_OBJ_DMG_KILL			; two hp enemy, also may be stunned
 		SIZE_SET			$05,$20
 		SJSR				_ssub_obj_show_wait_for_idxCs_80_set
 		NJSR				_nsub_sub10E
 _sloc_68561:
 		SJSRS				_ssub_candle_dancing_rotate_up	; first of all it's rotate
-		DELTA_X_SET			$E0									; with targeting
-		NJSR				_nsub_obj_hor_delta_toggle			; then start to move horizontally
+		DELTA_X_SET			$E0						; with targeting
+		NJSR				_nsub_obj_hor_delta_toggle	; then start to move horizontally
 byte_68569:
 		SJSRS				_ssub_candle_dancing_rotate_anim	; moving animation for 4 cycles
 		LOOP_A				$04,byte_68569
 		SJSRS				_ssub_candle_dancing_rotate_down	; slow rotate and retarget
 		DELTA_X_SET			$F0
 		DELTA_Y_SET			$CF
-		SJSRS				_ssub_candle_dancing_jump_up		; now jump up to the left once
+		SJSRS				_ssub_candle_dancing_jump_up	; now jump up to the left once
 		NJSR				_nsub_obj_hor_move_reverse
-		DELTA_X_SET			$10									; and final jump to the right
+		DELTA_X_SET			$10						; and final jump to the right
 		DELTA_Y_SET			$CF
 		SJSRS				_ssub_candle_dancing_jump_up
-		SJMPS				_sloc_68561							; repeat
+		SJMPS				_sloc_68561				; repeat
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_candle_dancing_rotate_up:
 		DELTA_X_SET			$00
-		TIMER_B_SET			$18									; timer values are latched values for
+		TIMER_B_SET			$18						; timer values are latched values for
 		SJSRS				_ssub_candle_dancing_rotate_anim	; loopB counter overwrite to increase
-		TIMER_B_SET			$1A									; or decrease the loops count
+		TIMER_B_SET			$1A						; or decrease the loops count
 		SJSRS				_ssub_candle_dancing_rotate_anim
 		TIMER_B_SET			$1C
 		SJSRS				_ssub_candle_dancing_rotate_anim
@@ -794,9 +794,9 @@ _ssub_candle_dancing_rotate_down:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_candle_dancing_rotate_anim:
 		SJSRS				_ssub_candle_dancing_sync_ai	; on every animation frame
-		SPR_IDX_SET			_spr_lib7_33					; candle can track obstacles and do
+		SPR_IDX_SET			_spr_lib7_33			; candle can track obstacles and do
 		SJSRS				_ssub_candle_dancing_sync_ai	; a number of neccessary jumps or
-		SPR_IDX_SET			_spr_lib7_34					; jump offs in addition to scripted ones
+		SPR_IDX_SET			_spr_lib7_34			; jump offs in addition to scripted ones
 		SJSRS				_ssub_candle_dancing_sync_ai
 		SPR_IDX_SET			_spr_lib7_35
 		SJSRS				_ssub_candle_dancing_sync_ai
@@ -809,7 +809,7 @@ _ssub_candle_dancing_rotate_anim:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_candle_dancing_jump_up:
-		NJSR				_nsub_obj_hor_delta_toggle		; final jump up attack
+		NJSR				_nsub_obj_hor_delta_toggle	; final jump up attack
 		SPR_IDX_SET			_spr_lib7_38
 		SUSPEND				$06
 		SPR_IDX_SET			_spr_lib7_39
@@ -827,40 +827,40 @@ byte_685DE:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_candle_dancing_sync_ai:
 		NJSR				_nsub_loopB_reload_from_timerBs	; here reload specified in timerBs loobB counter
-		NJSR				_nsub_get_obj_y_delta		; start crunching se when jump up
+		NJSR				_nsub_get_obj_y_delta	; start crunching se when jump up
 		SBPLS				byte_685F5
 		APU_SE_SET			_apu_mus6B
 byte_685F5:
 		SYNC
-		NJSR				_nsub_get_obj_y_delta		; then not jumping, go horizontal
-		SBNES				_sloc_68613					; or else do vertical anim
-		NJSR				_obj_move_hor_animate		; animate unless see any obstacle
+		NJSR				_nsub_get_obj_y_delta	; then not jumping, go horizontal
+		SBNES				_sloc_68613				; or else do vertical anim
+		NJSR				_obj_move_hor_animate	; animate unless see any obstacle
 		NJSR				_nsub_obj_to_tile_collision_test_hor
-		SBCSS				byte_6860A					; then start to jump up
+		SBCSS				byte_6860A				; then start to jump up
 		DELTA_Y_SET			$CF
 		SJMPS				byte_68638
 byte_6860A:
 		NJSR				_nsub_obj_to_tile_collision_test_down	; if no obstacles, test if ground is over
-		SBCCS				byte_68636					; if yes, fall down
-		SJMPS				byte_68638					; otherwise continue moving
+		SBCCS				byte_68636				; if yes, fall down
+		SJMPS				byte_68638				; otherwise continue moving
 _sloc_68613:
-		NJSR				_obj_move_hor_animate		; hor move while jump up
+		NJSR				_obj_move_hor_animate	; hor move while jump up
 		NJSR				_nsub_obj_to_tile_collision_test_hor	; also test hor collisions to jum more if any
 		NJSR				_nsub_obj_jump_up_anim
-		NJSR				_nsub_get_obj_y_delta		; if sump up in progress, just animate
-		SBMIS				byte_6862D					; or else start to test ground collisions
+		NJSR				_nsub_get_obj_y_delta	; if sump up in progress, just animate
+		SBMIS				byte_6862D				; or else start to test ground collisions
 		NJSR				_obj_to_tile_grid_collision_test_down
-		SBCCS				byte_68638					; stop if ground detected
+		SBCCS				byte_68638				; stop if ground detected
 		DELTA_Y_SET			$00
 		SJMPS				byte_68638
 byte_6862D:
-		NJSR				_obj_vert_anim				; can't also jump up inside obstacles
+		NJSR				_obj_vert_anim			; can't also jump up inside obstacles
 		NJSR				_nsub_obj_to_tile_collision_test_up
 		SBCSS				byte_68638
 byte_68636:
 		DELTA_Y_SET			$01
 byte_68638:
-		LOOP_B				$20,byte_685F5				; redefined with the timerBs value here
+		LOOP_B				$20,byte_685F5			; redefined with the timerBs value here
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -912,7 +912,7 @@ byte_68694:
 		DAMAGE_SET			_OBJ_DMG_STUN
 		DELTA_X_SET			$C0
 		NJSR				_nsub_sub11B
-		NJSR				_nsub_sub11C
+		NJSR				_nsub_obj_stun_no_extra_flips_init
 		NJSR				_nsub_obj_type_change_stunA
 		SJMP				_ssub_infinite_anim_sync
 
@@ -1688,26 +1688,26 @@ _obj_scr_10C:
 _obj_scr3C_violet_bug_fall:
 		SJSRS				_ssub_violet_bug_init	; init sprites and pos
 byte_68C5A:
-		NJSR_SYNC			_nsub_cmp20_obj_x_lo_pos	; do nothing if at the sides
-		SBCSS				byte_68C5A					; of the screen
+		NJSR_SYNC			_nsub_cmp20_obj_x_lo_pos; do nothing if at the sides
+		SBCSS				byte_68C5A				; of the screen
 		NJSR				_nsub_cmpE0_obj_x_lo_pos
-		SBCCS				byte_68C5A					; when in the active zone,
-		DELTA_Y_SET			$20							; start to fall
+		SBCCS				byte_68C5A				; when in the active zone,
+		DELTA_Y_SET			$20						; start to fall
 byte_68C68:
 		SJSRS				_ssub_violet_bug_anim	; fall anim draw 5 cycles
 		LOOP_A				$05,byte_68C68
-		DELTA_Y_SET			$00							; stop movement
+		DELTA_Y_SET			$00						; stop movement
 byte_68C71:
 		SJSRS				_ssub_violet_bug_anim	; wait for 4 frames
 		LOOP_A				$04,byte_68C71
-		DELTA_X_SET			$20							; fly up and forth diagonally
-		DELTA_Y_SET			$F0							; initialization
+		DELTA_X_SET			$20						; fly up and forth diagonally
+		DELTA_Y_SET			$F0						; initialization
 		NJSR				_nsub_obj_hor_delta_toggle; also toggle hor flipping
 byte_68C7F:
 		SJSRS				_ssub_violet_bug_anim	; fly for 2 frames, then
-		LOOP_A				$02,byte_68C7F				; drop projectile
+		LOOP_A				$02,byte_68C7F			; drop projectile
 		SRUN				_OBJ_TYPE_STUNB,_obj_scr_violet_bug_sparkle
-		SJMPS				byte_68C7F					; loop until out of screen
+		SJMPS				byte_68C7F				; loop until out of screen
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_violet_bug_anim:
@@ -1973,7 +1973,7 @@ byte_68E5C:
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr3F_lvl1_boss_water_rabbit:
 		STORE				_apu_mus1E_idx,_apu_load_idx_req
-		SRUN				_OBJ_TYPE_AUTO,_obj_scr_110
+		SRUN				_OBJ_TYPE_AUTO,_obj_scr_boss_water_rabbit_pbullet_generator
 		DESTR_PC_SET		_obj_scr_common_small_boss_destr
 		NJSR				_nsub_obj_idxCs_C0_clear
 		POS_X_MOVE			$0A
@@ -2118,70 +2118,70 @@ _ssub_68F75:
 		SRET
 
 ; =============== S C R I P T ===============================================
-_obj_scr_110:
-		SUSPEND				$F0
+_obj_scr_boss_water_rabbit_pbullet_generator:
+		SUSPEND				$F0						; delay for begin to generate pbullets (box)
 byte_68F80:
-		NJSR_SYNC			_nsub_grabable_obj_num_01_cmp
-		SBCSS				byte_68F80
-		SUSPEND				$3C
-		SRUN				_OBJ_TYPE_PBULLET,_obj_scr_112
-		SJMPS				_obj_scr_110
+		NJSR_SYNC			_nsub_grabable_obj_num_01_cmp	; wait until there is at least one already
+		SBCSS				byte_68F80				; on the screen
+		SUSPEND				$3C						; delay between all pbullets lost, then start a new one
+		SRUN				_OBJ_TYPE_PBULLET,_obj_scr_boss_water_rabbit_pbullet
+		SJMPS				_obj_scr_boss_water_rabbit_pbullet_generator
 
 ; =============== S C R I P T ===============================================
-_obj_scr_112:
-		GRABABLE_ON
+_obj_scr_boss_water_rabbit_pbullet:
+		GRABABLE_ON									; set special flag to count bullets on screen
 		DESTR_PC_SET		_obj_scr_box
-		NJSR				_nsub_get_rand_scale3
+		NJSR				_nsub_get_rand_scale3	; select one of the appearance points
 		SSWITCH				_tmp_ptrE+1
 		SCASE				byte_68F9F
 		SCASE				byte_68FA5
 		SCASE				byte_68FAB
 byte_68F9F:
-		POS_X_SET			$18,$00
+		POS_X_SET			$18,$00					; leftmost and rightmost float the same direcion
 		SJMPS				byte_68FB1
 byte_68FA5:
 		POS_X_SET			$A8,$00
 		SJMPS				byte_68FB1
 byte_68FAB:
-		POS_X_SET			$98,$00
+		POS_X_SET			$98,$00					; middle box float opposite direction
 		NJSR				_nsub_obj_hor_move_reverse
 byte_68FB1:
-		POS_Y_SET			$00,$00
+		POS_Y_SET			$00,$00					; set pos out of the screen
 		SYNC
 		SPR_LIB_SET			_spr_lib3
 		SPR_IDX_SET			_spr_lib3_00
 		SIZE_SET			$06,$10
-		NJSR				_nsub_idxBs_10_set
+		NJSR				_nsub_idxBs_10_set		; show
 		SPRITE_ON
 byte_68FC0:
-		HP_SET				$01
-		DAMAGE_SET			_OBJ_DMG_KILL
+		HP_SET				$01						; set damage mode
+		DAMAGE_SET			_OBJ_DMG_KILL			; slow fall y delta
 		DELTA_X_SET			$00
 		DELTA_Y_SET			$01
-		NJSR				_nsub_obj_type_change_throw
+		NJSR				_nsub_obj_type_change_pbullet	; while falling change type to throw type
 byte_68FCB:
 		SYNC
-		NJSR				_nsub_obj_jump_up_anim
+		NJSR				_nsub_obj_jump_up_anim	; animate falling down and test
 		NJSR				_obj_to_tile_grid_collision_test_down
-		SBCSS				byte_68FDE
-		NJSR				_nsub_get_obj_hp
+		SBCSS				byte_68FDE				; for screen tiles collisions
+		NJSR				_nsub_get_obj_hp		; test if already hit someone
 		SBNES				byte_68FCB
-		SJMP				byte_6A669	; LONG
+		SJMP				_obj_scr_box_destroyed_anim	; or destroy anim set
 byte_68FDE:
-		NJSR				_nsub_obj_type_change_solid_no_damage
-		NJSR				_nsub_obj_hor_move_reverse
-		DELTA_X_SET			$08
+		NJSR				_nsub_obj_type_change_solid_no_damage	; if hit the ground, change type again
+		NJSR				_nsub_obj_hor_move_reverse	; now select hor direction
+		DELTA_X_SET			$08						; select movement speed
 		DELTA_Y_SET			$00
 		NJSR				_nsub_obj_hor_delta_toggle
 byte_68FEB:
 		SYNC
-		NJSR				_nsub_get_obj_idxBs
-		SBMI				_obj_scr_box
+		NJSR				_nsub_get_obj_idxBs		; animate floating untill the tile edge
+		SBMI				_obj_scr_box			; test if taken, then execute regular box script
 		NJSR				_obj_move_hor_animate
-		NJSR				_nsub_sub13C
+		NJSR				_nsub_obj_to_obj_thrown_test_hor_concat
 		NJSR				_nsub_obj_to_tile_collision_test_down
 		SBCSS				byte_68FEB
-		SJMPS				byte_68FC0
+		SJMPS				byte_68FC0				; on the edge switch to fall down mode again
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr40_lvl2_boss_flying_panther:
@@ -2374,7 +2374,7 @@ byte_69161:
 		SBNES				byte_69161
 		SJMP				_ssub_y_parabolic_delta_infinite_anim_sync
 byte_6916B:
-		NJSR				_nsub_obj_type_change_bullet
+		NJSR				_nsub_obj_type_change_ebullet
 		DELTA_X_SET			$10
 		DELTA_Y_SET			$E0
 		NJSR				_nsub_obj_from_idxAs_hor_delta_toggle
@@ -2516,7 +2516,7 @@ byte_69269:
 		SJSRS				_ssub_boss_sea_rat_anim24
 		NJSR				_nsub_obj_hor_move_reverse
 		SJSR				_ssub_boss_sea_rat_anim24
-		SJMP				byte_691D7	; LONG
+		SJMP				byte_691D7
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_boss_sea_rat_move_ai:
@@ -2584,9 +2584,9 @@ loc_692DC:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_boss_sea_rat_box:
-		GRABABLE_ON								; the only difference is that this object
-		DESTR_PC_SET		_obj_scr_box		; is countable grabable weapon for player
-		POS_Y_SET			$00,$00				; when taken, turns to regular throwable box
+		GRABABLE_ON									; the only difference is that this object
+		DESTR_PC_SET		_obj_scr_box			; is countable grabable weapon for player
+		POS_Y_SET			$00,$00					; when taken, turns to regular throwable box
 		SPR_LIB_SET			_spr_lib3
 		SPR_IDX_SET			_spr_lib3_00
 		SIZE_SET			$06,$10
@@ -2687,7 +2687,7 @@ byte_693AF:
 		SJSRS				_ssub_693C9
 		SJSRS				_ssub_693BC
 		LOOP_A				$02,byte_693AF
-		SJMP				byte_69330	; LONG
+		SJMP				byte_69330
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_693BC:
@@ -2712,11 +2712,11 @@ byte_693D6:
 		SBPLS				byte_693E7
 		SJSRS				_ssub_693F0
 		SJSRS				_ssub_69400
-		SJMP				byte_69330	; LONG
+		SJMP				byte_69330
 byte_693E7:
 		SJSRS				_ssub_69400
 		SJSRS				_ssub_693F0
-		SJMP				byte_69330	; LONG
+		SJMP				byte_69330
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_693F0:
@@ -2762,7 +2762,7 @@ byte_69425:
 		SJSRS				_ssub_69492
 		LOOP_A				$21,byte_69425
 		LOOP_B				$02,byte_69412
-		SJMP				byte_69330	; LONG
+		SJMP				byte_69330
 
 ; =============== S C R I P T ===============================================
 _obj_scr_118:
@@ -2794,7 +2794,7 @@ byte_69443:
 		SPR_IDX_SET			_spr_lib8_12
 		SJSR				_ssub_obj_wait_for_jump
 		SPR_IDX_SET			_spr_lib8_11
-		SJMP				byte_69AFA	; LONG
+		SJMP				byte_69AFA
 
 ; =============== S C R I P T ===============================================
 _obj_scr_119:
@@ -3069,7 +3069,7 @@ byte_6961F:
 		SPR_IDX_SET			_spr_lib8_3A
 		SJSR				_obj_scr_20A_anim_anim10_sync
 		LOOP_A				$02,byte_6961F
-		SJMP				byte_69594	; LONG
+		SJMP				byte_69594
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_6963C:
@@ -3106,7 +3106,7 @@ byte_69671:
 		SBCCS				byte_69671
 		DESTR_PC_SET		_obj_scr_118_destr
 		DELTA_X_SET			$00
-		SJMP				byte_69AFA	; LONG
+		SJMP				byte_69AFA
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_cat_with_cards_projectile_anim_select:
@@ -3380,7 +3380,7 @@ byte_698A7:
 		DELTA_Y_SET			$E8
 		SJSRS				_ssub_698B5
 		DESTR_PC_SET		_obj_scr_118_destr
-		SJMP				byte_69AFA	; LONG
+		SJMP				byte_69AFA
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_698B5:
@@ -3415,7 +3415,7 @@ _obj_scr45_lvl5C_wrecking_lizard:
 		POS_Y_SET			$78,$00
 		SRUN				_OBJ_TYPE_EBULLET,_obj_scr_11F
 		SRUN				_OBJ_TYPE_ENEMY,_obj_scr_120
-		NJSR				_nsub_cur_obj_idx_to_idxCs_store
+		NJSR				_nsub_last_slot_idx_to_idxCs_store
 		NJSR				_nsub_obj_idxCs_C0_clear
 		SPR_LIB_SET			_spr_lib8
 		SPR_IDX_SET			_spr_lib8_00
@@ -3770,9 +3770,9 @@ byte_69B5D:
 		NJSR				_nsub_room_scrolls_reload
 		PAL_FADE_IN			$04,$C3
 		SRUN				_OBJ_TYPE_ENEMY,_obj_scr_128
-		NJSR				_nsub_cur_obj_idx_to_idxCs_store
+		NJSR				_nsub_last_slot_idx_to_idxCs_store
 		SRUN				_OBJ_TYPE_ENEMY,_obj_scr_129
-		NJSR				_nsub_cur_obj_idx_to_idxBs_store
+		NJSR				_nsub_last_slot_idx_to_idxBs_store
 		SUSPEND				$14
 		SPRITE_ON
 		SIZE_SET			$28,$70
@@ -3851,7 +3851,7 @@ byte_69C40:
 		SJSR				_ssub_69CDC
 		LOOP_B				$B4,byte_69C40
 		LOOP_A				$02,byte_69C10
-		SJMP				byte_69BBB	; LONG
+		SJMP				byte_69BBB
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_69C4E:
@@ -4021,7 +4021,7 @@ _obj_scr_132:
 		SPR_IDX_SET			_spr_lib8_4D
 		SPRITE_ON
 		NJSR_SYNC			_nsub_sub01A
-		SJMP				byte_689E8	; LONG
+		SJMP				byte_689E8
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_sub01A:
@@ -4140,7 +4140,7 @@ _pal_patch02_load:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_69E42:
 		SJSR				_obj_scr_20A_anim_anim_sync
-		SJMP				_ssub_69A12	; LONG
+		SJMP				_ssub_69A12
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_69E48:
@@ -4315,7 +4315,7 @@ byte_69F73:
 		NJSR				_nsub_get_obj_idxBs
 		SBPLS				byte_69F73
 _obj_scr_12B_destr:
-		NJSR				_nsub_obj_type_change_throw
+		NJSR				_nsub_obj_type_change_pbullet
 		NJSR				_nsub_obj_idxCs_C0_clear
 byte_69F82:
 		SJSRS				_ssub_69FB5
@@ -4353,7 +4353,7 @@ byte_69FBC:
 		POS_Y_MOVE			$08
 		NJSR				_scr_flips_04_clear
 byte_69FCA:
-		NJSR				_nsub_obj_type_change_throw
+		NJSR				_nsub_obj_type_change_pbullet
 		HP_SET				$01
 		DAMAGE_SET			_OBJ_DMG_KILL
 		SIZE_SET			$0C,$0E
@@ -4620,26 +4620,26 @@ loc_6A173:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr20_lvl_exit_left:
-		SJSRS				_ssub_obj_exit_wait_common		; wait for player collision with object
+		SJSRS				_ssub_obj_exit_wait_common	; wait for player collision with object
 		NJSR				_nsub_player_exit_left_with_flip_set	; set player parameters to exit with engine
-		KILL												; nothing to do here now
+		KILL										; nothing to do here now
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr21_lvl_exit_right:
 ; TODO, optimize me!
-		SJSRS				_ssub_obj_exit_right_wait		; call common right left test
+		SJSRS				_ssub_obj_exit_right_wait	; call common right left test
 		KILL
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr22_lvl5C_box_bonus_entry:
 _obj_scr23_lvl4_box_bonus_entry:
-		SJSRS				_ssub_obj_exit_right_wait		; set right exit common
-		NJSR				_nsub_inc_stage_room_idx		; skip one room ahead, manage your rooms order in _room_cfg_lib
+		SJSRS				_ssub_obj_exit_right_wait; set right exit common
+		NJSR				_nsub_inc_stage_room_idx; skip one room ahead, manage your rooms order in _room_cfg_lib
 		KILL
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _obj_scr_lvl2_basket_exit_right_A:
-		SJSRS				_ssub_obj_exit_right_wait		; the same as for other entries, but skips two rooms ahead
+		SJSRS				_ssub_obj_exit_right_wait; the same as for other entries, but skips two rooms ahead
 		NJSR				_nsub_inc_stage_room_idx
 		NJSR				_nsub_inc_stage_room_idx
 		KILL
@@ -4679,13 +4679,13 @@ _ssub_big_box_opens_anim:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr1B_monterey_refill:
-		POS_X_MOVE			$50					; set monerei object pos and speed
+		POS_X_MOVE			$50						; set monerei object pos and speed
 		POS_X_MOVE			$50
 		DELTA_X_SET			$F0
-		SPR_LIB_SET			_spr_lib0			; library select and activate
+		SPR_LIB_SET			_spr_lib0				; library select and activate
 		SPRITE_ON
 byte_6A1C8:
-		SPR_IDX_SET			_spr_lib0_23		; walk anim loop 40 cycles long
+		SPR_IDX_SET			_spr_lib0_23			; walk anim loop 40 cycles long
 		SJSR				_ssub_anim_sync_frames10
 		SPR_IDX_SET			_spr_lib0_24
 		SJSR				_ssub_anim_sync_frames10
@@ -4693,7 +4693,7 @@ byte_6A1C8:
 		SJSR				_ssub_anim_sync_frames10
 		SPR_IDX_SET			_spr_lib0_24
 		SJSR				_ssub_anim_sync_frames10
-		LOOP_A				$05,byte_6A1C8		; repeat 5 times (5 steps)
+		LOOP_A				$05,byte_6A1C8			; repeat 5 times (5 steps)
 		SJSRS				_ssub_6A204
 		TIMER_B_SET			$0C
 		SRUN				_OBJ_TYPE_TRIGGER,_obj_monterey_1p_prize
@@ -4808,7 +4808,7 @@ _ssub_big_box_wait_for_trigger:
 		HP_SET				$01
 		SPRITE_ON
 		SJSR				_ssub_wait_obj_hps_turns_zero
-		SJMP				_ssub_big_box_opens_anim	; LONG
+		SJMP				_ssub_big_box_opens_anim
 ; TODO: fix me, one time used sub as far sub!
 
 ; =============== O B J E C T   S C R I P T =================================
@@ -4834,11 +4834,11 @@ _obj_scr_big_ball_box_destr:
 		SJSR				_ssub_obj_wait_for_throw
 		DELTA_X_SET			$10
 		DELTA_Y_SET			$8C
-		NJSR				_nsub_sub029
+		NJSR				_nsub_obj_from_idxBs_hor_flips_sync
 		HP_SET				$01
 		DAMAGE_SET			_OBJ_DMG_STUN
 byte_6A2AE:
-		NJSR				_nsub_sub11C
+		NJSR				_nsub_obj_stun_no_extra_flips_init
 		NJSR				_nsub_obj_type_change_ball
 		SJSRS				_ssub_6A2CF
 		NJSR				_far_players_default_state_select_G
@@ -4854,7 +4854,7 @@ byte_6A2BD:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_6A2CF:
-		NJSR_SYNC			_nsub_sub022
+		NJSR_SYNC			_ball_in_box_ball_spr_list
 		HP_SET				$01
 		DAMAGE_SET			_OBJ_DMG_STUN
 		NJSR				_nsub_obj_jump_up_anim
@@ -4863,10 +4863,10 @@ _ssub_6A2CF:
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub022:
+_ball_in_box_ball_spr_list:
 		LDA		#<[byte_6A2E7]
 		LDY		#>[byte_6A2E7]
-		JMP		_nsub_sub023
+		JMP		_nsub_ball_spr_select
 
 byte_6A2E7:
 		.BYTE	_spr_lib4_03_idx,$00
@@ -4875,7 +4875,7 @@ byte_6A2E7:
 		.BYTE	_spr_lib4_04_idx,$C0
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub023:
+_nsub_ball_spr_select:
 		STA		_tmp_ptr0
 		STY		_tmp_ptr0+1
 		LDA		_scr_vars16,X
@@ -4920,7 +4920,7 @@ byte_6A330:
 ; =============== S C R I P T ===============================================
 _obj_scr_big_zipper_box_water:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_big_zipper_box_flow
-		NJSR_SYNC			_nsub_obj_to_obj_idxCs_link
+		NJSR_SYNC			_nsub_link_to_last_obj_slot
 		SUSPEND				$24
 		POS_X_MOVE			$C0
 		SIZE_SET			$40,$00
@@ -5170,7 +5170,7 @@ byte_6A507:
 		SBCSS				byte_6A507
 		SJMPS				byte_6A53E
 byte_6A517:
-		NJSR				_nsub_sub164
+		NJSR				_nsub_vars21_80_load
 		NJSR				_nsub_obj_idxCs_C0_clear
 byte_6A51D:
 		NJSR				_nsub_get_obj_idxBs
@@ -5185,10 +5185,10 @@ byte_6A52F:
 byte_6A535:
 		DELTA_X_SET			$10
 		DELTA_Y_SET			$8C
-		NJSR				_nsub_sub029
+		NJSR				_nsub_obj_from_idxBs_hor_flips_sync
 		APU_SE_SET			_apu_mus24
 byte_6A53E:
-		NJSR				_nsub_sub11C
+		NJSR				_nsub_obj_stun_no_extra_flips_init
 		NJSR				_nsub_obj_type_change_ball
 		HP_SET				$FF
 		DAMAGE_SET			_OBJ_DMG_STUN
@@ -5204,7 +5204,7 @@ byte_6A54A:
 _ssub_6A557:
 		NJSR				_nsub_idxBs_20_set
 		NJSR				_obj_move_hor_animate
-		NJSR				_nsub_sub13C
+		NJSR				_nsub_obj_to_obj_thrown_test_hor_concat
 		SBCSS				byte_6A569
 		NJSR				_nsub_obj_to_tile_collision_test_hor
 		SBCSS				byte_6A56B
@@ -5215,7 +5215,7 @@ byte_6A56B:
 		NJSR				_nsub_get_obj_y_delta
 		SBPLS				_ssub_ballistic_throw_anim
 		NJSR				_obj_vert_anim
-		NJSR				_nsub_sub165
+		NJSR				_nsub_obj_to_obj_thrown_test_concat_down
 		SBCCS				byte_6A583
 		NJSR				_nsub_obj_to_tile_collision_test_up
 		SBCSS				byte_6A585
@@ -5228,7 +5228,7 @@ byte_6A585:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_ballistic_throw_anim:
 		NJSR				_obj_vert_anim
-		NJSR				_nsub_sub107
+		NJSR				_nsub_obj_to_obj_thrown_test_concat_up
 		SBCSS				byte_6A598
 		NJSR				_nsub_obj_to_tile_collision_test_down
 		SBCCS				byte_6A59A
@@ -5273,7 +5273,7 @@ loc_6A5CE:
 		DEC		_obj_y_deltas,X
 loc_6A5D7:
 		JSR		_obj_vert_anim
-		JSR		_players_state12_A_B_A
+		JSR		_obj_thrown_to_obj_collision_test
 		BCC		loc_6A5E3
 		JSR		_nsub_obj_to_obj_y_concat_down
 		SEC
@@ -5287,7 +5287,7 @@ _nsub_sub028:
 		JMP		_nsub_sub033
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub029:
+_nsub_obj_from_idxBs_hor_flips_sync:
 		LDA		_scr_idxBs,X
 		AND		#$0F
 		TAY
@@ -5299,53 +5299,57 @@ _nsub_sub029:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr_box:
-		DESTR_PC_SET		_obj_scr_box
+		DESTR_PC_SET		_obj_scr_box		; default initialization
 		NJSR				_nsub_obj_idxCs_C0_clear
 		NJSR				_nsub_idxBs_10_set
 		SPR_LIB_SET			_spr_lib3
 		SPR_IDX_SET			_spr_lib3_00
 		SIZE_SET			$06,$0F
-		HP_SET				$01
-		SPRITE_ON
+		HP_SET				$01					; number of hits with other objects
+		SPRITE_ON								; to be destroyed
 byte_6A615:
-		NJSR				_nsub_get_obj_idxBs
+		NJSR				_nsub_get_obj_idxBs	; test if we still carried
 		SBPLS				byte_6A630
-		NJSR				_nsub_get_obj_hp
-		SBNES				byte_6A627
-		NJSR				_nsub_sub033
-		SJMPS				byte_6A669
+		NJSR				_nsub_get_obj_hp	; also test if we run into something
+		SBNES				byte_6A627			; with box on hands
+		NJSR				_nsub_sub033		; clear carry states
+		SJMPS				_obj_scr_box_destroyed_anim	; destroy
 byte_6A627:
-		NJSR				_nsub_sub02B
-		NJSR_SYNC			_nsub_sub02E
+		NJSR				_nsub_sub02B		; special test if we need to hide player
+		NJSR_SYNC			_nsub_obj_box_super_blink	; select sprite for object
 		SJMPS				byte_6A615
 byte_6A630:
-		NJSR				_nsub_obj_type_change_throw
-		NJSR				_nsub_obj_idxCs_80_set
-		NJSR				_nsub_sub02A
-		SBNES				byte_6A653
-		APU_SE_SET			_apu_mus27
-		NJSR				_nsub_sub02F
-		DELTA_Y_SET			$F0
+		NJSR				_nsub_obj_type_change_pbullet	; change type, however we already pbullet here
+		NJSR				_nsub_obj_idxCs_80_set	; clear flags
+		NJSR				_nsub_obj_box_test_if_stun		; test if we throw stunned object (super blinking)
+		SBNES				_sloc_obj_box_normal_anim
+		APU_SE_SET			_apu_mus27			; set according sound
+		NJSR				_nsub_obj_box_super_direction_select	; obj_box powerful anim init
+		DELTA_Y_SET			$F0					; set Y direction waving
 byte_6A643:
-		SPR_IDX_SET			_spr_lib3_00
-		NJSR				_nsub_sub02E
+		SPR_IDX_SET			_spr_lib3_00		; animate for 8 frames up
+		NJSR				_nsub_obj_box_super_blink	; blinking as well
 		ANIMATE_HV_SYNC
-		LOOP_A				$08,byte_6A643
-		NJSR				_nsub_complement_y_deltas
-		SJMPS				byte_6A643
-byte_6A653:
-		SPR_IDX_SET			_spr_lib3_00
-		APU_SE_SET			_apu_mus24
-		NJSR				_nsub_obj_throw_direction_select
-byte_6A65A:
-		ANIMATE_HV_SYNC
-		NJSR				_nsub_get_obj_hp
-		SBPLS				byte_6A666
-		NJSR				_j_nsub_complement_x_deltas
-		HP_SET				$01
+		LOOP_A				$08,byte_6A643		; then reverse Y direction, waving
+		NJSR				_nsub_complement_y_deltas	; repeat until collision
+		SJMPS				byte_6A643			; or out of screen
+_sloc_obj_box_normal_anim:
+		SPR_IDX_SET			_spr_lib3_00		; default sprite set
+		APU_SE_SET			_apu_mus24			; default throw music
+		NJSR				_nsub_obj_throw_direction_select	; select throw dir according to
+byte_6A65A:										; player pos and buttons pressed
+		ANIMATE_HV_SYNC							; common one-frame sync anim
+		NJSR				_nsub_get_obj_hp	; test for special flag in hp
+		SBPLS				byte_6A666			; indicated our projectile reflected
+		NJSR				_j_nsub_complement_x_deltas	; if yes, change X direction
+		HP_SET				$01					; reload hps
 byte_6A666:
-		SBNES				byte_6A65A
-byte_6A669:
+		SBNES				byte_6A65A			; and continue, or just destroy
+
+; !FALLTHROUGH!
+
+; =============== O B J E C T   S C R I P T =================================
+_obj_scr_box_destroyed_anim:
 		NJSR_SYNC			_nsub_obj_type_change_auto
 		SPR_IDX_SET			_spr_lib3_03
 		SYNC
@@ -5360,7 +5364,7 @@ byte_6A669:
 		KILL
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub02A:
+_nsub_obj_box_test_if_stun:
 		LDA		_obj_damages,X
 		CMP		#_OBJ_DMG_STUN
 		JMP		_scr_flags_update
@@ -5379,7 +5383,7 @@ _nsub_sub02B:
 _nsub_sub02C:
 		LDA		_obj_heights,Y
 		BEQ		_nsub_sub02D
-		JSR		_nsub_obj_type_change_throw
+		JSR		_nsub_obj_type_change_pbullet
 		JMP		_scr_flips_04_set
 
 ; =============== S U B R O U T I N E =======================================
@@ -5389,20 +5393,20 @@ _nsub_sub02D:
 		JMP		_scr_flips_04_clear
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub02E:
+_nsub_obj_box_super_blink:
 		LDA		_nmi_frames_counter
 		AND		#$04
 		BEQ		locret_6A6BA
 		LDA		_obj_damages,X
-		CMP		#_OBJ_DMG_STUN
+		CMP		#_OBJ_DMG_STUN				; carried object STUN mode!
 		BNE		locret_6A6BA
-		LDA		#_spr_lib3_08_idx
+		LDA		#_spr_lib3_08_idx			; if stun, blink with it!
 		STA		_obj_spr_idxs,X
 locret_6A6BA:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub02F:
+_nsub_obj_box_super_direction_select:
 		LDA		_scr_idxBs,X
 		AND		#$0F
 		TAX
@@ -5411,14 +5415,14 @@ _nsub_sub02F:
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_throw_direction_select:
 		LDA		#_OBJ_DMG_KILL
-		STA		_obj_damages,X			; WARNING, if _OBJ_DMG_STUN changes,
-		STA		_obj_hps,X				; fix it here! hp=1 _OBJ_DMG_KILL=$01!
-		LDA		_scr_idxBs,X			; get idx who's carry throwable object
+		STA		_obj_damages,X					; WARNING, if _OBJ_DMG_STUN changes,
+		STA		_obj_hps,X						; fix it here! hp=1 _OBJ_DMG_KILL=$01!
+		LDA		_scr_idxBs,X					; get idx who's carry throwable object
 		AND		#$0F
 		TAX
 		LDY		#$00
 loc_6A6D4:
-		LDA		_pads,X					; test its pads held
+		LDA		_pads,X							; test its pads held
 		AND		byte_6A700,Y
 		CMP		byte_6A700,Y
 		BEQ		loc_6A6F1
@@ -5436,8 +5440,8 @@ loc_6A6E5:
 		INY
 		INY
 loc_6A6F1:
-		LDX		_scr_idx				; when corresponding button found, pick values
-		LDA		byte_6A700+1,Y			; from the tables and set the obj delta
+		LDX		_scr_idx						; when corresponding button found, pick values
+		LDA		byte_6A700+1,Y					; from the tables and set the obj delta
 		STA		_obj_x_deltas,X
 		LDA		byte_6A700+2,Y
 		STA		_obj_y_deltas,X
@@ -5551,11 +5555,11 @@ byte_6A7BB:
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr0A_lvl2_blocked_path:
 		SJSRS				_ssub_obj_button_common_init	; init
-		SJSRS				_ssub_button_push_wait		; wait for jump up
+		SJSRS				_ssub_button_push_wait	; wait for jump up
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_lvl2_wall_blocks_open_draw	; open the blocked path
 byte_6A7D5:
-		SJSRS				_ssub_button_release_wait		; loop forever between
-		SJSRS				_ssub_button_push_wait		; two states now, does nothing more
+		SJSRS				_ssub_button_release_wait	; loop forever between
+		SJSRS				_ssub_button_push_wait	; two states now, does nothing more
 		SJMPS				byte_6A7D5
 
 ; =============== S C R I P T ===============================================
@@ -5579,30 +5583,22 @@ byte_6A7D5:
 ; both blocks put in the CHR ROM in reverse order... not sure how I need to fix
 ; it here, but assume the reverse order is a correct one.
 ;
-; FIX, restores missing ptr setting and swapping both tiles to be animated
-; in a more likely proper way.
+; FIX, fixed animation routine to increment address if 0 occurs
+; so we don't need to fix more here, just swap patches, because they are
+; in wrong order anyway
 ;
 _obj_scr_lvl2_wall_blocks_open_draw:
-#if BUGFIXES=1
-		STORE				<[_tlm_patch_06A_unused],_tmp_ptr4B	; load tlm patch ptr
-		STORE				>[_tlm_patch_06A_unused],_tmp_ptr4B+1
-#else
-		STORE				<[tlm_patch06],_tmp_ptr4B			; load tlm patch ptr
-		STORE				>[tlm_patch06],_tmp_ptr4B+1
-#endif
-		SJSR				_ssub_macro_patch_draw		; draw full patch
-		APU_SE_SET			_apu_mus4E							; start a sound and wait
-		SUSPEND				$08									; for a while...
-#if BUGFIXES=1
 		STORE				<[tlm_patch06],_tmp_ptr4B
 		STORE				>[tlm_patch06],_tmp_ptr4B+1
-#endif
-		SJSR				_ssub_macro_patch_draw
+		SJSR				_ssub_macro_patch_draw	; draw full patch
+		APU_SE_SET			_apu_mus4E				; start a sound and wait
+		SUSPEND				$08						; for a while...
+		SJSR				_ssub_macro_patch_draw	; draw next one with no need to set ptr again.
 		KILL
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_obj_button_common_init:
-		NJSR				_nsub_idxBs_20_set	; init button object flags
+		NJSR				_nsub_idxBs_20_set		; init button object flags
 		SPR_LIB_SET			_spr_lib5				; set library and sprite idxes
 		SPR_IDX_SET			_spr_lib5_0C
 		SIZE_SET			$05,$0D					; bounding box size
@@ -5618,7 +5614,7 @@ _ssub_button_push_wait:
 		SPR_IDX_SET			_spr_lib5_0D			; when jumped, display another
 		SIZE_SET			$05,$08					; sprite and set another size
 		NJSR				_nsub_obj_y_adjust_by_height_from_idxAs
-		NJSR				_nsub_idxBs_10_set	; adjust cur jumped obj pos y
+		NJSR				_nsub_idxBs_10_set		; adjust cur jumped obj pos y
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -5633,7 +5629,7 @@ _ssub_button_release_wait:
 _ssub_button_release_anim:
 		NJSR				_nsub_idxBs_10_clear	; clear push state flag
 		SUSPEND				$08						; wait a little
-		SPR_IDX_SET			_spr_lib5_0E		; set half-released sprite and size
+		SPR_IDX_SET			_spr_lib5_0E			; set half-released sprite and size
 		SIZE_SET			$05,$0A
 		NJSR				_nsub_obj_to_obj_jump_up_test	; if still no one jumped up again
 		SBCCS				byte_6A82D				; adjust y pos then leave
@@ -5653,11 +5649,11 @@ byte_6A83D:
 _obj_scr0B_lvl2_basket_game_entry:
 		SJSRS				_ssub_obj_button_common_init	; one botton will controlled here
 		SRUN				_OBJ_TYPE_SOLID,_obj_scr_lvl2_basket_game_2nd_button	; here is the second button
-		NJSR				_nsub_obj_to_obj_idxCs_link
+		NJSR				_nsub_link_to_last_obj_slot
 		NJSR				_nsub_obj_idxCs_C0_clear
-		POS_X_MOVE			$50									; change position of current main button
+		POS_X_MOVE			$50						; change position of current main button
 byte_6A84D:
-		SJSRS				_ssub_button_push_wait		; wait for press
+		SJSRS				_ssub_button_push_wait	; wait for press
 byte_6A850:
 		NJSR				_nsub_idxBs_10_test_clear_from_idxCs	; here we test if other button pressed too
 		SBNES				byte_6A863
@@ -5667,14 +5663,14 @@ byte_6A850:
 		SJSRS				_ssub_button_release_anim
 		SJMPS				byte_6A84D
 byte_6A863:
-		STORE				<[tlm_patch07],_tmp_ptr4B			; if both pressed, open the door
+		STORE				<[tlm_patch07],_tmp_ptr4B	; if both pressed, open the door
 		STORE				>[tlm_patch07],_tmp_ptr4B+1
 		SJSR				_ssub_macro_patch_draw
 		SRUN				_OBJ_TYPE_TRIGGER,_obj_scr_lvl2_basket_exit_right	; insert actual door object
-		APU_SE_SET			_apu_mus4F							; open sound
+		APU_SE_SET			_apu_mus4F				; open sound
 ; TODO, optimize me! redundant!
 byte_6A874:
-		SJSRS				_ssub_button_release_wait		; common idle button script
+		SJSRS				_ssub_button_release_wait	; common idle button script
 		SJSRS				_ssub_button_push_wait
 		SJMPS				byte_6A874
 ; -
@@ -5696,22 +5692,22 @@ byte_6A888:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr0C_lvl3_refill_entry:
-		SJSR				_ssub_obj_button_common_init	; there is a button
-		SJSR				_ssub_button_push_wait		; wait for it
-		STORE				<[tlm_patch08],_tmp_ptr4B			; draw open cavity
+		SJSR				_ssub_obj_button_common_init; there is a button
+		SJSR				_ssub_button_push_wait	; wait for it
+		STORE				<[tlm_patch08],_tmp_ptr4B	; draw open cavity
 		STORE				>[tlm_patch08],_tmp_ptr4B+1
 		SJSR				_ssub_macro_patch_draw
 		SRUN				_OBJ_TYPE_TRIGGER,_obj_scr_lvl3_box_bonus_entry	; run cavity script
-		APU_SE_SET			_apu_mus4F							; play open sound
+		APU_SE_SET			_apu_mus4F				; play open sound
 ; TODO: optimize me!
 byte_6A8A8:
-		SJSR				_ssub_button_release_wait		; then work as common button
-		SJSR				_ssub_button_push_wait		; again
+		SJSR				_ssub_button_release_wait	; then work as common button
+		SJSR				_ssub_button_push_wait	; again
 		SJMPS				byte_6A8A8
 
 ; =============== S C R I P T ===============================================
 _obj_scr_lvl3_box_bonus_entry:
-		POS_X_MOVE			$C0									; set position of a door
+		POS_X_MOVE			$C0						; set position of a door
 		POS_X_MOVE			$B0
 		SJMP				_obj_scr22_lvl5C_box_bonus_entry	; run common box bonus script
 
@@ -5769,14 +5765,14 @@ byte_6A903:
 		NJSR				_nsub_sub034
 		SRUN				_OBJ_TYPE_SOLID,_obj_scr_13F
 		LOOP_A				$03,byte_6A903
-		NJSR				_nsub_cur_obj_idx_to_idxBs_store
+		NJSR				_nsub_last_slot_idx_to_idxBs_store
 		NJSR				_nsub_box_bonus_3prizes_shuffle
 		POS_X_SET			$C8,$00
 byte_6A917:
 		NJSR				_nsub_sub034
 		SRUN				_OBJ_TYPE_SOLID,_obj_scr_13F
 		LOOP_A				$03,byte_6A917
-		NJSR				_nsub_cur_obj_idx_to_idxCs_store
+		NJSR				_nsub_last_slot_idx_to_idxCs_store
 byte_6A925:
 		NJSR_SYNC			_nsub_sub035
 		SBEQS				byte_6A925
@@ -6023,7 +6019,7 @@ _obj_scr12_cave_trolley:
 		NJSR				_nsub_idxBs_20_set
 		POS_Y_MOVE			$EC
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_141
-		NJSR				_nsub_obj_to_obj_idxCs_link
+		NJSR				_nsub_link_to_last_obj_slot
 		HP_SET				$01
 		SIZE_SET			$16,$01
 		SPR_LIB_SET			_spr_lib5
@@ -6260,7 +6256,7 @@ loc_6AC74:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr13_cave_rock:
-		NJSR				_nsub_obj_type_change_bullet
+		NJSR				_nsub_obj_type_change_ebullet
 		NJSR				_nsub_idxBs_20_set
 		HP_SET				$01
 		DAMAGE_SET			_OBJ_DMG_KILL
@@ -6281,7 +6277,7 @@ _obj_scr04_cave_pendulum:
 		SPR_IDX_SET			_spr_lib5_45
 		SPRITE_ON
 		SRUN				_OBJ_TYPE_EBULLET,_obj_scr_142
-		NJSR				_nsub_obj_to_obj_idxCs_link
+		NJSR				_nsub_link_to_last_obj_slot
 byte_6ACA3:
 		APU_SE_SET			_apu_mus5E
 		SPR_IDX_SET			_spr_lib5_45
@@ -6806,7 +6802,7 @@ _obj_scr00_lives_bonus:
 		SRUN				_OBJ_TYPE_SOLID,_obj_scr_lives_bonus_player1_red_ball	; up to two balls for every live player
 		SRUN				_OBJ_TYPE_SOLID,_obj_scr_lives_bonus_player2_red_ball
 		SJSR				_ssub_game_timer_init
-		STORE				$0A,_timer_seconds_cnt				; reset timers to 10 second
+		STORE				$0A,_timer_seconds_cnt	; reset timers to 10 second
 		POS_Y_SET			$38,$00
 byte_6B05E:
 		NJSR_SYNC			_nsub_obj_timer_spr_insert_test	; delay for 1 second before start
@@ -6819,12 +6815,12 @@ byte_6B068:
 		SBNES				byte_6B068
 byte_6B074:
 		NJSR				_nsub_lvl_intro_cutscene_start	; init and set the cutscene handler
-		SJMP				_ssub_fade_out					; exit with fade out
+		SJMP				_ssub_fade_out			; exit with fade out
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_lives_bonus_floater_init:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_lives_bonus_floater
-		NJSR				_nsub_obj_to_obj_idxCs_link
+		NJSR				_nsub_link_to_last_obj_slot
 		NJSR				_nsub_obj_idxCs_C0_clear
 		HP_SET				$01
 		SIZE_SET			$08,$10
@@ -6840,13 +6836,13 @@ byte_6B09B:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_lives_bonus_floater_anim:
-		SJSR				_ssub_anim_sync_frames16				; every 16 frames
-		NJSR				_nsub_complement_y_deltas		; do up-down floating anim
+		SJSR				_ssub_anim_sync_frames16	; every 16 frames
+		NJSR				_nsub_complement_y_deltas	; do up-down floating anim
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_lives_bonus_floater_bounce:
-		SUSPEND				$1E					; wait before reappear, then
+		SUSPEND				$1E						; wait before reappear, then
 		NJSR_SYNC			_j_nsub_complement_x_deltas	; invert x delta
 		SRET
 
@@ -6991,12 +6987,12 @@ _obj_scr_lives_bonus_player2_red_ball:
 _obj_scr_lives_bonus_red_ball_common:
 		GRABABLE_ON
 		DESTR_PC_SET		_obj_lives_bonus_red_ball_destr
-		POS_Y_SET			$C0,$00				; lives bonus ball is a special, it's
-		SIZE_SET			$06,$10				; pickable and throwable object
+		POS_Y_SET			$C0,$00					; lives bonus ball is a special, it's
+		SIZE_SET			$06,$10					; pickable and throwable object
 		SPR_LIB_SET			_spr_lib5
 		SPR_IDX_SET			_spr_lib5_1B
 		SPRITE_ON
-		HP_SET				$01					; so we need to wait when it's picked up
+		HP_SET				$01						; so we need to wait when it's picked up
 		SJSR				_ssub_obj_wait_for_pickup
 
 ; !FALLTHROUGH!
@@ -7004,9 +7000,9 @@ _obj_scr_lives_bonus_red_ball_common:
 ; =============== S C R I P T ===============================================
 _obj_lives_bonus_red_ball_destr:
 		SJSR				_ssub_obj_wait_for_throw	; then wait it trowed
-		DELTA_Y_SET			$C0					; balls are moves directly up without bouncing
-		HP_SET				$01					; upon hittihng objects
-		DAMAGE_SET			_OBJ_DMG_KILL		; unless they fly out of the screen
+		DELTA_Y_SET			$C0						; balls are moves directly up without bouncing
+		HP_SET				$01						; upon hittihng objects
+		DAMAGE_SET			_OBJ_DMG_KILL			; unless they fly out of the screen
 		SJMP				_ssub_infinite_anim_sync
 
 ; =============== S C R I P T ===============================================
@@ -7022,13 +7018,13 @@ byte_6B197:
 		FLIP_H_TOGGLE
 		POS_Y_MOVE			$30
 		LOOP_A				$04,byte_6B197
-		POS_Y_SET			$13,$00								; the main object script controls times
-		SJSR				_ssub_game_timer_init			; as usual
+		POS_Y_SET			$13,$00					; the main object script controls times
+		SJSR				_ssub_game_timer_init	; as usual
 		SJSR				_ssub_timer_start
 byte_6B1AB:
 		NJSR_SYNC			_nsub_obj_timer_spr_insert_test	; wait for timer expired
 		SBNES				byte_6B1AB
-		SJMP				_obj_scr_game_result_display		; display results
+		SJMP				_obj_scr_game_result_display	; display results
 
 ; =============== S U B R O U T I N E =======================================
 ; when bonus room is drawn, this code filling the particulat parts of the
@@ -7040,11 +7036,11 @@ _nsub_coins_bonus_obstacle_init:
 		LDY		#$10
 loc_6B1B6:
 		LDA		#$D0
-		STA		_screen_meta_buf+3,Y		; filling invisible objects in front of
-		STA		_screen_meta_buf+$C,Y		; each player vertically ($D0)
-		CMP		_screen_meta_buf+1,Y		; also filling with $D0 areas above the
-		BCC		loc_6B1CE					; balls from both sides as well
-		CMP		_screen_meta_buf+$11,Y		;
+		STA		_screen_meta_buf+3,Y			; filling invisible objects in front of
+		STA		_screen_meta_buf+$C,Y			; each player vertically ($D0)
+		CMP		_screen_meta_buf+1,Y			; also filling with $D0 areas above the
+		BCC		loc_6B1CE						; balls from both sides as well
+		CMP		_screen_meta_buf+$11,Y
 		BCC		loc_6B1CE
 		STA		_screen_meta_buf+1,Y
 		STA		_screen_meta_buf+$E,Y
@@ -7057,8 +7053,8 @@ loc_6B1CE:
 		BCC		loc_6B1B6
 		LDY		#$0F
 loc_6B1D9:
-		LDA		#$D0						; finally fill the ceiling, so we couldn't
-		STA		_screen_meta_buf,Y			; escape this bonus room
+		LDA		#$D0							; finally fill the ceiling, so we couldn't
+		STA		_screen_meta_buf,Y				; escape this bonus room
 		DEY
 		BPL		loc_6B1D9
 		RTS
@@ -7142,17 +7138,17 @@ loc_6B266:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr_red_ball:
-		DESTR_PC_SET		_obj_scr_red_ball				; regular red ball is a throwable carry object
-		SIZE_SET			$06,$10							; the pickup logic is tile-based
+		DESTR_PC_SET		_obj_scr_red_ball		; regular red ball is a throwable carry object
+		SIZE_SET			$06,$10					; the pickup logic is tile-based
 		SPR_LIB_SET			_spr_lib5
-		SPR_IDX_SET			_spr_lib5_1B					; here we only get when carry it
+		SPR_IDX_SET			_spr_lib5_1B			; here we only get when carry it
 		SPRITE_ON
 		SJSR				_ssub_obj_wait_for_throw
 		NJSR				_nsub_obj_throw_direction_select
 byte_6B27A:
-		ANIMATE_HV_SYNC									; throw animate, wait it hit someone
+		ANIMATE_HV_SYNC								; throw animate, wait it hit someone
 		NJSR				_nsub_get_obj_hp
-		SBNES				byte_6B27A						; when hit, do parabolic throw-back animation
+		SBNES				byte_6B27A				; when hit, do parabolic throw-back animation
 		DELTA_X_SET			$08
 		DELTA_Y_SET			$E8
 		NJSR				_players_damaged_state_select_A
@@ -7160,25 +7156,25 @@ byte_6B27A:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr03_basket_game:
-		SRUN				_OBJ_TYPE_AUTO,_obj_scr_basket_game_basket		; add basket object
+		SRUN				_OBJ_TYPE_AUTO,_obj_scr_basket_game_basket	; add basket object
 		NJSR				_nsub_basket_game_init
-		SJSR				_ssub_game_timer_init			; common init timer
-		STORE				$3C,_timer_seconds_cnt				; but here reset to 60 sec
+		SJSR				_ssub_game_timer_init	; common init timer
+		STORE				$3C,_timer_seconds_cnt	; but here reset to 60 sec
 		POS_Y_SET			$18,$00
 byte_6B29C:
 		NJSR_SYNC			_nsub_obj_timer_spr_insert_test	; 3 seconds delay, just show timer
 		LOOP_A				$B4,byte_6B29C
 		SRUN				_OBJ_TYPE_BALL,_obj_scr_basket_game_left_ball	; insert balls
 		SRUN				_OBJ_TYPE_BALL,_obj_scr_basket_game_right_ball
-		SJSR				_ssub_timer_start			; game start with sound
+		SJSR				_ssub_timer_start		; game start with sound
 byte_6B2AE:
 		NJSR_SYNC			_nsub_obj_timer_spr_insert_test	; show timer
-		SBNES				byte_6B2AE							; wait untill time expired
-		SJMP				_obj_scr_game_result_display		; show results
+		SBNES				byte_6B2AE				; wait untill time expired
+		SJMP				_obj_scr_game_result_display	; show results
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_basket_game_init:
-		LDA		_scr_cur_slot_idx
+		LDA		_last_scr_slot_idx
 		STA		byte_E0
 		LDY		#$00
 loc_6B2BD:
@@ -7201,38 +7197,38 @@ loc_6B2D2:
 
 ; =============== S C R I P T ===============================================
 _obj_scr_basket_game_basket:
-		POS_Y_MOVE			$58										; set basket Y position
+		POS_Y_MOVE			$58						; set basket Y position
 		SRUN				_OBJ_TYPE_SOLID,_obj_scr_basket_game_left_bouncer	; insert basket left side bouncer
-		NJSR				_nsub_obj_to_obj_idxCs_link
+		NJSR				_nsub_link_to_last_obj_slot
 		SRUN				_OBJ_TYPE_SOLID,_obj_scr_basket_game_right_bouncer	; same for right bouncer
-		NJSR				_nsub_obj_to_obj_idxCs_link
-		SIZE_SET			$04,$04									; the main hot spot in the middle
-		DELTA_X_SET			$F0										; set default movement delta
-		SPR_LIB_SET			_spr_lib5										; init sprite
+		NJSR				_nsub_link_to_last_obj_slot
+		SIZE_SET			$04,$04					; the main hot spot in the middle
+		DELTA_X_SET			$F0						; set default movement delta
+		SPR_LIB_SET			_spr_lib5				; init sprite
 		SPR_IDX_SET			_spr_lib5_1C
-		SPRITE_ON												; enable
-		SUSPEND				$B4										; wait for 3 seconds as well as timer
+		SPRITE_ON									; enable
+		SUSPEND				$B4						; wait for 3 seconds as well as timer
 byte_6B2F5:
-		NJSR				_nsub_cmp40_obj_x_lo_pos				; now move left-right constantly
+		NJSR				_nsub_cmp40_obj_x_lo_pos; now move left-right constantly
 		SBCSS				byte_6B30D
 		NJSR				_nsub_cmpC0_obj_x_lo_pos
 		SBCCS				byte_6B30D
-		NJSR				_nsub_get_rand_scale3					; sometimes basket may change direction
-		SSWITCH				_tmp_ptrE+1								; randomly with 1/3 possibility
+		NJSR				_nsub_get_rand_scale3	; sometimes basket may change direction
+		SSWITCH				_tmp_ptrE+1				; randomly with 1/3 possibility
 		SCASE				byte_6B310
 		SCASE				byte_6B310
 		SCASE				byte_6B30D
 byte_6B30D:
-		NJSR				_nsub_obj_hor_move_reverse			; bounce object hor movement
+		NJSR				_nsub_obj_hor_move_reverse	; bounce object hor movement
 byte_6B310:
 		ANIMATE_HV_SYNC
-		LOOP_A				$26,byte_6B310							; wait for 38 frames
+		LOOP_A				$26,byte_6B310			; animate for 38 frames
 		SJMPS				byte_6B2F5
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_basket_game_bouncer_init:
-		SIZE_SET			$02,$02				; basket bouncers are invisible objects
-		HP_SET				$01					; size 2x2 with collision test
+		SIZE_SET			$02,$02					; basket bouncers are invisible objects
+		HP_SET				$01						; size 2x2 with collision test
 		SRET
 
 ; =============== S C R I P T ===============================================
@@ -7240,10 +7236,10 @@ _obj_scr_basket_game_left_bouncer:
 		SJSRS				_ssub_basket_game_bouncer_init	; common init
 byte_6B321:
 		SYNC
-		NJSR				_nsub_obj_linked_idxCs_follow			; sync movement with main basket object
-		POS_X_MOVE			$F1										; adjust linked positions for left side
+		NJSR				_nsub_obj_linked_idxCs_follow	; sync movement with main basket object
+		POS_X_MOVE			$F1						; adjust linked positions for left side
 		POS_Y_MOVE			$F2
-		SJMPS				byte_6B321								; loop forever
+		SJMPS				byte_6B321				; loop forever
 
 ; =============== S C R I P T ===============================================
 _obj_scr_basket_game_right_bouncer:
@@ -7293,13 +7289,13 @@ _obj_scr_basket_game_ball_destr:
 		TIMER_B_SET			$00
 		DELTA_X_SET			$08
 		DELTA_Y_SET			$B0
-		NJSR				_nsub_sub029
+		NJSR				_nsub_obj_from_idxBs_hor_flips_sync
 
 ; !FALLTHROUGH!
 
 ; =============== S C R I P T ===============================================
 _obj_scr_basket_game_ball_test:
-		NJSR				_nsub_sub11C
+		NJSR				_nsub_obj_stun_no_extra_flips_init
 		NJSR				_nsub_obj_type_change_ball
 		NJSR				_nsub_obj_idxCs_C0_clear
 byte_6B37C:
@@ -7314,8 +7310,8 @@ byte_6B37C:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_6B393:
-		NJSR_SYNC			_nsub_sub04F
-		NJSR				_nsub_sub100
+		NJSR_SYNC			_nsub_basket_game_ball_spr_select
+		NJSR				_nsub_basket_game_basket_collision_test
 		HP_SET				$01
 		DAMAGE_SET			_OBJ_DMG_STUN
 		SJSR				_ssub_6A557
@@ -7323,12 +7319,12 @@ _ssub_6B393:
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub04F:
-		LDA		#<[byte_6B3AB]
-		LDY		#>[byte_6B3AB]
-		JMP		_nsub_sub023
+_nsub_basket_game_ball_spr_select:
+		LDA		#<[_basket_game_ball_spr_list]
+		LDY		#>[_basket_game_ball_spr_list]
+		JMP		_nsub_ball_spr_select
 
-byte_6B3AB:
+_basket_game_ball_spr_list:
 		.BYTE	_spr_lib4_05_idx,$00
 		.BYTE	_spr_lib4_06_idx,$00
 		.BYTE	_spr_lib4_05_idx,$40
@@ -7363,7 +7359,7 @@ byte_6B3EB:
 		NJSR				_nsub_sub057
 byte_6B3FA:
 		NJSR				_nsub_sub050
-		SJMP				_ssub_delay_before_stage_complete	; LONG
+		SJMP				_ssub_delay_before_stage_complete
 ; TODO, same long jump to once used sub, move here, remove jump
 
 ; =============== S U B R O U T I N E =======================================
@@ -7854,9 +7850,9 @@ byte_6B6CF:
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_cut_store_char_number:
+_nsub_cut_last_obj_slot_store:
 		LDY		_obj_timerBs,X
-		LDA		_scr_cur_slot_idx
+		LDA		_last_scr_slot_idx
 		STA		_tmp_array400,Y
 		RTS
 
@@ -8175,7 +8171,7 @@ _scr_cutscene01:
 		POS_Y_SET			$C0,$00
 		TIMER_B_SET			$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_157
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SUSPEND				$1E
 		MSG_DISPLAY			_msg00,_apu_mus5B
 		MSG_WAIT
@@ -8184,7 +8180,7 @@ _scr_cutscene01:
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		TIMER_B_SET			$03
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_158
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		MSG_DISPLAY			_msg02,_apu_mus58
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
@@ -8197,7 +8193,7 @@ _scr_cutscene01:
 		TIMER_B_SET			$02
 		POS_Y_SET			$A0,$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_159
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$00
 		MSG_DISPLAY			_msg05,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
@@ -8211,7 +8207,7 @@ _scr_cutscene01:
 		NJSR_SYNC			_nsub_cut_char_idxBs_10_clear
 		TIMER_B_SET			$04
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_15A
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		MSG_DISPLAY			_msg08,_apu_mus5A
 		MSG_WAIT
@@ -8219,7 +8215,7 @@ _scr_cutscene01:
 		TIMER_B_SET			$01
 		POS_Y_SET			$C0,$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_15B
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		TIMER_B_SET			$00
 		MSG_DISPLAY			_msg09,_apu_mus56
@@ -8369,14 +8365,14 @@ _scr_cutscene02:
 		POS_Y_SET			$C0,$00
 		TIMER_B_SET			$05
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_15C
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SUSPEND				$1E
 		TIMER_B_SET			$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_15D
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_15E
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		MSG_DISPLAY			_msg0F,_apu_mus56
 		MSG_WAIT
@@ -8467,10 +8463,10 @@ _scr_cutscene03:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cutscene_skip_wait
 		TIMER_B_SET			$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_15F
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_160
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		SUSPEND				$30
 		TIMER_B_SET			$00
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
@@ -8478,11 +8474,11 @@ _scr_cutscene03:
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		TIMER_B_SET			$03
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_161
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		TIMER_B_SET			$05
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_162
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$03
 		MSG_DISPLAY			_msg16,_apu_mus58
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
@@ -8733,16 +8729,16 @@ _scr_cutscene04:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cutscene_skip_wait
 		TIMER_B_SET			$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_163
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_164
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$02
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_165
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$04
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_166
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SUSPEND				$1E
 		TIMER_B_SET			$01
 		MSG_DISPLAY			_msg27,_apu_mus57
@@ -8827,10 +8823,10 @@ _scr_cutscene05:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cutscene_skip_wait
 		TIMER_B_SET			$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_168
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_169
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SUSPEND				$3C
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		MSG_DISPLAY			_msg2E,_apu_mus56
@@ -8855,10 +8851,10 @@ _scr_cutscene07:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cutscene_skip_wait
 		TIMER_B_SET			$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_16A
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_16B
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SUSPEND				$3C
 		TIMER_B_SET			$01
 		MSG_DISPLAY			_msg37,_apu_mus57
@@ -8967,13 +8963,13 @@ _scr_cutscene09:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_16C
 		TIMER_B_SET			$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_16D
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_16E
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$02
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_16F
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SUSPEND				$3C
 		TIMER_B_SET			$02
 		MSG_DISPLAY			_msg3A,_apu_mus59

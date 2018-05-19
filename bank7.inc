@@ -197,14 +197,14 @@ loc_B4124:
 		LDA		#$00
 		TAX
 loc_B413F:
-		STA		0,X
-		STA		$100,X
-		STA		$200,X
-		STA		$300,X
-		STA		$400,X
-		STA		$500,X
-		STA		$600,X
-		STA		$700,X
+		STA		$0000,X
+		STA		$0100,X
+		STA		$0200,X
+		STA		$0300,X
+		STA		$0400,X
+		STA		$0500,X
+		STA		$0600,X
+		STA		$0700,X
 		INX
 		BNE		loc_B413F
 		LDX		#$FF
@@ -5985,24 +5985,24 @@ _nsub_idxCs_80_test:
 		JMP		_scr_flags_update
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_obj_to_obj_idxCs_link:
-		LDA		_scr_cur_slot_idx
+_nsub_link_to_last_obj_slot:
+		LDA		_last_scr_slot_idx			; last fetched slot for previous RUN operation
 		TAY
-		ORA		#$50
-		STA		_scr_idxCs,X
+		ORA		#$50						; write down this index in current obj var with
+		STA		_scr_idxCs,X				; flags to mark it as master object
 		TXA
-		STA		_scr_idxCs,Y
-		RTS
+		STA		_scr_idxCs,Y				; store idx of master object to slave object var
+		RTS									; now two objects are linked
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_cur_obj_idx_to_idxBs_store:
-		LDA		_scr_cur_slot_idx
+_nsub_last_slot_idx_to_idxBs_store:
+		LDA		_last_scr_slot_idx
 		STA		_scr_idxBs,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_cur_obj_idx_to_idxCs_store:
-		LDA		_scr_cur_slot_idx
+_nsub_last_slot_idx_to_idxCs_store:
+		LDA		_last_scr_slot_idx
 		STA		_scr_idxCs,X
 		RTS
 
@@ -6210,16 +6210,16 @@ loc_B65CE:
 		JMP		_scr_cmd_neg_carry
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub164:
+_nsub_vars21_80_load:
 		LDA		#$80
 		STA		_scr_vars21,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub13C:
+_nsub_obj_to_obj_thrown_test_hor_concat:
 		LDA		_obj_x_deltas,X
 		BEQ		_scr_cmd_clear_carry
-		JSR		_players_state12_A_B_A
+		JSR		_obj_thrown_to_obj_collision_test
 		BCC		_scr_cmd_clear_carry
 		LDA		_obj_x_deltas,X
 		BPL		loc_B65EF
@@ -6230,8 +6230,8 @@ loc_B65EF:
 		JMP		_scr_cmd_set_carry
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub165:
-		JSR		_players_state12_A_B_A
+_nsub_obj_to_obj_thrown_test_concat_down:
+		JSR		_obj_thrown_to_obj_collision_test
 		BCC		loc_B65FE
 		JSR		_nsub_obj_to_obj_y_concat_down
 		SEC
@@ -6239,10 +6239,10 @@ loc_B65FE:
 		JMP		_scr_cmd_neg_carry
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub107:
-		JSR		_nsub_sub164
+_nsub_obj_to_obj_thrown_test_concat_up:
+		JSR		_nsub_vars21_80_load
 		INC		_obj_y_lo_poss,X
-		JSR		_players_state12_A_B_A
+		JSR		_obj_thrown_to_obj_collision_test
 		PHP
 		DEC		_obj_y_lo_poss,X
 		PLP
@@ -6808,7 +6808,7 @@ _nsub_obj_y_lo_maskF0:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub11C:
+_nsub_obj_stun_no_extra_flips_init:
 		LDA		_obj_flips,X
 		AND		#[~[_OBJ_UNDER_BG|_OBJ_FLIPS08|_OBJ_FLIPS04]&$FF]
 		STA		_obj_flips,X
@@ -6822,12 +6822,12 @@ _nsub_obj_type_change_auto:
 		BNE		_nsub_obj_type_change
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_obj_type_change_throw:
+_nsub_obj_type_change_pbullet:
 		LDA		#_OBJ_TYPE_PBULLET
 		BNE		_nsub_obj_type_change
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_obj_type_change_bullet:
+_nsub_obj_type_change_ebullet:
 		LDA		#_OBJ_TYPE_EBULLET
 		BNE		_nsub_obj_type_change
 
@@ -7244,6 +7244,9 @@ _nsub_macro_patch_line_draw:
 		LDA		#$00
 		STA		byte_97
 		LDY		byte_97
+#if BUGFIXES==1
+		INC		byte_97
+#endif
 		LDA		(_tmp_ptr4B),Y
 		BEQ		loc_B6B97
 		STA		byte_95
@@ -7523,27 +7526,27 @@ loc_B6D03:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub100:
-		LDY		byte_E0
-		LDA		_obj_y_lo_poss,X
+_nsub_basket_game_basket_collision_test:
+		LDY		byte_E0							; read stored previously idx of
+		LDA		_obj_y_lo_poss,X				; main basket object
 		CMP		#$45
-		BCS		loc_B6D14
-		INC		_obj_timerBs,X
+		BCS		loc_B6D14						; first test if ball above some level
+		INC		_obj_timerBs,X					; if not, set flag
 		RTS
 loc_B6D14:
-		CMP		_obj_y_lo_poss,Y
+		CMP		_obj_y_lo_poss,Y				; also test if we still above the basket
 		BCS		loc_B6D61
-		LDA		_obj_timerBs,X
+		LDA		_obj_timerBs,X					; if flag clear, we already did this test, skip
 		BEQ		locret_B6D68
-		LDA		_obj_y_deltas,X
+		LDA		_obj_y_deltas,X					; test if ball's goes down
 		BEQ		locret_B6D68
 		BMI		locret_B6D68
-		JSR		_obj_to_obj_collision_test
+		JSR		_obj_to_obj_collision_test		; after all these tests, do sys collision test routine
 		BCC		locret_B6D68
-		LDA		#$8B
+		LDA		#$8B							; if passed, select what player thrown this ball
 		STA		_tmp_ptr44
 		LDA		#$20
-		STA		_tmp_ptr44+1
+		STA		_tmp_ptr44+1					; select corresponding scores ppu offset
 		JSR		_nsub_get_idxBs_low_nibble
 		CPY		#$00
 		BEQ		loc_B6D41
@@ -7552,7 +7555,7 @@ loc_B6D14:
 		LDA		#$20
 		STA		_tmp_ptr44+1
 loc_B6D41:
-		TYA
+		TYA										; now increment score
 		TAX
 		LDA		_tmp_bonus_games_scores,X
 		CMP		#$0A
@@ -7563,7 +7566,7 @@ loc_B6D41:
 		LDA		_tmp_ptr44
 		SBC		_tmp_ptr0
 		STA		_tmp_ptr44
-		LDA		#<[byte_B6D69]
+		LDA		#<[byte_B6D69]					; draw dingle [*] tile on the HUD
 		STA		_tmp_ptr0
 		LDA		#>[byte_B6D69]
 		STA		_tmp_ptr0+1
@@ -7572,9 +7575,10 @@ loc_B6D41:
 loc_B6D61:
 		LDX		_scr_idx
 		LDA		#$00
-		STA		_obj_timerBs,X
+		STA		_obj_timerBs,X					; reset flags
 locret_B6D68:
 		RTS
+
 byte_B6D69:
 		.BYTE	$A0
 
@@ -7617,11 +7621,11 @@ _obj_scr_s_manager_loop:
 		JSR		_switch_param_ret
 		.WORD	0
 		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_TYPE_AUTO
-		.WORD	_far_players_manager		;	_OBJ_TYPE_PLAYER
+		.WORD	_far_prg2_players_manager		;	_OBJ_TYPE_PLAYER
 		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_TYPE_PBULLET
 		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_TYPE_STUNA
 		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_TYPE_BALL
-		.WORD	_enemy_manager				;	_OBJ_TYPE_ENEMY
+		.WORD	_far_prg4_enemy_manager				;	_OBJ_TYPE_ENEMY
 		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_TYPE_EBULLET
 		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_TYPE_STUNB
 		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_TYPE_SOLID
@@ -7656,13 +7660,13 @@ loc_B6DCF:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_far_players_manager:
+_far_prg2_players_manager:
 		LDA		#$02
 		JSR		_mmc1_prg_set
 		JMP		_players_manager
 
 ; =============== S U B R O U T I N E =======================================
-_enemy_manager:
+_far_prg4_enemy_manager:
 		LDX		_scr_idx
 		LDA		_obj_hps,X
 		BEQ		loc_B6DF9
@@ -7824,7 +7828,7 @@ loc_B6F07:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_state12_A_B_A:
+_obj_thrown_to_obj_collision_test:
 		LDX		_scr_idx
 		LDA		_obj_hps,X
 		BEQ		loc_B6F86
@@ -7965,7 +7969,7 @@ loc_B6FF0:
 loc_B6FFD:
 		CLC
 loc_B6FFE:
-		STX		_scr_cur_slot_idx
+		STX		_last_scr_slot_idx
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
@@ -8370,11 +8374,11 @@ _scr_intro:
 		POS_X_SET			$C0,$00
 		POS_Y_SET			$C0,$FF
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_170
-		NJSR				_nsub_obj_to_obj_idxCs_link
+		NJSR				_nsub_link_to_last_obj_slot
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_171
-		NJSR				_nsub_obj_to_obj_idxCs_link
+		NJSR				_nsub_link_to_last_obj_slot
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_172
-		NJSR				_nsub_obj_to_obj_idxCs_link
+		NJSR				_nsub_link_to_last_obj_slot
 		SJSRS				_ssub_B7360
 		DELTA_X_SET			$00
 		DELTA_Y_SET			$20
@@ -8491,7 +8495,7 @@ byte_B73BE:
 		APU_SE_SET			_apu_mus32
 		NJSR_SYNC			_title_clear_menu_area
 		NJSR_SYNC			_scr_players_num_menu_draw
-		SJSRS				_ssub_B73F1
+		SJSRS				_ssub_title_menu_common_handler
 		SSWITCH				_tmp49
 		SCASE				_scr_1_player_select
 		SCASE				_scr_2_players_select
@@ -8499,7 +8503,7 @@ _scr_1_player_select:
 		NJSR_SYNC			_scr_players_sel_menu_draw
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_173
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_174
-		SJSRS				_ssub_B73F1
+		SJSRS				_ssub_title_menu_common_handler
 		NJSR				_scr_single_player_apply
 _scr_2_players_select:
 		NJSR				_players_vars_init
@@ -8507,7 +8511,7 @@ _scr_2_players_select:
 		SJMP				_ssub_fade_out
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_ssub_B73F1:
+_ssub_title_menu_common_handler:
 		NJSR				_menu_init
 		MENU_CURSOR_DRAW	_menu_title_player_num
 byte_B73F7:
@@ -8622,9 +8626,9 @@ byte_B748B:
 ; =============== S C R I P T ===============================================
 _scr_continue:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_175
-		NJSR				_nsub_cur_obj_idx_to_idxBs_store
+		NJSR				_nsub_last_slot_idx_to_idxBs_store
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_176
-		NJSR				_nsub_cur_obj_idx_to_idxCs_store
+		NJSR				_nsub_last_slot_idx_to_idxCs_store
 		NJSR				_menu_init
 		NJSR				_continues_draw
 byte_B74B3:
@@ -8963,10 +8967,10 @@ _scr_cutscene0A:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_178
 		TIMER_B_SET			$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_179
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_17A
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$00
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		MSG_DISPLAY			_msg3F,_apu_mus56
@@ -8997,7 +9001,7 @@ _obj_scr_179:
 		FLIP_H_ON
 		SPRITE_ON
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_17B
-		NJSR				_nsub_cur_obj_idx_to_idxBs_store
+		NJSR				_nsub_last_slot_idx_to_idxBs_store
 		SUSPEND				$B4
 		NJSR				_nsub_idxBs_10_test_clear_from_idxBs
 		SPR_IDX_SET			_spr_lib1_09
@@ -9059,13 +9063,13 @@ _scr_cutscene0B:
 byte_B77A0:
 		TIMER_B_SET			$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_17C
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_17D
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$02
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_17E
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SUSPEND				$3C
 		MSG_DISPLAY			_msg46,_apu_mus5D
 		MSG_WAIT
@@ -9116,10 +9120,10 @@ byte_B7828:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_17F
 		TIMER_B_SET			$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_180
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$03
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_181
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SUSPEND				$3C
 byte_B7840:
 		STORE				$00,_tmp49
@@ -9164,10 +9168,10 @@ byte_B7899:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_182
 		TIMER_B_SET			$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_183
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$02
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_184
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SUSPEND				$3C
 		MSG_DISPLAY			_msg4F,_apu_mus59
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
@@ -9397,16 +9401,16 @@ _scr_cutscene0C:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_188
 		TIMER_B_SET			$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_189
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$03
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_18A
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$04
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_18B
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_18C
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SUSPEND				$3C
 		MSG_DISPLAY			_msg51,_apu_mus56
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
@@ -9470,7 +9474,7 @@ _obj_scr_18A:
 		FLIP_H_ON
 		SPRITE_ON
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_18D
-		NJSR				_nsub_obj_to_obj_idxCs_link
+		NJSR				_nsub_link_to_last_obj_slot
 		SJSR				_ssub_gadget_static_draw
 		SJSR				_ssub_6B797
 		NJSR				_nsub_obj_disable_from_idxCs_40_flag
@@ -9542,16 +9546,16 @@ _scr_cutscene0D:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cutscene_skip_wait
 		TIMER_B_SET			$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_18F
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_190
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$03
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_191
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$04
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_192
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SUSPEND				$3C
 		TIMER_B_SET			$00
 		MSG_DISPLAY			_msg55,_apu_mus56
@@ -9626,13 +9630,13 @@ _scr_cutscene0E:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cutscene_skip_wait
 		TIMER_B_SET			$05
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_193
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_194
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_195
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SUSPEND				$60
 		MSG_DISPLAY			_msg5A,_apu_mus5D
 		MSG_WAIT
@@ -9693,10 +9697,10 @@ _scr_cutscene0F:
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_196
 		TIMER_B_SET			$02
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_197
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_198
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SUSPEND				$3C
 		TIMER_B_SET			$02
 		MSG_DISPLAY			_msg60,_apu_mus59
@@ -9776,16 +9780,16 @@ byte_B7CF9:
 _scr_cutscene11:
 		TIMER_B_SET			$00
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cut11_chip
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$01
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cut11_dale
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$02
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cut11_monterey
-		NJSR				_nsub_cut_store_char_number
+		NJSR				_nsub_cut_last_obj_slot_store
 		TIMER_B_SET			$03
 		SRUN				_OBJ_TYPE_AUTO,_obj_scr_cut11_gadget
-		NJSR_SYNC			_nsub_cut_store_char_number
+		NJSR_SYNC			_nsub_cut_last_obj_slot_store
 		SUSPEND				$3C
 		TIMER_B_SET			$02
 		MSG_DISPLAY			_msg63,_apu_mus59

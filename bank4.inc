@@ -8,9 +8,9 @@
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_unref:
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCSS				byte_6800C
-		NJSR				_native_sub105
+		NJSR				_j_native_complement_x_deltas
 byte_6800C:
 		SJSR				_script_sub_68044
 		SBCSS				byte_6801F
@@ -24,7 +24,7 @@ byte_6801F:
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_script_sub_68020:
+_script_acorn_prize_animate:
 		SYNC
 		NJSR				_native_get_obj_y_delta
 		SBEQS				byte_6802F
@@ -33,7 +33,7 @@ _script_sub_68020:
 		OBJ_SET_X_DELTA		$00
 byte_6802F:
 		NJSR				_native_get_obj_hp
-		SBNES				_script_sub_68020
+		SBNES				_script_acorn_prize_animate
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -51,17 +51,17 @@ _script_sub_6803D:
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_6803E:
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 
 ; !FALLTHROUGH!
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_68044:
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		NJSR				_native_get_obj_y_delta
 		SBPLS				byte_6805C
 		NJSR				_obj_vert_animate
-		NJSR				_native_sub10A
+		NJSR				_native_obj_to_tile_collision_test_up
 		SBCSS				byte_68058
 		OBJ_SET_Y_DELTA		$01
 byte_68058:
@@ -83,7 +83,7 @@ _script_sub_68065:
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_6806C:
 		NJSR				_native_sub13A
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		NJSR				_native_sub164
 byte_68075:
 		NJSR				_native_get_obj_var0D
@@ -91,7 +91,7 @@ byte_68075:
 		NJSR_SYNC			_players_animB_sub0129_sub06_C
 		SJMP				byte_68075
 byte_68081:
-		NJSR				_native_sub12B
+		NJSR				_native_obj_idxCs_80_set
 		APU_LOAD			$24
 		SRET
 
@@ -113,7 +113,7 @@ byte_68092:
 ; =============== S C R I P T   R O U T I N E ===============================
 byte_68096:
 		OBJ_ANIMATE_SYNC
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		SJMP				byte_68096
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -139,7 +139,7 @@ _script_sub_680C3:
 		SYNC
 		NJSR				_native_get_obj_var0D
 		SBMIS				byte_680D4
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCSS				byte_680D3
 		SJSR				_script_sub_68044
 byte_680D3:
@@ -150,7 +150,7 @@ byte_680D4:
 		OBJ_SET_X_DELTA		$C0
 		NJSR				_native_sub11B
 		NJSR				_native_sub11C
-		NJSR				_native_sub11D
+		NJSR				_native_scr_params_set04_hi_nibble_clear
 		SJMP				byte_68092
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -172,7 +172,7 @@ byte_68101:
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_68102:
 		OBJ_SET_Y_DELTA		$00
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		NJSR				_scr_param_10_clear
 byte_6810A:
 		SYNC
@@ -190,11 +190,11 @@ _obj_scr24_spoon_rat:
 		OBJ_SET_SIZE		$08,$18
 		OBJ_SET_HP			$02
 		VAR_1C_SET			$01
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		OBJ_SET_X_DELTA		$F0
 		OBJ_SET_Y_DELTA		$00
 		NJSR				_native_sub10E
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_68132:
 		SPR_IDX_SELECT		$00
 		SJSR				_script_sub_6814C
@@ -214,11 +214,11 @@ _script_sub_6814C:
 		NJSR				_native_sub131
 		SBCCS				byte_6816A
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCSS				byte_6815F
 		BREAK				byte_68146
 byte_6815F:
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCC				_script_sub_68036
 		LOOPA				$08,_script_sub_6814C
 		SRET
@@ -238,7 +238,7 @@ byte_6817E:
 		SPR_IDX_SELECT		$00
 		SUSPEND				$08
 		NJSR				_native_sub10E
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 		SRET
 
 ; =============== O B J E C T   S C R I P T =================================
@@ -257,11 +257,11 @@ _obj_scr25_fork_rat:
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
 		OBJ_SET_SIZE		$08,$18
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		OBJ_SET_X_DELTA		$F0
 		OBJ_SET_Y_DELTA		$00
 		NJSR				_native_sub10E
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_681B8:
 		SPR_IDX_SELECT		$08
 		SJSR				_script_sub_681D2
@@ -288,7 +288,7 @@ byte_681E4:
 		LOOPA_RESET
 		LOOPB_RESET
 		NJSR				_native_sub10E
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 		BREAK				byte_681EF
 byte_681EF:
 		SPR_IDX_SELECT		$07
@@ -316,9 +316,9 @@ byte_68205:
 _script_sub_6821C:
 		SYNC
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCCS				byte_68231
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCCS				byte_68231
 		LOOPA				$08,_script_sub_6821C
 		SRET
@@ -338,7 +338,7 @@ _script100:
 		SPR_IDX_SELECT		$0E
 		OBJ_MOVE_Y_POS		$F0
 		OBJ_SET_X_DELTA		$30
-		NJSR				_native_sub12E
+		NJSR				_native_obj_hor_bounce13
 		PARAM_80_CLEAR
 		SJMP				byte_68092
 byte_68252:
@@ -357,7 +357,7 @@ _obj_scr26_fake_boxA:
 		VAR_1C_SET			$01
 		OBJ_SET_SIZE		$08,$0F
 		PARAM_80_CLEAR
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 byte_68273:
 		SYNC
@@ -381,7 +381,7 @@ byte_68273:
 		SJSR				_script_sub_68036
 		OBJ_SET_X_DELTA		$F0
 		OBJ_SET_Y_DELTA		$00
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_682A5:
 		SPR_IDX_SELECT		$13
 		SJSR				_script_sub_682BC
@@ -397,9 +397,9 @@ byte_682A5:
 _script_sub_682BC:
 		SYNC
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCCS				byte_682D1
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCCS				byte_682D1
 		LOOPA				$08,_script_sub_682BC
 		SRET
@@ -419,9 +419,9 @@ _obj_scr27_honey_bee:
 		OBJ_SET_SIZE		$08,$10
 		OBJ_SET_X_DELTA		$10
 		OBJ_SET_Y_DELTA		$04
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_682F4:
 		SPR_IDX_SELECT		$16
 		APU_LOAD			$61
@@ -460,7 +460,7 @@ _script_sub_6833A:
 
 ; =============== S C R I P T ===============================================
 _script101:
-		NJSR				_native_sub12B
+		NJSR				_native_obj_idxCs_80_set
 		OBJ_MOVE_Y_POS		$08
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$02
@@ -480,7 +480,7 @@ _obj_scr28_green_ceiling_bat:
 		OBJ_SET_SIZE		$08,$18
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 byte_6836B:
 		NJSR_SYNC			_native_sub112
@@ -505,11 +505,11 @@ _obj_scr29_green_floor_bat:
 		OBJ_SET_SIZE		$08,$18
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		OBJ_SET_X_DELTA		$F0
 		OBJ_SET_Y_DELTA		$00
 		NJSR				_native_sub10E
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_683A5:
 		SPR_IDX_SELECT		$25
 		SJSR				_script_sub_683BF
@@ -538,13 +538,13 @@ byte_683CE:
 byte_683D5:
 		SJSR				_script_sub_68408
 		LOOPA				$02,byte_683D5
-		NJSR				_native_sub113
+		NJSR				_native_get_rand_flags
 		SBPLS				byte_683E5
 		SJSR				_script_sub_68408
 byte_683E5:
 		NJSR				_native_sub10E
 		OBJ_SET_X_DELTA		$20
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_683ED:
 		APU_LOAD			$64
 byte_683EF:
@@ -610,7 +610,7 @@ byte_68434:
 		SUSPEND				$04
 		PARAM_80_SET
 		SUSPEND				$F0
-		NJSR				_native_sub113
+		NJSR				_native_get_rand_flags
 		SBPLS				byte_68434
 		SUSPEND				$78
 		SJMP				byte_68434
@@ -699,7 +699,7 @@ byte_6850A:
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_68514:
 		SYNC
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCSS				byte_6851E
 		SJSR				_script_sub_68036
 byte_6851E:
@@ -727,7 +727,7 @@ _script102:
 byte_68542:
 		NJSR				_native_sub04A_A
 		OBJ_MOVE_Y_POS		$18
-		NJSR_SYNC			_native_sub119
+		NJSR_SYNC			_native_obj_hor_bounce0C
 		SJMP				byte_68542
 
 ; =============== O B J E C T   S C R I P T =================================
@@ -738,12 +738,12 @@ _obj_scr2D_candle_dancing:
 		OBJ_SET_HP			$02
 		VAR_1C_SET			$01
 		OBJ_SET_SIZE		$05,$20
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 byte_68561:
 		SJSR				_script_sub_68587
 		OBJ_SET_X_DELTA		$E0
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_68569:
 		SJSR				_script_sub_685AE
 		LOOPA				$04,byte_68569
@@ -797,7 +797,7 @@ _script_sub_685AE:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_685CD:
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 		SPR_IDX_SELECT		$38
 		SUSPEND				$06
 		SPR_IDX_SELECT		$39
@@ -823,18 +823,18 @@ byte_685F5:
 		NJSR				_native_get_obj_y_delta
 		SBNES				byte_68613
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCSS				byte_6860A
 		OBJ_SET_Y_DELTA		$CF
 		SJMP				byte_68638
 byte_6860A:
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCCS				byte_68636
 		SJMP				byte_68638
 byte_68613:
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
-		NJSR				_native_sub109
+		NJSR				_native_obj_to_tile_collision_test_hor
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		NJSR				_native_get_obj_y_delta
 		SBMIS				byte_6862D
 		NJSR				_native_sub10B
@@ -843,7 +843,7 @@ byte_68613:
 		SJMP				byte_68638
 byte_6862D:
 		NJSR				_obj_vert_animate
-		NJSR				_native_sub10A
+		NJSR				_native_obj_to_tile_collision_test_up
 		SBCSS				byte_68638
 byte_68636:
 		OBJ_SET_Y_DELTA		$01
@@ -888,7 +888,7 @@ _script_sub_6867F:
 		SYNC
 		NJSR				_native_get_obj_var0D
 		SBMIS				byte_68694
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCSS				byte_6868F
 		SJSR				_script_sub_68044
 byte_6868F:
@@ -901,12 +901,12 @@ byte_68694:
 		OBJ_SET_X_DELTA		$C0
 		NJSR				_native_sub11B
 		NJSR				_native_sub11C
-		NJSR				_native_sub11D
+		NJSR				_native_scr_params_set04_hi_nibble_clear
 		SJMP				byte_68092
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr2E_ghost_dogA:
-		SJSR				_script202
+		SJSR				_script_wait_for_idxCs_80_set
 byte_686AC:
 		NJSR_SYNC			_native_sub11E
 		SBNES				byte_686AC
@@ -930,9 +930,9 @@ _script103:
 		OBJ_SET_X_DELTA		$10
 		OBJ_SET_X_POS		$80,$00
 		NJSR				_native_sub001
-		NJSR				_native_sub121
+		NJSR				_native_obj_hor_bounce7E
 		NJSR				_native_sub110
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_686E7:
 		SPR_IDX_SELECT		$00
 		SJSR				_script_sub_6870C
@@ -976,7 +976,7 @@ byte_68729:
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
 		OBJ_SET_SIZE		$08,$14
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 		TARGET_DIR_SET		$20
 byte_6873F:
@@ -994,10 +994,10 @@ _script_sub_68751:
 		NJSR				_native_sub124
 		NJSR				_native_sub125
 		SBNES				byte_68763
-		NJSR				_native_sub126
+		NJSR				_native_inc_vars19
 		SJMP				byte_68766
 byte_68763:
-		NJSR				_native_sub127
+		NJSR				_native_dec_vars19
 byte_68766:
 		NJSR				_obj_vert_animate
 		OBJ_ANIMATE_SYNC
@@ -1043,7 +1043,7 @@ _obj_scr2C_sailor_monkey:
 		OBJ_SET_HP			$02
 		VAR_1C_SET			$01
 		OBJ_SET_SIZE		$0C,$20
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		OBJ_SET_Y_DELTA		$10
 byte_687BE:
 		APU_LOAD			$68
@@ -1052,7 +1052,7 @@ byte_687C0:
 		LOOPA				$08,byte_687C0
 		LOOPB				$04,byte_687BE
 		NJSR				_native_sub129
-		NJSR				_native_sub12A
+		NJSR				_native_get_rand_scale3
 		SSWITCH				_tmp_ptrE+1
 		SCASE				byte_687BE
 		SCASE				byte_687DA
@@ -1086,7 +1086,7 @@ _script105:
 byte_68805:
 		OBJ_MOVE_X_POS		$1C
 		OBJ_MOVE_Y_POS		$F8
-		NJSR				_native_sub12B
+		NJSR				_native_obj_idxCs_80_set
 		SPR_LIB_SELECT		$07
 		OBJ_SET_Y_DELTA		$00
 		PARAM_80_CLEAR
@@ -1116,7 +1116,7 @@ _obj_scr30_penguin:
 		OBJ_SET_HP			$02
 		VAR_1C_SET			$01
 		OBJ_SET_SIZE		$0A,$20
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 byte_68841:
 		OBJ_SET_X_DELTA		$18
@@ -1141,15 +1141,15 @@ byte_6885D:
 _script_sub_68867:
 		LOOPA_RESET
 		APU_LOAD			$40
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_6886D:
 		SYNC
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCSS				byte_6887A
 		BREAK				byte_6885D
 byte_6887A:
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCC				_script_sub_68036
 		LOOPA				$0E,byte_6886D
 		NJSR				_native_sub116
@@ -1159,13 +1159,13 @@ byte_6888B:
 		SPR_IDX_SELECT		$55
 		OBJ_SET_X_DELTA		$30
 		NJSR				_native_sub10E
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_68895:
 		SYNC
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCCS				byte_688A9
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCC				_script_sub_68036
 		LOOPA				$20,byte_68895
 byte_688A9:
@@ -1185,12 +1185,12 @@ _obj_scr31_ski_rat:
 		OBJ_SET_SIZE		$0C,$18
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 byte_688CE:
 		OBJ_SET_X_DELTA		$E0
 		OBJ_SET_Y_DELTA		$00
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 		APU_LOAD			$41
 		SPR_IDX_SELECT		$57
 byte_688D9:
@@ -1210,11 +1210,11 @@ byte_688E8:
 _script_sub_688F8:
 		SYNC
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCSS				byte_68905
 		NJSR				_native_sub110
 byte_68905:
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCC				_script_sub_68036
 		SRET
 byte_6890C:
@@ -1222,7 +1222,7 @@ byte_6890C:
 		SJSR				_script_sub_68036
 byte_68911:
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		NJSR				_native_sub12C
 		NJSR_SYNC			_native_get_obj_x_delta
 		SBNES				byte_68911
@@ -1230,7 +1230,7 @@ byte_68911:
 		NJSR				_native_sub110
 		OBJ_SET_X_DELTA		$E0
 		OBJ_SET_Y_DELTA		$00
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_6892C:
 		APU_LOAD			$41
 		SPR_IDX_SELECT		$57
@@ -1244,14 +1244,14 @@ byte_68939:
 		SJMP				byte_6892C
 
 ; =============== O B J E C T   S C R I P T =================================
-_obj_scr32:
+_obj_scr32_icicle:
 		SUSPEND				$B4
 		SRUN				$07,_script106
-		SJMP				_obj_scr32
+		SJMP				_obj_scr32_icicle
 
 ; =============== S C R I P T ===============================================
 _script106:
-		NJSR				_native_sub12B
+		NJSR				_native_obj_idxCs_80_set
 		OBJ_MOVE_X_POS		$08
 		OBJ_MOVE_Y_POS		$12
 		SPR_LIB_SELECT		$07
@@ -1313,7 +1313,7 @@ byte_689C0:
 ; =============== S C R I P T ===============================================
 _script107:
 		OBJ_MOVE_Y_POS		$F2
-		NJSR				_native_sub119
+		NJSR				_native_obj_hor_bounce0C
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
 		OBJ_SET_SIZE		$08,$0A
@@ -1329,7 +1329,7 @@ _script108:
 		SPR_IDX_SELECT		$68
 		OBJ_SET_X_DELTA		$10
 		OBJ_SET_Y_DELTA		$E0
-		NJSR				_native_sub12E
+		NJSR				_native_obj_hor_bounce13
 		PARAM_80_CLEAR
 		FLIP_40_CLEAR
 byte_689E8:
@@ -1346,7 +1346,7 @@ byte_689E8:
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_689FB:
 		OBJ_ANIMATE_SYNC
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		LOOPA				$04,_script_sub_689FB
 		SRET
 
@@ -1358,10 +1358,10 @@ _obj_scr34_mecha_dog:
 		OBJ_SET_SIZE		$0C,$18
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 		OBJ_SET_X_DELTA		$E8
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_68A1D:
 		APU_LOAD			$3E
 byte_68A1F:
@@ -1383,7 +1383,7 @@ byte_68A3D:
 		SUSPEND				$08
 		LOOPB				$04,byte_68A3D
 		OBJ_SET_X_DELTA		$20
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_68A4E:
 		SPR_IDX_SELECT		$62
 		SJSR				_script_sub_68A77
@@ -1410,20 +1410,20 @@ _script_sub_68A69:
 _script_sub_68A77:
 		SYNC
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCSS				byte_68A86
 		LOOPA_RESET
 		LOOPB_RESET
 		NJSR				_native_sub110
 byte_68A86:
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCC				_script_sub_68036
 		LOOPA				$07,_script_sub_68A77
 		SRET
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr35_red_bird_with_egg:
-		SJSR				_script202
+		SJSR				_script_wait_for_idxCs_80_set
 byte_68A94:
 		NJSR_SYNC			_native_sub11E
 		SBNES				byte_68A94
@@ -1434,7 +1434,7 @@ byte_68A94:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr36_red_bird:
-		SJSR				_script202
+		SJSR				_script_wait_for_idxCs_80_set
 byte_68AA8:
 		NJSR_SYNC			_native_sub11E
 		SBNES				byte_68AA8
@@ -1453,9 +1453,9 @@ _script_sub_68AB9:
 		OBJ_SET_SIZE		$10,$20
 		OBJ_SET_X_POS		$80,$00
 		NJSR				_native_sub001
-		NJSR				_native_sub121
+		NJSR				_native_obj_hor_bounce7E
 		NJSR				_native_sub110
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 		SRET
 
 ; =============== S C R I P T ===============================================
@@ -1475,7 +1475,7 @@ byte_68ADB:
 		SRUN				$06,_script10B
 		SBCSS				byte_68ADB
 		OBJ_SET_X_DELTA		$20
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 		SJMP				byte_68B1A
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -1541,7 +1541,7 @@ _script10B:
 		PARAM_80_CLEAR
 byte_68B53:
 		SYNC
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		NJSR				_native_sub10B
 		SBCCS				byte_68B53
 		OBJ_SET_Y_DELTA		$00
@@ -1556,7 +1556,7 @@ byte_68B53:
 		SUSPEND				$08
 		OBJ_SET_X_DELTA		$10
 		NJSR_SYNC			_native_sub10E
-		NJSR_SYNC			_native_sub10F
+		NJSR_SYNC			_native_obj_hor_delta_toggle
 byte_68B79:
 		SPR_IDX_SELECT		$6E
 		SJSR				_script_sub_68B90
@@ -1572,9 +1572,9 @@ byte_68B79:
 _script_sub_68B90:
 		SYNC
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCCS				byte_68BA5
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCCS				byte_68BA5
 		LOOPA				$08,_script_sub_68B90
 		SRET
@@ -1593,10 +1593,10 @@ _obj_scr37_javelin_rat:
 		OBJ_SET_SIZE		$0C,$18
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 		OBJ_SET_X_DELTA		$10
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_68BC9:
 		SPR_IDX_SELECT		$44
 		SJSR				_script_sub_68C0D
@@ -1635,16 +1635,16 @@ _script_sub_68C0D:
 		NJSR				_native_sub112
 		SBCSS				_script_sub_68C22
 		NJSR				_native_sub10E
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 		BREAK				byte_68BE0
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_68C22:
 		SYNC
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCCS				byte_68C37
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCCS				byte_68C37
 		LOOPA				$0B,_script_sub_68C22
 		SRET
@@ -1664,13 +1664,13 @@ _script10C:
 		OBJ_MOVE_Y_POS		$DF
 		OBJ_SET_X_DELTA		$20
 		OBJ_SET_Y_DELTA		$E0
-		NJSR				_native_sub12E
+		NJSR				_native_obj_hor_bounce13
 		PARAM_80_CLEAR
 		SJMP				byte_68096
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr3C_violet_bug_fall:
-		SJSR				byte_68CCC
+		SJSR				_script_sub_68CCC
 byte_68C5A:
 		NJSR_SYNC			_native_cmp20_obj_x_lo_pos
 		SBCSS				byte_68C5A
@@ -1686,7 +1686,7 @@ byte_68C71:
 		LOOPA				$04,byte_68C71
 		OBJ_SET_X_DELTA		$20
 		OBJ_SET_Y_DELTA		$F0
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_68C7F:
 		SJSR				byte_68C8D
 		LOOPA				$02,byte_68C7F
@@ -1702,47 +1702,47 @@ byte_68C8D:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr3D_violet_bug_float:
-		SJSR				byte_68CCC
+		SJSR				_script_sub_68CCC
 		TARGET_DIR_SET		$20
 byte_68C9C:
 		SPR_IDX_SELECT		$71
-		SJSR				byte_68CB1
+		SJSR				_script_sub_68CB1
 		SPR_IDX_SELECT		$72
-		SJSR				byte_68CB1
+		SJSR				_script_sub_68CB1
 		LOOPA				$06,byte_68C9C
 		SRUN				$08,_script10D
 		SJMP				byte_68C9C
 
 ; =============== S C R I P T   R O U T I N E ===============================
-byte_68CB1:
+_script_sub_68CB1:
 		NJSR				_native_sub123
 		NJSR				_native_sub124
 		NJSR				_native_sub125
 		SBNES				byte_68CC3
-		NJSR				_native_sub126
+		NJSR				_native_inc_vars19
 		SJMP				byte_68CC6
 byte_68CC3:
-		NJSR				_native_sub127
+		NJSR				_native_dec_vars19
 byte_68CC6:
 		OBJ_ANIMATE_SYNC
-		LOOPB				$08,byte_68CB1
+		LOOPB				$08,_script_sub_68CB1
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
-byte_68CCC:
+_script_sub_68CCC:
 		DESTR_PC_SET		_obj_scr_common_destr
 		SPR_LIB_SELECT		$07
 		SPR_IDX_SELECT		$71
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
 		OBJ_SET_SIZE		$0A,$14
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 		SRET
 
 ; =============== S C R I P T ===============================================
 _script10D:
-		NJSR				_native_sub12B
+		NJSR				_native_obj_idxCs_80_set
 		APU_LOAD			$29
 		OBJ_MOVE_Y_POS		$08
 		OBJ_SET_Y_DELTA		$10
@@ -1762,7 +1762,7 @@ byte_68CF4:
 _obj_scr39_hedgehog:
 		SPR_LIB_SELECT		$07
 		SPR_IDX_SELECT		$77
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 byte_68D0B:
 		DESTR_PC_SET		_obj_scr_common_destr
@@ -1770,7 +1770,7 @@ byte_68D0B:
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
 		OBJ_SET_X_DELTA		$08
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_68D1A:
 		LOOPA_RESET
 		SPR_IDX_SELECT		$77
@@ -1791,11 +1791,11 @@ byte_68D35:
 		BREAK				byte_68D56
 byte_68D3F:
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCSS				byte_68D4B
 		BREAK				byte_68D2F
 byte_68D4B:
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCC				_script_sub_68036
 		LOOPA				$0E,byte_68D35
 		SRET
@@ -1819,7 +1819,7 @@ byte_68D6B:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr3A_running_cock:
-		SJSR				_script202
+		SJSR				_script_wait_for_idxCs_80_set
 byte_68D7A:
 		SYNC
 		NJSR				_native_cmp08_obj_x_lo_pos
@@ -1833,7 +1833,7 @@ byte_68D7A:
 		PARAM_80_CLEAR
 		OBJ_SET_X_DELTA		$30
 		NJSR				_native_sub10E
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_68D98:
 		SPR_IDX_SELECT		$74
 		SJSR				byte_68DA5
@@ -1845,7 +1845,7 @@ byte_68DA5:
 byte_68DA7:
 		SYNC
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCSS				byte_68DB4
 		NJSR				_native_sub110
 byte_68DB4:
@@ -1860,7 +1860,7 @@ _obj_scr38_electric_rat:
 		DESTR_PC_SET		byte_68E18
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$3A
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		NJSR				_native_sub10E
 		OBJ_SET_SIZE		$06,$1C
 		VAR_1C_SET			$01
@@ -1923,7 +1923,7 @@ _script10E:
 
 ; =============== S C R I P T ===============================================
 byte_68E30:
-		NJSR				_native_sub12B
+		NJSR				_native_obj_idxCs_80_set
 		SPR_LIB_SELECT		$05
 		OBJ_SET_SIZE		$04,$08
 		OBJ_SET_HP			$01
@@ -1939,9 +1939,9 @@ byte_68E3D:
 ; =============== S C R I P T   R O U T I N E ===============================
 byte_68E4A:
 		OBJ_ANIMATE_SYNC
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCC				byte_68E5C
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCC				byte_68E5C
 		LOOPA				$06,byte_68E4A
 		SRET
@@ -1953,7 +1953,7 @@ _obj_scr3F_lvl1_boss_water_rabbit:
 		STORE				$1E,_apu_load_idx_req
 		SRUN				$01,_script110
 		DESTR_PC_SET		_obj_scr_common_small_boss_destr
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_MOVE_X_POS		$0A
 		SPR_LIB_SELECT		$08
 		SUSPEND				$80
@@ -1963,7 +1963,7 @@ _obj_scr3F_lvl1_boss_water_rabbit:
 		PARAM_80_CLEAR
 		OBJ_SET_X_DELTA		$10
 		NJSR				_native_sub10E
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_68E81:
 		SPR_IDX_SELECT		$18
 		SJSR				_script206
@@ -1972,7 +1972,7 @@ byte_68E81:
 		LOOPA				$02,byte_68E81
 		SJSR				byte_68F10
 byte_68E92:
-		NJSR				_native_sub12A
+		NJSR				_native_get_rand_scale3
 		SSWITCH				_tmp_ptrE+1
 		SCASE				byte_68E9E
 		SCASE				byte_68EB4
@@ -1981,7 +1981,7 @@ byte_68E9E:
 		OBJ_SET_X_DELTA		$00
 		OBJ_SET_Y_DELTA		$00
 		NJSR				_native_sub10E
-		NJSR				_native_sub113
+		NJSR				_native_get_rand_flags
 		SBPL				byte_68EAE
 		SJSR				byte_68F2E
 byte_68EAE:
@@ -1989,8 +1989,8 @@ byte_68EAE:
 		SJSR				byte_68F10
 byte_68EB4:
 		OBJ_SET_X_DELTA		$20
-		NJSR				_native_sub10F
-		NJSR				_native_sub113
+		NJSR				_native_obj_hor_delta_toggle
+		NJSR				_native_get_rand_flags
 		SBPL				byte_68EC2
 		SJSR				byte_68EC8
 byte_68EC2:
@@ -2008,7 +2008,7 @@ byte_68ECF:
 		SBCC				byte_68EDF
 		NJSR				_native_sub110
 byte_68EDF:
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCC				byte_68EEA
 		LOOPB				$0A,byte_68ECF
 		SRET
@@ -2018,7 +2018,7 @@ byte_68EEA:
 		SBEQ				byte_68F01
 		NJSR				_native_cmpC0_obj_y_lo_pos
 		SBEQ				byte_68EFF
-		NJSR				_native_sub113
+		NJSR				_native_get_rand_flags
 		SBPL				byte_68F01
 byte_68EFF:
 		OBJ_SET_Y_DELTA		$AE
@@ -2065,7 +2065,7 @@ byte_68F2E:
 _script111:
 		OBJ_MOVE_Y_POS		$E4
 		OBJ_SET_X_DELTA		$20
-		NJSR				_native_sub12E
+		NJSR				_native_obj_hor_bounce13
 		SPR_LIB_SELECT		$08
 		OBJ_SET_SIZE		$05,$08
 		OBJ_SET_HP			$01
@@ -2079,7 +2079,7 @@ byte_68F68:
 		SJMP				byte_68F68
 byte_68F75:
 		OBJ_ANIMATE_SYNC
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		LOOPA				$03,byte_68F75
 		SRET
 
@@ -2097,7 +2097,7 @@ byte_68F80:
 _script112:
 		PARAM_40_SET
 		DESTR_PC_SET		_script46
-		NJSR				_native_sub12A
+		NJSR				_native_get_rand_scale3
 		SSWITCH				_tmp_ptrE+1
 		SCASE				byte_68F9F
 		SCASE				byte_68FA5
@@ -2127,7 +2127,7 @@ byte_68FC0:
 		NJSR				_native_sub13A
 byte_68FCB:
 		SYNC
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		NJSR				_native_sub10B
 		SBCS				byte_68FDE
 		NJSR				_native_get_obj_hp
@@ -2138,14 +2138,14 @@ byte_68FDE:
 		NJSR				_native_sub110
 		OBJ_SET_X_DELTA		$08
 		OBJ_SET_Y_DELTA		$00
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_68FEB:
 		SYNC
 		NJSR				_native_get_obj_var0D
 		SBMI				_script46
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub13C
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCS				byte_68FEB
 		SJMP				byte_68FC0
 
@@ -2153,7 +2153,7 @@ byte_68FEB:
 _obj_scr40_lvl2_boss_flying_panther:
 		STORE				$1E,_apu_load_idx_req
 		DESTR_PC_SET		_obj_scr_common_small_boss_destr
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_MOVE_X_POS		$0F
 		SPR_LIB_SELECT		$08
 		SUSPEND				$80
@@ -2170,9 +2170,9 @@ byte_69024:
 		SJSR				byte_69039
 		SJSR				byte_6905E
 		SJSR				byte_69039
-		SJSR				byte_69076
+		SJSR				_script_sub_69076
 		SJSR				byte_69039
-		SJSR				byte_69076
+		SJSR				_script_sub_69076
 		SJMP				byte_69024
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -2197,7 +2197,7 @@ byte_69056:
 byte_6905E:
 		OBJ_SET_X_DELTA		$E0
 		OBJ_SET_Y_DELTA		$19
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_69065:
 		SJSR				byte_690B0
 		NJSR				_native_sub004
@@ -2207,10 +2207,10 @@ byte_69065:
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
-byte_69076:
+_script_sub_69076:
 		OBJ_SET_X_DELTA		$E0
 		OBJ_SET_Y_DELTA		$20
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_6907D:
 		SJSR				byte_690B0
 		NJSR				_native_sub004
@@ -2303,7 +2303,7 @@ _script113:
 		PARAM_80_CLEAR
 		NJSR_SYNC			_native_sub006
 byte_69120:
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		NJSR_SYNC			_obj_vert_animate
 		LOOPA				$20,byte_69120
 		TARGET_LOCK			$40
@@ -2313,7 +2313,7 @@ byte_69120:
 		SJSR				_script1FF
 		OBJ_SET_X_DELTA		$18
 		OBJ_SET_Y_DELTA		$00
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_6913F:
 		SJSR				_script_animate10
 		NJSR				_native_sub007
@@ -2378,7 +2378,7 @@ _obj_scr41_lvl3_boss_sea_rat:
 		STORE				$1E,_apu_load_idx_req
 		STORE				$10,byte_9D
 		DESTR_PC_SET		_obj_scr_common_small_boss_destr
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		SRUN				$01,_script114
 		OBJ_MOVE_X_POS		$20
 		SPR_LIB_SELECT		$08
@@ -2395,7 +2395,7 @@ _obj_scr41_lvl3_boss_sea_rat:
 		SJSR				byte_691E3
 		NJSR				_native_sub009
 byte_691D7:
-		NJSR				_native_sub12A
+		NJSR				_native_get_rand_scale3
 		SSWITCH				_tmp_ptrE+1
 		SCASE				byte_69223
 		SCASE				byte_691EA
@@ -2434,7 +2434,7 @@ byte_69223:
 		SBCS				byte_691F0
 byte_69229:
 		OBJ_SET_X_DELTA		$18
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_6922E:
 		SYNC
 		SPR_IDX_SELECT		$25
@@ -2475,14 +2475,14 @@ byte_6927B:
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_get_obj_y_delta
 		SBNE				byte_69290
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCC				byte_6928E
 		SRET
 byte_6928E:
 		OBJ_SET_Y_DELTA		$B0
 byte_69290:
 		SPR_IDX_SELECT		$26
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		SBPL				byte_6929C
 		NJSR				_obj_vert_animate
 		SRET
@@ -2553,7 +2553,7 @@ byte_692F1:
 _script115:
 		OBJ_MOVE_Y_POS		$E9
 		OBJ_SET_X_DELTA		$30
-		NJSR				_native_sub141
+		NJSR				_native_obj_hor_bounce2C
 		SPR_LIB_SELECT		$08
 		OBJ_SET_SIZE		$04,$06
 		OBJ_SET_HP			$01
@@ -2570,7 +2570,7 @@ byte_6930B:
 _obj_scr42_lvl4_boss_ghost:
 		STORE				$0E,_apu_load_idx_req
 		DESTR_PC_SET		byte_694CA
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_SET_HP			$07
 		VAR_1C_SET			$01
 		STORE				$00,byte_E0
@@ -2619,14 +2619,14 @@ byte_69380:
 		SPR_IDX_SELECT		$10
 		APU_LOAD			$6C
 		NJSR_SYNC			_native_box_bonus_4prizes_shuffle
-		NJSR				_native_sub12A
+		NJSR				_native_get_rand_scale3
 		SSWITCH				_tmp_ptrE+1
 		SCASE				byte_69412
 		SCASE				byte_693D6
 		SCASE				byte_6939A
 byte_6939A:
 		OBJ_SET_X_DELTA		$F9
-		NJSR				_native_sub113
+		NJSR				_native_get_rand_flags
 		SBPL				byte_693AF
 byte_693A2:
 		SJSR				byte_693BC
@@ -2654,7 +2654,7 @@ byte_693CB:
 		SJMP				byte_6940D
 byte_693D6:
 		OBJ_SET_X_DELTA		$E8
-		NJSR				_native_sub113
+		NJSR				_native_get_rand_flags
 		SBPL				byte_693E7
 		SJSR				byte_693F0
 		SJSR				byte_69400
@@ -2887,7 +2887,7 @@ byte_69551:
 _obj_scr43_lvl5B_cat_with_cards:
 		STORE				$0E,_apu_load_idx_req
 		DESTR_PC_SET		_obj_scr_common_small_boss_destr
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_MOVE_X_POS		$50
 		SPR_LIB_SELECT		$08
 		OBJ_SET_HP			$08
@@ -2919,7 +2919,7 @@ byte_695A5:
 		SBEQ				byte_695B9
 		NJSR				_native_cmpC0_obj_y_lo_pos
 		SBEQ				byte_695B7
-		NJSR				_native_sub113
+		NJSR				_native_get_rand_flags
 		SBPL				byte_695B9
 byte_695B7:
 		OBJ_SET_Y_DELTA		$AE
@@ -2929,7 +2929,7 @@ byte_695B9:
 		SJMP				byte_69594
 byte_695C1:
 		OBJ_SET_X_DELTA		$18
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_695C6:
 		SPR_IDX_SELECT		$35
 		SJSR				_script_sub_695DD
@@ -2948,7 +2948,7 @@ _script_sub_695DD:
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub135
 		SBCS				byte_695F5
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCC				byte_695FC
 		LOOPA				$0A,_script_sub_695DD
 		SRET
@@ -2963,7 +2963,7 @@ byte_69600:
 		SYNC
 		SJSR				_script20A
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		SBPL				byte_69613
 		NJSR				_obj_vert_animate
 		SJMP				byte_69600
@@ -3001,7 +3001,7 @@ _script11D:
 		VAR_1C_SET			$01
 		SPR_LIB_SELECT		$08
 		PARAM_80_CLEAR
-		NJSR				_native_sub141
+		NJSR				_native_obj_hor_bounce2C
 		OBJ_MOVE_Y_POS		$EF
 		TARGET_LOCK			$40
 		NJSR				_native_sub00E
@@ -3011,7 +3011,7 @@ _script11D:
 		SPR_IDX_SELECT		$3B
 		OBJ_SET_X_DELTA		$18
 		OBJ_SET_Y_DELTA		$00
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_69671:
 		SJSR				_script_animate10
 		NJSR				_native_sub007
@@ -3063,7 +3063,7 @@ byte_6972B:
 _obj_scr44_lvl5B_boss_ostrich:
 		STORE				$0E,_apu_load_idx_req
 		DESTR_PC_SET		_obj_scr_common_small_boss_destr
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_MOVE_X_POS		$60
 		SPR_LIB_SELECT		$08
 		OBJ_SET_HP			$08
@@ -3091,7 +3091,7 @@ byte_69785:
 		LOOPA				$02,byte_69785
 byte_697AD:
 		SJSR				byte_69859
-		NJSR				_native_sub113
+		NJSR				_native_get_rand_flags
 		SBPL				byte_697BF
 		NJSR				_native_cmpC0_obj_y_lo_pos
 		SBNE				byte_697BF
@@ -3099,7 +3099,7 @@ byte_697AD:
 byte_697BF:
 		SJSR				byte_69845
 		SJSR				byte_697ED
-		NJSR				_native_sub113
+		NJSR				_native_get_rand_flags
 		SBPL				byte_697CF
 		OBJ_SET_Y_DELTA		$AC
 		APU_LOAD			$54
@@ -3119,7 +3119,7 @@ byte_697D8:
 byte_697ED:
 		OBJ_SET_X_DELTA		$20
 byte_697EF:
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 		SPR_IDX_SELECT		$2D
 		SJSR				byte_69813
 		SPR_IDX_SELECT		$2E
@@ -3142,10 +3142,10 @@ byte_69813:
 		SBNE				byte_69840
 		NJSR				_native_get_obj_y_delta
 		SBNE				byte_6982C
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCS				byte_69840
 byte_6982C:
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		SBPL				byte_69838
 		NJSR				_obj_vert_animate
 		SJMP				byte_69840
@@ -3195,7 +3195,7 @@ byte_6987C:
 		VAR_1C_SET			$01
 		PARAM_80_CLEAR
 		OBJ_SET_Y_DELTA		$D0
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 		NJSR				_native_sub13D
 		SBCC				byte_698A7
 byte_69891:
@@ -3206,7 +3206,7 @@ byte_69891:
 		SJMP				byte_69891
 byte_6989E:
 		OBJ_ANIMATE_SYNC
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		LOOPA				$06,byte_6989E
 		SRET
 byte_698A7:
@@ -3246,7 +3246,7 @@ _obj_scr45_lvl5C_wrecking_lizard:
 		SRUN				$07,_script11F
 		SRUN				$06,_script120
 		NJSR				_native_sub14B
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		SPR_LIB_SELECT		$08
 		SPR_IDX_SELECT		$00
 		SUSPEND				$80
@@ -3267,7 +3267,7 @@ byte_6990D:
 byte_69924:
 		NJSR				_native_sub00F
 		SBCC				byte_6994D
-		NJSR				_native_sub12A
+		NJSR				_native_get_rand_scale3
 		SSWITCH				_tmp_ptrE+1
 		SCASE				byte_69936
 		SCASE				byte_6994D
@@ -3277,7 +3277,7 @@ byte_69936:
 		SPR_IDX_SELECT		$01
 		STORE				$00,_pal_anim_mode_idx
 		SJSR				byte_69969
-		NJSR				_native_sub14C
+		NJSR				_native_idxBs_10_test_clear_from_idxCs
 		SJSR				byte_69969
 		SJSR				byte_69969
 		SJSR				byte_69969
@@ -3362,7 +3362,7 @@ off_699D7:
 
 ; =============== S C R I P T ===============================================
 _script121:
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_MOVE_Y_POS		$FF
 		SPR_LIB_SELECT		$08
 		SPR_IDX_SELECT		$03
@@ -3383,7 +3383,7 @@ _load_pal_patch01:
 
 ; =============== S C R I P T ===============================================
 _script11F:
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_MOVE_Y_POS		$3F
 		OBJ_SET_SIZE		$24,$40
 		OBJ_SET_HP			$01
@@ -3404,7 +3404,7 @@ byte_69A1B:
 
 ; =============== S C R I P T ===============================================
 _script120:
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_MOVE_X_POS		$94
 		OBJ_MOVE_Y_POS		$48
 		SPR_LIB_SELECT		$08
@@ -3454,7 +3454,7 @@ _native_sub013:
 		SEC
 		LDA		_obj_y_lo_poss,X
 		SBC		#$30
-		STA		_obj_heigts,X
+		STA		_obj_heights,X
 		LDA		_scr_loopsB,X
 		AND		#$03
 		BEQ		loc_69A92
@@ -3573,7 +3573,7 @@ byte_69B5D:
 		LOOPB				$10,byte_69B5D
 		NJSR				_pal_bg003_reload
 		DESTR_PC_SET		_obj_scr46_lvl6_final_boss_destr
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		SPR_LIB_SELECT		$08
 		SPR_IDX_SELECT		$51
 		OBJ_SET_HP			$0A
@@ -3638,7 +3638,7 @@ byte_69C05:
 byte_69C10:
 		NJSR				_native_cmpC0_obj_x_lo_pos
 		SBNE				byte_69BB8
-		NJSR				_native_sub12A
+		NJSR				_native_get_rand_scale3
 		SSWITCH				_tmp_ptrE+1
 		SCASE				byte_69C22
 		SCASE				byte_69C2F
@@ -3648,14 +3648,14 @@ byte_69C22:
 		SCASE				byte_69C2F
 		SCASE				byte_69C29
 byte_69C29:
-		NJSR_SYNC			_native_sub151
+		NJSR_SYNC			_native_idxBs_10_test_clear_from_idxBs
 		SJMP				byte_69C40
 byte_69C2F:
 		SSWITCH				byte_E1
 		SCASE				byte_69C3C
 		SCASE				byte_69C36
 byte_69C36:
-		NJSR_SYNC			_native_sub14C
+		NJSR_SYNC			_native_idxBs_10_test_clear_from_idxCs
 		SJMP				byte_69C40
 byte_69C3C:
 		SRUN				$01,_script12E
@@ -3716,7 +3716,7 @@ byte_69CB5:
 		NJSR				_native_sub017
 byte_69CB8:
 		SJSR				_script_sub_69CDC
-		NJSR				_native_tlm_patch_line_draw
+		NJSR				_native_macro_patch_line_draw
 		SBNE				byte_69CB8
 		SRET
 
@@ -3837,9 +3837,10 @@ _native_sub01A:
 		JSR		_rand
 		LSR
 		BCS		locret_69D97
-		JMP		_native_sub105
+		JMP		_j_native_complement_x_deltas
 locret_69D97:
 		RTS
+
 byte_69D98:
 		.BYTE	$E8,$E0,$DC,$D8
 
@@ -3953,7 +3954,7 @@ byte_69E4F:
 ; =============== S C R I P T ===============================================
 _script128:
 		DESTR_PC_SET		byte_69E8F
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_SET_HP			$05
 		VAR_1C_SET			$01
 		OBJ_SET_SIZE		$06,$0C
@@ -3968,7 +3969,7 @@ byte_69E6F:
 		NJSR				_native_sub153
 		FLIP_40_CLEAR
 		SJSR				byte_69E87
-		NJSR				_native_sub105
+		NJSR				_j_native_complement_x_deltas
 		NJSR				_native_sub129
 		SJSR				byte_69E87
 		SJMP				byte_69E6F
@@ -3984,7 +3985,7 @@ byte_69E8F:
 ; =============== S C R I P T ===============================================
 _script129:
 		DESTR_PC_SET		byte_69EF8
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_SET_HP			$05
 		VAR_1C_SET			$01
 		OBJ_SET_SIZE		$06,$0C
@@ -4015,11 +4016,11 @@ byte_69ED5:
 		OBJ_SET_Y_DELTA		$B0
 byte_69ED7:
 		SJSR				byte_69E42
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		LOOPA				$14,byte_69ED7
 byte_69EE1:
 		NJSR				_native_sub129
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		SJSR				byte_69E42
 		NJSR				_native_sub129
 		LOOPA				$14,byte_69EE1
@@ -4105,7 +4106,7 @@ byte_69F73:
 		SBPL				byte_69F73
 byte_69F7C:
 		NJSR				_native_sub13A
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 byte_69F82:
 		SJSR				byte_69FB5
 		NJSR				_players_animB_sub0129_sub06_C
@@ -4113,7 +4114,7 @@ byte_69F82:
 		SBMI				byte_69F82
 		APU_LOAD			$24
 		OBJ_SET_FLIP		$08
-		NJSR				_native_sub12B
+		NJSR				_native_obj_idxCs_80_set
 		NJSR				_native_sub030
 		NJSR				_native_idxBs_20_set
 		OBJ_SET_HP			$01
@@ -4127,7 +4128,7 @@ byte_69F9F:
 byte_69FAB:
 		SJSR				byte_69FB5
 		OBJ_ANIMATE
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		SJMP				byte_69FAB
 byte_69FB5:
 		NJSR_SYNC			_native_sub01F
@@ -4202,7 +4203,7 @@ _script133:
 		SPR_IDX_SELECT		$48
 		OBJ_SET_X_DELTA		$40
 		NJSR				_native_sub10E
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 byte_6A045:
 		SJSR				byte_6A04B
 		SJMP				byte_6A045
@@ -4294,7 +4295,7 @@ loc_6A0C6:
 
 ; =============== S C R I P T ===============================================
 _script124:
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_SET_FLIP		$08
 		SPR_LIB_SELECT		$08
 		SPR_IDX_SELECT		$52
@@ -4310,6 +4311,8 @@ byte_6A0DC:
 		OBJ_SET_X_POS		$30,$00
 		SJSR				byte_6A0F7
 		SJMP				byte_6A0DC
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_6A0F7:
 		SYNC
 		OBJ_MOVE_X_POS		$40
@@ -4342,8 +4345,10 @@ _script127:
 		SJSR				byte_6A132
 		NJSR				_pal_bg002_load
 		PAL_FADE_OUT		$01,$C0
-		NJSR				_native_sub155
+		NJSR				_native_idxBs_10_test_clear_from_idxAs
 		KILL
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_6A132:
 		NJSR				_native_sub000
 		SPR_LIB_SELECT		$05
@@ -4396,48 +4401,55 @@ loc_6A173:
 		BPL		loc_6A165
 		RTS
 
+; NOTE, a lot of redundancy here. copy of copy of copy of copy of subs...
+
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr20_lvl_exit_left:
-		SJSR				_script_sub_6A19A
-		NJSR				_native_sub156
-		KILL
+		SJSR				_script_obj_exit_wait_common	; wait for player collision with object
+		NJSR				_native_player_exit_left_with_flip_set	; set player parameters to exit with engine
+		KILL												; nothing to do here now
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr21_lvl_exit_right:
-		SJSR				byte_6A193
+; TODO, optimize me!
+		SJSR				_script_obj_exit_right_wait		; call common right left test
 		KILL
 
 ; =============== O B J E C T   S C R I P T =================================
-_obj_scr22_box_bonus_entry:
-_obj_scr23_box_bonus_entry:
-		SJSR				byte_6A193
+_obj_scr22_lvl5C_box_bonus_entry:
+_obj_scr23_lvl4_box_bonus_entry:
+		SJSR				_script_obj_exit_right_wait		; set right exit common
+		NJSR				_native_inc_stage_room_idx		; skip one room ahead, manage your rooms order in _room_cfg_lib
+		KILL
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_lvl2_basket_exit_right:
+		SJSR				_script_obj_exit_right_wait		; the same as for other entries, but skips two rooms ahead
+		NJSR				_native_inc_stage_room_idx
 		NJSR				_native_inc_stage_room_idx
 		KILL
 
 ; =============== S C R I P T   R O U T I N E ===============================
-byte_6A189:
-		SJSR				byte_6A193
-		NJSR				_native_inc_stage_room_idx
-		NJSR				_native_inc_stage_room_idx
-		KILL
-
-; =============== S C R I P T   R O U T I N E ===============================
-byte_6A193:
-		SJSR				_script_sub_6A19A
-		NJSR				_native_sub158
+_script_obj_exit_right_wait:
+		SJSR				_script_obj_exit_wait_common
+		NJSR				_native_player_exit_right_with_flip_set
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_script_sub_6A19A:
+_script_obj_exit_wait_common:
 		OBJ_SET_SIZE		$06,$10
 byte_6A19D:
 		OBJ_SET_HP			$01
-		SJSR				_script200
-		NJSR				_native_sub159
+		SJSR				_script_wait_obj_hps_turns_zero
+		NJSR				_native_obj_player_from_idxAs_05_state_compare
 		SBNE				byte_6A19D
 		SRET
+; TODO, one more redundant opcode here
 		OBJ_MOVE_Y_POS		$08
-byte_6A1AB:
+; -
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_6A1AB:
 		APU_LOAD			$23
 		SPR_LIB_SELECT		$06
 		PARAM_80_CLEAR
@@ -4452,13 +4464,13 @@ byte_6A1AB:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr1B_monterey_refill:
-		OBJ_MOVE_X_POS		$50
+		OBJ_MOVE_X_POS		$50					; set monerei object pos and speed
 		OBJ_MOVE_X_POS		$50
 		OBJ_SET_X_DELTA		$F0
-		SPR_LIB_SELECT		$00
+		SPR_LIB_SELECT		$00					; library select and activate
 		PARAM_80_CLEAR
 byte_6A1C8:
-		SPR_IDX_SELECT		$23
+		SPR_IDX_SELECT		$23					; walk anim loop 40 cycles long
 		SJSR				_script_animate10
 		SPR_IDX_SELECT		$24
 		SJSR				_script_animate10
@@ -4466,20 +4478,22 @@ byte_6A1C8:
 		SJSR				_script_animate10
 		SPR_IDX_SELECT		$24
 		SJSR				_script_animate10
-		LOOPA				$05,byte_6A1C8
+		LOOPA				$05,byte_6A1C8		; repeat 5 times (5 steps)
 		SJSR				byte_6A204
 		TARGET_DIR_SET		$0C
-		SRUN				$0A,_script134
+		SRUN				$0A,_obj_monterey_1p_prize
 		SJSR				byte_6A208
 		SJSR				byte_6A204
 		TARGET_DIR_SET		$0C
-		SRUN				$0A,_script135
+		SRUN				$0A,_obj_monterey_2p_prize
 		SJSR				byte_6A208
 		SJSR				byte_6A204
 		NJSR				_native_sub15A
 byte_6A1FE:
 		SJSR				byte_6A208
 		SJMP				byte_6A1FE
+
+; =============== S C R I P T   R O U T I N E ===============================
 byte_6A204:
 		SPR_IDX_SELECT		$1C
 		TARGET_DIR_SET		$00
@@ -4489,19 +4503,21 @@ byte_6A208:
 		SRET
 
 ; =============== S C R I P T ===============================================
-_script134:
+_obj_monterey_1p_prize:
 		OBJ_SET_X_DELTA		$DE
-		SJMP				byte_6A217
+		SJMP				_obj_monterey_prize_common
 
 ; =============== S C R I P T ===============================================
-_script135:
+_obj_monterey_2p_prize:
 		OBJ_SET_X_DELTA		$E8
-byte_6A217:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_obj_monterey_prize_common:
 		OBJ_MOVE_X_POS		$F2
 		OBJ_MOVE_Y_POS		$F2
 		OBJ_SET_Y_DELTA		$D8
-		SJSR				byte_6A25D
-		SJSR				_script_sub_68020
+		SJSR				_script_acorn_prize_init
+		SJSR				_script_acorn_prize_animate
 		NJSR				_native_set_def_max_hps_from_idxAs
 		KILL
 
@@ -4512,17 +4528,27 @@ _obj_scr1F_star_prize:
 		OBJ_SET_SIZE		$06,$0C
 		OBJ_SET_HP			$01
 		PARAM_80_CLEAR
-		SJSR				_script200
+		SJSR				_script_wait_obj_hps_turns_zero
 		NJSR				_native_inc_players_lives_from_idxAs
 
+; FALLTHROUGH!
+
 ; =============== S C R I P T ===============================================
-_script151:
+_script_sub_1up_text_float_up:
 		SPR_LIB_SELECT		$06
 		SPR_IDX_SELECT		$08
-byte_6A23B:
+
+; FALLTHROUGH!
+
+; =============== S C R I P T ===============================================
+_script_sub_prize_text_float_animate_with_se:
 		NJSR				_native_sub15E
 		APU_LOAD			$37
-byte_6A240:
+
+; FALLTHROUGH!
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_prize_text_float_up_animate:
 		OBJ_MOVE_Y_POS		$F0
 		OBJ_SET_X_DELTA		$00
 		OBJ_SET_Y_DELTA		$FC
@@ -4537,30 +4563,37 @@ byte_6A247:
 ;-
 
 ; =============== O B J E C T   S C R I P T =================================
-_script41:
-		SJSR				byte_6A25D
-		SJSR				_script_sub_68020
+; NOTE, althoug this acorn prize never moved, it uses the same functions
+; as for Monterei hp refill prizes during the bonus rooms
+;
+_obj_scr_acorn_prize:
+		SJSR				_script_acorn_prize_init
+		SJSR				_script_acorn_prize_animate
 		NJSR				_native_increment_players_hps
 		KILL
-byte_6A25D:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_acorn_prize_init:
 		SPR_LIB_SELECT		$06
 		SPR_IDX_SELECT		$00
 		OBJ_SET_SIZE		$04,$0A
 		OBJ_SET_HP			$01
 		PARAM_80_CLEAR
 		SRET
-byte_6A268:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_6A268:
 		SPR_LIB_SELECT		$06
 		SPR_IDX_SELECT		$03
 		OBJ_SET_SIZE		$10,$20
 		OBJ_SET_HP			$01
 		PARAM_80_CLEAR
-		SJSR				_script200
-		SJMP				byte_6A1AB
+		SJSR				_script_wait_obj_hps_turns_zero
+		SJMP				_script_sub_6A1AB
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr1D_big_ball_box:
-		SJSR				byte_6A268
+		SJSR				_script_sub_6A268
 		DESTR_PC_SET		byte_6A2A0
 		NJSR				_native_sub13B
 		SPR_LIB_SELECT		$04
@@ -4574,7 +4607,7 @@ byte_6A290:
 		SYNC
 		NJSR				_native_get_obj_var0D
 		SBMI				byte_6A2A0
-		SJSR				byte_6A589
+		SJSR				_script_sub_6A589
 		SBCS				byte_6A290
 		SJMP				byte_6A2AE
 byte_6A2A0:
@@ -4586,25 +4619,27 @@ byte_6A2A0:
 		VAR_1C_SET			$02
 byte_6A2AE:
 		NJSR				_native_sub11C
-		NJSR				_native_sub161
-		SJSR				byte_6A2CF
+		NJSR				_native_scr_params_set05_hi_nibble_clear
+		SJSR				_script_sub_6A2CF
 		NJSR				_far_players_animB_sub0129_G
 		SBPL				byte_6A28B
 byte_6A2BD:
 		OBJ_SET_Y_DELTA		$E0
-		SJSR				byte_6A2CF
+		SJSR				_script_sub_6A2CF
 		OBJ_SET_Y_DELTA		$F0
-		SJSR				byte_6A2CF
+		SJSR				_script_sub_6A2CF
 		OBJ_SET_Y_DELTA		$F8
-		SJSR				byte_6A2CF
+		SJSR				_script_sub_6A2CF
 		SJMP				byte_6A28B
-byte_6A2CF:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_6A2CF:
 		NJSR_SYNC			_native_sub022
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$02
-		NJSR				_native_sub109
-		SJSR				byte_6A557
-		SBCC				byte_6A2CF
+		NJSR				_native_obj_y_parabolic_delta_adjust
+		SJSR				_script_sub_6A557
+		SBCC				_script_sub_6A2CF
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -4642,7 +4677,7 @@ _native_sub023:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr1E_big_zipper_box:
-		SJSR				byte_6A268
+		SJSR				_script_sub_6A268
 		NJSR				_native_sub13B
 		NJSR				_native_idxBs_20_set
 		OBJ_SET_FLIP		$20
@@ -4655,7 +4690,7 @@ _obj_scr1E_big_zipper_box:
 		OBJ_SET_Y_DELTA		$D7
 		SJSR				_script_sub_68036
 byte_6A330:
-		NJSR_SYNC			_native_sub162
+		NJSR_SYNC			_native_obj_to_obj_jump_up_test
 		SBCC				byte_6A330
 		SRUN				$01,_script136
 		SUSPEND				$B0
@@ -4675,7 +4710,7 @@ byte_6A351:
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub024:
-		LDA		_obj_heigts,X
+		LDA		_obj_heights,X
 		BEQ		loc_6A370
 		LDY		#$01
 loc_6A35E:
@@ -4721,9 +4756,9 @@ loc_6A370:
 		BCC		loc_6A3B3
 		LDX		_scr_idx
 		CLC
-		LDA		_obj_heigts,X
+		LDA		_obj_heights,X
 		ADC		#$08
-		STA		_obj_heigts,X
+		STA		_obj_heights,X
 loc_6A3B3:
 		CLC
 		LDA		_tmp_ptr44
@@ -4831,13 +4866,13 @@ byte_6A470:
 		SJSR				byte_6A498
 		SJSR				byte_6A498
 		OBJ_SET_Y_DELTA		$20
-		NJSR				_native_sub14C
+		NJSR				_native_idxBs_10_test_clear_from_idxCs
 		SJSR				byte_6A498
 		OBJ_SET_Y_DELTA		$F0
 		SJSR				byte_6A498
 		SJSR				byte_6A498
 		LOOPA				$03,byte_6A470
-		NJSR				_native_sub12B
+		NJSR				_native_obj_idxCs_80_set
 		OBJ_SET_X_DELTA		$E8
 		OBJ_SET_Y_DELTA		$E8
 		SJMP				byte_68092
@@ -4879,7 +4914,7 @@ _obj_scr09_sink_valve:
 		NJSR				_scr_param_4_set
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$09
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 byte_6A4D0:
 		NJSR				_native_idxBs_10_set
 byte_6A4D3:
@@ -4896,13 +4931,13 @@ byte_6A4D3:
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr07_concrete_brick:
-		DESTR_PC_SET		byte_6A59B
+		DESTR_PC_SET		_obj_scr07_concrete_brick_destr
 		NJSR				_native_idxBs_10_set
 		OBJ_MOVE_X_POS		$08
 		SPR_LIB_SELECT		$04
 		SPR_IDX_SELECT		$00
 		OBJ_SET_SIZE		$06,$0E
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 byte_6A4FC:
 		SPR_IDX_SELECT		$00
 		OBJ_SET_FLIP		$00
@@ -4913,12 +4948,12 @@ byte_6A507:
 		SYNC
 		NJSR				_native_get_obj_var0D
 		SBMI				byte_6A517
-		SJSR				byte_6A589
+		SJSR				_script_sub_6A589
 		SBCS				byte_6A507
 		SJMP				byte_6A53E
 byte_6A517:
 		NJSR				_native_sub164
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 byte_6A51D:
 		NJSR				_native_get_obj_var0D
 		SBPL				byte_6A535
@@ -4936,63 +4971,71 @@ byte_6A535:
 		APU_LOAD			$24
 byte_6A53E:
 		NJSR				_native_sub11C
-		NJSR				_native_sub161
+		NJSR				_native_scr_params_set05_hi_nibble_clear
 		OBJ_SET_HP			$FF
 		VAR_1C_SET			$02
 		SPR_IDX_SELECT		$00
 byte_6A54A:
 		SYNC
-		NJSR				_native_sub109
-		SJSR				byte_6A557
+		NJSR				_native_obj_y_parabolic_delta_adjust
+		SJSR				_script_sub_6A557
 		SBCC				byte_6A54A
 		SJMP				byte_6A4FC
-byte_6A557:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_6A557:
 		NJSR				_native_idxBs_20_set
 		NJSR				_obj_move_hor_animate
 		NJSR				_native_sub13C
 		SBCS				byte_6A569
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCS				byte_6A56B
 byte_6A569:
 		OBJ_SET_X_DELTA		$00
 byte_6A56B:
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		NJSR				_native_get_obj_y_delta
-		SBPL				byte_6A589
+		SBPL				_script_sub_6A589
 		NJSR				_obj_vert_animate
 		NJSR				_native_sub165
 		SBCC				byte_6A583
-		NJSR				_native_sub10A
+		NJSR				_native_obj_to_tile_collision_test_up
 		SBCS				byte_6A585
 byte_6A583:
 		OBJ_SET_Y_DELTA		$01
 byte_6A585:
 		NJSR				_scr_flags_flush_clc
 		SRET
-byte_6A589:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_6A589:
 		NJSR				_obj_vert_animate
 		NJSR				_native_sub107
 		SBCS				byte_6A598
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCC				byte_6A59A
 byte_6A598:
 		OBJ_SET_Y_DELTA		$00
 byte_6A59A:
 		SRET
-byte_6A59B:
+
+; =============== O B J E C T   S C R I P T =================================
+_obj_scr07_concrete_brick_destr:
 		NJSR				_native_idxBs_20_set
 		OBJ_SET_X_DELTA		$00
 		NJSR				_native_get_obj_y_delta
 		SBMI				byte_6A5A8
 		OBJ_SET_Y_DELTA		$00
 byte_6A5A8:
-		SJSR				byte_6A5BA
+		SJSR				_script_sub_6A5BA
 		NJSR				_native_sub027
 		SBCC				byte_6A5A8
-		NJSR				_native_sub166
-		SJSR				byte_6A5BA
+		NJSR				_native_scr_params_set09_hi_nibble_clear
+		SJSR				_script_sub_6A5BA
 		SJMP				byte_6A5A8
-byte_6A5BA:
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_6A5BA:
 		SYNC
 		NJSR				_native_get_obj_var0D
 		SBPL				byte_6A5C4
@@ -5033,13 +5076,13 @@ _native_sub029:
 		LDA		_obj_flips,Y
 		AND		#$40
 		STA		_obj_flips,X
-		JSR		_native_sub10F
+		JSR		_native_obj_hor_delta_toggle
 		JMP		_native_sub167
 
 ; =============== O B J E C T   S C R I P T =================================
 _script46:
 		DESTR_PC_SET		_script46
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		NJSR				_native_idxBs_10_set
 		SPR_LIB_SELECT		$03
 		SPR_IDX_SELECT		$00
@@ -5059,7 +5102,7 @@ byte_6A627:
 		SJMP				byte_6A615
 byte_6A630:
 		NJSR				_native_sub13A
-		NJSR				_native_sub12B
+		NJSR				_native_obj_idxCs_80_set
 		NJSR				_native_sub02A
 		SBNE				byte_6A653
 		APU_LOAD			$27
@@ -5080,7 +5123,7 @@ byte_6A65A:
 		OBJ_ANIMATE_SYNC
 		NJSR				_native_get_obj_hp
 		SBPL				byte_6A666
-		NJSR				_native_sub105
+		NJSR				_j_native_complement_x_deltas
 		OBJ_SET_HP			$01
 byte_6A666:
 		SBNE				byte_6A65A
@@ -5116,7 +5159,7 @@ _native_sub02B:
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub02C:
-		LDA		_obj_heigts,Y
+		LDA		_obj_heights,Y
 		BEQ		_native_sub02D
 		JSR		_native_sub13A
 		JMP		_scr_param_4_set
@@ -5124,7 +5167,7 @@ _native_sub02C:
 ; =============== S U B R O U T I N E =======================================
 _native_sub02D:
 		INC		_obj_y_lo_poss,X
-		JSR		_native_sub166
+		JSR		_native_scr_params_set09_hi_nibble_clear
 		JMP		_scr_param_4_clear
 
 ; =============== S U B R O U T I N E =======================================
@@ -5181,6 +5224,7 @@ loc_6A6F1:
 		LDA		byte_6A700+2,Y
 		STA		_obj_y_deltas,X
 		RTS
+
 byte_6A700:
 		.BYTE	$50,$C0,$C0
 		.BYTE	$90,$40,$C0
@@ -5201,7 +5245,7 @@ _native_sub032:
 		LDA		_obj_y_lo_poss,Y
 		STA		_obj_y_lo_poss,X
 		CLC
-		SBC		_obj_heigts,X
+		SBC		_obj_heights,X
 		STA		_obj_y_lo_poss,Y
 
 ; =============== S U B R O U T I N E =======================================
@@ -5214,6 +5258,8 @@ _native_sub033:
 		AND		#$BF
 		STA		_scr_idxBs,Y
 		RTS
+
+; =============== O B J E C T   S C R I P T =================================
 _script40:
 		SPR_LIB_SELECT		$00
 		SPR_IDX_SELECT		$0F
@@ -5262,42 +5308,42 @@ _obj_scr08_cdv_bottle_cork:
 		SJSR				_script20D
 		SPR_IDX_SELECT		$01
 		OBJ_SET_SIZE		$08,$04
-		NJSR				_native_sub169
+		NJSR				_native_obj_y_adjust_by_height_from_idxAs
 		SJSR				_script20D
 		SPR_IDX_SELECT		$02
 		OBJ_SET_SIZE		$08,$02
-		NJSR				_native_sub169
+		NJSR				_native_obj_y_adjust_by_height_from_idxAs
 		SJSR				_script20D
 		SPR_IDX_SELECT		$03
 		OBJ_SET_SIZE		$08,$0F
-		NJSR				_native_sub169
+		NJSR				_native_obj_y_adjust_by_height_from_idxAs
 		APU_LOAD			$4A
 		OBJ_SET_X_DELTA		$10
 		OBJ_SET_Y_DELTA		$C0
 byte_6A7BB:
 		OBJ_ANIMATE_SYNC
-		NJSR				_native_sub109
-		NJSR				_native_sub162
+		NJSR				_native_obj_y_parabolic_delta_adjust
+		NJSR				_native_obj_to_obj_jump_up_test
 		SBCC				byte_6A7BB
-		NJSR				_native_sub169
+		NJSR				_native_obj_y_adjust_by_height_from_idxAs
 		SJMP				byte_6A7BB
 
 ; =============== O B J E C T   S C R I P T =================================
-_obj_scr0A_lvl2_bonus_button:
-		SJSR				byte_6A7F1
-		SJSR				byte_6A7FF
-		SRUN				$01,_script_lvl2_wall_blocks_open_draw
+_obj_scr0A_lvl2_blocked_path:
+		SJSR				_script_sub_obj_button_common_init	; init
+		SJSR				_script_sub_button_push_wait		; wait for jump up
+		SRUN				$01,_script_lvl2_wall_blocks_open_draw	; open the blocked path
 byte_6A7D5:
-		SJSR				byte_6A812
-		SJSR				byte_6A7FF
+		SJSR				_script_sub_button_release_wait		; loop forever between
+		SJSR				_script_sub_button_push_wait		; two states now, does nothing more
 		SJMP				byte_6A7D5
 
 ; =============== S C R I P T ===============================================
 ; draws an animation of removing wall bricks blocking the entry to
 ; the basket bonus room warp
 ;
-; BUG: there are three possible states of the blocking bricks. Fully bumped,
-; half-sinked and fully sinked. The corresponding tiles are 80, 84 and 82
+; BUG: there are three possible states of the blocking bricks "fully bumped",
+; "half-sinked" and "fully sinked". The corresponding tiles are 80, 84 and 82
 ; in CHR ROM for this room.
 ;
 ; judging from script below, they planned to sink this blocking bricks in two
@@ -5306,10 +5352,10 @@ byte_6A7D5:
 ; points to 00.
 ;
 ; don't know wether this is a bug or they removed it on purpose, but currently
-; we see one-frame anim when block sing to its full state.
-; if we assume, the second draw should draw the half-sink state, the animation
+; we see one-frame anim when block sink to its "fully sinked" state.
+; if we assume, the second draw should draw the "half-sink" state, the animation
 ; looks odd... most probably, the unused patch should go first (as an evidence,
-; it's macro tile idx is 45, but for used patch macrotile is 46. but then why
+; macro tile for "half-sink" is 45, for "fully sink" is 46) but then why
 ; both blocks put in the CHR ROM in reverse order... not sure how I need to fix
 ; it here, but assume the reverse order is a correct one.
 ;
@@ -5324,122 +5370,134 @@ _script_lvl2_wall_blocks_open_draw:
 		STORE				<[tlm_patch06],_tmp_ptr4B	; load tlm patch ptr
 		STORE				>[tlm_patch06],_tmp_ptr4B+1
 #endif
-		SJSR				_script_sub_tlm_patch_draw	; draw full patch
+		SJSR				_script_sub_macro_patch_draw; draw full patch
 		APU_LOAD			$4E							; start a sound and wait
 		SUSPEND				$08							; for a while...
 #if BUGFIXES=1
 		STORE				<[tlm_patch06],_tmp_ptr4B
 		STORE				>[tlm_patch06],_tmp_ptr4B+1
 #endif
-		SJSR				_script_sub_tlm_patch_draw
+		SJSR				_script_sub_macro_patch_draw
 		KILL
 
 ; =============== S C R I P T   R O U T I N E ===============================
-byte_6A7F1:
-		NJSR				_native_idxBs_20_set
-		SPR_LIB_SELECT		$05
+_script_sub_obj_button_common_init:
+		NJSR				_native_idxBs_20_set	; init button object flags
+		SPR_LIB_SELECT		$05						; set library and sprite idxes
 		SPR_IDX_SELECT		$0C
-		OBJ_SET_SIZE		$05,$0D
-		OBJ_SET_HP			$01
-		PARAM_80_CLEAR
+		OBJ_SET_SIZE		$05,$0D					; bounding box size
+		OBJ_SET_HP			$01						; hit-points
+		PARAM_80_CLEAR								; enable object
 		SRET
-byte_6A7FF:
-		SYNC
-		NJSR				_native_sub162
-		SBCC				byte_6A7FF
-		SPR_IDX_SELECT		$0D
-		OBJ_SET_SIZE		$05,$08
-		NJSR				_native_sub169
-		NJSR				_native_idxBs_10_set
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_button_push_wait:
+		SYNC										; sync with engine code
+		NJSR				_native_obj_to_obj_jump_up_test	; get jump-up event
+		SBCC				_script_sub_button_push_wait	; idle if no one jumped up
+		SPR_IDX_SELECT		$0D						; when jumped, display another
+		OBJ_SET_SIZE		$05,$08					; sprite and set another size
+		NJSR				_native_obj_y_adjust_by_height_from_idxAs
+		NJSR				_native_idxBs_10_set	; adjust cur jumped obj pos y
 		SRET
-byte_6A812:
-		SYNC
-		NJSR				_native_sub162
-		SBCS				byte_6A812
-byte_6A819:
-		NJSR				_native_idxBs_10_clear
-		SUSPEND				$08
-		SPR_IDX_SELECT		$0E
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_button_release_wait:
+		SYNC										; same as for push but wait when
+		NJSR				_native_obj_to_obj_jump_up_test	; someone jump off
+		SBCS				_script_sub_button_release_wait
+
+; !FALLTHROUGH!
+
+; =============== S C R I P T   R O U T I N E ===============================
+_script_sub_button_release_anim:
+		NJSR				_native_idxBs_10_clear	; clear push state flag
+		SUSPEND				$08						; wait a little
+		SPR_IDX_SELECT		$0E						; set half-released sprite and size
 		OBJ_SET_SIZE		$05,$0A
-		NJSR				_native_sub162
-		SBCC				byte_6A82D
-		NJSR				_native_sub169
+		NJSR				_native_obj_to_obj_jump_up_test	; if still no one jumped up again
+		SBCC				byte_6A82D				; adjust y pos then leave
+		NJSR				_native_obj_y_adjust_by_height_from_idxAs
 		SRET
 byte_6A82D:
-		SUSPEND				$04
+		SUSPEND				$04						; second frame set full release state
 		SPR_IDX_SELECT		$0C
-		OBJ_SET_SIZE		$05,$0D
-		NJSR				_native_sub162
-		SBCC				byte_6A83D
-		NJSR				_native_sub169
+		OBJ_SET_SIZE		$05,$0D					; also test again if still free
+		NJSR				_native_obj_to_obj_jump_up_test
+		SBCC				byte_6A83D				; and leave
+		NJSR				_native_obj_y_adjust_by_height_from_idxAs
 byte_6A83D:
 		SRET
 
 ; =============== O B J E C T   S C R I P T =================================
-_obj_scr0B_basket_bonus_entry:
-		SJSR				byte_6A7F1
-		SRUN				$09,_script13A
+_obj_scr0B_lvl2_basket_bonus_entry:
+		SJSR				_script_sub_obj_button_common_init	; one botton will controlled here
+		SRUN				$09,_obj_scr_lvl2_basket_bonus_2nd_button	; here is the second button
 		NJSR				_native_sub117
-		NJSR				_native_sub134
-		OBJ_MOVE_X_POS		$50
+		NJSR				_native_obj_idxCs_clear_low_nibble
+		OBJ_MOVE_X_POS		$50									; change position of current main button
 byte_6A84D:
-		SJSR				byte_6A7FF
+		SJSR				_script_sub_button_push_wait		; wait for press
 byte_6A850:
-		NJSR				_native_sub14C
+		NJSR				_native_idxBs_10_test_clear_from_idxCs	; here we test if other button pressed too
 		SBNE				byte_6A863
-		NJSR				_native_sub162
+		NJSR				_native_obj_to_obj_jump_up_test
 		SYNC
 		SBCS				byte_6A850
-		SJSR				byte_6A819
+		SJSR				_script_sub_button_release_anim
 		SJMP				byte_6A84D
 byte_6A863:
-		STORE				<[tlm_patch07],_tmp_ptr4B
+		STORE				<[tlm_patch07],_tmp_ptr4B			; if both pressed, open the door
 		STORE				>[tlm_patch07],_tmp_ptr4B+1
-		SJSR				_script_sub_tlm_patch_draw
-		SRUN				$0A,_script13B
-		APU_LOAD			$4F
+		SJSR				_script_sub_macro_patch_draw
+		SRUN				$0A,_obj_scr_lvl2_basket_exit_right	; insert actual door object
+		APU_LOAD			$4F									; open sound
+; TODO, optimize me! redundant!
 byte_6A874:
-		SJSR				byte_6A812
-		SJSR				byte_6A7FF
+		SJSR				_script_sub_button_release_wait		; common idle button script
+		SJSR				_script_sub_button_push_wait
 		SJMP				byte_6A874
+; -
 
 ; =============== S C R I P T ===============================================
-_script13B:
+_obj_scr_lvl2_basket_exit_right:
 		OBJ_MOVE_X_POS		$D0
-		SJMP				byte_6A189
+; TODO, optimize me!
+		SJMP				_script_lvl2_basket_exit_right
 
 ; =============== S C R I P T ===============================================
-_script13A:
-		SJSR				byte_6A7F1
-		NJSR				_native_sub134
+_obj_scr_lvl2_basket_bonus_2nd_button:
+		SJSR				_script_sub_obj_button_common_init
+		NJSR				_native_obj_idxCs_clear_low_nibble
 byte_6A888:
-		SJSR				byte_6A7FF
-		SJSR				byte_6A812
+		SJSR				_script_sub_button_push_wait
+		SJSR				_script_sub_button_release_wait
 		SJMP				byte_6A888
 
 ; =============== O B J E C T   S C R I P T =================================
-_obj_scr0C_lvl3_bonus_button:
-		SJSR				byte_6A7F1
-		SJSR				byte_6A7FF
-		STORE				<[tlm_patch08],_tmp_ptr4B
+_obj_scr0C_lvl3_refill_entry:
+		SJSR				_script_sub_obj_button_common_init	; there is a button
+		SJSR				_script_sub_button_push_wait		; wait for it
+		STORE				<[tlm_patch08],_tmp_ptr4B			; draw open cavity
 		STORE				>[tlm_patch08],_tmp_ptr4B+1
-		SJSR				_script_sub_tlm_patch_draw
-		SRUN				$0A,_script13C
-		APU_LOAD			$4F
+		SJSR				_script_sub_macro_patch_draw
+		SRUN				$0A,_script_lvl3_box_bonus_entry						; run cavity script
+		APU_LOAD			$4F									; play open sound
+; TODO: optimize me!
 byte_6A8A8:
-		SJSR				byte_6A812
-		SJSR				byte_6A7FF
+		SJSR				_script_sub_button_release_wait		; then work as common button
+		SJSR				_script_sub_button_push_wait		; again
 		SJMP				byte_6A8A8
 
 ; =============== S C R I P T ===============================================
-_script13C:
-		OBJ_MOVE_X_POS		$C0
+_script_lvl3_box_bonus_entry:
+		OBJ_MOVE_X_POS		$C0									; set position of a door
 		OBJ_MOVE_X_POS		$B0
-		SJMP				_obj_scr22_box_bonus_entry
+		SJMP				_obj_scr22_lvl5C_box_bonus_entry	; run common box bonus script
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr0D_big_fan:
-		SJSR				_script202
+		SJSR				_script_wait_for_idxCs_80_set
 byte_6A8BB:
 		SRUN				$01,_script13D
 		SUSPEND				$5A
@@ -5458,7 +5516,7 @@ _script13E:
 		SPR_LIB_SELECT		$05
 		PARAM_80_CLEAR
 		OBJ_SET_Y_DELTA		$E0
-		NJSR				_native_sub12B
+		NJSR				_native_obj_idxCs_80_set
 		NJSR				_native_sub13D
 		SBCS				byte_6A8EC
 byte_6A8DD:
@@ -5477,7 +5535,7 @@ byte_6A8EC:
 		KILL
 
 ; =============== O B J E C T   S C R I P T =================================
-_obj_scr0E:
+_obj_scr0E_buttons_room:
 		NJSR				_native_sub16B
 		SBNE				byte_6A8FD
 byte_6A8F3:
@@ -5504,8 +5562,8 @@ byte_6A925:
 		SBEQ				byte_6A925
 		STORE				<[tlm_patch09],_tmp_ptr4B
 		STORE				>[tlm_patch09],_tmp_ptr4B+1
-		SJSR				_script_sub_tlm_patch_draw
-		NJSR				_native_sub16C
+		SJSR				_script_sub_macro_patch_draw
+		NJSR				_native_scr_params_set0A_hi_nibble_clear
 		OBJ_SET_X_POS		$F0,$00
 		OBJ_SET_Y_POS		$C0,$00
 		PARAM_80_SET
@@ -5541,30 +5599,30 @@ _script13F:
 		PARAM_80_CLEAR
 byte_6A972:
 		SYNC
-		NJSR				_native_sub162
+		NJSR				_native_obj_to_obj_jump_up_test
 		SBCC				byte_6A972
 		SPR_IDX_SELECT		$15
 		OBJ_SET_SIZE		$05,$06
-		NJSR				_native_sub169
+		NJSR				_native_obj_y_adjust_by_height_from_idxAs
 		NJSR				_native_idxBs_10_set
 byte_6A984:
 		SYNC
-		NJSR				_native_sub162
+		NJSR				_native_obj_to_obj_jump_up_test
 		SBCS				byte_6A984
 		NJSR				_native_idxBs_10_clear
 		SUSPEND				$08
 		SPR_IDX_SELECT		$16
 		OBJ_SET_SIZE		$05,$08
-		NJSR				_native_sub162
+		NJSR				_native_obj_to_obj_jump_up_test
 		SBCC				byte_6A99E
-		NJSR				_native_sub169
+		NJSR				_native_obj_y_adjust_by_height_from_idxAs
 byte_6A99E:
 		SUSPEND				$04
 		SPR_IDX_SELECT		$14
 		OBJ_SET_SIZE		$05,$0C
-		NJSR				_native_sub162
+		NJSR				_native_obj_to_obj_jump_up_test
 		SBCC				byte_6A9AE
-		NJSR				_native_sub169
+		NJSR				_native_obj_y_adjust_by_height_from_idxAs
 byte_6A9AE:
 		SJMP				byte_6A972
 
@@ -5621,7 +5679,7 @@ byte_6AA07:
 byte_6AA11:
 		NJSR				_native_sub123
 		NJSR				_native_sub124
-		NJSR				_native_sub126
+		NJSR				_native_inc_vars19
 		SJSR				byte_6AA31
 		LOOPA				$40,byte_6AA11
 		SRET
@@ -5631,7 +5689,7 @@ byte_6AA22:
 		SPR_IDX_SELECT		$13
 		OBJ_SET_SIZE		$10,$0E
 		OBJ_SET_HP			$01
-		SJMP				_script201
+		SJMP				_script_wait_for_idxCs_80_set_param_80_clear
 byte_6AA31:
 		SYNC
 		OBJ_ANIMATE
@@ -5644,7 +5702,7 @@ _obj_scr05_door_knob:
 		OBJ_MOVE_X_POS		$08
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$46
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 byte_6AA43:
 		SUSPEND				$10
 		SPR_IDX_SELECT		$47
@@ -5657,7 +5715,7 @@ byte_6AA49:
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr06_light_toggle:
 		NJSR				_scr_param_4_set
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 byte_6AA56:
 		SJSR				byte_6AA67
 		STORE				$05,_pal_anim_mode_idx
@@ -5674,7 +5732,7 @@ byte_6AA67:
 _obj_scr3E_ghost_painting:
 		OBJ_MOVE_X_POS		$F8
 		OBJ_MOVE_Y_POS		$FC
-		SJSR				_script202
+		SJSR				_script_wait_for_idxCs_80_set
 byte_6AA75:
 		NJSR_SYNC			_native_sub036
 		SBEQ				byte_6AA75
@@ -5749,7 +5807,7 @@ byte_6AAFD:
 		SYNC
 		NJSR				_native_sub038
 		SBEQ				byte_6AB0A
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		SJMP				byte_6AB0F
 byte_6AB0A:
 		OBJ_SET_Y_DELTA		$00
@@ -5792,7 +5850,7 @@ _native_sub038:
 ; =============== S C R I P T ===============================================
 _script141:
 		OBJ_SET_FLIP		$08
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_SET_HP			$01
 		OBJ_SET_SIZE		$01,$08
 byte_6AB55:
@@ -5969,7 +6027,7 @@ _obj_scr13_cave_rock:
 		OBJ_SET_SIZE		$09,$12
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$38
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 byte_6AC8A:
 		NJSR_SYNC			_native_sub116
 		SBCS				byte_6AC8A
@@ -6003,7 +6061,7 @@ byte_6ACA3:
 
 ; =============== S C R I P T ===============================================
 _script142:
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_SET_SIZE		$06,$0C
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$01
@@ -6127,7 +6185,7 @@ _obj_scr14_press_hammer:
 		OBJ_SET_HP			$01
 		PARAM_80_CLEAR
 		OBJ_SET_SIZE		$10,$0F
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 byte_6ADB5:
 		OBJ_SET_Y_DELTA		$F0
 byte_6ADB7:
@@ -6146,6 +6204,7 @@ byte_6ADCF:
 		APU_LOAD			$51
 		SUSPEND				$78
 		SJMP				byte_6ADB5
+
 byte_6ADDD:
 		SYNC
 		NJSR				_obj_vert_animate
@@ -6175,7 +6234,7 @@ byte_6AE00:
 		SPR_IDX_SELECT		$2E
 		OBJ_SET_SIZE		$10,$0F
 byte_6AE05:
-		NJSR_SYNC			_native_sub162
+		NJSR_SYNC			_native_obj_to_obj_jump_up_test
 		SBCC				byte_6AE05
 		SPR_IDX_SELECT		$39
 		SUSPEND				$78
@@ -6221,13 +6280,13 @@ _obj_scr17_ceiling_magnet:
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$2D
 		OBJ_SET_SIZE		$08,$10
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 byte_6AE5F:
-		NJSR_SYNC			_native_sub043
+		NJSR_SYNC			_native_ceiling_magnet_object_search
 		SJMP				byte_6AE5F
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub043:
+_native_ceiling_magnet_object_search:
 		LDY		#$0B
 loc_6AE67:
 		LDA		_scr_params,Y
@@ -6246,7 +6305,7 @@ loc_6AE67:
 		BCS		locret_6AECC
 		SEC
 		LDA		_obj_y_lo_poss,Y
-		SBC		_obj_heigts,Y
+		SBC		_obj_heights,Y
 		CMP		_obj_y_lo_poss,X
 		BCC		locret_6AECC
 		SEC
@@ -6287,7 +6346,7 @@ _obj_scr18_ceiling_cannon:
 		OBJ_SET_HP			$01
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$31
-		SJSR				_script201
+		SJSR				_script_wait_for_idxCs_80_set_param_80_clear
 		OBJ_SET_X_DELTA		$F0
 byte_6AEDB:
 		SPR_IDX_SELECT		$30
@@ -6297,10 +6356,10 @@ byte_6AEDB:
 byte_6AEE3:
 		NJSR				_native_sub138
 		SBCS				byte_6AEED
-		SRUN				$07,_script143
+		SRUN				$07,_obj_scr_ceiling_cannon_ball_left
 byte_6AEED:
 		SJSR				_script_animate32
-		NJSR				_native_sub105
+		NJSR				_j_native_complement_x_deltas
 		NJSR				_native_sub16F
 		SBCS				byte_6AEE3
 		SPR_IDX_SELECT		$30
@@ -6310,27 +6369,31 @@ byte_6AEED:
 byte_6AF01:
 		NJSR				_native_sub138
 		SBCS				byte_6AF0B
-		SRUN				$07,_script144
+		SRUN				$07,_obj_scr_ceiling_cannon_ball_right
 byte_6AF0B:
 		SJSR				_script_animate32
-		NJSR				_native_sub105
+		NJSR				_j_native_complement_x_deltas
 		NJSR				_native_sub16F
 		SBCC				byte_6AF01
 		SJMP				byte_6AEDB
 
 ; =============== S C R I P T ===============================================
-_script143:
+_obj_scr_ceiling_cannon_ball_left:
 		OBJ_MOVE_X_POS		$EE
 		OBJ_SET_X_DELTA		$D8
-		SJMP				byte_6AF25
+		SJMP				_obj_scr_ceiling_cannon_ball
 
 ; =============== S C R I P T ===============================================
-_script144:
+_obj_scr_ceiling_cannon_ball_right:
 		OBJ_MOVE_X_POS		$12
 		OBJ_SET_X_DELTA		$28
-byte_6AF25:
+
+; !FALLTHROUGH!
+
+; =============== S C R I P T   R O U T I N E ===============================
+_obj_scr_ceiling_cannon_ball:
 		PARAM_40_SET
-		NJSR				_native_sub12B
+		NJSR				_native_obj_idxCs_80_set
 		OBJ_MOVE_Y_POS		$24
 		OBJ_SET_Y_DELTA		$28
 		OBJ_SET_SIZE		$07,$0E
@@ -6344,7 +6407,7 @@ byte_6AF39:
 		NJSR				_native_get_obj_y_delta
 		SBPL				byte_6AF4C
 		NJSR				_obj_vert_animate
-		NJSR				_native_sub10A
+		NJSR				_native_obj_to_tile_collision_test_up
 		SBCC				byte_6AF52
 		SJMP				byte_6AF57
 byte_6AF4C:
@@ -6355,9 +6418,9 @@ byte_6AF52:
 		APU_LOAD			$54
 byte_6AF57:
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub104
+		NJSR				_native_obj_to_tile_collision_test_hor
 		SBCS				byte_6AF39
-		NJSR				_native_sub105
+		NJSR				_j_native_complement_x_deltas
 		APU_LOAD			$54
 		SJMP				byte_6AF39
 
@@ -6517,16 +6580,16 @@ byte_6B074:
 byte_6B07A:
 		SRUN				$01,_script14A
 		NJSR				_native_sub117
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_SET_HP			$01
 		OBJ_SET_SIZE		$08,$10
-		NJSR				_native_sub113
+		NJSR				_native_get_rand_flags
 		SBPL				byte_6B095
 		OBJ_SET_X_POS		$08,$01
 		SJMP				byte_6B09B
 byte_6B095:
 		OBJ_SET_X_POS		$F8,$FF
-		NJSR				_native_sub105
+		NJSR				_j_native_complement_x_deltas
 byte_6B09B:
 		SRET
 
@@ -6537,7 +6600,7 @@ _script_sub_6B09C:
 		SRET
 byte_6B0A3:
 		SUSPEND				$1E
-		NJSR_SYNC			_native_sub105
+		NJSR_SYNC			_j_native_complement_x_deltas
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -6605,7 +6668,7 @@ _lives_bonus_obj_scr_2p_star_destr:
 		NJSR				_native_give_players_2_lives
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$1F
-		SJMP				byte_6A23B
+		SJMP				_script_sub_prize_text_float_animate_with_se
 
 ; =============== S C R I P T   R O U T I N E ===============================
 ; 1P bonus floater object
@@ -6613,7 +6676,7 @@ _lives_bonus_obj_scr_2p_star_destr:
 _lives_bonus_obj_scr_1p_star_destr:
 		NJSR				_players_animB_sub0129_sub06_A
 		NJSR				_native_give_players_1_life
-		SJMP				_script151
+		SJMP				_script_sub_1up_text_float_up
 
 ; =============== S C R I P T   R O U T I N E ===============================
 ; no bonus bloater object
@@ -6702,7 +6765,7 @@ _script_j_kill:
 		KILL
 
 ; =============== O B J E C T   S C R I P T =================================
-_obj_scr02:
+_obj_scr02_coins_bonus:
 		NJSR				_native_sub04B
 		OBJ_MOVE_Y_POS		$40
 byte_6B197:
@@ -6752,7 +6815,7 @@ _script14B:
 		SPR_LIB_SELECT		$05
 		PARAM_80_CLEAR
 		OBJ_SET_X_DELTA		$01
-		NJSR				_native_sub10F
+		NJSR				_native_obj_hor_delta_toggle
 		FLIP_40_CLEAR
 byte_6B1EE:
 		SPR_IDX_SELECT		$17
@@ -6781,7 +6844,7 @@ byte_6B21A:
 ; =============== S U B R O U T I N E =======================================
 _native_sub04C:
 		JSR		_scr_param_4_clear
-		JSR		_native_sub105
+		JSR		_j_native_complement_x_deltas
 		INC		_obj_hps,X
 		LDA		_obj_x_deltas,X
 		BMI		loc_6B238
@@ -6898,7 +6961,7 @@ byte_6B2F5:
 		SBCS				byte_6B30D
 		NJSR				_native_cmpC0_obj_x_lo_pos
 		SBCC				byte_6B30D
-		NJSR				_native_sub12A
+		NJSR				_native_get_rand_scale3
 		SSWITCH				_tmp_ptrE+1
 		SCASE				byte_6B310
 		SCASE				byte_6B310
@@ -6956,7 +7019,7 @@ byte_6B357:
 		SYNC
 		NJSR				_native_get_obj_var0D
 		SBMI				byte_6B367
-		SJSR				byte_6A589
+		SJSR				_script_sub_6A589
 		SBCS				byte_6B357
 		SJMP				byte_6B373
 byte_6B367:
@@ -6967,8 +7030,8 @@ byte_6B367:
 		NJSR				_native_sub029
 byte_6B373:
 		NJSR				_native_sub11C
-		NJSR				_native_sub161
-		NJSR				_native_sub134
+		NJSR				_native_scr_params_set05_hi_nibble_clear
+		NJSR				_native_obj_idxCs_clear_low_nibble
 byte_6B37C:
 		SJSR				byte_6B393
 		OBJ_SET_Y_DELTA		$E0
@@ -6983,7 +7046,7 @@ byte_6B393:
 		NJSR				_native_sub100
 		OBJ_SET_HP			$01
 		VAR_1C_SET			$02
-		SJSR				byte_6A557
+		SJSR				_script_sub_6A557
 		SBCC				byte_6B393
 		SRET
 
@@ -7347,7 +7410,7 @@ _native_sub058:
 		JMP		_scr_flags_update
 
 ; =============== S C R I P T ===============================================
-_script42:
+_obj_scr_box_bonus_prize_continue:
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$37
 		PARAM_80_CLEAR
@@ -7355,43 +7418,43 @@ _script42:
 		SJMP				_script_idle
 
 ; =============== S C R I P T ===============================================
-_script43:
+_obj_scr_box_bonus_prize_1up:
 		SPR_LIB_SELECT		$06
 		SPR_IDX_SELECT		$01
 		PARAM_80_CLEAR
 		NJSR				_native_inc_tmp_player_lives
-		SRUN				$01,_script151
+		SRUN				$01,_script_sub_1up_text_float_up
 		SJMP				_script_idle
 
 ; =============== S C R I P T ===============================================
-_script44:
+_obj_scr_box_bonus_prize_30rrs:
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$24
 		PARAM_80_CLEAR
 		NJSR				_native_add_players_30_rr_ptss
-		SRUN				$01,_script152
+		SRUN				$01,_script_sub_30_rr_pts_float_up
 		SJMP				_script_idle
 
 ; =============== S C R I P T ===============================================
-_script152:
+_script_sub_30_rr_pts_float_up:
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$35
-		SJMP				byte_6A240
+		SJMP				_script_sub_prize_text_float_up_animate
 
 ; =============== S C R I P T ===============================================
-_script45:
+_obj_scr_box_bonus_prize_10rrs:
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$25
 		PARAM_80_CLEAR
 		NJSR				_native_add_players_10_rr_ptss
-		SRUN				$01,_script153
+		SRUN				$01,_script_sub_10_rr_pts_float_up
 		SJMP				_script_idle
 
 ; =============== S C R I P T ===============================================
-_script153:
+_script_sub_10_rr_pts_float_up:
 		SPR_LIB_SELECT		$05
 		SPR_IDX_SELECT		$36
-		SJMP				byte_6A240
+		SJMP				_script_sub_prize_text_float_up_animate
 
 ; =============== S U B R O U T I N E =======================================
 _native_increment_continues:
@@ -7565,7 +7628,7 @@ loc_6B72F:
 		STA		_scr_vars19,X
 		RTS
 byte_6B734:
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_SET_FLIP		$08
 		SRET
 byte_6B73A:
@@ -7729,7 +7792,7 @@ _native_sub065:
 
 ; =============== S C R I P T ===============================================
 _script155:
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		OBJ_SET_X_POS		$F8,$FF
 		OBJ_SET_Y_POS		$30,$00
 		OBJ_SET_X_DELTA		$08

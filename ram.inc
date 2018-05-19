@@ -456,7 +456,7 @@ _scr_vars19:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _obj_widths:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
-_obj_heigts:
+_obj_heights:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _scr_vars1C:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0

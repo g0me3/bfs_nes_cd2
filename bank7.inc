@@ -1101,28 +1101,28 @@ locret_B46F1:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_obj_sys_calc01:
+_obj_to_tile_collision_test_up:
 		SEC
 		LDA		_obj_y_lo_poss,X
-		SBC		_obj_heigts,X
+		SBC		_obj_heights,X
 		BCC		loc_B4735
 		LDA		_obj_y_lo_poss,X
-		LDY		_obj_heigts,X
+		LDY		_obj_heights,X
 		JSR		_sub_minus16
 		LDY		byte_9E
 		JSR		_sub_minus16
 		LDY		#$D0
-		JSR		_obj_sys_calc02
+		JSR		_obj_to_tile_vert_collision_test
 		BCC		loc_B4735
 		LDA		_obj_y_lo_poss,X
-		LDY		_obj_heigts,X
+		LDY		_obj_heights,X
 		JSR		_sub_minus16
 		LDY		byte_9E
 		JSR		_sub_minus16
 		LDY		#$10
 		JSR		_add_plus16
 		AND		#$F0
-		LDY		_obj_heigts,X
+		LDY		_obj_heights,X
 		JSR		_add_plus16
 		LDY		byte_9E
 		JSR		_add_plus16
@@ -1134,7 +1134,7 @@ loc_B4735:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_obj_sys_calc03:
+_obj_to_tile_collision_test_down:
 		LDA		_obj_y_hi_poss,X
 		BNE		loc_B4778
 		STY		_tmp_ptr0
@@ -1142,7 +1142,7 @@ _obj_sys_calc03:
 		LDY		byte_9E
 		JSR		_sub_minus16
 		LDY		_tmp_ptr0
-		JSR		_obj_sys_calc02
+		JSR		_obj_to_tile_vert_collision_test
 		BCC		loc_B4778
 		LDA		#$00
 		STA		_obj_y_accel,X
@@ -1168,7 +1168,7 @@ loc_B4778:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_obj_sys_calc02:
+_obj_to_tile_vert_collision_test:
 		AND		#$F0
 		STA		_tmp_ptr4
 		STY		_tmp_ptr4+1
@@ -1227,12 +1227,12 @@ loc_B47CF:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_obj_sys_calc04:
+_obj_to_tile_collision_test_right:
 		CLC
 		LDA		_obj_x_lo_poss,X
 		ADC		_obj_widths,X
 		BCS		loc_B47FB
-		JSR		_obj_sys_calc05
+		JSR		_obj_to_tile_hor_collision_test
 		BCC		loc_B47FB
 		CLC
 		LDA		_obj_x_lo_poss,X
@@ -1252,12 +1252,12 @@ loc_B47FB:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_obj_sys_calc06:
+_obj_to_tile_collision_test_left:
 		SEC
 		LDA		_obj_x_lo_poss,X
 		SBC		_obj_widths,X
 		BCC		loc_B4826
-		JSR		_obj_sys_calc05
+		JSR		_obj_to_tile_hor_collision_test
 		BCC		loc_B4826
 		CLC
 		LDA		_obj_x_lo_poss,X
@@ -1279,7 +1279,7 @@ loc_B4826:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_obj_sys_calc05:
+_obj_to_tile_hor_collision_test:
 		CLC
 		ADC		byte_AC
 		AND		#$F0
@@ -1299,7 +1299,7 @@ _obj_sys_calc05:
 		JSR		_add_plus16
 		AND		#$F0
 		STA		_tmp_ptr4
-		LDY		_obj_heigts,X
+		LDY		_obj_heights,X
 		BNE		loc_B4858
 		INY
 loc_B4858:
@@ -2658,7 +2658,7 @@ _MAIN_START:
 		.WORD	_main4_ingame
 		.WORD	_main7_game_over
 		.WORD	_main8_continue
-		.WORD	_main9_unused
+		.WORD	_main9_capcom_logo_unused
 
 ; =============== S U B R O U T I N E =======================================
 _MAIN_LOOP_START:
@@ -2691,10 +2691,10 @@ _main0_license:
 		JMP		_MAIN_LOOP_START
 
 ; =============== S U B R O U T I N E =======================================
-_main9_unused:
+_main9_capcom_logo_unused:
 		LDY		#$01
 		JSR		_scr_load_param
-		.WORD	_script_unused
+		.WORD	_script_capcom_logo_unused
 		JMP		_MAIN_LOOP_START
 
 ; =============== S U B R O U T I N E =======================================
@@ -2994,7 +2994,7 @@ loc_B52EB:
 loc_B52F1:
 		LDA		_room_flags
 		AND		#$08
-		BNE		_j_stage_complete
+		BNE		_j_room_complete
 		LDX		#$01
 loc_B52F9:
 		LDA		_players_lives,X
@@ -3010,12 +3010,12 @@ loc_B530A:
 		BPL		loc_B52F9
 		LDA		_players_lives
 		ORA		_players_lives+1
-		BNE		_j_stage_complete
+		BNE		_j_room_complete
 		LDA		#$07
 		STA		_main_sub_idx
 		JMP		_pal_fade_out
-_j_stage_complete:
-		JMP		_stage_complete
+_j_room_complete:
+		JMP		_room_complete
 
 ; =============== S U B R O U T I N E =======================================
 _players_restore_def_max_hps:
@@ -3371,7 +3371,7 @@ _player_kill:
 		BEQ		locret_B55C4
 		LDA		#$00
 		STA		_obj_hps,Y
-		STA		_obj_heigts,Y
+		STA		_obj_heights,Y
 		LDA		_players_vars07,Y
 		ORA		#$80
 		STA		_players_vars07,Y
@@ -3381,6 +3381,7 @@ _player_kill:
 		STA		_players_lives,Y
 locret_B55C4:
 		RTS
+
 _hud_heart_name_spr_list:
 		.BYTE	$00,$15,$16
 _hud_heart_name_spr_pos_list:
@@ -3389,7 +3390,7 @@ _spr_hud_timer_raw:
 		.BYTE	$04,$00,$00,$E8,$01,$F2,$01,$E8,$01,$E8,$01,$00
 
 ; =============== S U B R O U T I N E =======================================
-_stage_complete:
+_room_complete:
 		LDA		_obj_hps
 		STA		_players_max_hps
 		LDA		_obj_hps+1
@@ -3430,7 +3431,7 @@ _main_screens_lib:
 		.WORD	_screen_res3_ingame
 		.WORD	_screen_res7_game_over
 		.WORD	_screen_res8_continue
-		.WORD	_screen_res9
+		.WORD	_screen_res9_capcom_logo_unused
 
 ; =============== S U B R O U T I N E =======================================
 _main_screen_draw:
@@ -3562,7 +3563,8 @@ loc_B56EF:
 		STA		_obj_global_y_shift
 		STA		_obj_global_y_shift+1
 		RTS
-_screen_res9:
+
+_screen_res9_capcom_logo_unused:
 		.BYTE	$02					; _ppu_mode
 		.WORD	_room_palA_12		; _pal_bg_ptr
 		.WORD	_room_palA_12		; _pal_spr_ptr
@@ -3572,6 +3574,7 @@ _screen_res9:
 		.BYTE	$09,$09,$09,$09		; _chr_banks
 		.BYTE	$00,$00,$10,$00		; _scrolls
 		.BYTE	$F0,$00,$00,$00		; _sprites
+
 _screen_res0_license:
 		.BYTE	$02					; _ppu_mode
 		.WORD	_pal0				; _pal_bg_ptr
@@ -3713,6 +3716,7 @@ _set_split:
 		LDA		_split_pos
 		STA		_spr_buf
 		RTS
+
 _screen_res5_stage_complete:
 		.BYTE	2					; _ppu_mode
 		.WORD	_pal4				; _pal_bg_ptr
@@ -3749,6 +3753,7 @@ loc_B584C:
 		STA		_hor_menu_pos
 		STA		_tmp48
 		RTS
+
 _screen_res7_game_over:
 		.BYTE	2					; _ppu_mode
 		.WORD	_pal6				; _pal_bg_ptr
@@ -3792,6 +3797,7 @@ loc_B5895:
 		LDA		#>[_rle_tlm_continue]
 		STA		_tmp_ptr0+1
 		JMP		_rle_unpack
+
 _screen_res3_ingame:
 		.BYTE	2					; _ppu_mode
 		.WORD	_room_pal00			; _pal_bg_ptr
@@ -3808,7 +3814,7 @@ _main_screen4_draw_ingame:
 		LDX		_stage
 		LDA		_stage_room_idx
 		ASL
-		ADC		byte_B5AAC,X
+		ADC		_lvl_stage_room_idx_ofs,X
 		TAX
 		LDA		_room_cfg_lib,X
 		LDY		_room_cfg_lib+1,X
@@ -4030,84 +4036,108 @@ loc_B5A32:
 
 _room_spr_pal_ofs_list:
 		.BYTE	$17,$19,$1A,$1B,$1D,$1E,$1F
+
+		MAC	LVL_OFS
+{1}		SET	[.-_room_cfg_lib]
+		ENDM
+
 _room_cfg_lib:
-		.WORD	_room_cfg00
-		.WORD	_room_cfg01
-		.WORD	_room_cfg02
-		.WORD	_room_cfg03
-		.WORD	$02
-		.WORD	_room_cfg05
-		.WORD	_room_cfg06
-		.WORD	_room_cfg07
-		.WORD	_room_cfg08
-		.WORD	_room_cfg09
-		.WORD	_room_cfg0A
-		.WORD	_room_cfg07
-		.WORD	_room_cfg08
-		.WORD	_room_cfg0D
-		.WORD	_room_cfg0E
-		.WORD	_room_cfg03
-		.WORD	_room_cfg10
-		.WORD	_room_cfg0E
-		.WORD	$08
-		.WORD	_room_cfg13
-		.WORD	_room_cfg14
-		.WORD	_room_cfg15
-		.WORD	_room_cfg16
-		.WORD	_room_cfg17
-		.WORD	_room_cfg18
-		.WORD	_room_cfg0A
-		.WORD	_room_cfg1A
-		.WORD	_room_cfg16
-		.WORD	_room_cfg03
-		.WORD	_room_cfg1A
-		.WORD	_room_cfg16
-		.WORD	_room_cfg1F
-		.WORD	_room_cfg20
-		.WORD	_room_cfg21
-		.WORD	_room_cfg22
-		.WORD	_room_cfg23
-		.WORD	_room_cfg24
-		.WORD	_room_cfg25
-		.WORD	_room_cfg26
-		.WORD	_room_cfg27
-		.WORD	_room_cfg03
-		.WORD	_room_cfg29
-		.WORD	_room_cfg2A
-		.WORD	_room_cfg2B
-		.WORD	_room_cfg2C
-		.WORD	_room_cfg03
-		.WORD	_room_cfg2E
-		.WORD	_room_cfg2F
-		.WORD	_room_cfg30
-		.WORD	$0E
-		.WORD	_room_cfg32
-byte_B5AAC:
-		.BYTE	$00,$0C,$1A,$24,$28,$3E,$42,$4C,$56
+		LVL_OFS	_stage0_ofs
+		.WORD	_room_cfg00	; 00 0	room 1
+		.WORD	_room_cfg01	; 02 1	room 2
+		.WORD	_room_cfg02	; 04 2	room 3
+		.WORD	_room_cfg03	; 06 3	monterey refill
+		.WORD	$02			; 08 4	boss 1 intro
+		.WORD	_room_cfg05	; 0A 5	boss 1 water rabbit
+		LVL_OFS	_stage1_ofs
+		.WORD	_room_cfg06	; 0C 0	room 1 -> branch to 3 (2p only)
+		.WORD	_room_cfg07	; 0E 1	room 2
+		.WORD	_room_cfg08	; 10 2	boss
+		.WORD	_room_cfg09	; 12 3	basket bonus
+		.WORD	_room_cfg0A	; 14 4	box bonus
+		.WORD	_room_cfg07	; 16 5	room 2
+		.WORD	_room_cfg08	; 18 6	boss 2 bat panther
+		LVL_OFS	_stage2_ofs
+		.WORD	_room_cfg0D	; 1A 0	room 1 -> branch to 2
+		.WORD	_room_cfg0E	; 1C 1	boss sea rat
+		.WORD	_room_cfg03	; 1E 2	monerey refill
+		.WORD	_room_cfg10	; 20 3	room 1 second half
+		.WORD	_room_cfg0E	; 22 4	boss 3 sea rat
+		LVL_OFS	_stage3_ofs
+		.WORD	$08			; 24 0	stage 4 intro
+		.WORD	_room_cfg13	; 26 1	room 1 (no boss)
+		LVL_OFS	_stage4_ofs
+		.WORD	_room_cfg14	; 28 0	room 1
+		.WORD	_room_cfg15	; 2A 1	room 2 -> branch to 3 (2p) 8 (1p)
+		.WORD	_room_cfg16	; 2C 2	boss 4 ghost mummy
+		.WORD	_room_cfg17	; 2E 3	buttons room
+		.WORD	_room_cfg18	; 30 4	coins bonus
+		.WORD	_room_cfg0A	; 32 5	box bonus
+		.WORD	_room_cfg1A	; 34 6	room 2 second half
+		.WORD	_room_cfg16	; 36 7	boss 4 ghost mummy
+		.WORD	_room_cfg03	; 38 8	monerey refill
+		.WORD	_room_cfg1A	; 3A 9	room 2 second half
+		.WORD	_room_cfg16	; 3C A	boss 4 ghost mummy
+		LVL_OFS	_stage5_ofs
+		.WORD	_room_cfg1F	; 3E 0	room 1
+		.WORD	_room_cfg20	; 40 1	boss 5A ostrich
+		LVL_OFS	_stage6_ofs
+		.WORD	_room_cfg21	; 42 0	room 1
+		.WORD	_room_cfg22	; 44 1	room 2
+		.WORD	_room_cfg23	; 46 2	room 3
+		.WORD	_room_cfg24	; 48 3	room 4
+		.WORD	_room_cfg25	; 4A 4	boss 5B cat with cards
+		LVL_OFS	_stage7_ofs
+		.WORD	_room_cfg26	; 4C 0	room 1
+		.WORD	_room_cfg27	; 4E 1	room 2 -> jump 3 or branch 2
+		.WORD	_room_cfg03	; 50 2	monterey refill
+		.WORD	_room_cfg29	; 52 3	room 3
+		.WORD	_room_cfg2A	; 54 4	boss 5C wrecking lizard
+		LVL_OFS	_stage8_ofs
+		.WORD	_room_cfg2B	; 56 0	room 1
+		.WORD	_room_cfg2C	; 58 1	room 2 -> jump 3 or branch 2
+		.WORD	_room_cfg03	; 5A 2	monterey refill
+		.WORD	_room_cfg2E	; 5C 3	room 3
+		.WORD	_room_cfg2F	; 5E 4	room 4
+		.WORD	_room_cfg30	; 60 5	room 5
+		.WORD	$0E			; 62 6	final boss intro
+		.WORD	_room_cfg32	; 64 7	final boss mecha cat
+
+_lvl_stage_room_idx_ofs:
+		.BYTE	_stage0_ofs
+		.BYTE	_stage1_ofs
+		.BYTE	_stage2_ofs
+		.BYTE	_stage3_ofs
+		.BYTE	_stage4_ofs
+		.BYTE	_stage5_ofs
+		.BYTE	_stage6_ofs
+		.BYTE	_stage7_ofs
+		.BYTE	_stage8_ofs
 _unref:
 		.BYTE	$05,$02,$01,$01,$02,$01,$04,$04,$07
 byte_B5ABE:
 		.BYTE	$0F,$03,$FF,$04,$09,$0A,$0B,$0B,$0B
+
 _cutscene_rooms_cfg_lib:
-		.WORD	_cutscene_room_cfg00
-		.WORD	_cutscene_room_cfg01
-		.WORD	_cutscene_room_cfg02
-		.WORD	_cutscene_room_cfg03
-		.WORD	_cutscene_room_cfg04
-		.WORD	_cutscene_room_cfg05
-		.WORD	_cutscene_room_cfg06
-		.WORD	_cutscene_room_cfg07
-		.WORD	_cutscene_room_cfg07
-		.WORD	_cutscene_room_cfg09
-		.WORD	_cutscene_room_cfg0A
-		.WORD	_cutscene_room_cfg0B
-		.WORD	_cutscene_room_cfg0C
-		.WORD	_cutscene_room_cfg0D
-		.WORD	_cutscene_room_cfg0E
-		.WORD	_cutscene_room_cfg0F
-		.WORD	_cutscene_room_cfg10
-		.WORD	_cutscene_room_cfg11
-		.WORD	_cutscene_room_cfg12
+		.WORD	_cutscene_cfg00
+		.WORD	_cutscene_cfg01
+		.WORD	_cutscene_cfg02
+		.WORD	_cutscene_cfg03
+		.WORD	_cutscene_cfg04
+		.WORD	_cutscene_cfg05
+		.WORD	_cutscene_cfg06
+		.WORD	_cutscene_cfg07
+		.WORD	_cutscene_cfg07
+		.WORD	_cutscene_cfg09
+		.WORD	_cutscene_cfg0A
+		.WORD	_cutscene_cfg0B
+		.WORD	_cutscene_cfg0C
+		.WORD	_cutscene_cfg0D
+		.WORD	_cutscene_cfg0E
+		.WORD	_cutscene_cfg0F
+		.WORD	_cutscene_cfg10
+		.WORD	_cutscene_cfg11
+		.WORD	_cutscene_cfg12
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub171:
@@ -5099,7 +5129,7 @@ _scr_cmd32_obj_set_size:
 		JSR		_scr_getc
 		STA		_obj_widths,X
 		JSR		_scr_getc
-		STA		_obj_heigts,X
+		STA		_obj_heights,X
 		JMP		_scr_cmd_fetch
 
 ; =============== S U B R O U T I N E =======================================
@@ -5438,6 +5468,7 @@ _native_sub122:
 		STA		_obj_y_deltas,X
 		JSR		_obj_move_hor_animate
 		JMP		_obj_vert_animate
+
 byte_B62EA:
 		.BYTE	$E0,$E0,$E0,$E8,$E8,$E8,$F0,$F0,$F8,$F8,$F8,$F8,$F8,$F8,$F8,$00
 		.BYTE	$00,$08,$08,$08,$08,$08,$08,$08,$10,$10,$18,$18,$18,$20,$20,$20
@@ -5455,7 +5486,7 @@ _native_sub123:
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub123_sub0:
-		JSR		_native_sub123_sub0_A
+		JSR		_complement_tmp_ptrE
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub123_sub3:
@@ -5465,12 +5496,12 @@ _native_sub123_sub3:
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub123_sub2:
-		JSR		_native_sub123_sub0_A
+		JSR		_complement_tmp_ptrE
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub123_sub1:
 		JSR		_native_sub123_sub3
-		JMP		_native_sub105
+		JMP		_j_native_complement_x_deltas
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub124:
@@ -5483,7 +5514,7 @@ _native_sub124:
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub124_sub1:
-		JSR		_native_sub123_sub0_A
+		JSR		_complement_tmp_ptrE
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub124_sub0:
@@ -5493,7 +5524,7 @@ _native_sub124_sub0:
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub124_sub3:
-		JSR		_native_sub123_sub0_A
+		JSR		_complement_tmp_ptrE
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub124_sub2:
@@ -5513,7 +5544,7 @@ _native_sub123_ex:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub123_sub0_A:
+_complement_tmp_ptrE:
 		SEC
 		LDA		#$00
 		SBC		_tmp_ptrE
@@ -5529,25 +5560,26 @@ _native_sub123_sub3_A:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub126:
+_native_inc_vars19:
 		INC		_scr_vars19,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub127:
+_native_dec_vars19:
 		DEC		_scr_vars19,X
 		RTS
+
 byte_B6392:
 		.BYTE	$00,$00,$00,$01,$01,$02,$02,$03,$03,$04,$04,$05,$05,$06,$06,$07
 		.BYTE	$07,$07,$08,$08,$08,$09,$09,$09,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0C
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub113:
+_native_get_rand_flags:
 		JSR		_rand
 		JMP		_scr_flags_update
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub12A:
+_native_get_rand_scale3:
 		LDY		#$03
 		JMP		_rand_scale
 
@@ -5716,21 +5748,21 @@ _native_idxBs_10_test:
 		JMP		_scr_flags_update
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub151:
+_native_idxBs_10_test_clear_from_idxBs:
 		LDA		_scr_idxBs,X
-		JMP		_native_sub14C_ex
+		JMP		_native_idxBs_10_test_clear
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub14C:
+_native_idxBs_10_test_clear_from_idxCs:
 		LDA		_scr_idxCs,X
-		JMP		_native_sub14C_ex
+		JMP		_native_idxBs_10_test_clear
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub155:
+_native_idxBs_10_test_clear_from_idxAs:
 		LDA		_scr_idxAs,X
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub14C_ex:
+_native_idxBs_10_test_clear:
 		AND		#$0F
 		TAY
 		LDA		_scr_idxBs,Y
@@ -5742,21 +5774,21 @@ _native_sub14C_ex:
 		JMP		_scr_flags_update
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub134:
+_native_obj_idxCs_clear_low_nibble:
 		LDA		_scr_idxCs,X
 		AND		#$3F
 		STA		_scr_idxCs,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub12B:
+_native_obj_idxCs_80_set:
 		LDA		_scr_idxCs,X
 		ORA		#$80
 		STA		_scr_idxCs,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub17D:
+_native_idxCs_80_test:
 		LDA		_scr_idxCs,X
 		AND		#$80
 		JMP		_scr_flags_update
@@ -5797,7 +5829,7 @@ _script1FF:
 		SYNC
 		TARGET_DIR_SET		$FF
 		TARGET_FOLLOW
-		NJSR				_native_sub118
+		NJSR				_native_obj_to_tile_collision_test_down
 		SBCC				_script1FF
 		SRET
 
@@ -5869,7 +5901,7 @@ _script_animate3:
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub109:
+_native_obj_y_parabolic_delta_adjust:
 		LDA		_obj_y_deltas,X
 		BMI		loc_B6548
 		CMP		#$50
@@ -5943,38 +5975,37 @@ _native_sub10B:
 		BEQ		_scr_flags_flush_clc
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub118:
+_native_obj_to_tile_collision_test_down:
 		LDA		_obj_hps,X
 		BEQ		_scr_flags_flush_clc
 		LDY		#$A0
-		JSR		_obj_sys_calc03
+		JSR		_obj_to_tile_collision_test_down
 		JMP		_scr_flags_update
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub10A:
+_native_obj_to_tile_collision_test_up:
 		LDA		_obj_hps,X
 		BEQ		_scr_flags_flush_sec
-		JSR		_obj_sys_calc01
+		JSR		_obj_to_tile_collision_test_up
 		JMP		_scr_flags_flush
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub104:
+_native_obj_to_tile_collision_test_hor:
 		LDA		_obj_hps,X
 		BEQ		_scr_flags_flush_sec
 		LDA		_obj_x_deltas,X
 		BEQ		_scr_flags_flush_sec
 		SEC
 		LDA		_obj_x_deltas,X
-; REDUNDANT: we only may get here if _obj_x_deltas=0 so this branch never
-; taken
+; TODO: we only may get here if _obj_x_deltas=0 so this branch never taken
 		BEQ		loc_B65CB
 ; -
 		BMI		loc_B65CE
-		JSR		_obj_sys_calc04
+		JSR		_obj_to_tile_collision_test_right
 loc_B65CB:
 		JMP		_scr_flags_flush
 loc_B65CE:
-		JSR		_obj_sys_calc06
+		JSR		_obj_to_tile_collision_test_left
 		JMP		_scr_flags_flush
 
 ; =============== S U B R O U T I N E =======================================
@@ -6161,11 +6192,11 @@ _native_sub115_ex:
 loc_B66EC:
 		CLC
 		LDA		_tmp_ptr0
-		ADC		_obj_heigts,Y
+		ADC		_obj_heights,Y
 		JMP		_scr_flags_flush
 loc_B66F5:
 		LDA		_tmp_ptr0
-		CMP		_obj_heigts,X
+		CMP		_obj_heights,X
 		JMP		_scr_flags_update
 
 ; =============== S U B R O U T I N E =======================================
@@ -6234,9 +6265,13 @@ _native_sub17B:
 _native_sub110:
 		JSR		_native_sub110_A
 
+; !FALLTHROUGH!
+
+; TODO, optimize me, redundant JMP
+
 ; =============== S U B R O U T I N E =======================================
-_native_sub105:
-		JMP		_native_sub105_A
+_j_native_complement_x_deltas:
+		JMP		_native_complement_x_deltas
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub129:
@@ -6251,39 +6286,43 @@ _players_animB_sub67_A:
 		LDY		_scr_idxAs,X
 		LDA		_obj_x_lo_poss,X
 		CMP		_obj_x_lo_poss,Y
-		BCS		_native_sub11B_ex
-		BCC		_native_sub10F_A
+		BCS		_native_obj_right_to_left_delta_toggle
+		BCC		_native_obj_left_to_right_delta_toggle
 
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub3_B_A:
 		LDY		_scr_idxAs,X
 		LDA		_obj_x_deltas,Y
-		BMI		_native_sub11B_ex
-		BPL		_native_sub10F_A
+		BMI		_native_obj_right_to_left_delta_toggle
+		BPL		_native_obj_left_to_right_delta_toggle
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub11B:
 		LDA		_obj_flips,X
 		AND		#$40
-		BNE		_native_sub11B_ex
-		BEQ		_native_sub10F_A
+		BNE		_native_obj_right_to_left_delta_toggle
+		BEQ		_native_obj_left_to_right_delta_toggle
 		LDY		_scr_idxAs,X
 		LDA		_obj_flips,Y
 		STA		_obj_flips,X
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub10F:
+_native_obj_hor_delta_toggle:
 		LDA		_obj_flips,X
 		AND		#$40
-		BNE		_native_sub10F_A
+		BNE		_native_obj_left_to_right_delta_toggle
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub11B_ex:
+_native_obj_right_to_left_delta_toggle:
 		LDA		_obj_x_deltas,X
 		BMI		nullsub9
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
-_native_sub105_A:
+_native_complement_x_deltas:
 		SEC
 		LDA		#$00
 		SBC		_obj_x_deltas,X
@@ -6291,35 +6330,37 @@ _native_sub105_A:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub10F_A:
+_native_obj_left_to_right_delta_toggle:
 		LDA		_obj_x_deltas,X
-		BMI		_native_sub105_A
+		BMI		_native_complement_x_deltas
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
 nullsub9:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub121:
+_native_obj_hor_bounce7E:
 		LDA		#$7E
-		BNE		_native_sub141_ex
+		BNE		_native_obj_hor_bounce_ex
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub141:
+_native_obj_hor_bounce2C:
 		LDA		#$2C
-		BNE		_native_sub141_ex
+		BNE		_native_obj_hor_bounce_ex
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub12E:
+_native_obj_hor_bounce13:
 		LDA		#$13
-		BNE		_native_sub141_ex
+		BNE		_native_obj_hor_bounce_ex
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub119:
+_native_obj_hor_bounce0C:
 		LDA		#$0C
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub141_ex:
+_native_obj_hor_bounce_ex:
 		STA		_tmp_ptr0
 		LDA		_obj_flips,X
 		AND		#$40
@@ -6341,8 +6382,8 @@ loc_B67D2:
 		ADC		#$00
 		STA		_obj_x_hi_poss,X
 loc_B67E3:
-		JSR		_native_sub10F
-		JMP		_native_sub12B
+		JSR		_native_obj_hor_delta_toggle
+		JMP		_native_obj_idxCs_80_set
 
 ; =============== S U B R O U T I N E =======================================
 _native_cmp40_obj_y_lo_pos:
@@ -6472,9 +6513,9 @@ _native_get_obj_hp:
 		JMP		_scr_flags_update
 
 ; =============== S C R I P T ===============================================
-_script200:
+_script_wait_obj_hps_turns_zero:
 		NJSR_SYNC			_native_get_obj_hp
-		SBNE				_script200
+		SBNE				_script_wait_obj_hps_turns_zero
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -6495,7 +6536,7 @@ _native_sub04A_A:
 loc_B6895:
 		CLC
 		LDA		_obj_y_lo_poss,Y
-		SBC		_obj_heigts,Y
+		SBC		_obj_heights,Y
 		STA		_obj_y_lo_poss,X
 		LDA		_obj_y_hi_poss,Y
 		SBC		#$00
@@ -6531,7 +6572,7 @@ loc_B68CF:
 		STA		_obj_x_hi_poss,X
 		CLC
 		LDA		_obj_y_lo_poss,Y
-		SBC		_obj_heigts,Y
+		SBC		_obj_heights,Y
 		STA		_obj_y_lo_poss,X
 		LDA		_obj_y_hi_poss,Y
 		SBC		#$00
@@ -6554,22 +6595,22 @@ _native_sub11C:
 		STA		_obj_flips,X
 		LDA		#$02
 		STA		_scr_vars1C,X
-		JMP		_native_sub12B
+		JMP		_native_obj_idxCs_80_set
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub15E:
 		LDA		#$01
-		BNE		_native_sub15E_ex
+		BNE		_native_scr_params_set_hi_nibble_clear
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub13A:
 		LDA		#$03
-		BNE		_native_sub15E_ex
+		BNE		_native_scr_params_set_hi_nibble_clear
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub13E:
 		LDA		#$07
-		BNE		_native_sub15E_ex
+		BNE		_native_scr_params_set_hi_nibble_clear
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub160:
@@ -6583,26 +6624,26 @@ _native_sub13B:
 		STA		_scr_vars1C,X
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub166:
+_native_scr_params_set09_hi_nibble_clear:
 		LDA		#$09
-		BNE		_native_sub15E_ex
+		BNE		_native_scr_params_set_hi_nibble_clear
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub16C:
+_native_scr_params_set0A_hi_nibble_clear:
 		LDA		#$0A
-		BNE		_native_sub15E_ex
+		BNE		_native_scr_params_set_hi_nibble_clear
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub161:
+_native_scr_params_set05_hi_nibble_clear:
 		LDA		#$05
-		BNE		_native_sub15E_ex
+		BNE		_native_scr_params_set_hi_nibble_clear
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub11D:
+_native_scr_params_set04_hi_nibble_clear:
 		LDA		#$04
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub15E_ex:
+_native_scr_params_set_hi_nibble_clear:
 		STA		_tmp_ptr0
 		LDA		_scr_params,X
 		AND		#$F0
@@ -6611,15 +6652,15 @@ _native_sub15E_ex:
 		RTS
 
 ; =============== S C R I P T ===============================================
-_script201:
+_script_wait_for_idxCs_80_set_param_80_clear:
 		PARAM_80_CLEAR
 
 ; !FALLTHROUGH!
 
 ; =============== S C R I P T ===============================================
-_script202:
-		NJSR_SYNC			_native_sub17D
-		SBEQ				_script202
+_script_wait_for_idxCs_80_set:
+		NJSR_SYNC			_native_idxCs_80_test
+		SBEQ				_script_wait_for_idxCs_80_set
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -6879,7 +6920,7 @@ byte_B6AD1:
 		SYNC
 		SJSR				_script20A
 		NJSR				_obj_move_hor_animate
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		NJSR				_native_get_obj_y_delta
 		SBPL				byte_B6AE8
 		NJSR				_obj_vert_animate
@@ -6901,7 +6942,7 @@ _obj_scr_common_small_boss_destr:
 		NJSR				_scr_param_10_set
 byte_B6AFD:
 		OBJ_ANIMATE_SYNC
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		NJSR				_native_obj_cmp160_y_pos
 		SBMI				byte_B6AFD
 
@@ -6945,9 +6986,9 @@ _native_sub14F:
 ; draws all macro-tiles patch lines from _tmp_ptr4B till the end
 ; of the data
 ;
-_script_sub_tlm_patch_draw:
-		NJSR_SYNC			_native_tlm_patch_line_draw
-		SBNE				_script_sub_tlm_patch_draw
+_script_sub_macro_patch_draw:
+		NJSR_SYNC			_native_macro_patch_line_draw
+		SBNE				_script_sub_macro_patch_draw
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -6960,11 +7001,11 @@ _far_sys_room_draw_sub02:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-; ddraws macro-tiles patch from _tmp_ptr4B one line at once,
-; return 00 if all patch lines are displayed
-; return FF if more lines left
+; draws macro-tiles patch from _tmp_ptr4B one line at once,
+; return Z=1 if all patch lines are displayed (reached 00 in stream)
+; return Z=0 if more lines left
 ;
-_native_tlm_patch_line_draw:
+_native_macro_patch_line_draw:
 		LDA		_cur_prg_bank
 		PHA
 		LDA		#$03
@@ -7051,22 +7092,22 @@ loc_B6BDD:
 		TXA
 		CMP		_scr_vars21,Y
 		BNE		loc_B6BE6
-		JSR		_native_sub163_A
+		JSR		_native_obj_y_adjust_by_height
 loc_B6BE6:
 		DEY
 		BPL		loc_B6BDD
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub169:
+_native_obj_y_adjust_by_height_from_idxAs:
 		LDY		_scr_idxAs,X
 		BMI		nullsub4
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub163_A:
+_native_obj_y_adjust_by_height:
 		CLC
 		LDA		_obj_y_lo_poss,X
-		SBC		_obj_heigts,X
+		SBC		_obj_heights,X
 		STA		_obj_y_lo_poss,Y
 
 ; !FALLTHROUGH!
@@ -7076,26 +7117,26 @@ nullsub4:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub162:
-		LDY		#$0B
-		TXA
+_native_obj_to_obj_jump_up_test:
+		LDY		#$0B							; for all 12 objects
+		TXA										; move current obj idx to A
 loc_B6BFD:
-		CMP		_scr_vars21,Y
-		BEQ		loc_B6C06
+		CMP		_scr_vars21,Y					; compare cur obj idx with
+		BEQ		loc_B6C06						; obj link idx value
 		DEY
-		BPL		loc_B6BFD
-		CLC
+		BPL		loc_B6BFD						; return object idx with identical
+		CLC										; value C=1 or 0 and C=0 if no such
 loc_B6C06:
 		TYA
 		STA		_scr_idxAs,X
-		JMP		_scr_flags_update
+		JMP		_scr_flags_update				; store and flush flags
 
 ; =============== S C R I P T ===============================================
 _script20D:
-		NJSR_SYNC			_native_sub162
+		NJSR_SYNC			_native_obj_to_obj_jump_up_test
 		SBCS				_script20D
 byte_B6C13:
-		NJSR_SYNC			_native_sub162
+		NJSR_SYNC			_native_obj_to_obj_jump_up_test
 		SBCC				byte_B6C13
 		SRET
 
@@ -7134,7 +7175,7 @@ _native_set_def_max_hps_from_idxAs:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub158:
+_native_player_exit_right_with_flip_set:
 		LDY		_scr_idxAs,X
 		LDA		_obj_flips,Y
 		ORA		#$4C
@@ -7143,12 +7184,12 @@ _native_sub158:
 ; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub15A_A:
+_native_player_exit_right_set:
 		LDA		#$20
-		JMP		_native_sub156_ex
+		JMP		_native_player_exit_set
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub156:
+_native_player_exit_left_with_flip_set:
 		LDY		_scr_idxAs,X
 		LDA		_obj_flips,Y
 		AND		#$BF
@@ -7156,8 +7197,10 @@ _native_sub156:
 		STA		_obj_flips,Y
 		LDA		#$E0
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
-_native_sub156_ex:
+_native_player_exit_set:
 		STA		_obj_x_deltas,Y
 		LDA		#$04
 		STA		_players_vars0A,Y
@@ -7168,7 +7211,7 @@ _native_sub156_ex:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub159:
+_native_obj_player_from_idxAs_05_state_compare:
 		LDY		_scr_idxAs,X
 		LDA		_players_states,Y
 		CMP		#$05
@@ -7248,7 +7291,7 @@ loc_B6CF9:
 		LDA		_players_states,Y
 		CMP		#$04
 		BNE		loc_B6D03
-		JSR		_native_sub15A_A
+		JSR		_native_player_exit_right_set
 loc_B6D03:
 		DEY
 		BPL		loc_B6CF9
@@ -7387,7 +7430,7 @@ _enemy_manager:
 		ORA		_obj_x_hi_poss,X
 		ORA		_obj_y_hi_poss,X
 		BNE		loc_B6DF9
-		LDA		_obj_heigts,X
+		LDA		_obj_heights,X
 		BNE		loc_B6DFC
 loc_B6DF9:
 		JMP		_far_prg4_scr_exec_priority
@@ -7486,7 +7529,7 @@ _scr_reset_slot:
 
 ; =============== S U B R O U T I N E =======================================
 _obj_to_obj_collision_test:
-		LDA		_obj_heigts,Y
+		LDA		_obj_heights,Y
 		BEQ		loc_B6F07
 		CLC
 		LDA		_obj_widths,X
@@ -7523,11 +7566,11 @@ loc_B6EE0:
 		BNE		loc_B6F07
 		CLC
 		LDA		_tmp_ptr2
-		ADC		_obj_heigts,Y
+		ADC		_obj_heights,Y
 		RTS
 loc_B6EFC:
 		LDA		_tmp_ptr2
-		CMP		_obj_heigts,X
+		CMP		_obj_heights,X
 		BEQ		loc_B6F05
 		BCS		loc_B6F07
 loc_B6F05:
@@ -7732,7 +7775,7 @@ _scr_load_ex:
 		STA		_obj_x_accel,X
 		STA		_obj_y_accel,X
 		STA		_obj_widths,X
-		STA		_obj_heigts,X
+		STA		_obj_heights,X
 		STA		_obj_hps,X
 		STA		_scr_vars1C,X
 		STA		_scr_vars20,X
@@ -7891,7 +7934,7 @@ _players_animB_sub0129_F_A_A:
 _players_animB_sub0129_sub05_A_B_A:
 		CLC
 		LDA		_obj_y_lo_poss,Y
-		SBC		_obj_heigts,Y
+		SBC		_obj_heights,Y
 		STA		_obj_y_lo_poss,X
 		LDA		_obj_y_hi_poss,Y
 		SBC		#$00
@@ -7902,7 +7945,7 @@ _players_animB_sub0129_sub05_A_B_A:
 _players_animB_sub0129_sub12_A_B_B:
 		SEC
 		LDA		_obj_y_lo_poss,Y
-		ADC		_obj_heigts,X
+		ADC		_obj_heights,X
 		STA		_obj_y_lo_poss,X
 		LDA		_obj_y_hi_poss,Y
 		ADC		#$00
@@ -7942,7 +7985,7 @@ _obj_spr_lib_insert:
 		BPL		loc_B71DE
 		CLC
 		LDA		_tmpC
-		SBC		_obj_heigts,X
+		SBC		_obj_heights,X
 		STA		_tmpC
 		LDA		_tmpC+1
 		SBC		#$00
@@ -8091,7 +8134,7 @@ loc_B72C6:
 		JMP		loc_B71E2
 
 ; =============== S C R I P T ===============================================
-_script_unused:
+_script_capcom_logo_unused:
 		SUSPEND				$78
 		STORE				$00,_main_sub_idx
 		SJMP				_script_fade_out
@@ -8161,7 +8204,7 @@ byte_B7358:
 byte_B735F:
 		SRET
 byte_B7360:
-		NJSR				_native_sub134
+		NJSR				_native_obj_idxCs_clear_low_nibble
 		NJSR				_native_sub17B
 		OBJ_SET_SIZE		$20,$20
 		SPR_IDX_SELECT		$00
@@ -8204,7 +8247,7 @@ _native_sub17A:
 loc_B739F:
 		CLC
 		LDA		_obj_y_lo_poss,Y
-		ADC		_obj_heigts,Y
+		ADC		_obj_heights,Y
 		STA		_obj_y_lo_poss,X
 		LDA		_obj_y_hi_poss,Y
 		ADC		#$00
@@ -8363,8 +8406,8 @@ byte_B74B3:
 		SYNC
 		TEST_PADS			_PAD0_PRESS,_PAD_A,byte_B74B3
 		APU_LOAD			$32
-		NJSR				_native_sub151
-		NJSR				_native_sub14C
+		NJSR				_native_idxBs_10_test_clear_from_idxBs
+		NJSR				_native_idxBs_10_test_clear_from_idxCs
 		SSWITCH				_tmp49
 		SCASE				byte_B74CE
 		SCASE				byte_B74DD
@@ -8432,7 +8475,7 @@ _script_sub_B7547:
 		OBJ_SET_Y_DELTA		$DF
 		SPR_IDX_SELECT		$05
 byte_B754B:
-		NJSR				_native_sub109
+		NJSR				_native_obj_y_parabolic_delta_adjust
 		NJSR_SYNC			_obj_vert_animate
 		LOOPA				$15,byte_B754B
 _script_sub_B7555:
@@ -8702,7 +8745,7 @@ _script179:
 		SRUN				$01,_script17B
 		NJSR				_native_sub150
 		SUSPEND				$B4
-		NJSR				_native_sub151
+		NJSR				_native_idxBs_10_test_clear_from_idxBs
 		SPR_IDX_SELECT		$09
 		SUSPEND				$04
 		SPR_IDX_SELECT		$0A

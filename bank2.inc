@@ -1418,7 +1418,7 @@ loc_3A78C:
 		LDA		#$06
 		STA		_obj_widths,X
 		LDA		#$16
-		STA		_obj_heigts,X
+		STA		_obj_heights,X
 		LDY		#$05
 		LDA		_room_flags
 		AND		#$04
@@ -1463,7 +1463,7 @@ locret_3A7DC:
 
 ; =============== S U B R O U T I N E =======================================
 _players_animB:
-		LDA		_obj_heigts,X
+		LDA		_obj_heights,X
 		BEQ		_j_players_animB_sub0129
 		LDA		_players_vars07,X
 		PHA
@@ -1686,7 +1686,7 @@ loc_3A973:
 loc_3A980:
 		LDA		#$00
 		STA		_players_x_shifs,X
-		LDA		_obj_heigts,X
+		LDA		_obj_heights,X
 		PHA
 		LDX		_scr_idx
 		LDA		_players_vars0D,X
@@ -1702,7 +1702,7 @@ loc_3A980:
 		AND		#$0F
 		STA		_players_vars0D,X
 		LDA		#$16
-		STA		_obj_heigts,X
+		STA		_obj_heights,X
 		JMP		loc_3A9E9
 loc_3A9A9:
 		LDY		_players_anim_idxs,X
@@ -1727,7 +1727,7 @@ loc_3A9CA:
 		STA		_obj_spr_idxs,X
 		BPL		loc_3A9DD
 		AND		#$7F
-		STA		_obj_heigts,X
+		STA		_obj_heights,X
 		JSR		_scr_param_80_set
 		JMP		loc_3A9EC
 loc_3A9DD:
@@ -1737,12 +1737,12 @@ loc_3A9DD:
 		LDY		#$10
 loc_3A9E5:
 		TYA
-		STA		_obj_heigts,X
+		STA		_obj_heights,X
 loc_3A9E9:
 		JSR		_scr_param_80_clear
 loc_3A9EC:
 		PLA
-		CMP		_obj_heigts,X
+		CMP		_obj_heights,X
 		BCS		loc_3AA1C
 		JSR		_players_animB_sub0129_G
 		BPL		loc_3AA08
@@ -1759,7 +1759,7 @@ loc_3AA08:
 		CLC
 		LDX		_scr_idx
 		LDA		_obj_y_lo_poss,X
-		SBC		_obj_heigts,X
+		SBC		_obj_heights,X
 		STA		_obj_y_lo_poss,Y
 		LDA		_obj_y_hi_poss,X
 		SBC		#$00
@@ -1875,7 +1875,7 @@ _players_animB_sub0129_sub03:
 		AND		#$01
 		BEQ		nullsub11
 		LDY		#$D0
-		JSR		_obj_sys_calc03
+		JSR		_obj_to_tile_collision_test_down
 		BCS		nullsub11
 		JMP		_players_animB_sub0129_sub02_A
 
@@ -2413,7 +2413,7 @@ loc_3AE64:
 		LDY		byte_E3
 		SEC
 		LDA		_obj_y_lo_poss,Y
-		SBC		_obj_heigts,Y
+		SBC		_obj_heights,Y
 		STA		_obj_y_lo_poss,X
 		LDA		_obj_x_lo_poss,Y
 		LDY		byte_3A72C,X
@@ -2583,7 +2583,7 @@ loc_3AF81:
 		AND		#$0F
 		BNE		loc_3AF94
 		LDY		#$A0
-		JSR		_obj_sys_calc03
+		JSR		_obj_to_tile_collision_test_down
 		BCS		loc_3AF96
 loc_3AF94:
 		CLC
@@ -2781,7 +2781,7 @@ _players_animB_sub0129_E_sub2_A:
 		AND		#$0F
 		CMP		#$02
 		BNE		loc_3B0D5
-		LDA		_obj_heigts,Y
+		LDA		_obj_heights,Y
 		CMP		#$16
 		RTS
 loc_3B0D5:
@@ -2986,16 +2986,16 @@ locret_3B21D:
 off_3B21E:
 		.WORD	0
 		.WORD	0
-		.WORD	_script41
+		.WORD	_obj_scr_acorn_prize
 		.WORD	_obj_scr1F_star_prize
 		.WORD	0
 		.WORD	0
 		.WORD	0
 		.WORD	0
-		.WORD	_script42
-		.WORD	_script43
-		.WORD	_script44
-		.WORD	_script45
+		.WORD	_obj_scr_box_bonus_prize_continue
+		.WORD	_obj_scr_box_bonus_prize_1up
+		.WORD	_obj_scr_box_bonus_prize_30rrs
+		.WORD	_obj_scr_box_bonus_prize_10rrs
 		.WORD	0
 		.WORD	0
 		.WORD	0
@@ -3026,7 +3026,7 @@ _players_animB_sub0129_F_sub2_A:
 		LDA		_pads+4,X
 		AND		#$FD
 		STA		_pads+4,X
-		LDA		_obj_heigts,X
+		LDA		_obj_heights,X
 		CMP		#$10
 		RTS
 loc_3B272:
@@ -3163,7 +3163,7 @@ loc_3B346:
 		LDA		_obj_flips,Y
 		AND		#$E3
 		STA		_obj_flips,Y
-		LDA		_obj_heigts,X
+		LDA		_obj_heights,X
 		BEQ		loc_3B39B
 		LDA		#$17
 		STA		_tmp_ptr0
@@ -3734,7 +3734,7 @@ loc_3B768:
 		AND		#$F0
 		STA		_tmp_ptr2
 		LDA		_obj_y_lo_poss,X
-		LDY		_obj_heigts,X
+		LDY		_obj_heights,X
 		JSR		_sub_minus16
 		LDY		byte_9E
 		JSR		_sub_minus16
@@ -3835,14 +3835,14 @@ locret_3B81A:
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub12_A_B:
 		LDX		_scr_idx
-		LDA		_obj_heigts,X
+		LDA		_obj_heights,X
 		STA		byte_95
 		JSR		_players_animB_sub0129_G
 		BMI		loc_3B831
 		SEC
-		LDA		_obj_heigts,X
-		ADC		_obj_heigts,Y
-		STA		_obj_heigts,X
+		LDA		_obj_heights,X
+		ADC		_obj_heights,Y
+		STA		_obj_heights,X
 loc_3B831:
 		STY		byte_96
 		JSR		_players_animB_sub0129_sub05_A_A
@@ -3856,13 +3856,13 @@ loc_3B843:
 		JSR		_obj_vert_animate
 		LDA		_obj_y_hi_poss,X
 		BNE		loc_3B853
-		JSR		_obj_sys_calc01
+		JSR		_obj_to_tile_collision_test_up
 		BCC		loc_3B853
 		JSR		_players_animB_sub0129_sub12_A_A_A
 loc_3B853:
 		JSR		_players_animB_sub0129_sub12_A_B_A
 		LDA		byte_95
-		STA		_obj_heigts,X
+		STA		_obj_heights,X
 		BCC		loc_3B872
 		SEC
 		LDA		_obj_y_lo_poss,X
@@ -3877,7 +3877,7 @@ loc_3B872:
 		BMI		loc_3B888
 		CLC
 		LDA		_obj_y_lo_poss,X
-		SBC		_obj_heigts,X
+		SBC		_obj_heights,X
 		STA		_obj_y_lo_poss,Y
 		LDA		_obj_y_hi_poss,X
 		SBC		#$00
@@ -3905,7 +3905,7 @@ _players_animB_sub0129_sub12_A_A:
 		BEQ		_players_animB_sub0129_sub05_A_B
 loc_3B8AE:
 		LDY		#$A0
-		JSR		_obj_sys_calc03
+		JSR		_obj_to_tile_collision_test_down
 		BCC		_players_animB_sub0129_sub05_A_B
 		JSR		_players_animB_sub0129_sub12_A_A_A
 
@@ -3947,7 +3947,7 @@ _players_animB_sub0129_F_A:
 		SBC		_obj_widths,X
 		STA		_obj_x_lo_poss,X
 loc_3B8FD:
-		JSR		_obj_sys_calc04
+		JSR		_obj_to_tile_collision_test_right
 		BCC		loc_3B905
 		JSR		_players_animB_sub0129_sub12_A_A_A
 loc_3B905:
@@ -3980,7 +3980,7 @@ _players_animB_sub0129_E_A:
 		ADC		_obj_widths,X
 		STA		_obj_x_lo_poss,X
 loc_3B93E:
-		JSR		_obj_sys_calc06
+		JSR		_obj_to_tile_collision_test_left
 		BCC		loc_3B946
 		JSR		_players_animB_sub0129_sub12_A_A_A
 loc_3B946:
@@ -4757,7 +4757,7 @@ _room_cfg0A:
 		.BYTE	$00,$00
 		.WORD	_room_pal0A
 		.BYTE	$00
-_cutscene_room_cfg12:
+_cutscene_cfg12:
 		.BYTE	$1B,$0E
 		.BYTE	$00
 		.BYTE	$00
@@ -4775,7 +4775,7 @@ _cutscene_room_cfg12:
 		.BYTE	$00,$00
 		.WORD	_room_palA_12
 		.BYTE	$8C
-_cutscene_room_cfg00:
+_cutscene_cfg00:
 		.BYTE	$18,$19
 		.BYTE	$06
 		.BYTE	$07
@@ -4793,7 +4793,7 @@ _cutscene_room_cfg00:
 		.BYTE	$00,$00
 		.WORD	_room_palA_00
 		.BYTE	$A1
-_cutscene_room_cfg01:
+_cutscene_cfg01:
 		.BYTE	$18,$0E
 		.BYTE	$00
 		.BYTE	$00
@@ -4811,7 +4811,7 @@ _cutscene_room_cfg01:
 		.BYTE	$00,$00
 		.WORD	_room_palA_01
 		.BYTE	$8C
-_cutscene_room_cfg02:
+_cutscene_cfg02:
 		.BYTE	$10,	$C
 		.BYTE	$06
 		.BYTE	$00
@@ -4829,7 +4829,7 @@ _cutscene_room_cfg02:
 		.BYTE	$00,$00
 		.WORD	_room_pal01
 		.BYTE	$07
-_cutscene_room_cfg03:
+_cutscene_cfg03:
 		.BYTE	$10,$0E
 		.BYTE	$06
 		.BYTE	$00
@@ -4847,7 +4847,7 @@ _cutscene_room_cfg03:
 		.BYTE	$00,$00
 		.WORD	_room_pal01
 		.BYTE	$8C
-_cutscene_room_cfg04:
+_cutscene_cfg04:
 		.BYTE	$18,$0E
 		.BYTE	$02
 		.BYTE	$00
@@ -4865,7 +4865,7 @@ _cutscene_room_cfg04:
 		.BYTE	$00,$00
 		.WORD	_room_palA_04
 		.BYTE	$8C
-_cutscene_room_cfg06:
+_cutscene_cfg06:
 		.BYTE	$19,$0E
 		.BYTE	$04
 		.BYTE	$00
@@ -4883,7 +4883,7 @@ _cutscene_room_cfg06:
 		.BYTE	$00,$00
 		.WORD	_room_palA_06
 		.BYTE	$8C
-_cutscene_room_cfg05:
+_cutscene_cfg05:
 		.BYTE	$15,$0E
 		.BYTE	$04
 		.BYTE	$07
@@ -4901,7 +4901,7 @@ _cutscene_room_cfg05:
 		.BYTE	$00,$00
 		.WORD	_room_palA_05
 		.BYTE	$8C
-_cutscene_room_cfg07:
+_cutscene_cfg07:
 		.BYTE	$15,$0E
 		.BYTE	$04
 		.BYTE	$07
@@ -4919,7 +4919,7 @@ _cutscene_room_cfg07:
 		.BYTE	$00,$00
 		.WORD	_room_pal13
 		.BYTE	$8C
-_cutscene_room_cfg09:
+_cutscene_cfg09:
 		.BYTE	$18,$0E
 		.BYTE	$06
 		.BYTE	$00
@@ -4937,7 +4937,7 @@ _cutscene_room_cfg09:
 		.BYTE	$00,$00
 		.WORD	_room_palA_09
 		.BYTE	$8C
-_cutscene_room_cfg0A:
+_cutscene_cfg0A:
 		.BYTE	$13,$0E
 		.BYTE	$04
 		.BYTE	$02
@@ -4955,7 +4955,7 @@ _cutscene_room_cfg0A:
 		.BYTE	$00,$00
 		.WORD	_room_pal06
 		.BYTE	$8C
-_cutscene_room_cfg0B:
+_cutscene_cfg0B:
 		.BYTE	$18,$0E
 		.BYTE	$00
 		.BYTE	$01
@@ -4973,7 +4973,7 @@ _cutscene_room_cfg0B:
 		.BYTE	$00,$00
 		.WORD	_room_palA_0B
 		.BYTE	$8C
-_cutscene_room_cfg0C:
+_cutscene_cfg0C:
 		.BYTE	$18,$0E
 		.BYTE	$02
 		.BYTE	$01
@@ -4991,7 +4991,7 @@ _cutscene_room_cfg0C:
 		.BYTE	$00,$00
 		.WORD	_room_palA_0C
 		.BYTE	$8C
-_cutscene_room_cfg0D:
+_cutscene_cfg0D:
 		.BYTE	$18,$0E
 		.BYTE	$06
 		.BYTE	$01
@@ -5009,7 +5009,7 @@ _cutscene_room_cfg0D:
 		.BYTE	$00,$00
 		.WORD	_room_palA_0D
 		.BYTE	$8C
-_cutscene_room_cfg0E:
+_cutscene_cfg0E:
 		.BYTE	$19,$0E
 		.BYTE	$06
 		.BYTE	$03
@@ -5027,7 +5027,7 @@ _cutscene_room_cfg0E:
 		.BYTE	$00,$00
 		.WORD	_room_palA_0E
 		.BYTE	$8C
-_cutscene_room_cfg0F:
+_cutscene_cfg0F:
 		.BYTE	$17,$0E
 		.BYTE	$02
 		.BYTE	$06
@@ -5045,7 +5045,7 @@ _cutscene_room_cfg0F:
 		.BYTE	$00,$00
 		.WORD	_room_pal2B
 		.BYTE	$8C
-_cutscene_room_cfg10:
+_cutscene_cfg10:
 		.BYTE	$17,$0E
 		.BYTE	$02
 		.BYTE	$06
@@ -5063,7 +5063,7 @@ _cutscene_room_cfg10:
 		.BYTE	$00,$00
 		.WORD	_room_pal2B
 		.BYTE	$8C
-_cutscene_room_cfg11:
+_cutscene_cfg11:
 		.BYTE	$18,$0E
 		.BYTE	$00
 		.BYTE	$06

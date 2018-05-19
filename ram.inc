@@ -454,10 +454,10 @@ _obj_spr_idxs:
 ; 40 - horizontal flip
 ; 20 - background priority
 ; 10 - blinking
-; 08 -
-; 04 -
-; 02 -
-; 01 -
+; 08 - unk
+; 04 - unk
+; 02 - unused
+; 01 - unused
 _obj_flips:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _obj_x_deltas:

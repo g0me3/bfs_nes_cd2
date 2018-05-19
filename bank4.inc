@@ -628,8 +628,8 @@ _script_sub_6846D:
 		SPR_IDX_SELECT		_spr_lib7_20
 		SJSRS				_script_sub_6847E
 		LOOPA				$02,_script_sub_6846D
-		HFLIP_TOGGLE
-		VFLIP_TOGGLE
+		OBJ_HFLIP_TOGGLE
+		OBJ_VFLIP_TOGGLE
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -1337,16 +1337,16 @@ _script108:
 		OBJ_Y_DELTA_SET		$E0
 		NJSR				_native_obj_hor_bounce13
 		OBJ_SHOW
-		HFLIP_CLEAR
+		OBJ_HFLIP_CLEAR
 byte_689E8:
 		SJSRS				_script_sub_689FB
-		VFLIP_SET
+		OBJ_VFLIP_SET
 		SJSRS				_script_sub_689FB
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		SJSRS				_script_sub_689FB
-		VFLIP_CLEAR
+		OBJ_VFLIP_CLEAR
 		SJSRS				_script_sub_689FB
-		HFLIP_CLEAR
+		OBJ_HFLIP_CLEAR
 		SJMPS				byte_689E8
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -1922,14 +1922,14 @@ _script_sub_68E18:
 _script10F:
 		OBJ_X_DELTA_SET		$30
 		OBJ_X_POS_MOVE		$08
-		HFLIP_CLEAR
+		OBJ_HFLIP_CLEAR
 		SJMPS				_script_sub_68E30
 
 ; =============== S C R I P T ===============================================
 _script10E:
 		OBJ_X_DELTA_SET		$D0
 		OBJ_X_POS_MOVE		$F8
-		HFLIP_SET
+		OBJ_HFLIP_SET
 
 ; !FALLTHROUGH!
 
@@ -2794,7 +2794,7 @@ byte_69486:
 		TARGET_DIR_SET		$FF
 		TARGET_FOLLOW
 		LOOPA				$04,byte_69486
-		HFLIP_TOGGLE
+		OBJ_HFLIP_TOGGLE
 		SJMPS				byte_69486
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -2923,7 +2923,7 @@ byte_6954B:
 		OBJ_SIZE_SET		$05,$0A
 byte_69551:
 		SPR_LIB_SELECT		_spr_lib8
-		VFLIP_SET
+		OBJ_VFLIP_SET
 		OBJ_SHOW
 		SPR_IDX_SELECT		_spr_lib8_3F
 		SYNC
@@ -4131,7 +4131,7 @@ byte_69E6F:
 		SJSRS				_script_sub_69E48
 		APU_LOAD			_apu_mus45
 		NJSR				_native_sub153
-		HFLIP_CLEAR
+		OBJ_HFLIP_CLEAR
 		SJSRS				_script_sub_69E87
 		NJSR				_j_native_complement_x_deltas
 		NJSR				_native_complement_y_deltas
@@ -4220,19 +4220,19 @@ byte_69F15:
 		SJSR				_script_sub_obj_jump_sync
 		SBCSS				byte_69F23
 		LOOPA				$06,byte_69F15
-		HFLIP_TOGGLE
+		OBJ_HFLIP_TOGGLE
 		SJMPS				byte_69F15
 byte_69F23:
 		SPR_IDX_SELECT		_spr_lib8_47
 byte_69F25:
 		SUSPEND				$04
-		VFLIP_SET
+		OBJ_VFLIP_SET
 		SUSPEND				$04
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		SUSPEND				$04
-		VFLIP_CLEAR
+		OBJ_VFLIP_CLEAR
 		SUSPEND				$04
-		HFLIP_CLEAR
+		OBJ_HFLIP_CLEAR
 		LOOPA				$02,byte_69F25
 		KILL
 
@@ -5554,12 +5554,12 @@ _script_lvl2_wall_blocks_open_draw:
 		STORE				<[_tlm_patch_06A_unused],_tmp_ptr4B	; load tlm patch ptr
 		STORE				>[_tlm_patch_06A_unused],_tmp_ptr4B+1
 #else
-		STORE				<[tlm_patch06],_tmp_ptr4B	; load tlm patch ptr
+		STORE				<[tlm_patch06],_tmp_ptr4B			; load tlm patch ptr
 		STORE				>[tlm_patch06],_tmp_ptr4B+1
 #endif
-		SJSR				_script_sub_macro_patch_draw; draw full patch
+		SJSR				_script_sub_macro_patch_draw		; draw full patch
 		APU_LOAD			_apu_mus4E							; start a sound and wait
-		SUSPEND				$08							; for a while...
+		SUSPEND				$08									; for a while...
 #if BUGFIXES=1
 		STORE				<[tlm_patch06],_tmp_ptr4B
 		STORE				>[tlm_patch06],_tmp_ptr4B+1
@@ -5574,7 +5574,7 @@ _script_sub_obj_button_common_init:
 		SPR_IDX_SELECT		_spr_lib5_0C
 		OBJ_SIZE_SET		$05,$0D					; bounding box size
 		OBJ_HP_SET			$01						; hit-points
-		OBJ_SHOW								; enable object
+		OBJ_SHOW									; enable object
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
@@ -5638,7 +5638,7 @@ byte_6A863:
 		STORE				>[tlm_patch07],_tmp_ptr4B+1
 		SJSR				_script_sub_macro_patch_draw
 		SRUN				_OBJ_TYPE_TRIGGER,_obj_scr_lvl2_basket_exit_right	; insert actual door object
-		APU_LOAD			_apu_mus4F									; open sound
+		APU_LOAD			_apu_mus4F							; open sound
 ; TODO, optimize me! redundant!
 byte_6A874:
 		SJSRS				_script_sub_button_release_wait		; common idle button script
@@ -5668,8 +5668,8 @@ _obj_scr0C_lvl3_refill_entry:
 		STORE				<[tlm_patch08],_tmp_ptr4B			; draw open cavity
 		STORE				>[tlm_patch08],_tmp_ptr4B+1
 		SJSR				_script_sub_macro_patch_draw
-		SRUN				_OBJ_TYPE_TRIGGER,_script_lvl3_box_bonus_entry						; run cavity script
-		APU_LOAD			_apu_mus4F									; play open sound
+		SRUN				_OBJ_TYPE_TRIGGER,_script_lvl3_box_bonus_entry	; run cavity script
+		APU_LOAD			_apu_mus4F							; play open sound
 ; TODO: optimize me!
 byte_6A8A8:
 		SJSR				_script_sub_button_release_wait		; then work as common button
@@ -6263,7 +6263,7 @@ byte_6ACA3:
 		SUSPEND				$0B
 		SPR_IDX_SELECT		_spr_lib5_44
 		SUSPEND				$09
-		HFLIP_TOGGLE
+		OBJ_HFLIP_TOGGLE
 		SJMPS				byte_6ACA3
 
 ; =============== S C R I P T ===============================================
@@ -6922,7 +6922,7 @@ _script_sub_6B13D:
 
 ; =============== S U B R O U T I N E =======================================
 _native_lives_bonus_floater_link_follow:
-		JSR		_native_obj_linked_idxCs_follow ; HFLIP_SET
+		JSR		_native_obj_linked_idxCs_follow ; OBJ_HFLIP_SET
 		CLC
 		LDA		_obj_y_lo_poss,Y
 		ADC		#$08
@@ -6986,7 +6986,7 @@ _obj_scr02_coins_game:
 		OBJ_Y_POS_MOVE		$40
 byte_6B197:
 		SRUN				_OBJ_TYPE_ENEMY,_obs_scr_coins_game_coin	; insert 4 moving coins
-		HFLIP_TOGGLE
+		OBJ_HFLIP_TOGGLE
 		OBJ_Y_POS_MOVE		$30
 		LOOPA				$04,byte_6B197
 		OBJ_Y_POS_SET		$13,$00								; the main object script controls times
@@ -7037,17 +7037,17 @@ _obs_scr_coins_game_coin:
 		OBJ_SHOW
 		OBJ_X_DELTA_SET		$01
 		NJSR				_native_obj_hor_delta_toggle
-		HFLIP_CLEAR
+		OBJ_HFLIP_CLEAR
 byte_6B1EE:
 		SPR_IDX_SELECT		_spr_lib5_17
-		HFLIP_CLEAR
+		OBJ_HFLIP_CLEAR
 		SJSRS				_script_sub_coins_game_coin_ai
 		SPR_IDX_SELECT		_spr_lib5_18
 		SJSRS				_script_sub_coins_game_coin_ai
 		SPR_IDX_SELECT		_spr_lib5_19
 		SJSRS				_script_sub_coins_game_coin_ai
 		SPR_IDX_SELECT		_spr_lib5_18
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		SJSRS				_script_sub_coins_game_coin_ai
 		SJMPS				byte_6B1EE
 
@@ -8090,7 +8090,7 @@ _script155:
 		OBJ_X_POS_SET		$F8,$FF
 		OBJ_Y_POS_SET		$30,$00
 		OBJ_X_DELTA_SET		$08
-		HFLIP_TOGGLE
+		OBJ_HFLIP_TOGGLE
 		OBJ_SHOW
 byte_6B86D:
 		SJSRS				_script_sub_6B8AC
@@ -8222,7 +8222,7 @@ _script157:
 		SJSR				_script_sub_6B744
 		SJSR				_script_sub_6B73A
 		SJSR				_script_sub_6B73A
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_X_DELTA_SET		$10
 		OBJ_Y_DELTA_SET		$00
 		SJSR				_script_sub_B7533
@@ -8232,7 +8232,7 @@ _script157:
 ; =============== S C R I P T ===============================================
 _script15B:
 		SJSR				_script_sub_obj_idxCs_clear_low_nibble_flips_08_set
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_X_POS_SET		$D8,$FF
 		SJSR				_script_sub_6B76F
 		SPR_LIB_SELECT		_spr_lib2
@@ -8263,7 +8263,7 @@ byte_6B9F5:
 ; =============== S C R I P T ===============================================
 _script158:
 		SJSR				_script_sub_obj_idxCs_clear_low_nibble_flips_08_set
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_X_POS_SET		$F0,$FF
 		OBJ_SHOW
 		OBJ_X_DELTA_SET		$10
@@ -8285,7 +8285,7 @@ byte_6BA20:
 ; =============== S C R I P T ===============================================
 _script159:
 		SJSR				_script_sub_obj_idxCs_clear_low_nibble_flips_08_set
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_X_POS_SET		$B8,$FF
 		SJSR				_script_sub_6B76F
 		OBJ_X_DELTA_SET		$10
@@ -8312,7 +8312,7 @@ byte_6BA56:
 ; =============== S C R I P T ===============================================
 _script15A:
 		SJSR				_script_sub_obj_idxCs_clear_low_nibble_flips_08_set
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_X_POS_SET		$F8,$FF
 		OBJ_Y_POS_SET		$80,$00
 		OBJ_SHOW
@@ -8388,7 +8388,7 @@ _script15E:
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_6BB08:
 		SJSR				_script_sub_obj_idxCs_clear_low_nibble_flips_08_set
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_X_DELTA_SET		$10
 		OBJ_SHOW
 byte_6BB0F:
@@ -8418,7 +8418,7 @@ _script15C:
 		SJSR				_script_cut_obj_msg_spr_animate
 		SJSR				_script_sub_idxBs_10_set_clear_wait
 		OBJ_X_DELTA_SET		$10
-		HFLIP_SET
+		OBJ_HFLIP_SET
 byte_6BB4C:
 		SPR_IDX_SELECT		_spr_lib8_18
 		SJSR				_script_animate12
@@ -8610,7 +8610,7 @@ byte_6BCD9:
 byte_6BCEF:
 		SJSR				_script_sub_6B750
 		SJSR				_script_sub_6B73A
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		SJSR				_script_sub_6B744
 byte_6BCF9:
 		SJSR				_script_sub_6B73A
@@ -8645,7 +8645,7 @@ _script161:
 		SJSR				_script_sub_obj_idxCs_clear_low_nibble_flips_08_set
 		OBJ_X_POS_SET		$F8,$FF
 		OBJ_Y_POS_SET		$C0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		OBJ_X_DELTA_SET		$10
 byte_6BD3D:
@@ -8732,7 +8732,7 @@ _script_cutscene04:
 
 ; =============== S C R I P T ===============================================
 _script163:
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_X_POS_SET		$48,$00
 		OBJ_Y_POS_SET		$80,$00
 		SPR_LIB_SELECT		_spr_lib1
@@ -8744,7 +8744,7 @@ _script163:
 
 ; =============== S C R I P T ===============================================
 _script164:
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_X_POS_SET		$30,$00
 		OBJ_Y_POS_SET		$80,$00
 		SPR_LIB_SELECT		_spr_lib2
@@ -8760,12 +8760,12 @@ _script165:
 		SPR_IDX_SELECT		_spr_lib0_1C
 		TARGET_DIR_SET		$00
 		SJSR				_script_sub_monterey_static_draw
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		SJSR				_script_sub_6B7D1
 
 ; =============== S C R I P T ===============================================
 _script166:
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		OBJ_X_POS_SET		$70,$00
 		OBJ_Y_POS_SET		$90,$00
@@ -8866,7 +8866,7 @@ _script169:
 byte_6BEED:
 		SPR_IDX_SELECT		_spr_lib2_20
 		SJSR				_script_sub_obj_idxCs_clear_low_nibble_flips_08_set
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_Y_POS_SET		$C0,$00
 		OBJ_X_DELTA_SET		$10
 		OBJ_SHOW
@@ -8888,7 +8888,7 @@ _script16A:
 		OBJ_Y_POS_SET		$C0,$00
 		SPR_LIB_SELECT		_spr_lib1
 		SPR_IDX_SELECT		_spr_lib1_1B
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJSR				_script_sub_idxBs_10_set_clear_wait
 		SJSR				_script_sub_6B744
@@ -8900,7 +8900,7 @@ _script16B:
 		OBJ_Y_POS_SET		$C0,$00
 		SPR_LIB_SELECT		_spr_lib2
 		SPR_IDX_SELECT		_spr_lib2_1B
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJSR				_script_sub_idxBs_10_set_clear_wait
 		SJSR				_script_sub_6B73A

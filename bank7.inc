@@ -8401,16 +8401,16 @@ _script_sub_B7360:
 
 ; =============== S C R I P T ===============================================
 _script170:
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		SJMPS				byte_B7373
 
 ; =============== S C R I P T ===============================================
 _script172:
-		HFLIP_SET
+		OBJ_HFLIP_SET
 
 ; =============== S C R I P T ===============================================
 _script171:
-		VFLIP_SET
+		OBJ_VFLIP_SET
 byte_B7373:
 		SJSRS				_script_sub_B7360
 byte_B7376:
@@ -8869,7 +8869,7 @@ loc_B7663:
 
 ; =============== S C R I P T ===============================================
 _script16D:
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		OBJ_X_POS_SET		$38,$00
 		OBJ_Y_POS_SET		$A0,$00
@@ -8881,7 +8881,7 @@ _script16D:
 
 ; =============== S C R I P T ===============================================
 _script16E:
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		OBJ_X_POS_SET		$28,$00
 		OBJ_Y_POS_SET		$90,$00
@@ -8895,7 +8895,7 @@ _script16E:
 
 ; =============== S C R I P T ===============================================
 _script16F:
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		OBJ_X_POS_SET		$70,$00
 		OBJ_Y_POS_SET		$C0,$00
@@ -8957,7 +8957,7 @@ _script179:
 		SPR_LIB_SELECT		_spr_lib1
 		SPR_IDX_SELECT		_spr_lib1_16
 		OBJ_X_POS_SET		$70,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SRUN				_OBJ_TYPE_AUTO,_script17B
 		NJSR				_native_sub150
@@ -8980,7 +8980,7 @@ _script17A:
 		SPR_LIB_SELECT		_spr_lib2
 		SPR_IDX_SELECT		_spr_lib2_00
 		OBJ_X_POS_SET		$50,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJSR				_script_sub_idxBs_10_set_clear_wait
 		SJSR				_script_sub_6B73A
@@ -9277,7 +9277,7 @@ _script181:
 		TARGET_DIR_SET		$09
 		OBJ_X_POS_SET		$18,$00
 		OBJ_Y_POS_SET		$A0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SRUN				_OBJ_TYPE_AUTO,_script185
 		SJSR				_script_sub_gadget_static_draw
@@ -9339,7 +9339,7 @@ _script_sub_B79ED:
 		SPR_IDX_SELECT		_spr_lib2_1B
 		OBJ_X_POS_SET		$38,$00
 		OBJ_Y_POS_SET		$C0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SRET
 
@@ -9349,7 +9349,7 @@ _script_sub_B79FA:
 		TARGET_DIR_SET		$00
 		OBJ_X_POS_SET		$18,$00
 		OBJ_Y_POS_SET		$A0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SRET
 
@@ -9400,13 +9400,13 @@ _script18C:
 		SPR_IDX_SELECT		_spr_lib1_1B
 		OBJ_X_POS_SET		$70,$00
 		OBJ_Y_POS_SET		$C0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJSR				_script_sub_idxBs_10_set_clear_wait
-		HFLIP_CLEAR
+		OBJ_HFLIP_CLEAR
 		SJSR				_script_sub_6B744
 		SJSR				_script_sub_6B73A
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		SJMPS				byte_B7A9F
 
 ; =============== S C R I P T ===============================================
@@ -9415,7 +9415,7 @@ _script189:
 		SPR_IDX_SELECT		_spr_lib2_1B
 		OBJ_X_POS_SET		$58,$00
 		OBJ_Y_POS_SET		$C0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJSR				_script_sub_idxBs_10_set_clear_wait
 byte_B7A9F:
@@ -9430,7 +9430,7 @@ _script18A:
 		TARGET_DIR_SET		$09
 		OBJ_X_POS_SET		$10,$00
 		OBJ_Y_POS_SET		$A0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SRUN				_OBJ_TYPE_AUTO,_script18D
 		NJSR				_native_obj_to_obj_idxCs_link
@@ -9444,17 +9444,17 @@ _script18A:
 _script18B:
 		OBJ_X_POS_SET		$80,$00
 		OBJ_Y_POS_SET		$84,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJSR				_script_sub_zipper_hover_animate
-		HFLIP_CLEAR
+		OBJ_HFLIP_CLEAR
 		SJSR				_script_sub_zipper_hover_animate
 		OBJ_X_DELTA_SET		$F0
 byte_B7AD9:
 		SJSR				_script_sub_6B825
 		LOOPA				$10,byte_B7AD9
 		SJSR				_script_sub_zipper_hover_animate
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_X_DELTA_SET		$10
 byte_B7AE6:
 		SJSR				_script_sub_6B825
@@ -9482,7 +9482,7 @@ _script18D:
 
 ; =============== S C R I P T ===============================================
 _script18E:
-		HFLIP_CLEAR
+		OBJ_HFLIP_CLEAR
 		OBJ_X_POS_SET		$48,$00
 byte_B7B0E:
 		OBJ_Y_POS_SET		$64,$00
@@ -9543,7 +9543,7 @@ _script18F:
 		SPR_IDX_SELECT		_spr_lib1_1B
 		OBJ_X_POS_SET		$70,$00
 		OBJ_Y_POS_SET		$C0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJSR				_script_sub_idxBs_10_set_clear_wait
 		SJSR				_script_sub_6B73A
@@ -9555,7 +9555,7 @@ _script190:
 		SPR_IDX_SELECT		_spr_lib2_1B
 		OBJ_X_POS_SET		$58,$00
 		OBJ_Y_POS_SET		$C0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJSR				_script_sub_idxBs_10_set_clear_wait
 byte_B7BAF:
@@ -9568,7 +9568,7 @@ _script191:
 		TARGET_DIR_SET		$00
 		OBJ_X_POS_SET		$10,$00
 		OBJ_Y_POS_SET		$A0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJSR				_script_sub_gadget_static_draw
 		SJSR				_script_sub_6B797
@@ -9578,7 +9578,7 @@ _script191:
 _script192:
 		OBJ_X_POS_SET		$60,$00
 		OBJ_Y_POS_SET		$68,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 byte_B7BD2:
 		SJSR				_script_sub_zipper_hover_animate
@@ -9633,7 +9633,7 @@ _script195:
 		SPR_IDX_SELECT		_spr_lib1_1B
 		OBJ_X_POS_SET		$58,$00
 		OBJ_Y_POS_SET		$C0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJSR				_script_sub_idxBs_10_set_clear_wait
 		SJSR				_script_sub_6B73A
@@ -9645,7 +9645,7 @@ _script194:
 		SPR_IDX_SELECT		_spr_lib2_1B
 		OBJ_X_POS_SET		$40,$00
 		OBJ_Y_POS_SET		$C0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJSR				_script_sub_idxBs_10_set_clear_wait
 		SJSR				_script_sub_6B73A
@@ -9697,7 +9697,7 @@ _script197:
 		TARGET_DIR_SET		$00
 		OBJ_X_POS_SET		$70,$00
 		OBJ_Y_POS_SET		$C0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJSR				_script_sub_monterey_static_draw
 		SJSR				_script_sub_6B7D1
@@ -9728,7 +9728,7 @@ _script199:
 ; =============== S C R I P T   R O U T I N E ===============================
 byte_B7CF2:
 		OBJ_Y_POS_SET		$C0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		OBJ_X_DELTA_SET		$10
 byte_B7CF9:
@@ -9840,7 +9840,7 @@ _obj_scr_cut11_monterey:
 		TARGET_DIR_SET		$00
 		OBJ_X_POS_SET		$20,$00
 		OBJ_Y_POS_SET		$A0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJSR				_script_sub_monterey_static_draw
 		SJSR				_script_sub_6B7D1
@@ -9853,7 +9853,7 @@ _obj_scr_cut11_gadget:
 		TARGET_DIR_SET		$09
 		OBJ_X_POS_SET		$40,$00
 		OBJ_Y_POS_SET		$C0,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJSR				_script_sub_gadget_static_draw
 		SJSR				_script_sub_6B797
@@ -9870,7 +9870,7 @@ _script_cutscene12:
 		OBJ_X_POS_SET		$48,$00
 		OBJ_Y_POS_SET		$40,$00
 		OBJ_SHOW
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		SJSR				_script_sub_zipper_hover_animate
 
 ; =============== S C R I P T ===============================================
@@ -9888,7 +9888,7 @@ _obj_scr_cut12_dale:
 		SPR_IDX_SELECT		_spr_lib2_1B
 		OBJ_X_POS_SET		$60,$00
 		OBJ_Y_POS_SET		$80,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJMP				_script_idle
 
@@ -9898,7 +9898,7 @@ _obj_scr_cut12_monterey:
 		TARGET_DIR_SET		$00
 		OBJ_X_POS_SET		$40,$00
 		OBJ_Y_POS_SET		$C8,$00
-		HFLIP_SET
+		OBJ_HFLIP_SET
 		OBJ_SHOW
 		SJSR				_script_sub_monterey_static_draw
 

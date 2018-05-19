@@ -9246,7 +9246,7 @@ _extra_stage_name0_load:
 		STA		_stage
 		CLC
 		LDA		byte_436,Y
-		ADC		#$82
+		ADC		#_Clock_Tower					; starting index for words in library
 		LDX		#$00
 		JMP		_extra_stage_name_load
 
@@ -9254,7 +9254,7 @@ _extra_stage_name0_load:
 _extra_stage_name1_load:
 		CLC
 		LDA		byte_437
-		ADC		#$82
+		ADC		#_Clock_Tower
 		LDX		#$10
 
 ; =============== S U B R O U T I N E =======================================

@@ -388,157 +388,200 @@ _msg_frame_tiles_list:
 #if LANGUAGE = LANG_EN
 
 _dictionary:
+; special RAM dictionary entries for filling with custom text
 		DICT_REC	_dict80
 		DICT_REC	_dict81
+; also special entries with names of levels 4A, 4B, 4C
 		DICT_REC	_Clock_Tower
-		DICT_REC	_Western__World
+		DICT_REC	_Western_World
 		DICT_REC	_Future_World
-		DICT_REC	_There_s_no_Time
-		DICT_REC	_Water_Rabbit_ddt
-		DICT_REC	_Newscaster_ddt
-		DICT_REC	_restaurant
-		DICT_REC	_e_amusement
-		DICT_REC	__everyone
-		DICT_REC	_warehouse
-		DICT_REC	__downtown
-		DICT_REC	__give_you
-		DICT_REC	I_think_I
-		DICT_REC	_Welcome
-		DICT_REC	_Are_you_
-		DICT_REC	_There_s_
-		DICT_REC	_through_
-		DICT_REC	_Monterey
-		DICT_REC	_Rescue_
-		DICT_REC	_Rangers
-		DICT_REC	__coming
-		DICT_REC	__prison
-		DICT_REC	_should_
-		DICT_REC	_ghosts
-		DICT_REC	_Let_s_
-		DICT_REC	_o_find
-		DICT_REC	_escape
-		DICT_REC	_Fatcat
-		DICT_REC	_Gadget
-		DICT_REC	_Zipper
-		DICT_REC	__stop_
-		DICT_REC	__time_
-		DICT_REC	__found
-		DICT_REC	_could_
-		DICT_REC	_help_dot
-		DICT_REC	_about_
-		DICT_REC	__first
-		DICT_REC	__park_exc
-		DICT_REC	__will_
-		DICT_REC	_must_
-		DICT_REC	__bomb
-		DICT_REC	_from_
-		DICT_REC	_Let_s
-		DICT_REC	__trap
-		DICT_REC	_Woah_exc
-		DICT_REC	_This_
-		DICT_REC	__got_
-		DICT_REC	__some
-		DICT_REC	__made
-		DICT_REC	_come_
-		DICT_REC	_dictB4
-		DICT_REC	_that_
-		DICT_REC	__your
-		DICT_REC	__has
-		DICT_REC	_less
-		DICT_REC	_apo_ll_
-		DICT_REC	_the_
-		DICT_REC	_Chip
-		DICT_REC	_Dale
-		DICT_REC	_have
-		DICT_REC	_here
-		DICT_REC	_Look
-		DICT_REC	_open
-		DICT_REC	_self
-		DICT_REC	_sure
-		DICT_REC	_this
-		DICT_REC	_What
-		DICT_REC	_with
-		DICT_REC	__can
-		DICT_REC	__say
-		DICT_REC	_apo_ve_
-		DICT_REC	__for
-		DICT_REC	_and_
-		DICT_REC	_any_
-		DICT_REC	_ever
-		DICT_REC	_ight
-		DICT_REC	__you
-		DICT_REC	_are_
-		DICT_REC	_dictD0
-		DICT_REC	__cut
-		DICT_REC	_exc__
-		DICT_REC	_is_
-		DICT_REC	_ast
-		DICT_REC	_ing
-		DICT_REC	_lue
-		DICT_REC	_not
-		DICT_REC	_now
-		DICT_REC	_n_apo_t
-		DICT_REC	_one
-		DICT_REC	_out
-		DICT_REC	_We_
-		DICT_REC	_was
-		DICT_REC	_You
-		DICT_REC	_be_
-		DICT_REC	__to
-		DICT_REC	__go
-		DICT_REC	_dot_dot_dot
-		DICT_REC	_my_
-		DICT_REC	_of_
-		DICT_REC	_a_
-		DICT_REC	_col_
-		DICT_REC	_ed
-		DICT_REC	_do
-		DICT_REC	_he
-		DICT_REC	_if
-		DICT_REC	_in
-		DICT_REC	_is
-		DICT_REC	_it
-		DICT_REC	_me
-		DICT_REC	_No
-		DICT_REC	_no
-		DICT_REC	_on
-		DICT_REC	_or
-		DICT_REC	_ut
-		DICT_REC	_we
-		DICT_REC	_dot_dot
+; start of regular dictionary. to calculate resulting space
+; reduction for every entry, let's do some math.
+; 1. every entry in list takes 2 bytes for offset record,
+;    1 byte for dictionary record termination code, also
+;    a number of letters in dictionary entry.
+;    so every entry will cost you len+3 extra bytes of data.
+; 2. also every new dictionary usage cost you one extra
+;    byte for dictionary code.
+; 3. obviously, this is not optimal at all for single words,
+;    or else we increase size for 4 extra bytes instead of reducing it
+; 4. also, this may be not optimal for particular number of
+;    items depending on its lengths.
+;
+; let's make a table, where
+; L - length of dictionary record excluding system bytes,
+; C - a number of particular dictionary codes used.
+; then
+; S = LxC
+; 	- data size before dictionary packing,
+; M = L+C+3
+;	- data size after packing
+; R = S-M
+; 	- our reduction value, the higher - the better, negatives
+;	  are increasing size!
+; and let's see how much we save for the whole data and for
+; particular entry.
+;
+;												 L	 C	 S	 M	 R
+		DICT_REC	_There_s_no_Time_to_	;	19	 3	57	25	22	-> OLD	16	 2	32	21	11
+		DICT_REC	_Water_Rabbit_ddt		;	13	 3 	39	19	20
+		DICT_REC	_Newscaster_ddt			; 	11	 2	22	16	 6
+		DICT_REC	_restaurant				;	10	 3	30	16	14	-> OLD	11	 1	11	15	-4
+		DICT_REC	_amusement_park_exc		;	15	 2	30	20	10	-> OLD	11	 1	11	15	-4
+		DICT_REC	_everyone_exc			;	 9	 3	27	15	12	-> OLD	10	 1	10	14	-4
+		DICT_REC	_warehouse				;	 9	 3	27	15	12
+		DICT_REC	__downtown				;	 9	 2	18	14	 4	-> OLD	 9	 1	 9	13	-4
+		DICT_REC	_give_you				;	 8	 2	16	13	 3	-> OLD	 9	 1	 9	13	-4
+		DICT_REC	_I_think_I				;	 9	 2	18	14	 4
+		DICT_REC	_Welcome_col			;	 8	 2	16	13	 3
+		DICT_REC	_Are_you_				;	 8	 4	32	15	17
+		DICT_REC	_There_s_				;	 8	 2	16	13	 3
+		DICT_REC	_through_				;	 8	 2	16	13	 3
+		DICT_REC	_Monterey				;	 8	10	80	21	59
+		DICT_REC	_Rescue_				;	 7	 9	63	19	44
+		DICT_REC	_Rangers				;	 7	10	70	20	50
+		DICT_REC	__coming				;	 7	 2	14	12	 2
+;		DICT_REC	__prison				;	 7	 1	 7	11	-4
+		DICT_REC	_should_				;	 7	 3	21	13	 8
+		DICT_REC	_ghosts					;	 6	 3	18	12	 6
+		DICT_REC	_Let_s_					;	 6	 8	48	17	31
+		DICT_REC	_o_find					;	 6	 3	18	12	 6	-> OLD	 6	 1	 6	10	-4
+		DICT_REC	_escape					;	 6	 3	18	12	 6
+		DICT_REC	_Fatcat					;	 6	31 186	40 146
+		DICT_REC	_Gadget					;	 6	20 120	29	91
+		DICT_REC	_Zipper					;	 6	 7	35	16	19
+		DICT_REC	__stop_					;	 6	 2	12	11	 1	-> OLD	 6	 1	 6	10	-4
+		DICT_REC	__time_					;	 6	 2	12	11	 1
+		DICT_REC	_found					;	 5	 3	15	11	 4	-> OLD	 6	 1	 6	10	-4
+		DICT_REC	_could_					;	 6	 2	12	11	 1
+		DICT_REC	__help_dot				;	 6	 2	12	11	 1
+		DICT_REC	_about_					;	 6	 2	12	11	 1
+		DICT_REC	__first					;	 6	 2	12	11	 1
+;		DICT_REC	__park_exc				;	 6	 2	12	11	 1
+		DICT_REC	__will_					;	 6	 2	12	11	 1
+		DICT_REC	_must_					;	 5	 3	15	11	 4
+		DICT_REC	__bomb					;	 5	 4	20	12	 8
+		DICT_REC	_from_					;	 5	 2	10	10	 0
+;		DICT_REC	_Let_s
+;		DICT_REC	__trap
+		DICT_REC	_Woah_exc				;	 5	 2	10	10	 0
+		DICT_REC	_This_					;	 5	 2	10	10	 0
+		DICT_REC	__got_					;	 5	 1	 5	 9	-4
+		DICT_REC	__some					;	 5	 2	10	10	 0
+		DICT_REC	__made					;	 5	 2	10	10	 0
+		DICT_REC	_come_					;	 5	 2	10	10	 0
+;		DICT_REC	_dictB4
+		DICT_REC	_that_					;	 5	 4	20	12	 8
+		DICT_REC	__your					;	 5	 2	10	10	 0
+		DICT_REC	__has					;	 4	 3	12	10	 2
+		DICT_REC	_less					;	 4	 3	12	10	 2
+		DICT_REC	_apo_ll_				;	 4	11	44	17	27
+		DICT_REC	_the_					;	 4	40 160	47 113
+		DICT_REC	_Chip					;	 4	37 148	44 104
+		DICT_REC	_Dale					;	 4	31 124	38	86
+		DICT_REC	_have					;	 4	 6	24	13	11
+		DICT_REC	_here					;	 4	11	44	18	26
+		DICT_REC	_Look					;	 4	 5	20	12	 8
+		DICT_REC	_open					;	 4	 2	 8	 9	-1
+		DICT_REC	_self					;	 4	 3	12	10	 2
+		DICT_REC	_sure					;	 4	 3	12	10	 2
+		DICT_REC	_this					;	 4	 3	12	10	 2
+		DICT_REC	_What					;	 4	 3	12	10	 2
+		DICT_REC	_with					;	 4	 4	16	11	 5
+		DICT_REC	__can					;	 4	 4	16	11	 5
+		DICT_REC	__say					;	 4	 3	12	10	 2
+		DICT_REC	_apo_ve_				;	 4	10	40	17	23
+		DICT_REC	__for					;	 4	 3	12	10	 2
+		DICT_REC	_and_					;	 4	11	44	18	26
+		DICT_REC	_any_					;	 4	 3	12	10	 2
+		DICT_REC	_ever					;	 4	10	40	16	24
+		DICT_REC	_ight					;	 4	16	64	23	41
+		DICT_REC	__you					;	 4	 8	32	15	17
+		DICT_REC	_are_					;	 4	 6	24	13	11
+;		DICT_REC	_dictD0
+		DICT_REC	__cut					;	 3	 3	12	10	 2
+		DICT_REC	_exc__					;	 3	19	57	25	32
+		DICT_REC	_is_					;	 3	 7	21	13	 8
+		DICT_REC	_ast					;	 3	 5	15	11	 4
+		DICT_REC	_ing					;	 3	12	36	18	18
+		DICT_REC	_lue					;	 3	 4	12	10	 2
+		DICT_REC	_not					;	 3	 3	 9	 9	 0
+		DICT_REC	_now					;	 3	 4	12	10	 2
+		DICT_REC	_n_apo_t				;	 3	 2	 6	 8	-2
+		DICT_REC	_one					;	 3	 7	21	13	 8
+		DICT_REC	_out					;	 3	 8	24	14	10
+		DICT_REC	_We_					;	 3	 6	18	12	 6
+		DICT_REC	_was					;	 3	 3	 9	 9	 0
+		DICT_REC	_You					;	 3	14	42	20	22
+		DICT_REC	_be_					;	 3	 9	27	15	12
+		DICT_REC	__to					;	 3	10	30	16	14
+		DICT_REC	__go					;	 3	 7	21	13	 8
+		DICT_REC	_dot_dot_dot			;	 3	11	33	17	16
+		DICT_REC	_my_					;	 3	 3	 9	 9	 0
+		DICT_REC	_of_					;	 3	11	33	17	16
+		DICT_REC	_a_						;	 2	26	52	31	20
+		DICT_REC	_col_					;	 2	30	60	35	25
+		DICT_REC	_ed						;	 2	17	34	21	23
+		DICT_REC	_do						;	 2	12	24	17	 7
+		DICT_REC	_he						;	 2	25	50	30	20
+		DICT_REC	_if						;	 2	 6	12	11	 1
+		DICT_REC	_in						;	 2	24	48	29	19
+		DICT_REC	_is						;	 2	 3	 6	 9	-3
+		DICT_REC	_it						;	 2	27	54	31	23
+		DICT_REC	_me						;	 2	19	38	24	14
+		DICT_REC	_No						;	 2	 8	16	13	 3
+		DICT_REC	_no						;	 2	 1	 2	 6	-4
+		DICT_REC	_on						;	 2	18	36	23	13
+		DICT_REC	_or						;	 2	11	22	16	 6
+		DICT_REC	_ut						;	 2	 8	16	13	 3
+		DICT_REC	_we						;	 2	13	26	18	 8
+		DICT_REC	_dot_dot				;	 2	 9	18	14	 4
 
-; 2 RAM buffer slots
-; 9 free slots
-; 119 used slots
+; overall
 ; 128 total slots
+; 2 RAM buffer slots
+; 3 special word slots (reserved)
+; 7 free slots
+; 4 unused slots
+; 114 used slots
+; 	10 out of 114 has no impact on final size (0)
+;	14 out of 114 increased overall size by 50 bytes
+;
 
 		DICT_DATA	_Clock_Tower
 		.BYTE	_C,_l,_o,_c,_k,__,_T,_o,_w,_e,_r,_EOL
-		DICT_DATA	_Western__World
+		DICT_DATA	_Western_World
 		.BYTE	_W,_e,_s,_t,_e,_r,_n,__,_W,_o,_r,_l,_d,_EOL
 		DICT_DATA	_Future_World
 		.BYTE	_F,_u,_t,_u,_r,_e,__,_W,_o,_r,_l,_d,_EOL
-		DICT_DATA	_There_s_no_Time
-		.BYTE	_T,_h,_e,_r,_e,_apo,_s,__,_n,_o,__,_t,_i,_m,_e,__,_EOL
+		DICT_DATA	_There_s_no_Time_to_
+; OPTIMIZED
+		.BYTE	_T,_h,_e,_r,_e,_apo,_s,__,_n,_o,__,_t,_i,_m,_e,__,_t,_o,__,_EOL
 		DICT_DATA	_Water_Rabbit_ddt
 		.BYTE	_W,_a,_t,_e,_r,__,_R,_a,_b,_b,_i,_t,_ddt,_EOL
 		DICT_DATA	_Newscaster_ddt
 		.BYTE	_N,_e,_w,_s,_c,_a,_s,_t,_e,_r,_ddt,_EOL
+; OPTIMIZED
 		DICT_DATA	_restaurant
-		.BYTE	__,_r,_e,_s,_t,_a,_u,_r,_a,_n,_t,_EOL
-		DICT_DATA	_e_amusement
-		.BYTE	_e,__,_a,_m,_u,_s,_e,_m,_e,_n,_t,_EOL
-		DICT_DATA	__everyone
-		.BYTE	__,_e,_v,_e,_r,_y,_o,_n,_e,_exc,_EOL
+		.BYTE	_r,_e,_s,_t,_a,_u,_r,_a,_n,_t,_EOL
+; OPTIMIZED
+		DICT_DATA	_amusement_park_exc
+		.BYTE	_a,_m,_u,_s,_e,_m,_e,_n,_t,__,_p,_a,_r,_k,_exc,_EOL
+; NOTE: one more time, the same word used as "_ever,_y,_one" combo instead with
+; exclamation too! two more word might be shrinked!
+		DICT_DATA	_everyone_exc
+		.BYTE	_e,_v,_e,_r,_y,_o,_n,_e,_exc,_EOL
 		DICT_DATA	_warehouse
 		.BYTE	_w,_a,_r,_e,_h,_o,_u,_s,_e,_EOL
+; NOTE: other place "downtown" shrinked with just "do,w,n,t,o,w,n",
 		DICT_DATA	__downtown
 		.BYTE	__,_d,_o,_w,_n,_t,_o,_w,_n,_EOL
-		DICT_DATA	__give_you
-		.BYTE	__,_g,_i,_v,_e,__,_y,_o,_u,_EOL
-		DICT_DATA	I_think_I
+		DICT_DATA	_give_you
+; NOTE: same case there, two more same words optimized differently
+		.BYTE	_g,_i,_v,_e,__,_y,_o,_u,_EOL
+		DICT_DATA	_I_think_I
 		.BYTE	_I,__,_t,_h,_i,_n,_k,__,_I,_EOL
-		DICT_DATA	_Welcome
+		DICT_DATA	_Welcome_col
 		.BYTE	_W,_e,_l,_c,_o,_m,_e,_col,_EOL
 		DICT_DATA	_Are_you_
 		.BYTE	_A,_r,_e,__,_y,_o,_u,__,_EOL
@@ -554,8 +597,9 @@ _dictionary:
 		.BYTE	_R,_a,_n,_g,_e,_r,_s,_EOL
 		DICT_DATA	__coming
 		.BYTE	__,_c,_o,_m,_i,_n,_g,_EOL
-		DICT_DATA	__prison
-		.BYTE	__,_p,_r,_i,_s,_o,_n,_EOL
+; NOT USED ANYMORE
+;		DICT_DATA	__prison
+;		.BYTE	__,_p,_r,_i,_s,_o,_n,_EOL
 		DICT_DATA	_should_
 		.BYTE	_s,_h,_o,_u,_l,_d,__,_EOL
 		DICT_DATA	_ghosts
@@ -576,18 +620,18 @@ _dictionary:
 		.BYTE	__,_s,_t,_o,_p,__,_EOL
 		DICT_DATA	__time_
 		.BYTE	__,_t,_i,_m,_e,__,_EOL
-		DICT_DATA	__found
-		.BYTE	__,_f,_o,_u,_n,_d,_EOL
+		DICT_DATA	_found
+		.BYTE	_f,_o,_u,_n,_d,_EOL
 		DICT_DATA	_could_
 		.BYTE	_c,_o,_u,_l,_d,__,_EOL
-		DICT_DATA	_help_dot
+		DICT_DATA	__help_dot
 		.BYTE	__,_h,_e,_l,_p,_dot,_EOL
 		DICT_DATA	_about_
 		.BYTE	_a,_b,_o,_u,_t,__,_EOL
 		DICT_DATA	__first
 		.BYTE	__,_f,_i,_r,_s,_t,_EOL
-		DICT_DATA	__park_exc
-		.BYTE	__,_p,_a,_r,_k,_exc,_EOL
+;		DICT_DATA	__park_exc
+;		.BYTE	__,_p,_a,_r,_k,_exc,_EOL
 		DICT_DATA	__will_
 		.BYTE	__,_w,_i,_l,_l,__,_EOL
 		DICT_DATA	_must_
@@ -596,10 +640,14 @@ _dictionary:
 		.BYTE	__,_b,_o,_m,_b,_EOL
 		DICT_DATA	_from_
 		.BYTE	_f,_r,_o,_m,__,_EOL
-		DICT_DATA	_Let_s
-		.BYTE	_L,_e,_t,_apo,_s,_EOL
-		DICT_DATA	__trap
-		.BYTE	__,_t,_r,_a,_p,_EOL
+; unused entry, _Let_s_ used instead all the time
+;		DICT_DATA	_Let_s
+;		.BYTE	_L,_e,_t,_apo,_s,_EOL
+;
+; unused entry, never used at all
+;		DICT_DATA	__trap
+;		.BYTE	__,_t,_r,_a,_p,_EOL
+;
 		DICT_DATA	_Woah_exc
 		.BYTE	_W,_o,_a,_h,_exc,_EOL
 		DICT_DATA	_This_
@@ -613,8 +661,8 @@ _dictionary:
 		DICT_DATA	_come_
 		.BYTE	_c,_o,_m,_e,__,_EOL
 ; unused entry, same as __some!
-		DICT_DATA	_dictB4
-		.BYTE	__,_s,_o,_m,_e,_EOL
+;		DICT_DATA	_dictB4
+;		.BYTE	__,_s,_o,_m,_e,_EOL
 ;
 		DICT_DATA	_that_
 		.BYTE	_t,_h,_a,_t,__,_EOL
@@ -671,8 +719,8 @@ _dictionary:
 		DICT_DATA	_are_
 		.BYTE	_a,_r,_e,__,_EOL
 ; copy of _can entry, unused
-		DICT_DATA	_dictD0
-		.BYTE	__,_c,_a,_n,_EOL
+;		DICT_DATA	_dictD0
+;		.BYTE	__,_c,_a,_n,_EOL
 ;
 		DICT_DATA	__cut
 		.BYTE	__,_c,_u,_t,_EOL
@@ -761,10 +809,10 @@ _msg00:
 		.BYTE	_Newscaster_ddt,_RET
 		.BYTE	_S,_p,_e,_c,_i,_a,_l,__,_B,_u,_l,_l,_e,_t,_in,_ddt,_WAIT
 		.BYTE	_P,_o,_l,_i,_c,_e,__say,_RET
-		.BYTE	_a_,_do,_w,_n,_t,_o,_w,_n,_restaurant,__has,_RET
+		.BYTE	_a,__downtown,__,_restaurant,__has,_RET
 		.BYTE	_r,_e,_c,_e,_i,_v,_ed,__,_a_,_b,_o,_m,_b,__,_t,_h,_r,_e,_a,_t,_dot,_WAIT
 		.BYTE	_U,_n,_less,__,_the_,_t,_i,_me,__bomb,__can,_RET
-		.BYTE	_be_,_f,_o,_u,_n,_d,_col_,_the_,_r,_e,_s,_t,_a,_u,_r,_a,_n,_t,_RET
+		.BYTE	_be_,_found,_col_,_the_,_restaurant,_RET
 		.BYTE	_could_,_be_,_d,_e,_s,_t,_r,_o,_y,_ed,_dot,_WAIT
 		.BYTE	_STOP
 _msg01:
@@ -778,33 +826,33 @@ _msg02:
 _msg03:
 		.BYTE	_Chip,_ddt,_RET
 		.BYTE	_There_s_,_a_,_t,_i,_me,__bomb,_RET
-		.BYTE	_in,__,_a_,_r,_e,_s,_t,_a,_u,_r,_a,_n,_t,__downtown,_exc,_WAIT
-		.BYTE	_W,_e,_apo_ve_,_g,_o,_t,__to,__,_f,_in,_d,__,_it,_exc,_WAIT
+		.BYTE	_in,__,_a_,_restaurant,__downtown,_exc,_WAIT
+		.BYTE	_W,_e,_apo_ve_,_g,_o,_t,__,_t,_o_find,__,_it,_exc,_WAIT
 		.BYTE	_STOP
 _msg04:
 		.BYTE	_Gadget,_ddt,_RET
 		.BYTE	_This_,_is_,_a,_n,__,_e,_me,_r,_g,_e,_n,_c,_y,_exc,_WAIT
-		.BYTE	_There_s_no_Time,_t,_o,__,_was,_t,_e,_exc,_RET
+		.BYTE	_There_s_no_Time_to_,_was,_t,_e,_exc,_RET
 		.BYTE	_Let_s_,_g,_o,_col_,_M,_a,_t,_e,_s,_exc,_WAIT
 		.BYTE	_STOP
 _msg05:
 		.BYTE	_Chip,_ddt,_RET
-		.BYTE	_W,_e,_apo_ve_,_g,_o,_t,__,_a_,_b,_o,_m,_b,__to,__,_f,_in,_d,_exc,_WAIT
+		.BYTE	_W,_e,_apo_ve_,_g,_o,_t,__,_a_,_b,_o,_m,_b,__,_t,_o_find,_exc,_WAIT
 		.BYTE	_STOP
 _msg06:
 		.BYTE	_Gadget,_ddt,_RET
 		.BYTE	_W,_e,_apo_ll_,_g,_o,__,_a,_he,_a,_d,_RET
 		.BYTE	_t,_o,__,_in,_v,_e,_s,_t,_i,_g,_a,_t,_e,_exc,_WAIT
 		.BYTE	_Look,__for,__,_u,_s,_RET
-		.BYTE	_and_,_we,_apo_ll_,_g,_i,_v,_e,__you,_RET
-		.BYTE	_any_,_c,_lue,_s,__,_we,_apo_ve_,_f,_o,_u,_n,_d,_dot,_WAIT
+		.BYTE	_and_,_we,_apo_ll_,_give_you,_RET
+		.BYTE	_any_,_c,_lue,_s,__,_we,_apo_ve_,_found,_dot,_WAIT
 		.BYTE	_STOP
 _msg07:
 		.BYTE	_Monterey,_ddt,_RET
-		.BYTE	_O,_r,__give_you,__some,_help_dot,_dot_dot,_WAIT
+		.BYTE	_O,_r,__,_give_you,__some,__help_dot,_dot_dot,_WAIT
 		.BYTE	_N,_ever,__,_w,_o,_u,_l,_d,__,_o,_apo,__made,__,_it,_RET
 		.BYTE	_through_,_the_,_b,_a,_t,_t,_l,_e,__,_of_,_t,_he,_RET
-		.BYTE	_b,_r,_i,_e,__,_with,_out,__,_a_,_b,_it,__,_o,_apo,_help_dot,_WAIT
+		.BYTE	_b,_r,_i,_e,__,_with,_out,__,_a_,_b,_it,__,_o,_apo,__help_dot,_WAIT
 		.BYTE	_A,_h,_h,_col_,_t,_h,_o,_s,_e,__,_we,_r,_e,__,_the_,_d,_a,_y,_s,_dsh,_dsh,_WAIT
 		.BYTE	_STOP
 _msg08:
@@ -814,7 +862,7 @@ _msg08:
 _msg09:
 		.BYTE	_Chip,_ddt,_RET
 		.BYTE	_R,_ight,_col_,_Zipper,_exc,_RET
-		.BYTE	_There_s_no_Time,_t,_o,__,_l,_o,_s,_e,_exc,_WAIT
+		.BYTE	_There_s_no_Time_to_,_l,_o,_s,_e,_exc,_WAIT
 		.BYTE	_Dale,_col_,_y,_o,_u,__,_come_,_with,__,_me,_exc,_WAIT
 		.BYTE	_STOP
 _msg0A:
@@ -857,7 +905,7 @@ _msg10:
 _msg11:
 		.BYTE	_Dale,_ddt,_RET
 		.BYTE	_No,__,_w,_a,_y,_exc,_RET
-		.BYTE	_Fatcat,_apo,_s,__,_in,__prison,_exc,_WAIT
+		.BYTE	_Fatcat,_apo,_s,__,_in,__,_p,_r,_i,_s,_o,_n,_exc,_WAIT
 		.BYTE	_STOP
 _msg12:
 		.BYTE	_Water_Rabbit_ddt,_RET
@@ -880,7 +928,7 @@ _msg14:
 _msg15:
 		.BYTE	_Chip,_ddt,_RET
 		.BYTE	_Gadget,_col,_RET
-		.BYTE	_have,__you,__found,__,_the_,_b,_o,_m,_b,_que,_WAIT
+		.BYTE	_have,__you,__,_found,__,_the_,_b,_o,_m,_b,_que,_WAIT
 		.BYTE	_STOP
 _msg16:
 		.BYTE	_Gadget,_ddt,_RET
@@ -932,7 +980,7 @@ _msg1E:
 		.BYTE	_STOP
 _msg1F:
 		.BYTE	_Chip,_ddt,_RET
-		.BYTE	I_think_I,_apo,_m,__go,_n,_n,_a_,_f,_a,_in,_t,_exc,_WAIT
+		.BYTE	_I_think_I,_apo,_m,__go,_n,_n,_a_,_f,_a,_in,_t,_exc,_WAIT
 		.BYTE	_STOP
 _msg20:
 		.BYTE	_Gadget,_ddt,_RET
@@ -1020,7 +1068,7 @@ _msg2F:
 		.BYTE	_STOP
 _msg30:
 		.BYTE	_A,_h,_h,_h,__,_h,_a_,_h,_a_,_h,_a,_dot,_RET
-		.BYTE	_Welcome,_RET
+		.BYTE	_Welcome_col,_RET
 		.BYTE	_my_,_l,_it,_t,_l,_e,__,_Rescue_,_Rangers,_exc,_WAIT
 		.BYTE	_I,_apo_ve_,_w,_a,_it,_ed,_RET
 		.BYTE	_a_,_l,_on,_g,__time_,_f,_or,__,_this,_exc,_WAIT
@@ -1069,7 +1117,7 @@ _msg37:
 		.BYTE	_STOP
 _msg38:
 		.BYTE	_Chip,_ddt,_RET
-		.BYTE	I_think_I,__,_s,_e,_e,__,_a,_n,__,_open,_ing,_exc,_RET
+		.BYTE	_I_think_I,__,_s,_e,_e,__,_a,_n,__,_open,_ing,_exc,_RET
 		.BYTE	_O,_v,_e,_r,__,_t,_here,_exc,_WAIT
 		.BYTE	_M,_a,_y,_be_,_RET
 		.BYTE	_we,__can,__,_escape,__,_through_,_it,_exc,_RET
@@ -1130,13 +1178,13 @@ _msg43:
 		.BYTE	_Fatcat,_ddt,_RET
 		.BYTE	_No,_t,__,_s,_o,__,_f,_ast,_col_,_Rangers,_exc,_WAIT
 		.BYTE	_I,_f,__you,__,_d,_are_,_t,_o,__,_f,_a,_c,_e,__,_me,_col,_RET
-		.BYTE	_come_,_t,_o,__,_the_,_a,_m,_u,_s,_e,_me,_n,_t,__park_exc,_RET
+		.BYTE	_come_,_t,_o,__,_the_,_amusement_park_exc,_RET
 		.BYTE	_I,_apo_ll_,_be_,_w,_a,_it,_ing,_exc,_WAIT
 		.BYTE	_STOP
 _msg44:
 		.BYTE	_Dale,_ddt,_RET
 		.BYTE	_O,_o,_h,__,_that_,_Fatcat,_exc,_RET
-		.BYTE	_We_,_g,_o,_t,_t,_a_,_s,_t,_o,_p,__,_h,_i,_m,_exc,_WAIT
+		.BYTE	_We_,_g,_o,_t,_t,_a,__stop_,_h,_i,_m,_exc,_WAIT
 		.BYTE	_STOP
 _msg45:
 		.BYTE	_Chip,_ddt,_RET
@@ -1148,7 +1196,7 @@ _msg46:
 		.BYTE	_You,_apo,_r,_e,__,_do,_o,_me,_d,_col,_RET
 		.BYTE	_Rescue_,_Rangers,_exc,_WAIT
 		.BYTE	_I,__,_c,_on,_t,_r,_o,_l,_RET
-		.BYTE	_this,__,_e,_n,_t,_i,_r,_e_amusement,__park_exc,_RET
+		.BYTE	_this,__,_e,_n,_t,_i,_r,_e,__,_amusement_park_exc,_RET
 		.BYTE	_You,_apo_ll_,_n,_ever,__,_c,_a,_p,_t,_u,_r,_e,__,_me,_exc,_WAIT
 		.BYTE	_STOP
 _msg47:
@@ -1173,7 +1221,7 @@ _msg4A:
 		.BYTE	_R,_ight,_o,_col_,_Dale,_exc,_RET
 		.BYTE	_W,_here,__,_should_,_we,__go,__first,_que,_WAIT
 		.BYTE	__,_rar,_Clock_Tower,_RET
-		.BYTE	__,__,_Western__World,_RET
+		.BYTE	__,__,_Western_World,_RET
 		.BYTE	__,__,_Future_World,_RET
 		.BYTE	_STOP
 _msg4B:
@@ -1238,7 +1286,7 @@ _msg56:
 		.BYTE	_STOP
 _msg57:
 		.BYTE	_Gadget,_ddt,_RET
-		.BYTE	_Look,_col_,_ever,_y,_one,_exc,_RET
+		.BYTE	_Look,_col_,_everyone_exc,_RET
 		.BYTE	_A,__,_s,_e,_c,_r,_e,_t,__,_p,_a,_s,_s,_a,_g,_e,_exc__,_Let_s_,_g,_o,_exc,_WAIT
 		.BYTE	_STOP
 _msg58:
@@ -1252,7 +1300,7 @@ _msg59:
 		.BYTE	_STOP
 _msg5A:
 		.BYTE	_Fatcat,_ddt,_RET
-		.BYTE	_Welcome,__,_Rescue_,_Rangers,_exc,_RET
+		.BYTE	_Welcome_col,__,_Rescue_,_Rangers,_exc,_RET
 		.BYTE	_I,_apo_ve_,_b,_e,_e,_n,__,_w,_a,_it,_ing,__for,__you,_exc,_WAIT
 		.BYTE	_STOP
 _msg5B:
@@ -1277,7 +1325,7 @@ _msg5E:
 		.BYTE	_STOP
 _msg5F:
 		.BYTE	_Chip,_ddt,_RET
-		.BYTE	_Look,__,_out,__everyone,_WAIT
+		.BYTE	_Look,__,_out,__,_everyone_exc,_WAIT
 		.BYTE	_STOP
 _msg60:
 		.BYTE	_Monterey,_ddt,_RET
@@ -1286,7 +1334,7 @@ _msg60:
 		.BYTE	_STOP
 _msg61:
 		.BYTE	_Chip,_ddt,_RET
-		.BYTE	_G,_o_find,__,_c,_o,_v,_e,_r,_col_,_ever,_y,_one,_exc,_WAIT
+		.BYTE	_G,_o_find,__,_c,_o,_v,_e,_r,_col_,_everyone_exc,_WAIT
 		.BYTE	_Dale,__,_and_,_I,__will_,_t,_r,_a,_c,_k,_RET
 		.BYTE	_Fatcat,_exc,_WAIT
 		.BYTE	_STOP
@@ -1647,7 +1695,7 @@ loc_3A8FA:
 		.WORD	_players_state16
 		.WORD	_players_state17
 ; TODO: remove me, never used here, because state18 skipped earlier in handler
-		.WORD	nullsub10
+;		.WORD	nullsub10
 ; -
 loc_3A935:
 		LDX		_scr_idx
@@ -1938,7 +1986,7 @@ loc_3AB08:
 		LDA		_pads,X
 		AND		#_PAD_LEFT|_PAD_RIGHT
 		BEQ		_players_state02_D
-		JMP		loc_3AB70
+		JMP		sub_3AB70
 
 ; =============== S U B R O U T I N E =======================================
 _players_state06:
@@ -1982,12 +2030,18 @@ loc_3AB53:
 		LDY		_obj_damages,X
 		STA		_obj_damages,X
 		CPY		#_OBJ_DMG_STUN
-		BNE		loc_3AB70
+		BNE		sub_3AB70
 		LDA		#$0C
-		BNE		loc_3AB72
-loc_3AB70:
+		BNE		sub_3AB72
+
+; =============== S U B R O U T I N E =======================================
+sub_3AB70:
 		LDA		#$04
-loc_3AB72:
+
+; !FALLTHROUGH!
+
+; =============== S U B R O U T I N E =======================================
+sub_3AB72:
 		STA		_tmp_ptr0
 		LDA		_players_anim_delays,X
 		INC		_players_anim_delays,X
@@ -2676,8 +2730,7 @@ _players_state05_A_sub3:
 _players_state05_A_sub4:
 		LDA		#<[byte_3B025]
 		LDY		#>[byte_3B025]
-; TODO: fixe me, HI nibble always !0, BNE just enough here
-		JMP		_players_state05_A_ex1
+		BNE		_players_state05_A_ex1
 
 ; =============== S U B R O U T I N E =======================================
 _players_state05_A_sub5:
@@ -2780,8 +2833,10 @@ _players_default_state_select_A:
 		JSR		_players_default_state_select_A_A
 		LDA		#$00
 		STA		_players_vars0D,X
+#if DEBUG==1
 		LDA		_debug_infinite_hp_flag			; NOTE, original debug leftover
 		BNE		loc_3B0AA
+#endif
 		LDA		_obj_hps,X
 		BEQ		loc_3B0AA
 		DEC		_obj_hps,X
@@ -3258,8 +3313,7 @@ loc_3B3CE:
 		BEQ		loc_3B3E9
 		STA		_obj_x_deltas,X					; store delta if not
 		STA		_players_vars10,X				; also reload inertial timer
-; TODO, optimize me, RTS is just enough
-		JMP		locret_3B3EE
+		RTS
 loc_3B3DC:
 		LDA		_players_vars10,X				; when stopped do inertial countdowns
 		BEQ		loc_3B3E9						; worked only on a special levels
@@ -3542,11 +3596,11 @@ locret_3B580:
 		RTS
 loc_3B581:
 		LDA		byte_AC
-		BNE		locret_3B5FB
+		BNE		locret_3B5FA
 loc_3B585:
 		LDA		byte_9D
 		AND		#$30
-		BEQ		locret_3B5FB
+		BEQ		locret_3B5FA
 		LDX		#$00
 		LDY		#$01
 		JSR		_players_scroll_control_A_B
@@ -3611,8 +3665,6 @@ loc_3B5F4:
 		LDA		_tmpA
 		STA		byte_93
 locret_3B5FA:
-		RTS
-locret_3B5FB:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================

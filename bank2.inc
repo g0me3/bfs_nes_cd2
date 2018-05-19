@@ -1404,10 +1404,10 @@ _players_obj_insert:
 		STA		_obj_spr_libs,X
 		LDA		_obj_x_lo_poss,X
 		BMI		loc_3A780
-		LDA		#$40
+		LDA		#_OBJ_HFLIP
 		STA		_obj_flips,X
 loc_3A780:
-		LDA		#$02
+		LDA		#_OBJ_TYPE_PLAYER
 		STA		_scr_params,X
 		LDA		_players_lives,X
 		BNE		loc_3A78C
@@ -1477,14 +1477,14 @@ loc_3A7F1:
 		LDA		_players_vars0D,X
 		BNE		_j_players_animB_sub0129
 		LDA		_obj_flips,X
-		AND		#$04
+		AND		#_OBJ_FLIPS04
 		BNE		_j_players_animB_sub0129
 		JSR		_players_animB_A
 		BCC		_j_players_animB_sub0129
 		TYA
 		STA		_scr_idxAs,X
 		LDA		_scr_params,Y
-		AND		#$0F
+		AND		#_OBJ_TYPE_MASK
 		JSR		_switch
 		.WORD	_players_animB_sub0129
 		.WORD	_players_animB_sub0129
@@ -1728,7 +1728,7 @@ loc_3A9CA:
 		BPL		loc_3A9DD
 		AND		#$7F
 		STA		_obj_heights,X
-		JSR		_scr_param_80_set
+		JSR		_scr_obj_hide
 		JMP		loc_3A9EC
 loc_3A9DD:
 		CPY		#$24
@@ -1739,7 +1739,7 @@ loc_3A9E5:
 		TYA
 		STA		_obj_heights,X
 loc_3A9E9:
-		JSR		_scr_param_80_clear
+		JSR		_scr_obj_show
 loc_3A9EC:
 		PLA
 		CMP		_obj_heights,X
@@ -1770,7 +1770,7 @@ loc_3AA1C:
 		BEQ		loc_3AA36
 		DEC		_players_vars0F,X
 		BNE		loc_3AA36
-		JSR		_scr_flips_10_clear
+		JSR		_native_obj_blink_clear
 		LDA		_obj_hps,X
 		BEQ		loc_3AA36
 		LDA		_scr_idxBs,X
@@ -1781,7 +1781,7 @@ loc_3AA36:
 		AND		#$40
 		BEQ		nullsub10
 		LDA		_obj_flips,X
-		AND		#$20
+		AND		#_OBJ_UNDER_BG
 		ORA		_obj_x_hi_poss,X
 		BEQ		nullsub10
 		LDA		#$80
@@ -1818,7 +1818,7 @@ _players_animB_sub0129_sub01:
 
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub01_B:
-		LDA		#$72
+		LDA		#_apu_mus72_idx
 		JSR		_apu_se_req
 		LDA		#$00
 		STA		_players_vars0B,X
@@ -1930,7 +1930,7 @@ loc_3AB08:
 _players_animB_sub0129_sub06:
 		LDX		_scr_idx
 		LDA		_obj_flips,X
-		ORA		#$8C
+		ORA		#_OBJ_VFLIP|_OBJ_FLIPS08|_OBJ_FLIPS04
 		STA		_obj_flips,X
 		JSR		_players_animB_sub0129_sub04_A
 		INC		_players_states,X
@@ -1951,7 +1951,7 @@ _players_animB_sub0129_sub07:
 		AND		#$7F
 		STA		_scr_idxBs,X
 		LDA		_obj_flips,X
-		AND		#$D3
+		AND		#[~[_OBJ_UNDER_BG|_OBJ_FLIPS08|_OBJ_FLIPS04]&$FF]
 		STA		_obj_flips,X
 		JMP		_players_animB_sub0129_sub06_B
 loc_3AB4B:
@@ -2025,7 +2025,7 @@ _players_animB_sub0129_sub0A:
 		RTS
 loc_3ABB3:
 		LDA		_obj_flips,X
-		AND		#$7F
+		AND		#[~_OBJ_VFLIP&$FF]
 		STA		_obj_flips,X
 		LDA		_obj_hps,X
 		BNE		loc_3ABC3
@@ -2044,12 +2044,12 @@ _players_animB_sub0129_sub06_B:
 		LDA		#$00
 		STA		_players_vars0F,X
 		LDA		_obj_flips,X
-		EOR		#$40
+		EOR		#_OBJ_HFLIP
 		STA		_obj_flips,X
 		LDA		#$40
 		STA		_obj_x_deltas,X
 		LDA		_obj_flips,X
-		AND		#$40
+		AND		#_OBJ_HFLIP
 		BNE		loc_3ABEE
 		LDA		#$C0
 		STA		_obj_x_deltas,X
@@ -2062,7 +2062,7 @@ loc_3ABEE:
 		STA		_obj_damages,X
 		JMP		_players_animB_sub0129_sub09_A
 loc_3AC00:
-		LDA		#$28
+		LDA		#_apu_mus28_idx
 		JSR		_apu_se_req
 		LDX		_scr_idx
 		LDA		#$0B
@@ -2070,7 +2070,7 @@ loc_3AC00:
 		LDA		#$18
 		STA		_players_vars0B,X
 		LDA		_obj_flips,X
-		AND		#$7F
+		AND		#[~_OBJ_VFLIP&$FF]
 		STA		_obj_flips,X
 
 ; =============== S U B R O U T I N E =======================================
@@ -2094,7 +2094,7 @@ loc_3AC2D:
 		JSR		_players_animB_sub0129_sub0A_B
 		JMP		_players_animB_sub0129_sub02_D
 loc_3AC38:
-		LDA		#$2B
+		LDA		#_apu_mus2B_idx
 		JSR		_apu_se_req
 		LDA		#_OBJ_DMG_NONE
 		STA		_obj_damages,X
@@ -2133,7 +2133,7 @@ loc_3AC6A:
 
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub0E:
-		LDA		#$26
+		LDA		#_apu_mus26_idx
 		JSR		_apu_se_req
 		LDX		_scr_idx
 		LDA		#$0F
@@ -2178,9 +2178,9 @@ _players_animB_sub3_B:
 		JSR		_players_animB_sub3_B_A
 		JSR		_players_animB_sub0129_sub06_B_A
 		LDA		_obj_flips,X
-		AND		#$7F
+		AND		#[~_OBJ_VFLIP&$FF]
 		STA		_obj_flips,X
-		JMP		_scr_param_80_clear
+		JMP		_scr_obj_show
 
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub10:
@@ -2236,7 +2236,7 @@ loc_3AD13:
 		LDA		_nmi_frames_counter
 		AND		#$0F
 		BNE		loc_3AD2D
-		LDA		#$47
+		LDA		#_apu_mus47_idx
 		JSR		_apu_se_req
 loc_3AD2D:
 		JSR		_players_animB_sub0129_sub12_A
@@ -2350,7 +2350,7 @@ locret_3ADE8:
 		RTS
 loc_3ADE9:
 		LDA		_obj_flips,X
-		AND		#$F3
+		AND		#[~[_OBJ_FLIPS08|_OBJ_FLIPS04]&$FF]
 		STA		_obj_flips,X
 		JSR		_players_animB_sub0129_sub0A_B
 		JMP		_players_animB_sub0129_sub02_D
@@ -2388,13 +2388,13 @@ loc_3AE0D:
 		LDA		#$F0
 		STA		_players_vars0B,X
 		LDA		_obj_flips,X
-		ORA		#$0C
+		ORA		#_OBJ_FLIPS08|_OBJ_FLIPS04
 		STA		_obj_flips,X
 		LDA		#$1C
 		STA		_players_anim_idxs,X
 		LDA		#$15
 		STA		_players_states,X
-		LDA		#$2C
+		LDA		#_apu_mus2C_idx
 		JSR		_apu_se_req
 		JMP		_players_animB_sub0129_sub04_A
 loc_3AE4F:
@@ -2432,7 +2432,7 @@ loc_3AE87:
 loc_3AE90:
 		JSR		_players_obj_insert
 		JSR		_scr_flips_04_set
-		JSR		_scr_flips_10_set
+		JSR		_native_obj_blink_set
 		LDA		#$3C
 		STA		_players_vars0F,X
 		JMP		_players_animB_sub0129_sub02_D
@@ -2472,9 +2472,9 @@ _players_obj_insert_ex:
 		LDA		#$02
 		STA		_obj_y_hi_poss,X
 		LDA		_obj_flips,X
-		ORA		#$0C
+		ORA		#_OBJ_FLIPS08|_OBJ_FLIPS04
 		STA		_obj_flips,X
-		JSR		_scr_param_80_set
+		JSR		_scr_obj_hide
 		JSR		_players_animB_sub0129_sub04_A
 		CLC
 		RTS
@@ -2487,8 +2487,8 @@ loc_3AEE8:
 		CPY		_tmp_ptrE
 		BEQ		loc_3AF16
 		LDA		_scr_params,Y
-		AND		#$0F
-		CMP		#$02
+		AND		#_OBJ_TYPE_MASK
+		CMP		#_OBJ_TYPE_PLAYER
 		BCC		loc_3AF16
 		BNE		loc_3AF09
 		LDA		_scr_idxBs,Y
@@ -2535,7 +2535,7 @@ _players_animB_sub0129_sub03_A:
 		BCS		loc_3AF49
 		INC		_players_vars09,X
 		LDA		_obj_flips,X
-		AND		#$40
+		AND		#_OBJ_HFLIP
 		BEQ		loc_3AF49
 		INC		_players_vars09,X
 loc_3AF49:
@@ -2744,7 +2744,7 @@ locret_3B089:
 
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_A:
-		LDA		#$25
+		LDA		#_apu_mus25_idx
 		JSR		_apu_se_req
 		LDA		#$09
 		STA		_players_states,X
@@ -2768,8 +2768,8 @@ loc_3B0AA:
 _players_animB_sub0129_A_A:
 		LDA		#$40
 		STA		_players_vars0F,X
-		JSR		_scr_param_80_clear
-		JSR		_scr_flips_10_set
+		JSR		_scr_obj_show
+		JSR		_native_obj_blink_set
 		JMP		_scr_flips_04_set
 
 ; =============== S U B R O U T I N E =======================================
@@ -2778,8 +2778,8 @@ _players_animB_sub0129_E_sub2_A:
 		LDA		byte_E3
 		BNE		locret_3B0E0
 		LDA		_scr_params,Y
-		AND		#$0F
-		CMP		#$02
+		AND		#_OBJ_TYPE_MASK
+		CMP		#_OBJ_TYPE_PLAYER
 		BNE		loc_3B0D5
 		LDA		_obj_heights,Y
 		CMP		#$16
@@ -2870,7 +2870,7 @@ loc_3B146:
 		STA		_players_states,Y
 loc_3B169:
 		JSR		_players_pickup_obj_flags_update
-		LDA		#$52
+		LDA		#_apu_mus52_idx
 		JSR		_apu_se_req
 
 ; =============== S U B R O U T I N E =======================================
@@ -2946,7 +2946,7 @@ loc_3B1BC:
 		STA		_tmp_ptr2+1
 		STA		_tmp_ptr4+1
 		STA		byte_6
-		LDY		#_OBJ_SCR_GRAB
+		LDY		#_OBJ_TYPE_TRIGGER
 		JSR		_scr_load
 loc_3B1BD:
 		PLA
@@ -2970,13 +2970,13 @@ _players_pickup_obj_load:
 		STA		_tmp_ptr4
 		STA		_tmp_ptr4+1
 		STA		byte_6
-		LDY		#_OBJ_SCR_THROW
+		LDY		#_OBJ_TYPE_PBULLET
 		JSR		_scr_load
 		BCS		locret_3B21D
 		TXA
 		TAY
 		JSR		_players_pickup_obj_flags_update
-		LDA		#$52
+		LDA		#_apu_mus52_idx
 		JSR		_apu_se_req
 locret_3B21D:
 		RTS
@@ -3055,7 +3055,7 @@ _players_pickup_obj_flags_update:
 		ORA		_tmp_ptr0
 		STA		_scr_idxBs,Y
 		LDA		_obj_flips,Y
-		ORA		#$0C
+		ORA		#_OBJ_FLIPS08|_OBJ_FLIPS04
 		STA		_obj_flips,Y
 		RTS
 
@@ -3103,8 +3103,8 @@ loc_3B2DF:
 		AND		#$0F
 		TAY
 		LDA		_scr_params,Y
-		AND		#$0F
-		CMP		#$06
+		AND		#_OBJ_TYPE_MASK
+		CMP		#_OBJ_TYPE_ENEMY
 		BEQ		loc_3B2FE
 		LDA		_players_vars0C,X
 		CMP		#$1E
@@ -3134,11 +3134,11 @@ loc_3B31A:
 		LDA		_obj_hps,X
 		BEQ		loc_3B346
 		LDA		_obj_spr_libs,Y
-		CMP		#$03
+		CMP		#_spr_lib3_idx
 		BEQ		loc_3B346
 		LDA		_scr_params,Y
-		AND		#$0F
-		CMP		#$06
+		AND		#_OBJ_TYPE_MASK
+		CMP		#_OBJ_TYPE_ENEMY
 		BEQ		loc_3B346
 		STY		byte_96
 		LDX		byte_96
@@ -3160,20 +3160,20 @@ loc_3B346:
 		AND		#$7F
 		STA		_scr_idxBs,Y
 		LDA		_obj_flips,Y
-		AND		#$E3
+		AND		#[~[_OBJ_BLINK|_OBJ_FLIPS08|_OBJ_FLIPS04]&$FF]
 		STA		_obj_flips,Y
 		LDA		_obj_heights,X
 		BEQ		loc_3B39B
 		LDA		#$17
 		STA		_tmp_ptr0
 		LDA		_obj_spr_libs,Y
-		CMP		#$04
+		CMP		#_spr_lib4_idx
 		BEQ		loc_3B38A
 		LDA		_scr_params,Y
-		AND		#$0F
-		CMP		#$03
+		AND		#_OBJ_TYPE_MASK
+		CMP		#_OBJ_TYPE_PBULLET
 		BEQ		loc_3B386
-		CMP		#$02
+		CMP		#_OBJ_TYPE_PLAYER
 		BNE		loc_3B38A
 		LDA		_obj_damages,Y
 		CMP		#_OBJ_DMG_STUN
@@ -3206,7 +3206,7 @@ _players_animB_sub0129_D:
 		AND		#$80
 		BEQ		loc_3B3BE
 		LDA		_obj_flips,X
-		ORA		#$40
+		ORA		#_OBJ_HFLIP
 		STA		_obj_flips,X
 		LDA		#$20
 		BNE		loc_3B3CE
@@ -3215,7 +3215,7 @@ loc_3B3BE:
 		AND		#$40
 		BEQ		loc_3B3DC
 		LDA		_obj_flips,X
-		AND		#$BF
+		AND		#[~_OBJ_HFLIP&$FF]
 		STA		_obj_flips,X
 		LDA		#$E0
 loc_3B3CE:
@@ -3634,7 +3634,7 @@ _players_animC_A_B:
 		LDA		_players_lives,X
 		BEQ		loc_3B669
 		LDA		_obj_flips,X
-		AND		#$04
+		AND		#_OBJ_FLIPS04
 		BNE		loc_3B669
 		LDA		_obj_y_lo_poss,X
 		BMI		loc_3B669
@@ -3684,16 +3684,16 @@ loc_3B68C:
 		AND		#$40
 		BNE		loc_3B6B3
 		LDA		_obj_flips,X
-		AND		#$DF
+		AND		#[~_OBJ_UNDER_BG&$FF]
 		STA		_obj_flips,X
 		JMP		loc_3B6B3
 loc_3B6AB:
 		LDA		_obj_flips,X
-		ORA		#$20
+		ORA		#_OBJ_UNDER_BG
 		STA		_obj_flips,X
 loc_3B6B3:
 		LDA		_obj_flips,X
-		AND		#$08
+		AND		#_OBJ_FLIPS08
 		BEQ		loc_3B6C3
 		JSR		_players_animB_sub0129_C_B
 		BCS		loc_3B6C3
@@ -3737,7 +3737,7 @@ loc_3B6F3:
 		BNE		locret_3B716
 		LDY		#$20
 		LDA		_obj_flips,X
-		AND		#$40
+		AND		#_OBJ_HFLIP
 		BEQ		loc_3B709
 		LDY		#$E0
 loc_3B709:
@@ -3789,7 +3789,7 @@ loc_3B721:
 		ADC		_lvl_start_scroll_vert
 		STA		byte_9
 		JSR		_sys_screen_cur_meta_update
-		LDA		#$22
+		LDA		#_apu_mus22_idx
 		JSR		_apu_se_req
 		RTS
 
@@ -4004,8 +4004,8 @@ _players_animB_sub0129_F_A:
 		JSR		_players_animB_sub0129_sub05_A_A
 		JSR		_obj_move_hor_animate
 		LDA		_scr_params,X
-		AND		#$0F
-		CMP		#$02
+		AND		#_OBJ_TYPE_MASK
+		CMP		#_OBJ_TYPE_PLAYER
 		BNE		loc_3B8FD
 		LDA		_players_vars07,X
 		AND		#$40
@@ -4037,8 +4037,8 @@ _players_animB_sub0129_E_A:
 		JSR		_players_animB_sub0129_sub05_A_A
 		JSR		_obj_move_hor_animate
 		LDA		_scr_params,X
-		AND		#$0F
-		CMP		#$02
+		AND		#_OBJ_TYPE_MASK
+		CMP		#_OBJ_TYPE_PLAYER
 		BNE		loc_3B93E
 		LDA		_players_vars07,X
 		AND		#$40
@@ -4104,8 +4104,8 @@ _players_animB_sub0129_G:
 		LDY		#$0B
 loc_3B978:
 		LDA		_scr_params,Y
-		AND		#$0F
-		CMP		#$02
+		AND		#_OBJ_TYPE_MASK
+		CMP		#_OBJ_TYPE_PLAYER
 		BCC		loc_3B988
 		LDA		_scr_vars21,Y
 		CMP		_tmp_ptr0
@@ -4125,13 +4125,13 @@ loc_3B98E:
 		LDA		_obj_hps,Y
 		BEQ		loc_3B9B0
 		LDA		_scr_params,Y
-		AND		#$0F
-		CMP		#$02
+		AND		#_OBJ_TYPE_MASK
+		CMP		#_OBJ_TYPE_PLAYER
 		BCC		loc_3B9B0
 		CMP		#$09
 		BEQ		loc_3B9B0
 		LDA		_obj_flips,Y
-		AND		#$04
+		AND		#_OBJ_FLIPS04
 		BNE		loc_3B9B0
 		JSR		_obj_to_obj_collision_test
 		BCS		locret_3B9B4
@@ -4160,7 +4160,7 @@ _room_cfg00:
 		.WORD	_room_objects00		; _enemies_ptr
 		.BYTE	$1E					; _mmc1_ctrl
 		.BYTE	$F0					; _split_pos
-		.BYTE	$03					; _music_idx
+		.BYTE	_apu_mus03_idx		; _music_idx
 		.BYTE	$00,$00				; field_14
 		.WORD	_room_pal00			; _bg_pal_ptr
 		.BYTE	$00					; field_18
@@ -4178,7 +4178,7 @@ _room_cfg01:
 		.WORD	_room_objects01
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$03
+		.BYTE	_apu_mus03_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal01
 		.BYTE	$00
@@ -4196,7 +4196,7 @@ _room_cfg02:
 		.WORD	_room_objects02
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$03
+		.BYTE	_apu_mus03_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal01
 		.BYTE	$00
@@ -4214,7 +4214,7 @@ _room_cfg03:
 		.WORD	_room_objects03
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$03
+		.BYTE	_apu_mus03_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal03
 		.BYTE	$8C
@@ -4232,7 +4232,7 @@ _room_cfg05:
 		.WORD	_room_objects05
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$0D
+		.BYTE	_apu_mus0D_idx
 		.BYTE	$01,$01
 		.WORD	_room_pal05
 		.BYTE	$07
@@ -4250,7 +4250,7 @@ _room_cfg06:
 		.WORD	_room_objects06
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$04
+		.BYTE	_apu_mus04_idx
 		.BYTE	$00,$02
 		.WORD	_room_pal06
 		.BYTE	$0E
@@ -4268,7 +4268,7 @@ _room_cfg07:
 		.WORD	_room_objects07
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$04
+		.BYTE	_apu_mus04_idx
 		.BYTE	$00,$02
 		.WORD	_room_pal06
 		.BYTE	$0E
@@ -4286,7 +4286,7 @@ _room_cfg08:
 		.WORD	_room_objects08
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$0D
+		.BYTE	_apu_mus0D_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal06
 		.BYTE	$15
@@ -4304,7 +4304,7 @@ _room_cfg0D:
 		.WORD	_room_objects0D
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$05
+		.BYTE	_apu_mus05_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal0D
 		.BYTE	$4D
@@ -4322,7 +4322,7 @@ _room_cfg10:
 		.WORD	_room_objects10
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$05
+		.BYTE	_apu_mus05_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal0D
 		.BYTE	$1C
@@ -4340,7 +4340,7 @@ _room_cfg0E:
 		.WORD	_room_objects0E
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$0D
+		.BYTE	_apu_mus0D_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal0D
 		.BYTE	$23
@@ -4358,7 +4358,7 @@ _room_cfg1F:
 		.WORD	_room_objects1F
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$06
+		.BYTE	_apu_mus06_idx
 		.BYTE	$03,$03
 		.WORD	_room_pal1F
 		.BYTE	$2A
@@ -4376,7 +4376,7 @@ _room_cfg20:
 		.WORD	_room_objects20
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$0D
+		.BYTE	_apu_mus0D_idx
 		.BYTE	$00,$03
 		.WORD	_room_pal1F
 		.BYTE	$31
@@ -4394,7 +4394,7 @@ _room_cfg14:
 		.WORD	_room_objects14
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$07
+		.BYTE	_apu_mus07_idx
 		.BYTE	$00,$04
 		.WORD	_room_pal14
 		.BYTE	$38
@@ -4412,7 +4412,7 @@ _room_cfg15:
 		.WORD	_room_objects15
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$07
+		.BYTE	_apu_mus07_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal15
 		.BYTE	$38
@@ -4430,7 +4430,7 @@ _room_cfg17:
 		.WORD	_room_objects17
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$07
+		.BYTE	_apu_mus07_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal15
 		.BYTE	$38
@@ -4448,7 +4448,7 @@ _room_cfg1A:
 		.WORD	_room_objects1A
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$07
+		.BYTE	_apu_mus07_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal15
 		.BYTE	$38
@@ -4466,7 +4466,7 @@ _room_cfg16:
 		.WORD	_room_objects16
 		.BYTE	$1F
 		.BYTE	$F0
-		.BYTE	$0D
+		.BYTE	_apu_mus0D_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal16
 		.BYTE	$3F
@@ -4484,7 +4484,7 @@ _room_cfg13:
 		.WORD	_room_objects13
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$0B
+		.BYTE	_apu_mus0B_idx
 		.BYTE	$02,$09
 		.WORD	_room_pal13
 		.BYTE	$46
@@ -4502,7 +4502,7 @@ _room_cfg21:
 		.WORD	_room_objects12
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$08
+		.BYTE	_apu_mus08_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal21
 		.BYTE	$4D
@@ -4520,7 +4520,7 @@ _room_cfg22:
 		.WORD	_room_objects22
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$08
+		.BYTE	_apu_mus08_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal22
 		.BYTE	$0E
@@ -4538,7 +4538,7 @@ _room_cfg23:
 		.WORD	_room_objects23
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$08
+		.BYTE	_apu_mus08_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal22
 		.BYTE	$0E
@@ -4556,7 +4556,7 @@ _room_cfg24:
 		.WORD	_room_objects24
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$08
+		.BYTE	_apu_mus08_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal22
 		.BYTE	$0E
@@ -4574,7 +4574,7 @@ _room_cfg25:
 		.WORD	_room_objects25
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$0D
+		.BYTE	_apu_mus0D_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal21
 		.BYTE	$54
@@ -4592,7 +4592,7 @@ _room_cfg26:
 		.WORD	_room_objects26
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$09
+		.BYTE	_apu_mus09_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal26
 		.BYTE	$00
@@ -4610,7 +4610,7 @@ _room_cfg27:
 		.WORD	_room_objects27
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$09
+		.BYTE	_apu_mus09_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal26
 		.BYTE	$00
@@ -4628,7 +4628,7 @@ _room_cfg29:
 		.WORD	_room_objects28
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$09
+		.BYTE	_apu_mus09_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal26
 		.BYTE	$69
@@ -4646,7 +4646,7 @@ _room_cfg2A:
 		.WORD	_room_objects2A
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$0D
+		.BYTE	_apu_mus0D_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal2A
 		.BYTE	$62
@@ -4664,7 +4664,7 @@ _room_cfg2B:
 		.WORD	_room_objects2B
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$0C
+		.BYTE	_apu_mus0C_idx
 		.BYTE	$04,$0C
 		.WORD	_room_pal2B
 		.BYTE	$00
@@ -4682,7 +4682,7 @@ _room_cfg2C:
 		.WORD	_room_objects2C
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$0C
+		.BYTE	_apu_mus0C_idx
 		.BYTE	$04,$0C
 		.WORD	_room_pal2B
 		.BYTE	$5B
@@ -4700,7 +4700,7 @@ _room_cfg2E:
 		.WORD	_room_objects2E
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$0C
+		.BYTE	_apu_mus0C_idx
 		.BYTE	$04,$0C
 		.WORD	_room_pal2B
 		.BYTE	$69
@@ -4718,7 +4718,7 @@ _room_cfg2F:
 		.WORD	_room_objects2F
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$0C
+		.BYTE	_apu_mus0C_idx
 		.BYTE	$00,$0C
 		.WORD	_room_pal2B
 		.BYTE	$70
@@ -4736,7 +4736,7 @@ _room_cfg30:
 		.WORD	_room_objects30
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$0C
+		.BYTE	_apu_mus0C_idx
 		.BYTE	$00,$0C
 		.WORD	_room_pal2B
 		.BYTE	$00
@@ -4754,7 +4754,7 @@ _room_cfg32:
 		.WORD	_room_objects33
 		.BYTE	$1F
 		.BYTE	$F0
-		.BYTE	$0D
+		.BYTE	_apu_mus0D_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal2B
 		.BYTE	$77
@@ -4772,7 +4772,7 @@ _room_cfgB_00:
 		.WORD	_room_objects0B
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$10
+		.BYTE	_apu_mus10_idx
 		.BYTE	$00,$91
 		.WORD	_room_palB
 		.BYTE	$00
@@ -4790,7 +4790,7 @@ _room_cfg18:
 		.WORD	_room_objects18
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$1C
+		.BYTE	_apu_mus1C_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal18
 		.BYTE	$7E
@@ -4808,7 +4808,7 @@ _room_cfg09:
 		.WORD	_room_objects09
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$1C
+		.BYTE	_apu_mus1C_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal09
 		.BYTE	$00
@@ -4826,7 +4826,7 @@ _room_cfg0A:
 		.WORD	_room_objects0A
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$1C
+		.BYTE	_apu_mus1C_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal0A
 		.BYTE	$00
@@ -4844,7 +4844,7 @@ _cutscene_cfg12:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$F0
-		.BYTE	$1A
+		.BYTE	_apu_mus1A_idx
 		.BYTE	$00,$00
 		.WORD	_room_palA_12
 		.BYTE	$8C
@@ -4862,7 +4862,7 @@ _cutscene_cfg00:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$B0
-		.BYTE	$0F
+		.BYTE	_apu_mus0F_idx
 		.BYTE	$00,$00
 		.WORD	_room_palA_00
 		.BYTE	$A1
@@ -4880,7 +4880,7 @@ _cutscene_cfg01:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	$02
+		.BYTE	_apu_mus02_idx
 		.BYTE	$00,$00
 		.WORD	_room_palA_01
 		.BYTE	$8C
@@ -4898,7 +4898,7 @@ _cutscene_cfg02:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	$12
+		.BYTE	_apu_mus12_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal01
 		.BYTE	$07
@@ -4916,7 +4916,7 @@ _cutscene_cfg03:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	$17
+		.BYTE	_apu_mus17_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal01
 		.BYTE	$8C
@@ -4934,7 +4934,7 @@ _cutscene_cfg04:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	$16
+		.BYTE	_apu_mus16_idx
 		.BYTE	$00,$00
 		.WORD	_room_palA_04
 		.BYTE	$8C
@@ -4952,7 +4952,7 @@ _cutscene_cfg06:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	$15
+		.BYTE	_apu_mus15_idx
 		.BYTE	$00,$00
 		.WORD	_room_palA_06
 		.BYTE	$8C
@@ -4970,7 +4970,7 @@ _cutscene_cfg05:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	$0F
+		.BYTE	_apu_mus0F_idx
 		.BYTE	$00,$00
 		.WORD	_room_palA_05
 		.BYTE	$8C
@@ -4988,7 +4988,7 @@ _cutscene_cfg07:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	$0F
+		.BYTE	_apu_mus0F_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal13
 		.BYTE	$8C
@@ -5006,7 +5006,7 @@ _cutscene_cfg09:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	$14
+		.BYTE	_apu_mus14_idx
 		.BYTE	$00,$00
 		.WORD	_room_palA_09
 		.BYTE	$8C
@@ -5024,7 +5024,7 @@ _cutscene_cfg0A:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	$11
+		.BYTE	_apu_mus11_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal06
 		.BYTE	$8C
@@ -5042,7 +5042,7 @@ _cutscene_cfg0B:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	$15
+		.BYTE	_apu_mus15_idx
 		.BYTE	$00,$00
 		.WORD	_room_palA_0B
 		.BYTE	$8C
@@ -5060,7 +5060,7 @@ _cutscene_cfg0C:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	$0A
+		.BYTE	_apu_mus0A_idx
 		.BYTE	$00,$00
 		.WORD	_room_palA_0C
 		.BYTE	$8C
@@ -5078,7 +5078,7 @@ _cutscene_cfg0D:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	$0A
+		.BYTE	_apu_mus0A_idx
 		.BYTE	$00,$00
 		.WORD	_room_palA_0D
 		.BYTE	$8C
@@ -5096,7 +5096,7 @@ _cutscene_cfg0E:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	$12
+		.BYTE	_apu_mus12_idx
 		.BYTE	$00,$00
 		.WORD	_room_palA_0E
 		.BYTE	$8C
@@ -5114,7 +5114,7 @@ _cutscene_cfg0F:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	$18
+		.BYTE	_apu_mus18_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal2B
 		.BYTE	$8C
@@ -5132,7 +5132,7 @@ _cutscene_cfg10:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$FF
-		.BYTE	$18
+		.BYTE	_apu_mus18_idx
 		.BYTE	$00,$00
 		.WORD	_room_pal2B
 		.BYTE	$8C
@@ -5150,7 +5150,7 @@ _cutscene_cfg11:
 		.WORD	_room_objects_dummy
 		.BYTE	$1E
 		.BYTE	$4D
-		.BYTE	$19
+		.BYTE	_apu_mus19_idx
 		.BYTE	$00,$00
 		.WORD	_room_palA_11
 		.BYTE	$8C

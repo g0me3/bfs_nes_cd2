@@ -12,7 +12,7 @@ _apu_play:
 		JSR		_apu_load
 loc_98007:
 		LDY		#$06
-		LDX		_apu_mus_allow_flag
+		LDX		_apu_mus_mute_flag
 		BEQ		loc_98011
 		LDY		#$02
 		LDX		#$04
@@ -34,7 +34,7 @@ loc_98027:
 		TAY
 		DEY
 		BNE		loc_98013
-		JSR		_apu_playD
+		JSR		_apu_play_fade_out
 		JSR		_apu_playE
 		LDA		_apu_active_chnls_flags
 		ORA		_apu_chnl_flags
@@ -101,7 +101,7 @@ loc_98092:
 
 ; =============== S U B R O U T I N E =======================================
 _apu_playE:
-		LDA		_apu_mus_allow_flag
+		LDA		_apu_mus_mute_flag
 		BNE		loc_980BE
 		LDX		#$00
 loc_980AF:
@@ -202,7 +202,7 @@ _apu_playE_A_sub0_A:
 		SBC		_apu_vars1,X
 		BCC		loc_9813F
 		SEC
-		SBC		_apu_tmpFB
+		SBC		_apu_fade_value
 		BCS		loc_98141
 loc_9813F:
 		LDA		#$00
@@ -265,7 +265,7 @@ _apu_playE_A_sub1_A:
 		SBC		_apu_vars1+3
 		BCC		loc_981A5
 		SEC
-		SBC		_apu_tmpFB
+		SBC		_apu_fade_value
 		BCS		loc_981A7
 loc_981A5:
 		LDA		#$00
@@ -285,44 +285,44 @@ loc_981A7:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_apu_playD:
-		LDA		_apu_mus_allow_flag
+_apu_play_fade_out:
+		LDA		_apu_mus_mute_flag
 		BNE		nullsub2
-		LDA		_apu_snd1_allow_flag
+		LDA		_apu_fade_out_flag
 		BEQ		locret_981E4
-		LDA		_apu_tmpFB
+		LDA		_apu_fade_value
 		CMP		#$10
 		BCS		loc_981E0
-		INC		_apu_tmpFA
-		LDA		_apu_tmpFA
+		INC		_apu_fade_counter
+		LDA		_apu_fade_counter
 		CMP		#$04
 		BCC		locret_981E4
 		LDA		#$00
-		STA		_apu_tmpFA
-		INC		_apu_tmpFB
+		STA		_apu_fade_counter
+		INC		_apu_fade_value
 		BNE		locret_981E4
 loc_981E0:
 		LDA		#$00
-		STA		_apu_snd1_allow_flag
+		STA		_apu_fade_out_flag
 locret_981E4:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_apu_playF_unref:
-		LDA		_apu_snd0_allow_flag
+_apu_play_fade_in_unref:
+		LDA		_apu_fade_in_flag
 		BEQ		nullsub2
-		INC		_apu_tmpFA
-		LDA		_apu_tmpFA
+		INC		_apu_fade_counter
+		LDA		_apu_fade_counter
 		CMP		#$04
 		BCC		nullsub2
 		LDA		#$00
-		STA		_apu_tmpFA
-		LDA		_apu_tmpFB
+		STA		_apu_fade_counter
+		LDA		_apu_fade_value
 		BNE		loc_981FD
-		STA		_apu_snd0_allow_flag
+		STA		_apu_fade_in_flag
 		BEQ		nullsub2
 loc_981FD:
-		DEC		_apu_tmpFB
+		DEC		_apu_fade_value
 
 ; =============== S U B R O U T I N E =======================================
 nullsub2:
@@ -349,8 +349,8 @@ loc_9820F:
 _apu_stop_lib:
 		.WORD	_apu_mus_allow
 		.WORD	_apu_mus_mute
-		.WORD	_apu_snd1_mute_snd0_allow
-		.WORD	_apu_snd0_mute_snd1_allow
+		.WORD	_apu_mus_fade_out
+		.WORD	_apu_mus_fade_in
 		.WORD	_apu_mus_stop
 		.WORD	_apu_snd_stop
 		.WORD	_apu_all_stop
@@ -358,13 +358,13 @@ _apu_stop_lib:
 ; =============== S U B R O U T I N E =======================================
 _apu_mus_allow:
 		LDA		#$00
-		STA		_apu_mus_allow_flag
+		STA		_apu_mus_mute_flag
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _apu_mus_mute:
 		LDA		#$01
-		STA		_apu_mus_allow_flag
+		STA		_apu_mus_mute_flag
 		LDA		#$00
 		STA		_APU_PULSE1_ENV
 		STA		_APU_PULSE2_ENV
@@ -374,26 +374,26 @@ _apu_mus_mute:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_apu_snd0_mute_snd1_allow:
+_apu_mus_fade_in:
 		LDA		#$00
-		STA		_apu_snd1_allow_flag
+		STA		_apu_fade_out_flag
 		LDA		#$01
-		STA		_apu_snd0_allow_flag
+		STA		_apu_fade_in_flag
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_apu_snd1_mute_snd0_allow:
+_apu_mus_fade_out:
 		LDA		#$00
-		STA		_apu_snd0_allow_flag
+		STA		_apu_fade_in_flag
 		LDA		#$01
-		STA		_apu_snd1_allow_flag
+		STA		_apu_fade_out_flag
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _apu_mus_stop:
 		LDA		#$00
-		STA		_apu_snd0_allow_flag
-		STA		_apu_snd1_allow_flag
+		STA		_apu_fade_in_flag
+		STA		_apu_fade_out_flag
 		LDX		#$00
 		LDY		#$04
 		JMP		_apu_chnls_stop
@@ -439,10 +439,10 @@ loc_98278:
 		LDA		#$00
 		STA		_apu_tmpF3
 		LDY		#$00
-		STY		_apu_mus_allow_flag
-		STY		_apu_snd0_allow_flag
-		STY		_apu_snd1_allow_flag
-		STY		_apu_tmpFB
+		STY		_apu_mus_mute_flag
+		STY		_apu_fade_in_flag
+		STY		_apu_fade_out_flag
+		STY		_apu_fade_value
 loc_982B4:
 		TYA
 		STA		(_apu_cur_pc),Y
@@ -517,10 +517,10 @@ _apu_load_data:
 		AND		#$30
 		BNE		loc_9836C
 		LDA		#$00
-		STA		_apu_mus_allow_flag
-		STA		_apu_snd0_allow_flag
-		STA		_apu_snd1_allow_flag
-		STA		_apu_tmpFB
+		STA		_apu_mus_mute_flag
+		STA		_apu_fade_in_flag
+		STA		_apu_fade_out_flag
+		STA		_apu_fade_value
 		STA		_apu_var12
 		STA		_apu_var13
 		LDX		#$0C
@@ -1165,123 +1165,123 @@ _apu_freq_table:
 		.WORD	$0068,$0062,$005E,$0058,$0052,$004E,$004A,$0046
 		.WORD	$0042,$003E,$003A,$0036
 _apu_mus_lib:
-		.WORD	_apu_mus00
-		.WORD	_apu_mus01
-		.WORD	_apu_mus02
-		.WORD	_apu_mus03
-		.WORD	_apu_mus04
-		.WORD	_apu_mus05
-		.WORD	_apu_mus06
-		.WORD	_apu_mus07
-		.WORD	_apu_mus08
-		.WORD	_apu_mus09
-		.WORD	_apu_mus0A
-		.WORD	_apu_mus0B
-		.WORD	_apu_mus0C
-		.WORD	_apu_mus0D
-		.WORD	_apu_mus0E
-		.WORD	_apu_mus0F
-		.WORD	_apu_mus10
-		.WORD	_apu_mus11
-		.WORD	_apu_mus12
-		.WORD	_apu_mus13
-		.WORD	_apu_mus14
-		.WORD	_apu_mus15
-		.WORD	_apu_mus16
-		.WORD	_apu_mus17
-		.WORD	_apu_mus18
-		.WORD	_apu_mus19
-		.WORD	_apu_mus1A
-		.WORD	_apu_mus1B
-		.WORD	_apu_mus1C
-		.WORD	_apu_mus1D
-		.WORD	_apu_mus1E
-		.WORD	_apu_mus1F
-		.WORD	_apu_mus20
-		.WORD	_apu_mus21
-		.WORD	_apu_mus22
-		.WORD	_apu_mus23
-		.WORD	_apu_mus24
-		.WORD	_apu_mus25
-		.WORD	_apu_mus26
-		.WORD	_apu_mus27
-		.WORD	_apu_mus28
-		.WORD	_apu_mus29
-		.WORD	_apu_mus2A
-		.WORD	_apu_mus2B
-		.WORD	_apu_mus2C
-		.WORD	_apu_mus2D
-		.WORD	_apu_mus2E
-		.WORD	_apu_mus2F
-		.WORD	_apu_mus30
-		.WORD	_apu_mus31
-		.WORD	_apu_mus32
-		.WORD	_apu_mus33
-		.WORD	_apu_mus34
-		.WORD	_apu_mus35
-		.WORD	_apu_mus36
-		.WORD	_apu_mus37
-		.WORD	_apu_mus38
-		.WORD	_apu_mus39
-		.WORD	_apu_mus3A
-		.WORD	_apu_mus3B
-		.WORD	_apu_mus3C
-		.WORD	_apu_mus3D
-		.WORD	_apu_mus3E
-		.WORD	_apu_mus3F
-		.WORD	_apu_mus40
-		.WORD	_apu_mus41
-		.WORD	_apu_mus42
-		.WORD	_apu_mus43
-		.WORD	_apu_mus44
-		.WORD	_apu_mus45
-		.WORD	_apu_mus46
-		.WORD	_apu_mus47
-		.WORD	_apu_mus4A
-		.WORD	_apu_mus4A
-		.WORD	_apu_mus4A
-		.WORD	_apu_mus4B
-		.WORD	_apu_mus4D
-		.WORD	_apu_mus4D
-		.WORD	_apu_mus4E
-		.WORD	_apu_mus4F
-		.WORD	_apu_mus50
-		.WORD	_apu_mus51
-		.WORD	_apu_mus52
-		.WORD	_apu_mus53
-		.WORD	_apu_mus54
-		.WORD	_apu_mus55
-		.WORD	_apu_mus56
-		.WORD	_apu_mus57
-		.WORD	_apu_mus58
-		.WORD	_apu_mus59
-		.WORD	_apu_mus5A
-		.WORD	_apu_mus5B
-		.WORD	_apu_mus5C
-		.WORD	_apu_mus5D
-		.WORD	_apu_mus5E
-		.WORD	_apu_mus5F
-		.WORD	_apu_mus60
-		.WORD	_apu_mus61
-		.WORD	_apu_mus62
-		.WORD	_apu_mus63
-		.WORD	_apu_mus64
-		.WORD	_apu_mus65
-		.WORD	_apu_mus66
-		.WORD	_apu_mus67
-		.WORD	_apu_mus68
-		.WORD	_apu_mus69
-		.WORD	_apu_mus6A
-		.WORD	_apu_mus6B
-		.WORD	_apu_mus6C
-		.WORD	_apu_mus6D
-		.WORD	_apu_mus6E
-		.WORD	_apu_mus6F
-		.WORD	_apu_mus70
-		.WORD	_apu_mus71
-		.WORD	_apu_mus72
-		.WORD	_apu_mus73
-		.WORD	_apu_mus74
+		APU_IDX	_apu_mus_dummy
+		APU_IDX	_apu_mus01
+		APU_IDX	_apu_mus02
+		APU_IDX	_apu_mus03
+		APU_IDX	_apu_mus04
+		APU_IDX	_apu_mus05
+		APU_IDX	_apu_mus06
+		APU_IDX	_apu_mus07
+		APU_IDX	_apu_mus08
+		APU_IDX	_apu_mus09
+		APU_IDX	_apu_mus0A
+		APU_IDX	_apu_mus0B
+		APU_IDX	_apu_mus0C
+		APU_IDX	_apu_mus0D
+		APU_IDX	_apu_mus0E
+		APU_IDX	_apu_mus0F
+		APU_IDX	_apu_mus10
+		APU_IDX	_apu_mus11
+		APU_IDX	_apu_mus12
+		APU_IDX	_apu_mus13
+		APU_IDX	_apu_mus14
+		APU_IDX	_apu_mus15
+		APU_IDX	_apu_mus16
+		APU_IDX	_apu_mus17
+		APU_IDX	_apu_mus18
+		APU_IDX	_apu_mus19
+		APU_IDX	_apu_mus1A
+		APU_IDX	_apu_mus1B
+		APU_IDX	_apu_mus1C
+		APU_IDX	_apu_mus1D
+		APU_IDX	_apu_mus1E
+		APU_IDX	_apu_mus1F
+		APU_IDX	_apu_mus20
+		APU_IDX	_apu_mus21		; unused, unknown win jingle
+		APU_IDX	_apu_mus22
+		APU_IDX	_apu_mus23
+		APU_IDX	_apu_mus24
+		APU_IDX	_apu_mus25
+		APU_IDX	_apu_mus26
+		APU_IDX	_apu_mus27
+		APU_IDX	_apu_mus28
+		APU_IDX	_apu_mus29
+		APU_IDX	_apu_mus2A		; unused, unknown back off sound
+		APU_IDX	_apu_mus2B
+		APU_IDX	_apu_mus2C
+		APU_IDX	_apu_mus2D
+		APU_IDX	_apu_mus2E
+		APU_IDX	_apu_mus2F
+		APU_IDX	_apu_mus30
+		APU_IDX	_apu_mus31
+		APU_IDX	_apu_mus32
+		APU_IDX	_apu_mus33		; unused, unknown prize sound
+		APU_IDX	_apu_mus34
+		APU_IDX	_apu_mus35
+		APU_IDX	_apu_mus36
+		APU_IDX	_apu_mus37
+		APU_IDX	_apu_mus38
+		APU_IDX	_apu_mus39
+		APU_IDX	_apu_mus3A
+		APU_IDX	_apu_mus3B
+		APU_IDX	_apu_mus3C
+		APU_IDX	_apu_mus3D
+		APU_IDX	_apu_mus3E
+		APU_IDX	_apu_mus3F
+		APU_IDX	_apu_mus40
+		APU_IDX	_apu_mus41
+		APU_IDX	_apu_mus42		; unused, unknown short bounce sound
+		APU_IDX	_apu_mus43
+		APU_IDX	_apu_mus44
+		APU_IDX	_apu_mus45
+		APU_IDX	_apu_mus46
+		APU_IDX	_apu_mus47
+		APU_IDX	_apu_mus4A
+		APU_IDX	_apu_mus4A
+		APU_IDX	_apu_mus4A
+		APU_IDX	_apu_mus4B
+		APU_IDX	_apu_mus4D
+		APU_IDX	_apu_mus4D
+		APU_IDX	_apu_mus4E
+		APU_IDX	_apu_mus4F
+		APU_IDX	_apu_mus50
+		APU_IDX	_apu_mus51
+		APU_IDX	_apu_mus52
+		APU_IDX	_apu_mus53
+		APU_IDX	_apu_mus54
+		APU_IDX	_apu_mus55
+		APU_IDX	_apu_mus56
+		APU_IDX	_apu_mus57
+		APU_IDX	_apu_mus58
+		APU_IDX	_apu_mus59
+		APU_IDX	_apu_mus5A
+		APU_IDX	_apu_mus5B
+		APU_IDX	_apu_mus5C
+		APU_IDX	_apu_mus5D
+		APU_IDX	_apu_mus5E
+		APU_IDX	_apu_mus5F
+		APU_IDX	_apu_mus60
+		APU_IDX	_apu_mus61
+		APU_IDX	_apu_mus62
+		APU_IDX	_apu_mus63
+		APU_IDX	_apu_mus64
+		APU_IDX	_apu_mus65
+		APU_IDX	_apu_mus66
+		APU_IDX	_apu_mus67
+		APU_IDX	_apu_mus68
+		APU_IDX	_apu_mus69
+		APU_IDX	_apu_mus6A
+		APU_IDX	_apu_mus6B
+		APU_IDX	_apu_mus6C
+		APU_IDX	_apu_mus6D
+		APU_IDX	_apu_mus6E
+		APU_IDX	_apu_mus6F
+		APU_IDX	_apu_mus70
+		APU_IDX	_apu_mus71
+		APU_IDX	_apu_mus72
+		APU_IDX	_apu_mus73
+		APU_IDX	_apu_mus74
 _apu_mus22:
 		.BYTE	$10
 		.WORD	_apu_mus22_A
@@ -2922,7 +2922,7 @@ _apu_mus74_B:
 		DO_LOOP
 		DATA	$C0
 		ASTOP
-_apu_mus00:
+_apu_mus_dummy:
 		.BYTE	0
 _apu_chnl_data_dummy:
 		.BYTE	$C0,$C0,$FF

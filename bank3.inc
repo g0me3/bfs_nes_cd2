@@ -838,16 +838,16 @@ loc_52300:
 		LDA		#$00							; set the object type by it's idx group
 		STA		byte_6
 		LDA		byte_97
-		LDY		#_OBJ_SCR_AUTO					; objects 00-06 are _OBJ_SCR_AUTO
+		LDY		#_OBJ_TYPE_AUTO					; objects 00-06 are _OBJ_TYPE_AUTO
 		CMP		#[_obj_scr06_light_toggle_idx+1]
 		BCC		loc_52360
-		LDY		#_OBJ_SCR_SOLID					; objects 07-18 are _OBJ_SCR_SOLID
+		LDY		#_OBJ_TYPE_SOLID					; objects 07-18 are _OBJ_TYPE_SOLID
 		CMP		#[_obj_scr18_ceiling_cannon_idx+1]
 		BCC		loc_52360
-		LDY		#_OBJ_SCR_GRAB					; objects 19-23 are _OBJ_SCR_GRAB
+		LDY		#_OBJ_TYPE_TRIGGER					; objects 19-23 are _OBJ_TYPE_TRIGGER
 		CMP		#[_obj_scr23_lvl4_box_bonus_entry_idx+1]
 		BCC		loc_52360
-		LDY		#_OBJ_SCR_ENEMY					; objects 24-46 are _OBJ_SCR_ENEMY
+		LDY		#_OBJ_TYPE_ENEMY					; objects 24-46 are _OBJ_TYPE_ENEMY
 loc_52360:
 		JMP		_scr_load
 
@@ -857,15 +857,15 @@ loc_52360:
 		ENDM
 
 _obj_lib:
-		; _OBJ_SCR_AUTO group
+		; _OBJ_TYPE_AUTO group
 		OBJ_IDX	_obj_scr00_lives_bonus			; end of level bonus room
 		OBJ_IDX	_obj_scr01_box_bonus			; box shuffle bonus room
 		OBJ_IDX	_obj_scr02_coins_game
 		OBJ_IDX	_obj_scr03_basket_game
-		OBJ_IDX	_obj_scr04_cave_pendulum		; oddly enough it's in _OBJ_SCR_AUTO group
+		OBJ_IDX	_obj_scr04_cave_pendulum		; oddly enough it's in _OBJ_TYPE_AUTO group
 		OBJ_IDX	_obj_scr05_door_knob
 		OBJ_IDX	_obj_scr06_light_toggle
-		; _OBJ_SCR_SOLID group
+		; _OBJ_TYPE_SOLID group
 		OBJ_IDX	_obj_scr07_concrete_brick
 		OBJ_IDX	_obj_scr08_cdv_bottle_cork
 		OBJ_IDX	_obj_scr09_sink_valve
@@ -884,7 +884,7 @@ _obj_lib:
 		OBJ_IDX	_obj_scr16_floor_switch
 		OBJ_IDX	_obj_scr17_ceiling_magnet
 		OBJ_IDX	_obj_scr18_ceiling_cannon
-		; _OBJ_SCR_GRAB group
+		; _OBJ_TYPE_TRIGGER group
 		OBJ_IDX	_obj_scr19						; two special cases, objects with no
 		OBJ_IDX	_obj_scr1A						; scripts, pointer is $0000 here
 		OBJ_IDX	_obj_scr1B_monterey_refill
@@ -896,7 +896,7 @@ _obj_lib:
 		OBJ_IDX	_obj_scr21_lvl_exit_right
 		OBJ_IDX	_obj_scr22_lvl5C_box_bonus_entry; TODO, REMOVE ME. both refers the same
 		OBJ_IDX	_obj_scr23_lvl4_box_bonus_entry	;  handler but different indexes
-		; _OBJ_SCR_ENEMY group
+		; _OBJ_TYPE_ENEMY group
 		OBJ_IDX	_obj_scr24_spoon_rat
 		OBJ_IDX	_obj_scr25_fork_rat
 		OBJ_IDX	_obj_scr26_fake_boxA

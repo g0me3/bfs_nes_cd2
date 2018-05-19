@@ -347,15 +347,15 @@ _apu_cur_pc:
 		.BYTE	0,0
 _apu_tmpF7:
 		.BYTE	0
-_apu_snd0_allow_flag:
+_apu_fade_in_flag:
 		.BYTE	0
-_apu_snd1_allow_flag:
+_apu_fade_out_flag:
 		.BYTE	0
-_apu_tmpFA:
+_apu_fade_counter:
 		.BYTE	0
-_apu_tmpFB:
+_apu_fade_value:
 		.BYTE	0
-_apu_mus_allow_flag:
+_apu_mus_mute_flag:
 		.BYTE	0
 _apu_tmpFD:
 		.BYTE	0
@@ -428,6 +428,14 @@ _scr_loopsB:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _scr_idxBs:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
+; 80 - sprite show
+; 40 -
+; 20 -
+; 10 -
+; 08 -
+; 04 -
+; 02 -
+; 01 -
 _scr_params:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _obj_y_lo_poss:
@@ -442,6 +450,14 @@ _obj_spr_libs:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _obj_spr_idxs:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
+; 80 - vertical flip
+; 40 - horizontal flip
+; 20 - background priority
+; 10 - blinking
+; 08 -
+; 04 -
+; 02 -
+; 01 -
 _obj_flips:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _obj_x_deltas:

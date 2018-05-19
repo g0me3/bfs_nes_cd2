@@ -668,7 +668,7 @@ _lvl8_scrolls:
 		.BYTE	$00,$00,$00,$00,$80,$80,$00,$00
 		.BYTE	$80,$80,$80,$80,$10,$00,$00,$00
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _obj_scr_insert:
 		LDA		byte_97
 		CMP		#$1A
@@ -2537,7 +2537,7 @@ _room_spr_pal_lib:
 		.BYTE	$10,$0F,$20,$21,$0F,$20,$29
 		.BYTE	$10,$0F,$07,$0F,$0F,$0F,$0F
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_handlers:
 		LDA		_ingame_mode_idx
 		BNE		nullsub12
@@ -2564,73 +2564,73 @@ _pal_anim_handlers:
 		.WORD	_pal_anim_mode12
 		.WORD	_pal_anim_mode13
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_reset:
 		LDA		#$00
 		STA		_pal_anim_mode_idx
 		STA		_pal_anim_cnt
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 nullsub12:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode0A:
 		LDA		#$05
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_inc:
 		JSR		_pal_anim_timer_test
 		BCS		nullsub12
 		JSR		_inc_pal_anim_cnt
 		JMP		_pal_anim_update
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode0B:
 		LDA		#$05
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_dec:
 		JSR		_pal_anim_timer_test
 		BCS		nullsub12
 		JSR		_dec_pal_anim_cnt
 		JMP		_pal_anim_update
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode01:
 		LDA		#$03
 		BNE		_pal_anim_dec
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode02:
 		LDA		#$05
 loc_53560:
 		BNE		_pal_anim_dec
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode11:
 		LDA		#$05
 		BNE		_pal_anim_dec
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode0C:
 		JSR		_pal_anim_tbl
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode0D:
 		LDA		#$03
 		JMP		_pal_anim_dec
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode0E:
 		JSR		_pal_anim_tbl
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode0F:
 		LDA		#$03
 		JMP		_pal_anim_inc
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_tbl:
 		LDY		_pal_anim_tbl_pos
 		LDA		_pal_anim_tbl_cnt
@@ -2654,7 +2654,7 @@ _pal_anim_tbl_val:
 _pal_anim_tbl_delay:
 		.BYTE	$01,$10,$01,$04,$01,$0A,$01,$08
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode03:
 		LDA		#$07
 		JSR		_pal_anim_timer_test
@@ -2668,7 +2668,7 @@ _pal_anim_mode03:
 locret_535B7:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode04:
 		LDA		#$09
 		JSR		_pal_anim_timer_test
@@ -2681,13 +2681,13 @@ _pal_anim_mode04:
 locret_535CE:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode05:
 		LDA		#$10
 		STA		_pal_anim_cnt
 		INC		_pal_anim_mode_idx
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode06:
 		LDA		#$05
 		JSR		_pal_anim_timer_test
@@ -2703,13 +2703,13 @@ _pal_anim_mode06:
 locret_535ED:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode07:
 		LDA		#$30
 		STA		_pal_anim_cnt
 		INC		_pal_anim_mode_idx
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode08:
 		LDA		#$05
 		JSR		_pal_anim_timer_test
@@ -2724,7 +2724,7 @@ _pal_anim_mode08:
 locret_5360A:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _room_pal_update:
 		LDY		_pal_anim_cnt
 		LDX		#$00
@@ -2738,7 +2738,7 @@ loc_5360F:
 		BCC		loc_5360F
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode09:
 		LDA		#$02
 		JSR		_pal_anim_timer_test
@@ -2759,13 +2759,13 @@ loc_53635:
 locret_53641:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode12:
 		INC		_pal_anim_mode_idx
 		LDX		#$93
 		JMP		_room_spr_pal_flush
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode13:
 		LDA		_pal_anim_cnt
 		INC		_pal_anim_cnt
@@ -2784,13 +2784,13 @@ _pal_anim_mode13:
 _pal_anim_tbl2:
 		.BYTE	$01,$38,$01
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_mode10:
 		LDX		#$9A
 		JSR		_room_spr_pal_flush
 		JMP		_pal_anim_reset
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_timer_test:
 		INC		_pal_anim_timer
 		CMP		_pal_anim_timer
@@ -2800,7 +2800,7 @@ _pal_anim_timer_test:
 locret_5367B:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _dec_pal_anim_cnt:
 		LDA		_pal_anim_cnt
 		BNE		loc_53684
@@ -2812,7 +2812,7 @@ loc_53684:
 		AND		#$03
 		JMP		loc_53699
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _inc_pal_anim_cnt:
 		INC		_pal_anim_cnt
 		LDA		_pal_anim_cnt
@@ -2825,7 +2825,7 @@ loc_53699:
 		TAY
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _pal_anim_update:
 		LDX		#$0D
 loc_5369F:

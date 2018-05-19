@@ -8,9 +8,6 @@ echo assemble...
 
 for %%f in (*.nas) do call :dodasm %%f > NUL
 
-dasm hdr.nas -f3 -o!cd2.hdr > NUL
-dasm chr.nas -f3 -o!cd2.chr > NUL
-
 goto :build
 
 :dodasm
@@ -19,6 +16,10 @@ goto :eof
 
 :build
 echo build...
+
+rename hdr.bin !cd2.hdr > NUL
+rename chr.bin !cd2.chr > NUL
+
 copy /b bank0.bin+bank1.bin+bank2.bin+bank3.bin+bank4.bin+bank5.bin+bank6.bin+bank7.bin !cd2.prg > NUL
 
 nesimage j !cd2 > NUL

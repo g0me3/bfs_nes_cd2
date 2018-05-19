@@ -725,7 +725,7 @@ _msg_dict74:
 		.BYTE	$3E,$3A,$FE
 _msg_dict75:
 		.BYTE	$2C,$2C,$FE
-byte_39941:
+_msg_000:
 		.BYTE	$87,$FE,$23,$52,$3A,$38,$43,$36,$45,$10,$12,$3C,$45,$45,$3A,$3B
 		.BYTE	$EB,$31,$FD,$20,$48,$45,$43,$38,$3A,$C7,$FE,$E5,$E8,$3E,$47,$3B
 		.BYTE	$48,$3E,$47,$88,$B7,$FE,$49,$3A,$38,$3A,$43,$3D,$E7,$10,$E5,$37
@@ -733,22 +733,22 @@ byte_39941:
 		.BYTE	$BA,$3B,$43,$EE,$AA,$C6,$FE,$DF,$41,$48,$3C,$47,$39,$E6,$BA,$49
 		.BYTE	$3A,$4A,$3B,$36,$3C,$49,$36,$47,$3B,$FE,$A3,$DF,$39,$3A,$4A,$3B
 		.BYTE	$49,$48,$54,$E7,$2C,$FD,$FF
-byte_399A8:
+_msg_001:
 		.BYTE	$BB,$31,$FE,$AE,$10,$10,$11,$A1,$37,$48,$46,$37,$0A,$FD,$FF
-byte_399B7:
+_msg_002:
 		.BYTE	$9E,$31,$FE,$BB,$D2,$C4,$10,$D3,$ED,$0F,$FD,$FF
-byte_399C3:
+_msg_003:
 		.BYTE	$BB,$31,$FE,$91,$E5,$3B,$43,$EE,$AA,$FE,$EB,$10,$E5,$49,$3A,$4A
 		.BYTE	$3B,$36,$3C,$49,$36,$47,$3B,$8C,$0A,$FD,$27,$3A,$C8,$50,$48,$3B
 		.BYTE	$E0,$10,$41,$EB,$39,$10,$ED,$0A,$FD,$FF
-byte_399ED:
+_msg_004:
 		.BYTE	$9E,$31,$FE,$AF,$D3,$36,$47,$10,$3A,$EE,$49,$50,$3A,$47,$38,$54
 		.BYTE	$0A,$FD,$85,$3B,$48,$10,$DD,$3B,$3A,$0A,$FE,$9A,$50,$48,$E6,$1D
 		.BYTE	$36,$3B,$3A,$4A,$0A,$FD,$FF
-byte_39A14:
+_msg_005:
 		.BYTE	$BB,$31,$FE,$27,$3A,$C8,$50,$48,$3B,$10,$E5,$37,$48,$46,$37,$E0
 		.BYTE	$10,$41,$EB,$39,$0A,$FD,$FF
-byte_39A2B:
+_msg_006:
 		.BYTE	$9E,$31,$FE,$27,$3A,$B9,$50,$48,$10,$36,$E9,$36,$39,$FE,$3B,$48
 		.BYTE	$10,$EB,$3D,$3A,$4A,$3B,$43,$50,$36,$3B,$3A,$0A,$FD,$BF,$C9,$10
 		.BYTE	$3C,$4A,$FE,$CA,$F4,$B9,$50,$43,$3D,$3A,$CE,$FE,$CB,$38,$D6,$4A
@@ -1109,25 +1109,25 @@ byte_3A710:
 byte_3A72C:
 		.BYTE	$01,$00
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub06_B_A:
 		LDA		#$04
 		STA		_players_vars0A,X
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub04_A:
 		LDA		#$03
 		STA		_players_vars0A,X
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub0A_B:
 		LDA		#$00
 		STA		_players_vars0A,X
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_obj_insert:
 		LDA		_obj_x_lo_poss,X
 		STA		_players_x_poss,X
@@ -1179,7 +1179,7 @@ loc_3A7A5:
 		STA		_players_states,X
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_manager:
 		LDX		_scr_idx
 		BNE		locret_3A7DC
@@ -1211,7 +1211,7 @@ loc_3A7CB:
 locret_3A7DC:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB:
 		LDA		_obj_heigts,X
 		BEQ		_j_players_animB_sub0129
@@ -1248,11 +1248,11 @@ loc_3A7F1:
 		.WORD	_players_animB_sub0129
 		.WORD	_players_animB_subA
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _j_players_animB_sub0129:
 		JMP		_players_animB_sub0129
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub3:
 		JSR		_players_animB_sub0129_F_sub2_A_A
 		BMI		_j_players_animB_sub0129
@@ -1293,14 +1293,14 @@ _players_animB_sub3:
 		JSR		_players_animB_sub0129_F_sub2_B
 		JMP		_players_animB_sub0129
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub58:
 		LDX		_scr_idx
 		LDA		_scr_vars1E,X
 		AND		#$20
 		BNE		_players_animB_sub0129
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub3_A:
 		JSR		_players_animB_sub3_B
 		LDA		#$00
@@ -1309,7 +1309,7 @@ _players_animB_sub3_A:
 		STA		_players_states,X
 		BNE		_players_animB_sub0129
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub67:
 		LDX		_scr_idx
 		LDA		_scr_vars1C,X
@@ -1327,7 +1327,7 @@ _players_animB_sub67:
 		STA		_players_vars07,X
 		BNE		_players_animB_sub0129
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_subA:
 		LDX		_scr_idx
 		LDY		_scr_idxAs,X
@@ -1336,7 +1336,7 @@ _players_animB_subA:
 		LDA		_scr_idx
 		STA		_scr_idxAs,Y
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129:
 		LDX		_scr_idx
 		LDA		_players_vars07,X
@@ -1537,22 +1537,22 @@ loc_3AA36:
 		LDA		#$80
 		STA		_stage_flags
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 nullsub10:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub00:
 		JSR		_players_animB_sub0129_sub00_A
 		BCS		_players_animB_sub0129_sub01_B
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub02_A:
 		LDX		_scr_idx
 		LDA		#$14
 		STA		_players_anim_idxs,X
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub0A_A:
 		LDA		#$00
 		STA		_obj_y_deltas,X
@@ -1560,13 +1560,13 @@ _players_animB_sub0129_sub0A_A:
 		STA		_players_states,X
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub01:
 		JSR		_players_animB_sub0129_sub01_A
 		BCS		_players_animB_sub0129_sub01_B
 		JMP		_players_animB_sub0129_sub01_C
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub01_B:
 		LDA		#$72
 		JSR		_apu_se_req
@@ -1578,7 +1578,7 @@ _players_animB_sub0129_sub01_B:
 		STA		_players_anim_idxs,X
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub02:
 		JSR		_players_animB_sub0129_sub00_A
 		BCC		_players_animB_sub0129_sub02_A
@@ -1600,7 +1600,7 @@ loc_3AA97:
 		AND		#$20
 		BEQ		_players_animB_sub0129_sub02_D
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub02_C:
 		LDA		#$03
 		STA		_players_states,X
@@ -1608,7 +1608,7 @@ _players_animB_sub0129_sub02_C:
 		STA		_players_vars0B,X
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub03:
 		JSR		_players_animB_sub0129_sub00_A
 		BCC		_players_animB_sub0129_sub02_A
@@ -1629,11 +1629,11 @@ _players_animB_sub0129_sub03:
 		BCS		nullsub11
 		JMP		_players_animB_sub0129_sub02_A
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 nullsub11:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub02_D:
 		LDA		#$05
 		STA		_players_states,X
@@ -1643,14 +1643,14 @@ _players_animB_sub0129_sub02_D:
 		STA		_players_vars0B,X
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub04:
 		LDX		_scr_idx
 		LDA		#$00
 		STA		_players_anim_idxs,X
 		JMP		_players_animB_sub0129_sub04_A
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub05:
 		JSR		_players_animB_sub0129_sub00_A
 		BCS		loc_3AAF3
@@ -1676,7 +1676,7 @@ loc_3AB08:
 		BEQ		_players_animB_sub0129_sub02_D
 		JMP		loc_3AB70
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub06:
 		LDX		_scr_idx
 		LDA		_obj_flips,X
@@ -1686,7 +1686,7 @@ _players_animB_sub0129_sub06:
 		INC		_players_states,X
 		JSR		_players_animB_sub0129_sub06_A
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub07:
 		LDX		_scr_idx
 		LDA		_obj_vars0D,X
@@ -1735,7 +1735,7 @@ loc_3AB72:
 		STA		_players_anim_idxs,X
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub02_B:
 		LDX		_scr_idx
 		LDA		#$92
@@ -1746,7 +1746,7 @@ _players_animB_sub0129_sub02_B:
 		STA		_players_anim_idxs,X
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub08:
 		JSR		_players_animB_sub0129_sub08_A
 		BEQ		loc_3ABC6
@@ -1755,20 +1755,20 @@ _players_animB_sub0129_sub08:
 		BEQ		loc_3ABC6
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub09:
 		LDX		_scr_idx
 		LDA		#$1A
 		STA		_players_anim_idxs,X
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub09_A:
 		LDA		#$B0
 		STA		_obj_y_deltas,X
 		LDA		#$0A
 		STA		_players_states,X
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub0A:
 		JSR		_players_animB_sub0129_sub08_A
 		BEQ		loc_3ABB3
@@ -1789,7 +1789,7 @@ loc_3ABC6:
 loc_3ABCE:
 		JMP		_players_animB_sub0129_sub02_D
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub06_B:
 		LDA		#$00
 		STA		_players_vars0F,X
@@ -1823,7 +1823,7 @@ loc_3AC00:
 		AND		#$7F
 		STA		_obj_flips,X
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub0B:
 		LDX		_scr_idx
 		LDA		_players_vars0E,X
@@ -1856,7 +1856,7 @@ loc_3AC38:
 		STA		_players_vars0B,X
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub0C:
 		LDX		_scr_idx
 		DEC		_players_vars0B,X
@@ -1868,7 +1868,7 @@ loc_3AC57:
 		INC		_players_states,X
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub0D:
 		JSR		_players_animB_sub0129_sub00_A
 		BCS		loc_3AC6A
@@ -1881,7 +1881,7 @@ loc_3AC6A:
 		LDA		#$00
 		STA		_obj_y_deltas,X
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub0E:
 		LDA		#$26
 		JSR		_apu_se_req
@@ -1894,7 +1894,7 @@ _players_animB_sub0129_sub0E:
 		STA		_players_anim_idxs,X
 		JSR		_players_animB_sub0129_sub0E_A
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub0F:
 		LDX		_scr_idx
 		LDA		_obj_y_deltas,X
@@ -1921,7 +1921,7 @@ loc_3ACAF:
 		JSR		_players_animB_sub0129_sub06_A
 		JMP		_players_animB_sub0129_sub02_D
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub3_B:
 		LDA		#$F8
 		STA		_obj_x_deltas,X
@@ -1932,7 +1932,7 @@ _players_animB_sub3_B:
 		STA		_obj_flips,X
 		JMP		_scr_param_80_clear
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub10:
 		LDX		_scr_idx
 		LDA		_pads,X
@@ -1945,7 +1945,7 @@ loc_3ACDB:
 		JSR		_players_animB_sub0129_sub0A_B
 		JMP		_players_animB_sub0129_sub02_D
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub11:
 		JSR		_players_animB_sub0129_sub11_A
 		JSR		_players_animB_sub0129_sub11_B
@@ -1955,7 +1955,7 @@ _players_animB_sub0129_sub11:
 		INC		_players_states,X
 		BNE		loc_3AD13
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub12:
 		JSR		_players_animB_sub0129_sub11_A
 		JSR		_players_animB_sub0129_sub0A_B
@@ -1997,7 +1997,7 @@ loc_3AD2D:
 locret_3AD3A:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub11_A:
 		LDX		_scr_idx
 		LDA		_obj_y_deltas,X
@@ -2011,7 +2011,7 @@ loc_3AD48:
 		STA		_obj_y_deltas,X
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub12_A:
 		CLC
 		LDA		_obj_y_deltas,X
@@ -2023,7 +2023,7 @@ loc_3AD5A:
 locret_3AD5D:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub13:
 		LDX		_scr_idx
 		LDA		#$00
@@ -2039,7 +2039,7 @@ _players_animB_sub0129_sub13:
 loc_3AD78:
 		JMP		_players_animB_sub0129_sub00_A
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub15:
 		LDX		_scr_idx
 		DEC		_obj_y_lo_poss,X
@@ -2049,7 +2049,7 @@ _players_animB_sub0129_sub15:
 		BCS		loc_3AD9D
 		INC		_players_states,X
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub16:
 		LDX		_scr_idx
 		INC		_obj_y_lo_poss,X
@@ -2105,7 +2105,7 @@ loc_3ADE9:
 		JSR		_players_animB_sub0129_sub0A_B
 		JMP		_players_animB_sub0129_sub02_D
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub17:
 		LDX		_scr_idx
 		DEC		_players_vars0B,X
@@ -2187,7 +2187,7 @@ loc_3AE90:
 		STA		_players_vars0F,X
 		JMP		_players_animB_sub0129_sub02_D
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_B:
 		LDX		_scr_idx
 		LDA		_obj_y_hi_poss,X
@@ -2212,11 +2212,11 @@ loc_3AEC6:
 locret_3AECA:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_obj_insert_A:
 		LDA		#$18
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_obj_insert_ex:
 		STA		_players_states,X
 		LDA		#$02
@@ -2229,7 +2229,7 @@ _players_obj_insert_ex:
 		CLC
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub16_E:
 		STX		_tmp_ptrE
 		LDY		#$0B
@@ -2264,7 +2264,7 @@ loc_3AF16:
 locret_3AF1A:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub03_A:
 		SEC
 		LDY		#$32
@@ -2311,7 +2311,7 @@ loc_3AF64:
 		STA		_players_anim_idxs,X
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub00_A:
 		CLC
 		LDX		_scr_idx
@@ -2351,7 +2351,7 @@ loc_3AF96:
 		.WORD	_players_animB_sub0129_sub05_A_sub4
 		.WORD	_players_animB_sub0129_sub05_A_sub5
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub05_A_sub2:
 		LDA		_tmp_ptr4
 		CMP		#$F4
@@ -2378,7 +2378,7 @@ loc_3AFCA:
 loc_3AFD4:
 		JMP		_players_animB_sub0129_sub05_A_sub0
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub05_A_sub1:
 		LDA		#<[byte_3B049]
 		STA		_tmp_ptr0
@@ -2388,7 +2388,7 @@ _players_animB_sub0129_sub05_A_sub1:
 		LDY		#$07
 		BNE		_players_animB_sub0129_sub05_A_ex0
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub05_A_sub3:
 		LDA		#<[byte_3B03D]
 		STA		_tmp_ptr0
@@ -2398,25 +2398,25 @@ _players_animB_sub0129_sub05_A_sub3:
 		LDY		#$0B
 		BNE		_players_animB_sub0129_sub05_A_ex0
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub05_A_sub4:
 		LDA		#<[byte_3B025]
 		LDY		#>[byte_3B025]
 		JMP		_players_animB_sub0129_sub05_A_ex1
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub05_A_sub5:
 		LDA		#<[byte_3B031]
 		LDY		#>[byte_3B031]
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub05_A_ex1:
 		STA		_tmp_ptr0
 		STY		_tmp_ptr0+1
 		LDA		#$18
 		LDY		#$0B
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub05_A_ex0:
 		STA		_tmp_ptr2
 		LDA		_tmp_ptr4
@@ -2437,9 +2437,9 @@ loc_3B013:
 		SBC		_tmp_ptr2
 		STA		_players_x_shifs,X
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub05_A_sub0:
-		PLA		; [code] used as data at a000
+		PLA	; [code] used as data at a000
 		SEC
 		RTS
 byte_3B025:
@@ -2451,7 +2451,7 @@ byte_3B03D:
 byte_3B049:
 		.BYTE	$B0,$B2,$B1,$CE,$FA,$F2,$FB,$F3
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub01_A:
 		LDX		_scr_idx
 		CLC
@@ -2464,7 +2464,7 @@ loc_3B05F:
 		STA		_obj_y_deltas,X
 		JMP		_players_animB_sub0129_sub12_A_A
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub08_A:
 		LDX		_scr_idx
 		JSR		_players_animB_sub0129_sub12_A_B
@@ -2480,7 +2480,7 @@ loc_3B077:
 locret_3B07C:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub01_C:
 		LDX		_scr_idx
 		LDA		_players_vars07,X
@@ -2491,7 +2491,7 @@ _players_animB_sub0129_sub01_C:
 locret_3B089:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_A:
 		LDA		#$25
 		JSR		_apu_se_req
@@ -2513,7 +2513,7 @@ loc_3B0AA:
 		STA		_players_vars07,X
 		JMP		_players_animB_sub0129_sub06_A
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_A_A:
 		LDA		#$40
 		STA		_players_vars0F,X
@@ -2521,7 +2521,7 @@ _players_animB_sub0129_A_A:
 		JSR		_scr_param_10_set
 		JMP		_scr_param_4_set
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_E_sub2_A:
 		LDY		_tmp_ptr4
 		LDA		byte_E3
@@ -2542,7 +2542,7 @@ loc_3B0D5:
 locret_3B0E0:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_E:
 		JSR		_players_animB_sub0129_E_A
 		STA		_players_vars0E,X
@@ -2553,7 +2553,7 @@ _players_animB_sub0129_E:
 		.WORD	_players_animB_sub0129_E_sub2
 		.WORD	_players_animB_sub0129_E_sub2
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_E_sub2:
 		JSR		_players_animB_sub0129_E_sub2_A
 		BNE		loc_3B112
@@ -2573,7 +2573,7 @@ _players_animB_sub0129_E_sub2:
 loc_3B112:
 		JMP		loc_3B146
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_F:
 		JSR		_players_animB_sub0129_F_A
 		STA		_players_vars0E,X
@@ -2584,7 +2584,7 @@ _players_animB_sub0129_F:
 		.WORD	_players_animB_sub0129_F_sub2
 		.WORD	_players_animB_sub0129_F_sub2
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_F_sub2:
 		JSR		_players_animB_sub0129_E_sub2_A
 		BNE		loc_3B146
@@ -2622,11 +2622,11 @@ loc_3B169:
 		LDA		#$52
 		JSR		_apu_se_req
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 nullsub7:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_E_sub1:
 		JSR		_players_animB_sub0129_F_sub2_A
 		BEQ		nullsub8
@@ -2652,16 +2652,16 @@ _players_animB_sub0129_E_sub1:
 		.WORD	_players_animB_sub0129_E_sub1_sub0023467
 		.WORD	_players_animB_sub0129_E_sub1_sub0023467
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 nullsub8:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_E_sub1_sub1:
 		JSR		_sys_room_draw_sub03
 		JMP		_players_animB_sub0129_E_sub1_sub1_A
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_E_sub1_sub0023467:
 		JSR		_sys_room_draw_sub00
 		LDA		_tmp_ptr4
@@ -2700,12 +2700,12 @@ loc_3B1BC:
 		LDY		#$0A
 		JSR		_scr_load
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_E_sub1_sub0023467_A:
 		PLA
 		STA		_tmp_ptr4
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_E_sub1_sub1_A:
 		LDA		_tmp_ptr4
 		ASL
@@ -2758,7 +2758,7 @@ off_3B23E:
 		.WORD	_script47
 		.WORD	_script47
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_F_sub2_A:
 		LDX		_scr_idx
 		LDA		_pads+4,X
@@ -2781,7 +2781,7 @@ loc_3B272:
 		LDA		#$00
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_F_sub2_A_A:
 		LDA		_room_flags
 		AND		#$08
@@ -2790,7 +2790,7 @@ _players_animB_sub0129_F_sub2_A_A:
 locret_3B27D:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_F_sub2_B:
 		LDX		_scr_idx
 		TYA
@@ -2808,7 +2808,7 @@ _players_animB_sub0129_F_sub2_B:
 		STA		_obj_flips,Y
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub11_B:
 		LDA		_obj_vars0D,X
 		AND		#$40
@@ -2820,7 +2820,7 @@ loc_3B2A6:
 		STA		_pads,X
 		STA		_pads+4,X
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_C:
 		LDA		_players_states,X
 		CMP		#$05
@@ -2948,7 +2948,7 @@ loc_3B3A7:
 		LDX		_scr_idx
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_D:
 		LDX		_scr_idx
 		LDA		_pads,X
@@ -2995,7 +2995,7 @@ byte_3B40F:
 		.BYTE	$1A,$0B,$04,$04,$00,$8C,$00,$88,$00,$84,$00,$80,$00,$81,$00,$82
 		.BYTE	$00,$84,$00,$82,$00,$80,$00,$80,$96,$96
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animC:
 		LDA		_room_flags
 		AND		#$03
@@ -3105,7 +3105,7 @@ loc_3B4EF:
 		LDY		#$00
 		JMP		_sys_scroll_sub00
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animC_A:
 		JSR		_get_cur_room_scroll_flag
 		LDA		byte_B0
@@ -3254,7 +3254,7 @@ locret_3B5FA:
 locret_3B5FB:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animC_A_C:
 		LDA		_players_lives,X
 		BEQ		loc_3B622
@@ -3280,7 +3280,7 @@ loc_3B622:
 		CLC
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animC_A_A:
 		LDA		_players_lives,X
 		BEQ		loc_3B644
@@ -3303,7 +3303,7 @@ loc_3B644:
 		CLC
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animC_A_B:
 		LDA		_players_lives,X
 		BEQ		loc_3B669
@@ -3327,7 +3327,7 @@ loc_3B669:
 		CLC
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animA:
 		LDX		byte_AB
 		LDA		#$FF
@@ -3467,7 +3467,7 @@ loc_3B721:
 		JSR		_apu_se_req
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_C_A:
 		LDY		#$05
 		LDA		#$00
@@ -3563,7 +3563,7 @@ loc_3B7E3:
 locret_3B808:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_C_B:
 		LDY		#$05
 loc_3B80B:
@@ -3579,7 +3579,7 @@ loc_3B816:
 locret_3B81A:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub12_A_B:
 		LDX		_scr_idx
 		LDA		_obj_heigts,X
@@ -3632,7 +3632,7 @@ loc_3B872:
 loc_3B888:
 		JMP		_players_animB_sub0129_sub12_A_B_D
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub12_A_A:
 		LDX		_scr_idx
 		CLC
@@ -3656,7 +3656,7 @@ loc_3B8AE:
 		BCC		_players_animB_sub0129_sub05_A_B
 		JSR		_players_animB_sub0129_sub12_A_A_A
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub05_A_B:
 		INC		_obj_y_lo_poss,X
 		JSR		_players_animB_sub0129_sub12_A_B_A
@@ -3672,7 +3672,7 @@ loc_3B8C5:
 loc_3B8CF:
 		JMP		_players_animB_sub0129_sub12_A_B_D
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_F_A:
 		LDX		_scr_idx
 		JSR		_players_animB_sub0129_sub05_A_A
@@ -3705,7 +3705,7 @@ loc_3B905:
 loc_3B910:
 		JMP		_players_animB_sub0129_sub12_A_B_D
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_E_A:
 		LDX		_scr_idx
 		JSR		_players_animB_sub0129_sub05_A_A
@@ -3736,7 +3736,7 @@ loc_3B946:
 		JSR		_players_animB_sub0129_E_A_A
 		JSR		_players_animB_sub0129_F_A_B
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub12_A_B_D:
 		CLC
 		LDA		_tmp_ptrE+1
@@ -3745,19 +3745,19 @@ _players_animB_sub0129_sub12_A_B_D:
 locret_3B957:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub05_A_A:
 		LDA		#$00
 		STA		_tmp_ptrE+1
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub12_A_A_A:
 		LDA		#$01
 		STA		_tmp_ptrE+1
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub12_A_B_C:
 		LDA		_scr_idx
 		CMP		#$02
@@ -3765,14 +3765,14 @@ _players_animB_sub0129_sub12_A_B_C:
 		LDA		_obj_y_lo_poss,X
 		STA		_players_y_poss,X
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_F_A_B:
 		LDA		_tmp_ptrE+1
 		ORA		#$02
 		STA		_tmp_ptrE+1
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_G:
 		STX		_tmp_ptr0
 		LDY		#$0B
@@ -3790,7 +3790,7 @@ loc_3B988:
 locret_3B98B:
 		RTS
 
-; =============== S U B	R O U T	I N E =======================================
+; =============== S U B R O U T I N E =======================================
 _players_animB_A:
 		LDY		#$0B
 loc_3B98E:
@@ -3834,23 +3834,23 @@ _room_cfg00:
 		.WORD	_room_pal00
 		.BYTE	$00
 _room_cfg01:
-		.BYTE	$10,$01		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$07		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$10,$01	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$07	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl0_layouts	; _layout_ptr
 		.WORD	_lvl0_scrolls	; _scrolls_ptr
 		.WORD	_tileset00	; _tiles_ptr
 		.WORD	_room_prize01	; _prizes_ptr
 		.WORD	_room_objects01	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$03		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$03	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal01	; _bg_pal_ptr
-		.BYTE	$00		; field_18
+		.BYTE	$00	; field_18
 _room_cfg02:
 		.BYTE	$10,$00
 		.BYTE	$00
@@ -3870,383 +3870,383 @@ _room_cfg02:
 		.WORD	_room_pal01
 		.BYTE	$00
 _room_cfg03:
-		.BYTE	$15,$0E		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$04		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$05		; _flags
+		.BYTE	$15,$0E	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$04	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$05	; _flags
 		.WORD	_lvl0_layouts	; _layout_ptr
 		.WORD	_lvl0_scrolls	; _scrolls_ptr
 		.WORD	_tileset01	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects03	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$03		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$03	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal03	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _room_cfg05:
-		.BYTE	$0F,$0C		; _chrs
-		.BYTE	$04		; _lvl_start_X
-		.BYTE	$01		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$40		; _players_Y
-		.BYTE	$81		; _flags
+		.BYTE	$0F,$0C	; _chrs
+		.BYTE	$04	; _lvl_start_X
+		.BYTE	$01	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$40	; _players_Y
+		.BYTE	$81	; _flags
 		.WORD	_lvl0_layouts	; _layout_ptr
 		.WORD	_lvl0_scrolls	; _scrolls_ptr
 		.WORD	_tileset00	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects05	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$0D		; _music_idx
-		.BYTE	$01,$01		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$0D	; _music_idx
+		.BYTE	$01,$01	; field_14
 		.WORD	_room_pal05	; _bg_pal_ptr
-		.BYTE	$07		; field_18
+		.BYTE	$07	; field_18
 _room_cfg06:
-		.BYTE	$11,$02		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$07		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$11,$02	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$07	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl1_layouts	; _layout_ptr
 		.WORD	_lvl1_scrolls	; _scrolls_ptr
 		.WORD	_tileset01	; _tiles_ptr
 		.WORD	_room_prize06	; _prizes_ptr
 		.WORD	_room_objects06	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$04		; _music_idx
-		.BYTE	$00,$02		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$04	; _music_idx
+		.BYTE	$00,$02	; field_14
 		.WORD	_room_pal06	; _bg_pal_ptr
-		.BYTE	$0E		; field_18
+		.BYTE	$0E	; field_18
 _room_cfg07:
-		.BYTE	$11,$02		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$04		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$11,$02	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$04	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl1_layouts	; _layout_ptr
 		.WORD	_lvl1_scrolls	; _scrolls_ptr
 		.WORD	_tileset01	; _tiles_ptr
 		.WORD	_room_prize07	; _prizes_ptr
 		.WORD	_room_objects07	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$04		; _music_idx
-		.BYTE	$00,$02		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$04	; _music_idx
+		.BYTE	$00,$02	; field_14
 		.WORD	_room_pal06	; _bg_pal_ptr
-		.BYTE	$0E		; field_18
+		.BYTE	$0E	; field_18
 _room_cfg08:
-		.BYTE	$11,$0A		; _chrs
-		.BYTE	$07		; _lvl_start_X
-		.BYTE	$02		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$81		; _flags
+		.BYTE	$11,$0A	; _chrs
+		.BYTE	$07	; _lvl_start_X
+		.BYTE	$02	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$81	; _flags
 		.WORD	_lvl1_layouts	; _layout_ptr
 		.WORD	_lvl1_scrolls	; _scrolls_ptr
 		.WORD	_tileset01	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects08	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$0D		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$0D	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal06	; _bg_pal_ptr
-		.BYTE	$15		; field_18
+		.BYTE	$15	; field_18
 _room_cfg0D:
-		.BYTE	$12,$03		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$07		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$12,$03	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$07	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl2_layouts	; _layout_ptr
 		.WORD	_lvl2_scrolls	; _scrolls_ptr
 		.WORD	_tileset02	; _tiles_ptr
 		.WORD	_room_prize0D	; _prizes_ptr
 		.WORD	_room_objects0D	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$05		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$05	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal0D	; _bg_pal_ptr
-		.BYTE	$4D		; field_18
+		.BYTE	$4D	; field_18
 _room_cfg10:
-		.BYTE	$12,$03		; _chrs
-		.BYTE	$07		; _lvl_start_X
-		.BYTE	$05		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$12,$03	; _chrs
+		.BYTE	$07	; _lvl_start_X
+		.BYTE	$05	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl2_layouts	; _layout_ptr
 		.WORD	_lvl2_scrolls	; _scrolls_ptr
 		.WORD	_tileset02	; _tiles_ptr
 		.WORD	_room_prize10	; _prizes_ptr
 		.WORD	_room_objects10	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$05		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$05	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal0D	; _bg_pal_ptr
-		.BYTE	$1C		; field_18
+		.BYTE	$1C	; field_18
 _room_cfg0E:
-		.BYTE	$12,$0B		; _chrs
-		.BYTE	$07		; _lvl_start_X
-		.BYTE	$07		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$80		; _players_Y
-		.BYTE	$81		; _flags
+		.BYTE	$12,$0B	; _chrs
+		.BYTE	$07	; _lvl_start_X
+		.BYTE	$07	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$80	; _players_Y
+		.BYTE	$81	; _flags
 		.WORD	_lvl2_layouts	; _layout_ptr
 		.WORD	_lvl2_scrolls	; _scrolls_ptr
 		.WORD	_tileset02	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects0E	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$0D		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$0D	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal0D	; _bg_pal_ptr
-		.BYTE	$23		; field_18
+		.BYTE	$23	; field_18
 _room_cfg1F:
-		.BYTE	$19,$06		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$07		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$19,$06	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$07	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl3_layouts	; _layout_ptr
 		.WORD	_lvl3_scrolls	; _scrolls_ptr
 		.WORD	_tileset03	; _tiles_ptr
 		.WORD	_room_prize1F	; _prizes_ptr
 		.WORD	_room_objects1F	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$06		; _music_idx
-		.BYTE	$03,$03		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$06	; _music_idx
+		.BYTE	$03,$03	; field_14
 		.WORD	_room_pal1F	; _bg_pal_ptr
-		.BYTE	$2A		; field_18
+		.BYTE	$2A	; field_18
 _room_cfg20:
-		.BYTE	$19,$0C		; _chrs
-		.BYTE	$07		; _lvl_start_X
-		.BYTE	$00		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$80		; _players_Y
-		.BYTE	$81		; _flags
+		.BYTE	$19,$0C	; _chrs
+		.BYTE	$07	; _lvl_start_X
+		.BYTE	$00	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$80	; _players_Y
+		.BYTE	$81	; _flags
 		.WORD	_lvl3_layouts	; _layout_ptr
 		.WORD	_lvl3_scrolls	; _scrolls_ptr
 		.WORD	_tileset03	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects20	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$0D		; _music_idx
-		.BYTE	$00,$03		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$0D	; _music_idx
+		.BYTE	$00,$03	; field_14
 		.WORD	_room_pal1F	; _bg_pal_ptr
-		.BYTE	$31		; field_18
+		.BYTE	$31	; field_18
 _room_cfg14:
-		.BYTE	$13,$05		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$07		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$13,$05	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$07	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl4_layouts	; _layout_ptr
 		.WORD	_lvl4_scrolls	; _scrolls_ptr
 		.WORD	_tileset04	; _tiles_ptr
 		.WORD	_room_prize14	; _prizes_ptr
 		.WORD	_room_objects14	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$07		; _music_idx
-		.BYTE	$00,$04		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$07	; _music_idx
+		.BYTE	$00,$04	; field_14
 		.WORD	_room_pal14	; _bg_pal_ptr
-		.BYTE	$38		; field_18
+		.BYTE	$38	; field_18
 _room_cfg15:
-		.BYTE	$13,$05		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$05		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$13,$05	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$05	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl4_layouts	; _layout_ptr
 		.WORD	_lvl4_scrolls	; _scrolls_ptr
 		.WORD	_tileset04	; _tiles_ptr
 		.WORD	_room_prize15	; _prizes_ptr
 		.WORD	_room_objects15	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$07		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$07	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal15	; _bg_pal_ptr
-		.BYTE	$38		; field_18
+		.BYTE	$38	; field_18
 _room_cfg17:
-		.BYTE	$13,$05		; _chrs
-		.BYTE	$06		; _lvl_start_X
-		.BYTE	$04		; _lvl_start_Y
-		.BYTE	$70		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$13,$05	; _chrs
+		.BYTE	$06	; _lvl_start_X
+		.BYTE	$04	; _lvl_start_Y
+		.BYTE	$70	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl4_layouts	; _layout_ptr
 		.WORD	_lvl4_scrolls	; _scrolls_ptr
 		.WORD	_tileset04	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects17	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$07		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$07	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal15	; _bg_pal_ptr
-		.BYTE	$38		; field_18
+		.BYTE	$38	; field_18
 _room_cfg1A:
-		.BYTE	$13,$05		; _chrs
-		.BYTE	$06		; _lvl_start_X
-		.BYTE	$05		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$80		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$13,$05	; _chrs
+		.BYTE	$06	; _lvl_start_X
+		.BYTE	$05	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$80	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl4_layouts	; _layout_ptr
 		.WORD	_lvl4_scrolls	; _scrolls_ptr
 		.WORD	_tileset04	; _tiles_ptr
 		.WORD	_room_prize1A	; _prizes_ptr
 		.WORD	_room_objects1A	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$07		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$07	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal15	; _bg_pal_ptr
-		.BYTE	$38		; field_18
+		.BYTE	$38	; field_18
 _room_cfg16:
-		.BYTE	$13,$0D		; _chrs
-		.BYTE	$06		; _lvl_start_X
-		.BYTE	$02		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$A1		; _flags
+		.BYTE	$13,$0D	; _chrs
+		.BYTE	$06	; _lvl_start_X
+		.BYTE	$02	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$A1	; _flags
 		.WORD	_lvl4_layouts	; _layout_ptr
 		.WORD	_lvl4_scrolls	; _scrolls_ptr
 		.WORD	_tileset05	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects16	; _enemies_ptr
-		.BYTE	$1F		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$0D		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1F	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$0D	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal16	; _bg_pal_ptr
-		.BYTE	$3F		; field_18
+		.BYTE	$3F	; field_18
 _room_cfg13:
-		.BYTE	$15,$04		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$07		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$10		; _flags
+		.BYTE	$15,$04	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$07	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$10	; _flags
 		.WORD	_lvl5_layouts	; _layout_ptr
 		.WORD	_lvl5_scrolls	; _scrolls_ptr
 		.WORD	_tileset02	; _tiles_ptr
 		.WORD	_room_prize13	; _prizes_ptr
 		.WORD	_room_objects13	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$0B		; _music_idx
-		.BYTE	$02,$09		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$0B	; _music_idx
+		.BYTE	$02,$09	; field_14
 		.WORD	_room_pal13	; _bg_pal_ptr
-		.BYTE	$46		; field_18
+		.BYTE	$46	; field_18
 _room_cfg21:
-		.BYTE	$14,$03		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$07		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$14,$03	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$07	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl6_layouts	; _layout_ptr
 		.WORD	_lvl6_scrolls	; _scrolls_ptr
 		.WORD	_tileset03	; _tiles_ptr
 		.WORD	_room_prize21	; _prizes_ptr
 		.WORD	_room_objects12	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$08		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$08	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal21	; _bg_pal_ptr
-		.BYTE	$4D		; field_18
+		.BYTE	$4D	; field_18
 _room_cfg22:
-		.BYTE	$14,$07		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$00		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$AD		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$14,$07	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$00	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$AD	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl6_layouts	; _layout_ptr
 		.WORD	_lvl6_scrolls	; _scrolls_ptr
 		.WORD	_tileset03	; _tiles_ptr
 		.WORD	_room_prize22	; _prizes_ptr
 		.WORD	_room_objects22	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$08		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$08	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal22	; _bg_pal_ptr
-		.BYTE	$0E		; field_18
+		.BYTE	$0E	; field_18
 _room_cfg23:
-		.BYTE	$14,$07		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$01		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$8D		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$14,$07	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$01	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$8D	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl6_layouts	; _layout_ptr
 		.WORD	_lvl6_scrolls	; _scrolls_ptr
 		.WORD	_tileset03	; _tiles_ptr
 		.WORD	_room_prize23	; _prizes_ptr
 		.WORD	_room_objects23	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$08		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$08	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal22	; _bg_pal_ptr
-		.BYTE	$0E		; field_18
+		.BYTE	$0E	; field_18
 _room_cfg24:
-		.BYTE	$14,$07		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$02		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$8D		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$14,$07	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$02	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$8D	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl6_layouts	; _layout_ptr
 		.WORD	_lvl6_scrolls	; _scrolls_ptr
 		.WORD	_tileset03	; _tiles_ptr
 		.WORD	_room_prize24	; _prizes_ptr
 		.WORD	_room_objects24	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$08		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$08	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal22	; _bg_pal_ptr
-		.BYTE	$0E		; field_18
+		.BYTE	$0E	; field_18
 _room_cfg25:
-		.BYTE	$14,$09		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$05		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$81		; _flags
+		.BYTE	$14,$09	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$05	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$81	; _flags
 		.WORD	_lvl6_layouts	; _layout_ptr
 		.WORD	_lvl6_scrolls	; _scrolls_ptr
 		.WORD	_tileset03	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects25	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$0D		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$0D	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal21	; _bg_pal_ptr
-		.BYTE	$54		; field_18
+		.BYTE	$54	; field_18
 _room_cfg26:
 		.BYTE	$16,$00
 		.BYTE	$00
@@ -4266,562 +4266,562 @@ _room_cfg26:
 		.WORD	_room_pal26
 		.BYTE	$00
 _room_cfg27:
-		.BYTE	$16,$08		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$04		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$16,$08	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$04	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl7_layouts	; _layout_ptr
 		.WORD	_lvl7_scrolls	; _scrolls_ptr
 		.WORD	_tileset01	; _tiles_ptr
 		.WORD	_room_prize27	; _prizes_ptr
 		.WORD	_room_objects27	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$09		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$09	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal26	; _bg_pal_ptr
-		.BYTE	$00		; field_18
+		.BYTE	$00	; field_18
 _room_cfg29:
-		.BYTE	$16,$08		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$03		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$A0		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$16,$08	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$03	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$A0	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl7_layouts	; _layout_ptr
 		.WORD	_lvl7_scrolls	; _scrolls_ptr
 		.WORD	_tileset01	; _tiles_ptr
 		.WORD	_room_prize29	; _prizes_ptr
 		.WORD	_room_objects28	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$09		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$09	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal26	; _bg_pal_ptr
-		.BYTE	$69		; field_18
+		.BYTE	$69	; field_18
 _room_cfg2A:
-		.BYTE	$1A,$0D		; _chrs
-		.BYTE	$06		; _lvl_start_X
-		.BYTE	$01		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$A1		; _flags
+		.BYTE	$1A,$0D	; _chrs
+		.BYTE	$06	; _lvl_start_X
+		.BYTE	$01	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$A1	; _flags
 		.WORD	_lvl0_layouts	; _layout_ptr
 		.WORD	_lvl0_scrolls	; _scrolls_ptr
 		.WORD	_tileset05	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects2A	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$0D		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$0D	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal2A	; _bg_pal_ptr
-		.BYTE	$62		; field_18
+		.BYTE	$62	; field_18
 _room_cfg2B:
-		.BYTE	$17,$08		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$07		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$17,$08	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$07	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prize2B	; _prizes_ptr
 		.WORD	_room_objects2B	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$0C		; _music_idx
-		.BYTE	$04,$0C		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$0C	; _music_idx
+		.BYTE	$04,$0C	; field_14
 		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$00		; field_18
+		.BYTE	$00	; field_18
 _room_cfg2C:
-		.BYTE	$17,$07		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$05		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$60		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$17,$07	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$05	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$60	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prize2C	; _prizes_ptr
 		.WORD	_room_objects2C	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$0C		; _music_idx
-		.BYTE	$04,$0C		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$0C	; _music_idx
+		.BYTE	$04,$0C	; field_14
 		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$5B		; field_18
+		.BYTE	$5B	; field_18
 _room_cfg2E:
-		.BYTE	$17,$08		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$04		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$17,$08	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$04	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prize2E	; _prizes_ptr
 		.WORD	_room_objects2E	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$0C		; _music_idx
-		.BYTE	$04,$0C		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$0C	; _music_idx
+		.BYTE	$04,$0C	; field_14
 		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$69		; field_18
+		.BYTE	$69	; field_18
 _room_cfg2F:
-		.BYTE	$17,$0A		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$03		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$A0		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$17,$0A	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$03	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$A0	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prize2F	; _prizes_ptr
 		.WORD	_room_objects2F	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$0C		; _music_idx
-		.BYTE	$00,$0C		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$0C	; _music_idx
+		.BYTE	$00,$0C	; field_14
 		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$70		; field_18
+		.BYTE	$70	; field_18
 _room_cfg30:
-		.BYTE	$17,$01		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$02		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$00		; _flags
+		.BYTE	$17,$01	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$02	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$00	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prize30	; _prizes_ptr
 		.WORD	_room_objects30	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$0C		; _music_idx
-		.BYTE	$00,$0C		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$0C	; _music_idx
+		.BYTE	$00,$0C	; field_14
 		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$00		; field_18
+		.BYTE	$00	; field_18
 _room_cfg32:
-		.BYTE	$17,$06		; _chrs
-		.BYTE	$05		; _lvl_start_X
-		.BYTE	$02		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$E5		; _flags
+		.BYTE	$17,$06	; _chrs
+		.BYTE	$05	; _lvl_start_X
+		.BYTE	$02	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$E5	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects33	; _enemies_ptr
-		.BYTE	$1F		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$0D		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1F	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$0D	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$77		; field_18
+		.BYTE	$77	; field_18
 _room_cfgB_00:
-		.BYTE	$1D,$04		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$00		; _lvl_start_Y
-		.BYTE	$21		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$09		; _flags
+		.BYTE	$1D,$04	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$00	; _lvl_start_Y
+		.BYTE	$21	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$09	; _flags
 		.WORD	_lvl4_layouts	; _layout_ptr
 		.WORD	_lvl4_scrolls	; _scrolls_ptr
 		.WORD	_tileset04	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects0B	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$10		; _music_idx
-		.BYTE	$00,$91		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$10	; _music_idx
+		.BYTE	$00,$91	; field_14
 		.WORD	_room_palB	; _bg_pal_ptr
-		.BYTE	$00		; field_18
+		.BYTE	$00	; field_18
 _room_cfg18:
-		.BYTE	$1D,$04		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$01		; _lvl_start_Y
-		.BYTE	$28		; _players_X
-		.BYTE	$D0		; _players_Y
-		.BYTE	$0D		; _flags
+		.BYTE	$1D,$04	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$01	; _lvl_start_Y
+		.BYTE	$28	; _players_X
+		.BYTE	$D0	; _players_Y
+		.BYTE	$0D	; _flags
 		.WORD	_lvl4_layouts	; _layout_ptr
 		.WORD	_lvl4_scrolls	; _scrolls_ptr
 		.WORD	_tileset04	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects18	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$1C		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$1C	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal18	; _bg_pal_ptr
-		.BYTE	$7E		; field_18
+		.BYTE	$7E	; field_18
 _room_cfg09:
-		.BYTE	$1D,$04		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$02		; _lvl_start_Y
-		.BYTE	$38		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$0D		; _flags
+		.BYTE	$1D,$04	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$02	; _lvl_start_Y
+		.BYTE	$38	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$0D	; _flags
 		.WORD	_lvl4_layouts	; _layout_ptr
 		.WORD	_lvl4_scrolls	; _scrolls_ptr
 		.WORD	_tileset05	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects09	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$1C		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$1C	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal09	; _bg_pal_ptr
-		.BYTE	$00		; field_18
+		.BYTE	$00	; field_18
 _room_cfg0A:
-		.BYTE	$1D,$04		; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$03		; _lvl_start_Y
-		.BYTE	$28		; _players_X
-		.BYTE	$80		; _players_Y
-		.BYTE	$0D		; _flags
+		.BYTE	$1D,$04	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$03	; _lvl_start_Y
+		.BYTE	$28	; _players_X
+		.BYTE	$80	; _players_Y
+		.BYTE	$0D	; _flags
 		.WORD	_lvl4_layouts	; _layout_ptr
 		.WORD	_lvl4_scrolls	; _scrolls_ptr
 		.WORD	_tileset04	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects0A	; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$1C		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$1C	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal0A	; _bg_pal_ptr
-		.BYTE	$00		; field_18
+		.BYTE	$00	; field_18
 _cutscene_room_cfg12:
-		.BYTE	$1B,	$E	     ; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$00		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$1B,	$E	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$00	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl1_layouts	; _layout_ptr
 		.WORD	_lvl1_scrolls	; _scrolls_ptr
 		.WORD	_tileset01	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$F0		; _split_pos
-		.BYTE	$1A		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$F0	; _split_pos
+		.BYTE	$1A	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_palA_12	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _cutscene_room_cfg00:
-		.BYTE	$18,$19	     ; _chrs
-		.BYTE	$06		; _lvl_start_X
-		.BYTE	$07		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$21		; _flags
+		.BYTE	$18,$19	; _chrs
+		.BYTE	$06	; _lvl_start_X
+		.BYTE	$07	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$21	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$B0		; _split_pos
-		.BYTE	$0F		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$B0	; _split_pos
+		.BYTE	$0F	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_palA_00	; _bg_pal_ptr
-		.BYTE	$A1		; field_18
+		.BYTE	$A1	; field_18
 _cutscene_room_cfg01:
-		.BYTE	$18,	$E	     ; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$00		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$18,	$E	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$00	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$4D		; _split_pos
-		.BYTE	$02		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$4D	; _split_pos
+		.BYTE	$02	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_palA_01	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _cutscene_room_cfg02:
-		.BYTE	$10,	$C	     ; _chrs
-		.BYTE	$06		; _lvl_start_X
-		.BYTE	$00		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$10,	$C	; _chrs
+		.BYTE	$06	; _lvl_start_X
+		.BYTE	$00	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl0_layouts	; _layout_ptr
 		.WORD	_lvl0_scrolls	; _scrolls_ptr
 		.WORD	_tileset00	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$4D		; _split_pos
-		.BYTE	$12		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$4D	; _split_pos
+		.BYTE	$12	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal01	; _bg_pal_ptr
-		.BYTE	$07		; field_18
+		.BYTE	$07	; field_18
 _cutscene_room_cfg03:
-		.BYTE	$10,	$E	     ; _chrs
-		.BYTE	$06		; _lvl_start_X
-		.BYTE	$00		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$10,	$E	; _chrs
+		.BYTE	$06	; _lvl_start_X
+		.BYTE	$00	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl0_layouts	; _layout_ptr
 		.WORD	_lvl0_scrolls	; _scrolls_ptr
 		.WORD	_tileset00	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$4D		; _split_pos
-		.BYTE	$17		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$4D	; _split_pos
+		.BYTE	$17	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal01	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _cutscene_room_cfg04:
-		.BYTE	$18,	$E	     ; _chrs
-		.BYTE	$02		; _lvl_start_X
-		.BYTE	$00		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$18,	$E	; _chrs
+		.BYTE	$02	; _lvl_start_X
+		.BYTE	$00	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$4D		; _split_pos
-		.BYTE	$16		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$4D	; _split_pos
+		.BYTE	$16	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_palA_04	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _cutscene_room_cfg06:
-		.BYTE	$19,	$E	     ; _chrs
-		.BYTE	$04		; _lvl_start_X
-		.BYTE	$00		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$19,	$E	; _chrs
+		.BYTE	$04	; _lvl_start_X
+		.BYTE	$00	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$4D		; _split_pos
-		.BYTE	$15		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$4D	; _split_pos
+		.BYTE	$15	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_palA_06	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _cutscene_room_cfg05:
-		.BYTE	$15,	$E	     ; _chrs
-		.BYTE	$04		; _lvl_start_X
-		.BYTE	$07		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$15,	$E	; _chrs
+		.BYTE	$04	; _lvl_start_X
+		.BYTE	$07	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl5_layouts	; _layout_ptr
 		.WORD	_lvl5_scrolls	; _scrolls_ptr
 		.WORD	_tileset02	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$4D		; _split_pos
-		.BYTE	$0F		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$4D	; _split_pos
+		.BYTE	$0F	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_palA_05	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _cutscene_room_cfg07:
-		.BYTE	$15,	$E	     ; _chrs
-		.BYTE	$04		; _lvl_start_X
-		.BYTE	$07		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$15,	$E	; _chrs
+		.BYTE	$04	; _lvl_start_X
+		.BYTE	$07	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl5_layouts	; _layout_ptr
 		.WORD	_lvl5_scrolls	; _scrolls_ptr
 		.WORD	_tileset02	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$4D		; _split_pos
-		.BYTE	$0F		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$4D	; _split_pos
+		.BYTE	$0F	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal13	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _cutscene_room_cfg09:
-		.BYTE	$18,	$E	     ; _chrs
-		.BYTE	$06		; _lvl_start_X
-		.BYTE	$00		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$18,	$E	; _chrs
+		.BYTE	$06	; _lvl_start_X
+		.BYTE	$00	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$4D		; _split_pos
-		.BYTE	$14		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$4D	; _split_pos
+		.BYTE	$14	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_palA_09	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _cutscene_room_cfg0A:
-		.BYTE	$13,	$E	     ; _chrs
-		.BYTE	$04		; _lvl_start_X
-		.BYTE	$02		; _lvl_start_Y
-		.BYTE	$18		; _players_X
-		.BYTE	$C0		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$13,	$E	; _chrs
+		.BYTE	$04	; _lvl_start_X
+		.BYTE	$02	; _lvl_start_Y
+		.BYTE	$18	; _players_X
+		.BYTE	$C0	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl4_layouts	; _layout_ptr
 		.WORD	_lvl4_scrolls	; _scrolls_ptr
 		.WORD	_tileset05	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$4D		; _split_pos
-		.BYTE	$11		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$4D	; _split_pos
+		.BYTE	$11	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal06	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _cutscene_room_cfg0B:
-		.BYTE	$18,	$E	     ; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$01		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$18,	$E	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$01	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$4D		; _split_pos
-		.BYTE	$15		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$4D	; _split_pos
+		.BYTE	$15	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_palA_0B	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _cutscene_room_cfg0C:
-		.BYTE	$18,	$E	     ; _chrs
-		.BYTE	$02		; _lvl_start_X
-		.BYTE	$01		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$18,	$E	; _chrs
+		.BYTE	$02	; _lvl_start_X
+		.BYTE	$01	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$4D		; _split_pos
-		.BYTE	$0A		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$4D	; _split_pos
+		.BYTE	$0A	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_palA_0C	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _cutscene_room_cfg0D:
-		.BYTE	$18,	$E	     ; _chrs
-		.BYTE	$06		; _lvl_start_X
-		.BYTE	$01		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$18,	$E	; _chrs
+		.BYTE	$06	; _lvl_start_X
+		.BYTE	$01	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$4D		; _split_pos
-		.BYTE	$0A		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$4D	; _split_pos
+		.BYTE	$0A	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_palA_0D	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _cutscene_room_cfg0E:
-		.BYTE	$19,	$E	     ; _chrs
-		.BYTE	$06		; _lvl_start_X
-		.BYTE	$03		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$21		; _flags
+		.BYTE	$19,	$E	; _chrs
+		.BYTE	$06	; _lvl_start_X
+		.BYTE	$03	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$21	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$4D		; _split_pos
-		.BYTE	$12		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$4D	; _split_pos
+		.BYTE	$12	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_palA_0E	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _cutscene_room_cfg0F:
-		.BYTE	$17,	$E	     ; _chrs
-		.BYTE	$02		; _lvl_start_X
-		.BYTE	$06		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$17,	$E	; _chrs
+		.BYTE	$02	; _lvl_start_X
+		.BYTE	$06	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$4D		; _split_pos
-		.BYTE	$18		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$4D	; _split_pos
+		.BYTE	$18	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _cutscene_room_cfg10:
-		.BYTE	$17,	$E	     ; _chrs
-		.BYTE	$02		; _lvl_start_X
-		.BYTE	$06		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$17,	$E	; _chrs
+		.BYTE	$02	; _lvl_start_X
+		.BYTE	$06	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$FF		; _split_pos
-		.BYTE	$18		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$FF	; _split_pos
+		.BYTE	$18	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 _cutscene_room_cfg11:
-		.BYTE	$18,	$E	     ; _chrs
-		.BYTE	$00		; _lvl_start_X
-		.BYTE	$06		; _lvl_start_Y
-		.BYTE	$00		; _players_X
-		.BYTE	$00		; _players_Y
-		.BYTE	$01		; _flags
+		.BYTE	$18,	$E	; _chrs
+		.BYTE	$00	; _lvl_start_X
+		.BYTE	$06	; _lvl_start_Y
+		.BYTE	$00	; _players_X
+		.BYTE	$00	; _players_Y
+		.BYTE	$01	; _flags
 		.WORD	_lvl8_layouts	; _layout_ptr
 		.WORD	_lvl8_scrolls	; _scrolls_ptr
 		.WORD	_tileset06	; _tiles_ptr
 		.WORD	_room_prizes_dummy; _prizes_ptr
 		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E		; _mmc1_ctrl
-		.BYTE	$4D		; _split_pos
-		.BYTE	$19		; _music_idx
-		.BYTE	$00,$00		; field_14
+		.BYTE	$1E	; _mmc1_ctrl
+		.BYTE	$4D	; _split_pos
+		.BYTE	$19	; _music_idx
+		.BYTE	$00,$00	; field_14
 		.WORD	_room_palA_11	; _bg_pal_ptr
-		.BYTE	$8C		; field_18
+		.BYTE	$8C	; field_18
 
 		BANK_END 2,$C000

@@ -522,6 +522,128 @@ _PAD1_PRESS	EQU $05
 	.BYTE	$43
 	ENDM
 
+;--------------------A-P-U----------------------
+
+	MAC	CMDD0
+	.BYTE	$D0
+	ENDM
+
+	MAC	CMDD1
+	.BYTE	$D1
+	ENDM
+
+	MAC	CMDD2
+	.BYTE	$D2
+	ENDM
+
+	MAC	CMDD3
+	.BYTE	$D3
+	ENDM
+
+	MAC	CMDD4
+	.BYTE	$D4
+	ENDM
+
+	MAC	CMDD5
+	.BYTE	$D5
+	ENDM
+
+	MAC	CMDD6
+	.BYTE	$D6
+	ENDM
+
+	MAC	CMDD7
+	.BYTE	$D7
+	ENDM
+
+	MAC	CMDD8
+	.BYTE	$D8
+	ENDM
+
+	MAC	CMDD9
+	.BYTE	$D9
+	.BYTE	{1}
+	ENDM
+
+	MAC	CMDDA
+	.BYTE	$DA
+	.BYTE	{1}
+	ENDM
+
+	MAC	CMDDB
+	.BYTE	$DB
+	.BYTE	{1}
+	ENDM
+
+	MAC	CMDE0
+	.BYTE	$E0
+	.BYTE	{1}
+	ENDM
+
+	MAC	CMDE1
+	.BYTE	$E1
+	.BYTE	{1}
+	ENDM
+
+	MAC	CMDE2
+	.BYTE	$E2
+	.BYTE	{1}
+	ENDM
+
+	MAC	CMDE8
+	.BYTE	$E8
+	ENDM
+
+	MAC	CMDE9
+	.BYTE	$E9
+	.BYTE	{1}
+	ENDM
+
+	MAC	CMDEA
+	.BYTE	$EA
+	.BYTE	{1}
+	ENDM
+
+	MAC	CMDEB
+	.BYTE	$EB
+	.BYTE	{1}
+	ENDM
+
+	MAC	CMDEC
+	.BYTE	$EC
+	.BYTE	{1}
+	ENDM
+
+	MAC	LOOP_START
+	.BYTE	$F0
+	.BYTE	{1}
+	ENDM
+
+	MAC	DO_LOOP
+	.BYTE	$F1
+	ENDM
+
+	MAC	AJSR
+	.BYTE	$F2
+	.WORD	{1}
+	ENDM
+
+	MAC	ARET
+	.BYTE	$F3
+	ENDM
+
+	MAC	AJMP
+	.BYTE	$F8
+	.WORD	{1}
+	ENDM
+
+	MAC	ASTOP
+	.BYTE	$FF
+	ENDM
+
+	MAC DATA
+	.BYTE	{0}
+	ENDM
 
 ;---------------M-A-C-R-O-S-E-S-----------------
 

@@ -1139,6 +1139,8 @@ _msg6C:
 
 		SECTION_END		03, "MESSAGES DICT AND DATA"
 
+		SECTION_START 04
+
 byte_3A72C:
 		.BYTE	$01,$00
 
@@ -3851,42 +3853,46 @@ loc_3B9B0:
 locret_3B9B4:
 		RTS
 
+		SECTION_END		04, "PLAYERS AND MAIN ENGINE CODE"
+
+		SECTION_START	05
+
 _room_cfg00:
-		.BYTE	$0F,$00
+		.BYTE	$0F,$00				; _chrs
+		.BYTE	$00					; _lvl_start_X
+		.BYTE	$02					; _lvl_start_Y
+		.BYTE	$18					; _players_X
+		.BYTE	$C0					; _players_Y
+		.BYTE	$00					; _flags
+		.WORD	_lvl0_layouts		; _layout_ptr
+		.WORD	_lvl0_scrolls		; _scrolls_ptr
+		.WORD	_tileset00			; _tiles_ptr
+		.WORD	_room_prize00		; _prizes_ptr
+		.WORD	_room_objects00		; _enemies_ptr
+		.BYTE	$1E					; _mmc1_ctrl
+		.BYTE	$F0					; _split_pos
+		.BYTE	$03					; _music_idx
+		.BYTE	$00,$00				; field_14
+		.WORD	_room_pal00			; _bg_pal_ptr
+		.BYTE	$00					; field_18
+_room_cfg01:
+		.BYTE	$10,$01
 		.BYTE	$00
-		.BYTE	$02
+		.BYTE	$07
 		.BYTE	$18
 		.BYTE	$C0
 		.BYTE	$00
 		.WORD	_lvl0_layouts
 		.WORD	_lvl0_scrolls
 		.WORD	_tileset00
-		.WORD	_room_prize00
-		.WORD	_room_objects00
+		.WORD	_room_prize01
+		.WORD	_room_objects01
 		.BYTE	$1E
 		.BYTE	$F0
 		.BYTE	$03
 		.BYTE	$00,$00
-		.WORD	_room_pal00
+		.WORD	_room_pal01
 		.BYTE	$00
-_room_cfg01:
-		.BYTE	$10,$01	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$07	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl0_layouts	; _layout_ptr
-		.WORD	_lvl0_scrolls	; _scrolls_ptr
-		.WORD	_tileset00	; _tiles_ptr
-		.WORD	_room_prize01	; _prizes_ptr
-		.WORD	_room_objects01	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$03	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal01	; _bg_pal_ptr
-		.BYTE	$00	; field_18
 _room_cfg02:
 		.BYTE	$10,$00
 		.BYTE	$00
@@ -3906,383 +3912,383 @@ _room_cfg02:
 		.WORD	_room_pal01
 		.BYTE	$00
 _room_cfg03:
-		.BYTE	$15,$0E	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$04	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$05	; _flags
-		.WORD	_lvl0_layouts	; _layout_ptr
-		.WORD	_lvl0_scrolls	; _scrolls_ptr
-		.WORD	_tileset01	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects03	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$03	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal03	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$15,$0E
+		.BYTE	$00
+		.BYTE	$04
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$05
+		.WORD	_lvl0_layouts
+		.WORD	_lvl0_scrolls
+		.WORD	_tileset01
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects03
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$03
+		.BYTE	$00,$00
+		.WORD	_room_pal03
+		.BYTE	$8C
 _room_cfg05:
-		.BYTE	$0F,$0C	; _chrs
-		.BYTE	$04	; _lvl_start_X
-		.BYTE	$01	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$40	; _players_Y
-		.BYTE	$81	; _flags
-		.WORD	_lvl0_layouts	; _layout_ptr
-		.WORD	_lvl0_scrolls	; _scrolls_ptr
-		.WORD	_tileset00	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects05	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$0D	; _music_idx
-		.BYTE	$01,$01	; field_14
-		.WORD	_room_pal05	; _bg_pal_ptr
-		.BYTE	$07	; field_18
+		.BYTE	$0F,$0C
+		.BYTE	$04
+		.BYTE	$01
+		.BYTE	$18
+		.BYTE	$40
+		.BYTE	$81
+		.WORD	_lvl0_layouts
+		.WORD	_lvl0_scrolls
+		.WORD	_tileset00
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects05
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$0D
+		.BYTE	$01,$01
+		.WORD	_room_pal05
+		.BYTE	$07
 _room_cfg06:
-		.BYTE	$11,$02	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$07	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl1_layouts	; _layout_ptr
-		.WORD	_lvl1_scrolls	; _scrolls_ptr
-		.WORD	_tileset01	; _tiles_ptr
-		.WORD	_room_prize06	; _prizes_ptr
-		.WORD	_room_objects06	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$04	; _music_idx
-		.BYTE	$00,$02	; field_14
-		.WORD	_room_pal06	; _bg_pal_ptr
-		.BYTE	$0E	; field_18
+		.BYTE	$11,$02
+		.BYTE	$00
+		.BYTE	$07
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$00
+		.WORD	_lvl1_layouts
+		.WORD	_lvl1_scrolls
+		.WORD	_tileset01
+		.WORD	_room_prize06
+		.WORD	_room_objects06
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$04
+		.BYTE	$00,$02
+		.WORD	_room_pal06
+		.BYTE	$0E
 _room_cfg07:
-		.BYTE	$11,$02	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$04	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl1_layouts	; _layout_ptr
-		.WORD	_lvl1_scrolls	; _scrolls_ptr
-		.WORD	_tileset01	; _tiles_ptr
-		.WORD	_room_prize07	; _prizes_ptr
-		.WORD	_room_objects07	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$04	; _music_idx
-		.BYTE	$00,$02	; field_14
-		.WORD	_room_pal06	; _bg_pal_ptr
-		.BYTE	$0E	; field_18
+		.BYTE	$11,$02
+		.BYTE	$00
+		.BYTE	$04
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$00
+		.WORD	_lvl1_layouts
+		.WORD	_lvl1_scrolls
+		.WORD	_tileset01
+		.WORD	_room_prize07
+		.WORD	_room_objects07
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$04
+		.BYTE	$00,$02
+		.WORD	_room_pal06
+		.BYTE	$0E
 _room_cfg08:
-		.BYTE	$11,$0A	; _chrs
-		.BYTE	$07	; _lvl_start_X
-		.BYTE	$02	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$81	; _flags
-		.WORD	_lvl1_layouts	; _layout_ptr
-		.WORD	_lvl1_scrolls	; _scrolls_ptr
-		.WORD	_tileset01	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects08	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$0D	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal06	; _bg_pal_ptr
-		.BYTE	$15	; field_18
+		.BYTE	$11,$0A
+		.BYTE	$07
+		.BYTE	$02
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$81
+		.WORD	_lvl1_layouts
+		.WORD	_lvl1_scrolls
+		.WORD	_tileset01
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects08
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$0D
+		.BYTE	$00,$00
+		.WORD	_room_pal06
+		.BYTE	$15
 _room_cfg0D:
-		.BYTE	$12,$03	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$07	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl2_layouts	; _layout_ptr
-		.WORD	_lvl2_scrolls	; _scrolls_ptr
-		.WORD	_tileset02	; _tiles_ptr
-		.WORD	_room_prize0D	; _prizes_ptr
-		.WORD	_room_objects0D	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$05	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal0D	; _bg_pal_ptr
-		.BYTE	$4D	; field_18
+		.BYTE	$12,$03
+		.BYTE	$00
+		.BYTE	$07
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$00
+		.WORD	_lvl2_layouts
+		.WORD	_lvl2_scrolls
+		.WORD	_tileset02
+		.WORD	_room_prize0D
+		.WORD	_room_objects0D
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$05
+		.BYTE	$00,$00
+		.WORD	_room_pal0D
+		.BYTE	$4D
 _room_cfg10:
-		.BYTE	$12,$03	; _chrs
-		.BYTE	$07	; _lvl_start_X
-		.BYTE	$05	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl2_layouts	; _layout_ptr
-		.WORD	_lvl2_scrolls	; _scrolls_ptr
-		.WORD	_tileset02	; _tiles_ptr
-		.WORD	_room_prize10	; _prizes_ptr
-		.WORD	_room_objects10	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$05	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal0D	; _bg_pal_ptr
-		.BYTE	$1C	; field_18
+		.BYTE	$12,$03
+		.BYTE	$07
+		.BYTE	$05
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$00
+		.WORD	_lvl2_layouts
+		.WORD	_lvl2_scrolls
+		.WORD	_tileset02
+		.WORD	_room_prize10
+		.WORD	_room_objects10
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$05
+		.BYTE	$00,$00
+		.WORD	_room_pal0D
+		.BYTE	$1C
 _room_cfg0E:
-		.BYTE	$12,$0B	; _chrs
-		.BYTE	$07	; _lvl_start_X
-		.BYTE	$07	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$80	; _players_Y
-		.BYTE	$81	; _flags
-		.WORD	_lvl2_layouts	; _layout_ptr
-		.WORD	_lvl2_scrolls	; _scrolls_ptr
-		.WORD	_tileset02	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects0E	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$0D	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal0D	; _bg_pal_ptr
-		.BYTE	$23	; field_18
+		.BYTE	$12,$0B
+		.BYTE	$07
+		.BYTE	$07
+		.BYTE	$18
+		.BYTE	$80
+		.BYTE	$81
+		.WORD	_lvl2_layouts
+		.WORD	_lvl2_scrolls
+		.WORD	_tileset02
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects0E
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$0D
+		.BYTE	$00,$00
+		.WORD	_room_pal0D
+		.BYTE	$23
 _room_cfg1F:
-		.BYTE	$19,$06	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$07	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl3_layouts	; _layout_ptr
-		.WORD	_lvl3_scrolls	; _scrolls_ptr
-		.WORD	_tileset03	; _tiles_ptr
-		.WORD	_room_prize1F	; _prizes_ptr
-		.WORD	_room_objects1F	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$06	; _music_idx
-		.BYTE	$03,$03	; field_14
-		.WORD	_room_pal1F	; _bg_pal_ptr
-		.BYTE	$2A	; field_18
+		.BYTE	$19,$06
+		.BYTE	$00
+		.BYTE	$07
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$00
+		.WORD	_lvl3_layouts
+		.WORD	_lvl3_scrolls
+		.WORD	_tileset03
+		.WORD	_room_prize1F
+		.WORD	_room_objects1F
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$06
+		.BYTE	$03,$03
+		.WORD	_room_pal1F
+		.BYTE	$2A
 _room_cfg20:
-		.BYTE	$19,$0C	; _chrs
-		.BYTE	$07	; _lvl_start_X
-		.BYTE	$00	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$80	; _players_Y
-		.BYTE	$81	; _flags
-		.WORD	_lvl3_layouts	; _layout_ptr
-		.WORD	_lvl3_scrolls	; _scrolls_ptr
-		.WORD	_tileset03	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects20	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$0D	; _music_idx
-		.BYTE	$00,$03	; field_14
-		.WORD	_room_pal1F	; _bg_pal_ptr
-		.BYTE	$31	; field_18
+		.BYTE	$19,$0C
+		.BYTE	$07
+		.BYTE	$00
+		.BYTE	$18
+		.BYTE	$80
+		.BYTE	$81
+		.WORD	_lvl3_layouts
+		.WORD	_lvl3_scrolls
+		.WORD	_tileset03
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects20
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$0D
+		.BYTE	$00,$03
+		.WORD	_room_pal1F
+		.BYTE	$31
 _room_cfg14:
-		.BYTE	$13,$05	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$07	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl4_layouts	; _layout_ptr
-		.WORD	_lvl4_scrolls	; _scrolls_ptr
-		.WORD	_tileset04	; _tiles_ptr
-		.WORD	_room_prize14	; _prizes_ptr
-		.WORD	_room_objects14	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$07	; _music_idx
-		.BYTE	$00,$04	; field_14
-		.WORD	_room_pal14	; _bg_pal_ptr
-		.BYTE	$38	; field_18
+		.BYTE	$13,$05
+		.BYTE	$00
+		.BYTE	$07
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$00
+		.WORD	_lvl4_layouts
+		.WORD	_lvl4_scrolls
+		.WORD	_tileset04
+		.WORD	_room_prize14
+		.WORD	_room_objects14
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$07
+		.BYTE	$00,$04
+		.WORD	_room_pal14
+		.BYTE	$38
 _room_cfg15:
-		.BYTE	$13,$05	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$05	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl4_layouts	; _layout_ptr
-		.WORD	_lvl4_scrolls	; _scrolls_ptr
-		.WORD	_tileset04	; _tiles_ptr
-		.WORD	_room_prize15	; _prizes_ptr
-		.WORD	_room_objects15	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$07	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal15	; _bg_pal_ptr
-		.BYTE	$38	; field_18
+		.BYTE	$13,$05
+		.BYTE	$00
+		.BYTE	$05
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$00
+		.WORD	_lvl4_layouts
+		.WORD	_lvl4_scrolls
+		.WORD	_tileset04
+		.WORD	_room_prize15
+		.WORD	_room_objects15
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$07
+		.BYTE	$00,$00
+		.WORD	_room_pal15
+		.BYTE	$38
 _room_cfg17:
-		.BYTE	$13,$05	; _chrs
-		.BYTE	$06	; _lvl_start_X
-		.BYTE	$04	; _lvl_start_Y
-		.BYTE	$70	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl4_layouts	; _layout_ptr
-		.WORD	_lvl4_scrolls	; _scrolls_ptr
-		.WORD	_tileset04	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects17	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$07	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal15	; _bg_pal_ptr
-		.BYTE	$38	; field_18
+		.BYTE	$13,$05
+		.BYTE	$06
+		.BYTE	$04
+		.BYTE	$70
+		.BYTE	$C0
+		.BYTE	$01
+		.WORD	_lvl4_layouts
+		.WORD	_lvl4_scrolls
+		.WORD	_tileset04
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects17
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$07
+		.BYTE	$00,$00
+		.WORD	_room_pal15
+		.BYTE	$38
 _room_cfg1A:
-		.BYTE	$13,$05	; _chrs
-		.BYTE	$06	; _lvl_start_X
-		.BYTE	$05	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$80	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl4_layouts	; _layout_ptr
-		.WORD	_lvl4_scrolls	; _scrolls_ptr
-		.WORD	_tileset04	; _tiles_ptr
-		.WORD	_room_prize1A	; _prizes_ptr
-		.WORD	_room_objects1A	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$07	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal15	; _bg_pal_ptr
-		.BYTE	$38	; field_18
+		.BYTE	$13,$05
+		.BYTE	$06
+		.BYTE	$05
+		.BYTE	$18
+		.BYTE	$80
+		.BYTE	$00
+		.WORD	_lvl4_layouts
+		.WORD	_lvl4_scrolls
+		.WORD	_tileset04
+		.WORD	_room_prize1A
+		.WORD	_room_objects1A
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$07
+		.BYTE	$00,$00
+		.WORD	_room_pal15
+		.BYTE	$38
 _room_cfg16:
-		.BYTE	$13,$0D	; _chrs
-		.BYTE	$06	; _lvl_start_X
-		.BYTE	$02	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$A1	; _flags
-		.WORD	_lvl4_layouts	; _layout_ptr
-		.WORD	_lvl4_scrolls	; _scrolls_ptr
-		.WORD	_tileset05	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects16	; _enemies_ptr
-		.BYTE	$1F	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$0D	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal16	; _bg_pal_ptr
-		.BYTE	$3F	; field_18
+		.BYTE	$13,$0D
+		.BYTE	$06
+		.BYTE	$02
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$A1
+		.WORD	_lvl4_layouts
+		.WORD	_lvl4_scrolls
+		.WORD	_tileset05
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects16
+		.BYTE	$1F
+		.BYTE	$F0
+		.BYTE	$0D
+		.BYTE	$00,$00
+		.WORD	_room_pal16
+		.BYTE	$3F
 _room_cfg13:
-		.BYTE	$15,$04	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$07	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$10	; _flags
-		.WORD	_lvl5_layouts	; _layout_ptr
-		.WORD	_lvl5_scrolls	; _scrolls_ptr
-		.WORD	_tileset02	; _tiles_ptr
-		.WORD	_room_prize13	; _prizes_ptr
-		.WORD	_room_objects13	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$0B	; _music_idx
-		.BYTE	$02,$09	; field_14
-		.WORD	_room_pal13	; _bg_pal_ptr
-		.BYTE	$46	; field_18
+		.BYTE	$15,$04
+		.BYTE	$00
+		.BYTE	$07
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$10
+		.WORD	_lvl5_layouts
+		.WORD	_lvl5_scrolls
+		.WORD	_tileset02
+		.WORD	_room_prize13
+		.WORD	_room_objects13
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$0B
+		.BYTE	$02,$09
+		.WORD	_room_pal13
+		.BYTE	$46
 _room_cfg21:
-		.BYTE	$14,$03	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$07	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl6_layouts	; _layout_ptr
-		.WORD	_lvl6_scrolls	; _scrolls_ptr
-		.WORD	_tileset03	; _tiles_ptr
-		.WORD	_room_prize21	; _prizes_ptr
-		.WORD	_room_objects12	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$08	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal21	; _bg_pal_ptr
-		.BYTE	$4D	; field_18
+		.BYTE	$14,$03
+		.BYTE	$00
+		.BYTE	$07
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$00
+		.WORD	_lvl6_layouts
+		.WORD	_lvl6_scrolls
+		.WORD	_tileset03
+		.WORD	_room_prize21
+		.WORD	_room_objects12
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$08
+		.BYTE	$00,$00
+		.WORD	_room_pal21
+		.BYTE	$4D
 _room_cfg22:
-		.BYTE	$14,$07	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$00	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$AD	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl6_layouts	; _layout_ptr
-		.WORD	_lvl6_scrolls	; _scrolls_ptr
-		.WORD	_tileset03	; _tiles_ptr
-		.WORD	_room_prize22	; _prizes_ptr
-		.WORD	_room_objects22	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$08	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal22	; _bg_pal_ptr
-		.BYTE	$0E	; field_18
+		.BYTE	$14,$07
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$18
+		.BYTE	$AD
+		.BYTE	$00
+		.WORD	_lvl6_layouts
+		.WORD	_lvl6_scrolls
+		.WORD	_tileset03
+		.WORD	_room_prize22
+		.WORD	_room_objects22
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$08
+		.BYTE	$00,$00
+		.WORD	_room_pal22
+		.BYTE	$0E
 _room_cfg23:
-		.BYTE	$14,$07	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$01	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$8D	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl6_layouts	; _layout_ptr
-		.WORD	_lvl6_scrolls	; _scrolls_ptr
-		.WORD	_tileset03	; _tiles_ptr
-		.WORD	_room_prize23	; _prizes_ptr
-		.WORD	_room_objects23	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$08	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal22	; _bg_pal_ptr
-		.BYTE	$0E	; field_18
+		.BYTE	$14,$07
+		.BYTE	$00
+		.BYTE	$01
+		.BYTE	$18
+		.BYTE	$8D
+		.BYTE	$00
+		.WORD	_lvl6_layouts
+		.WORD	_lvl6_scrolls
+		.WORD	_tileset03
+		.WORD	_room_prize23
+		.WORD	_room_objects23
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$08
+		.BYTE	$00,$00
+		.WORD	_room_pal22
+		.BYTE	$0E
 _room_cfg24:
-		.BYTE	$14,$07	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$02	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$8D	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl6_layouts	; _layout_ptr
-		.WORD	_lvl6_scrolls	; _scrolls_ptr
-		.WORD	_tileset03	; _tiles_ptr
-		.WORD	_room_prize24	; _prizes_ptr
-		.WORD	_room_objects24	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$08	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal22	; _bg_pal_ptr
-		.BYTE	$0E	; field_18
+		.BYTE	$14,$07
+		.BYTE	$00
+		.BYTE	$02
+		.BYTE	$18
+		.BYTE	$8D
+		.BYTE	$00
+		.WORD	_lvl6_layouts
+		.WORD	_lvl6_scrolls
+		.WORD	_tileset03
+		.WORD	_room_prize24
+		.WORD	_room_objects24
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$08
+		.BYTE	$00,$00
+		.WORD	_room_pal22
+		.BYTE	$0E
 _room_cfg25:
-		.BYTE	$14,$09	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$05	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$81	; _flags
-		.WORD	_lvl6_layouts	; _layout_ptr
-		.WORD	_lvl6_scrolls	; _scrolls_ptr
-		.WORD	_tileset03	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects25	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$0D	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal21	; _bg_pal_ptr
-		.BYTE	$54	; field_18
+		.BYTE	$14,$09
+		.BYTE	$00
+		.BYTE	$05
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$81
+		.WORD	_lvl6_layouts
+		.WORD	_lvl6_scrolls
+		.WORD	_tileset03
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects25
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$0D
+		.BYTE	$00,$00
+		.WORD	_room_pal21
+		.BYTE	$54
 _room_cfg26:
 		.BYTE	$16,$00
 		.BYTE	$00
@@ -4302,562 +4308,564 @@ _room_cfg26:
 		.WORD	_room_pal26
 		.BYTE	$00
 _room_cfg27:
-		.BYTE	$16,$08	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$04	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl7_layouts	; _layout_ptr
-		.WORD	_lvl7_scrolls	; _scrolls_ptr
-		.WORD	_tileset01	; _tiles_ptr
-		.WORD	_room_prize27	; _prizes_ptr
-		.WORD	_room_objects27	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$09	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal26	; _bg_pal_ptr
-		.BYTE	$00	; field_18
+		.BYTE	$16,$08
+		.BYTE	$00
+		.BYTE	$04
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$00
+		.WORD	_lvl7_layouts
+		.WORD	_lvl7_scrolls
+		.WORD	_tileset01
+		.WORD	_room_prize27
+		.WORD	_room_objects27
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$09
+		.BYTE	$00,$00
+		.WORD	_room_pal26
+		.BYTE	$00
 _room_cfg29:
-		.BYTE	$16,$08	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$03	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$A0	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl7_layouts	; _layout_ptr
-		.WORD	_lvl7_scrolls	; _scrolls_ptr
-		.WORD	_tileset01	; _tiles_ptr
-		.WORD	_room_prize29	; _prizes_ptr
-		.WORD	_room_objects28	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$09	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal26	; _bg_pal_ptr
-		.BYTE	$69	; field_18
+		.BYTE	$16,$08
+		.BYTE	$00
+		.BYTE	$03
+		.BYTE	$18
+		.BYTE	$A0
+		.BYTE	$00
+		.WORD	_lvl7_layouts
+		.WORD	_lvl7_scrolls
+		.WORD	_tileset01
+		.WORD	_room_prize29
+		.WORD	_room_objects28
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$09
+		.BYTE	$00,$00
+		.WORD	_room_pal26
+		.BYTE	$69
 _room_cfg2A:
-		.BYTE	$1A,$0D	; _chrs
-		.BYTE	$06	; _lvl_start_X
-		.BYTE	$01	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$A1	; _flags
-		.WORD	_lvl0_layouts	; _layout_ptr
-		.WORD	_lvl0_scrolls	; _scrolls_ptr
-		.WORD	_tileset05	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects2A	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$0D	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal2A	; _bg_pal_ptr
-		.BYTE	$62	; field_18
+		.BYTE	$1A,$0D
+		.BYTE	$06
+		.BYTE	$01
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$A1
+		.WORD	_lvl0_layouts
+		.WORD	_lvl0_scrolls
+		.WORD	_tileset05
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects2A
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$0D
+		.BYTE	$00,$00
+		.WORD	_room_pal2A
+		.BYTE	$62
 _room_cfg2B:
-		.BYTE	$17,$08	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$07	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prize2B	; _prizes_ptr
-		.WORD	_room_objects2B	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$0C	; _music_idx
-		.BYTE	$04,$0C	; field_14
-		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$00	; field_18
+		.BYTE	$17,$08
+		.BYTE	$00
+		.BYTE	$07
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$00
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prize2B
+		.WORD	_room_objects2B
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$0C
+		.BYTE	$04,$0C
+		.WORD	_room_pal2B
+		.BYTE	$00
 _room_cfg2C:
-		.BYTE	$17,$07	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$05	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$60	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prize2C	; _prizes_ptr
-		.WORD	_room_objects2C	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$0C	; _music_idx
-		.BYTE	$04,$0C	; field_14
-		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$5B	; field_18
+		.BYTE	$17,$07
+		.BYTE	$00
+		.BYTE	$05
+		.BYTE	$18
+		.BYTE	$60
+		.BYTE	$00
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prize2C
+		.WORD	_room_objects2C
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$0C
+		.BYTE	$04,$0C
+		.WORD	_room_pal2B
+		.BYTE	$5B
 _room_cfg2E:
-		.BYTE	$17,$08	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$04	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prize2E	; _prizes_ptr
-		.WORD	_room_objects2E	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$0C	; _music_idx
-		.BYTE	$04,$0C	; field_14
-		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$69	; field_18
+		.BYTE	$17,$08
+		.BYTE	$00
+		.BYTE	$04
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$00
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prize2E
+		.WORD	_room_objects2E
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$0C
+		.BYTE	$04,$0C
+		.WORD	_room_pal2B
+		.BYTE	$69
 _room_cfg2F:
-		.BYTE	$17,$0A	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$03	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$A0	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prize2F	; _prizes_ptr
-		.WORD	_room_objects2F	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$0C	; _music_idx
-		.BYTE	$00,$0C	; field_14
-		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$70	; field_18
+		.BYTE	$17,$0A
+		.BYTE	$00
+		.BYTE	$03
+		.BYTE	$18
+		.BYTE	$A0
+		.BYTE	$00
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prize2F
+		.WORD	_room_objects2F
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$0C
+		.BYTE	$00,$0C
+		.WORD	_room_pal2B
+		.BYTE	$70
 _room_cfg30:
-		.BYTE	$17,$01	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$02	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$00	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prize30	; _prizes_ptr
-		.WORD	_room_objects30	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$0C	; _music_idx
-		.BYTE	$00,$0C	; field_14
-		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$00	; field_18
+		.BYTE	$17,$01
+		.BYTE	$00
+		.BYTE	$02
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$00
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prize30
+		.WORD	_room_objects30
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$0C
+		.BYTE	$00,$0C
+		.WORD	_room_pal2B
+		.BYTE	$00
 _room_cfg32:
-		.BYTE	$17,$06	; _chrs
-		.BYTE	$05	; _lvl_start_X
-		.BYTE	$02	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$E5	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects33	; _enemies_ptr
-		.BYTE	$1F	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$0D	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$77	; field_18
+		.BYTE	$17,$06
+		.BYTE	$05
+		.BYTE	$02
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$E5
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects33
+		.BYTE	$1F
+		.BYTE	$F0
+		.BYTE	$0D
+		.BYTE	$00,$00
+		.WORD	_room_pal2B
+		.BYTE	$77
 _room_cfgB_00:
-		.BYTE	$1D,$04	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$00	; _lvl_start_Y
-		.BYTE	$21	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$09	; _flags
-		.WORD	_lvl4_layouts	; _layout_ptr
-		.WORD	_lvl4_scrolls	; _scrolls_ptr
-		.WORD	_tileset04	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects0B	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$10	; _music_idx
-		.BYTE	$00,$91	; field_14
-		.WORD	_room_palB	; _bg_pal_ptr
-		.BYTE	$00	; field_18
+		.BYTE	$1D,$04
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$21
+		.BYTE	$C0
+		.BYTE	$09
+		.WORD	_lvl4_layouts
+		.WORD	_lvl4_scrolls
+		.WORD	_tileset04
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects0B
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$10
+		.BYTE	$00,$91
+		.WORD	_room_palB
+		.BYTE	$00
 _room_cfg18:
-		.BYTE	$1D,$04	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$01	; _lvl_start_Y
-		.BYTE	$28	; _players_X
-		.BYTE	$D0	; _players_Y
-		.BYTE	$0D	; _flags
-		.WORD	_lvl4_layouts	; _layout_ptr
-		.WORD	_lvl4_scrolls	; _scrolls_ptr
-		.WORD	_tileset04	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects18	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$1C	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal18	; _bg_pal_ptr
-		.BYTE	$7E	; field_18
+		.BYTE	$1D,$04
+		.BYTE	$00
+		.BYTE	$01
+		.BYTE	$28
+		.BYTE	$D0
+		.BYTE	$0D
+		.WORD	_lvl4_layouts
+		.WORD	_lvl4_scrolls
+		.WORD	_tileset04
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects18
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$1C
+		.BYTE	$00,$00
+		.WORD	_room_pal18
+		.BYTE	$7E
 _room_cfg09:
-		.BYTE	$1D,$04	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$02	; _lvl_start_Y
-		.BYTE	$38	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$0D	; _flags
-		.WORD	_lvl4_layouts	; _layout_ptr
-		.WORD	_lvl4_scrolls	; _scrolls_ptr
-		.WORD	_tileset05	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects09	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$1C	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal09	; _bg_pal_ptr
-		.BYTE	$00	; field_18
+		.BYTE	$1D,$04
+		.BYTE	$00
+		.BYTE	$02
+		.BYTE	$38
+		.BYTE	$C0
+		.BYTE	$0D
+		.WORD	_lvl4_layouts
+		.WORD	_lvl4_scrolls
+		.WORD	_tileset05
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects09
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$1C
+		.BYTE	$00,$00
+		.WORD	_room_pal09
+		.BYTE	$00
 _room_cfg0A:
-		.BYTE	$1D,$04	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$03	; _lvl_start_Y
-		.BYTE	$28	; _players_X
-		.BYTE	$80	; _players_Y
-		.BYTE	$0D	; _flags
-		.WORD	_lvl4_layouts	; _layout_ptr
-		.WORD	_lvl4_scrolls	; _scrolls_ptr
-		.WORD	_tileset04	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects0A	; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$1C	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal0A	; _bg_pal_ptr
-		.BYTE	$00	; field_18
+		.BYTE	$1D,$04
+		.BYTE	$00
+		.BYTE	$03
+		.BYTE	$28
+		.BYTE	$80
+		.BYTE	$0D
+		.WORD	_lvl4_layouts
+		.WORD	_lvl4_scrolls
+		.WORD	_tileset04
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects0A
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$1C
+		.BYTE	$00,$00
+		.WORD	_room_pal0A
+		.BYTE	$00
 _cutscene_room_cfg12:
-		.BYTE	$1B,$0E	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$00	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl1_layouts	; _layout_ptr
-		.WORD	_lvl1_scrolls	; _scrolls_ptr
-		.WORD	_tileset01	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$F0	; _split_pos
-		.BYTE	$1A	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_palA_12	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$1B,$0E
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$01
+		.WORD	_lvl1_layouts
+		.WORD	_lvl1_scrolls
+		.WORD	_tileset01
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$F0
+		.BYTE	$1A
+		.BYTE	$00,$00
+		.WORD	_room_palA_12
+		.BYTE	$8C
 _cutscene_room_cfg00:
-		.BYTE	$18,$19	; _chrs
-		.BYTE	$06	; _lvl_start_X
-		.BYTE	$07	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$21	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$B0	; _split_pos
-		.BYTE	$0F	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_palA_00	; _bg_pal_ptr
-		.BYTE	$A1	; field_18
+		.BYTE	$18,$19
+		.BYTE	$06
+		.BYTE	$07
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$21
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$B0
+		.BYTE	$0F
+		.BYTE	$00,$00
+		.WORD	_room_palA_00
+		.BYTE	$A1
 _cutscene_room_cfg01:
-		.BYTE	$18,$0E	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$00	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$4D	; _split_pos
-		.BYTE	$02	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_palA_01	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$18,$0E
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$01
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$4D
+		.BYTE	$02
+		.BYTE	$00,$00
+		.WORD	_room_palA_01
+		.BYTE	$8C
 _cutscene_room_cfg02:
-		.BYTE	$10,	$C	; _chrs
-		.BYTE	$06	; _lvl_start_X
-		.BYTE	$00	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl0_layouts	; _layout_ptr
-		.WORD	_lvl0_scrolls	; _scrolls_ptr
-		.WORD	_tileset00	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$4D	; _split_pos
-		.BYTE	$12	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal01	; _bg_pal_ptr
-		.BYTE	$07	; field_18
+		.BYTE	$10,	$C
+		.BYTE	$06
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$01
+		.WORD	_lvl0_layouts
+		.WORD	_lvl0_scrolls
+		.WORD	_tileset00
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$4D
+		.BYTE	$12
+		.BYTE	$00,$00
+		.WORD	_room_pal01
+		.BYTE	$07
 _cutscene_room_cfg03:
-		.BYTE	$10,$0E	; _chrs
-		.BYTE	$06	; _lvl_start_X
-		.BYTE	$00	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl0_layouts	; _layout_ptr
-		.WORD	_lvl0_scrolls	; _scrolls_ptr
-		.WORD	_tileset00	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$4D	; _split_pos
-		.BYTE	$17	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal01	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$10,$0E
+		.BYTE	$06
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$01
+		.WORD	_lvl0_layouts
+		.WORD	_lvl0_scrolls
+		.WORD	_tileset00
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$4D
+		.BYTE	$17
+		.BYTE	$00,$00
+		.WORD	_room_pal01
+		.BYTE	$8C
 _cutscene_room_cfg04:
-		.BYTE	$18,$0E	; _chrs
-		.BYTE	$02	; _lvl_start_X
-		.BYTE	$00	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$4D	; _split_pos
-		.BYTE	$16	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_palA_04	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$18,$0E
+		.BYTE	$02
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$01
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$4D
+		.BYTE	$16
+		.BYTE	$00,$00
+		.WORD	_room_palA_04
+		.BYTE	$8C
 _cutscene_room_cfg06:
-		.BYTE	$19,$0E	; _chrs
-		.BYTE	$04	; _lvl_start_X
-		.BYTE	$00	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$4D	; _split_pos
-		.BYTE	$15	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_palA_06	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$19,$0E
+		.BYTE	$04
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$01
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$4D
+		.BYTE	$15
+		.BYTE	$00,$00
+		.WORD	_room_palA_06
+		.BYTE	$8C
 _cutscene_room_cfg05:
-		.BYTE	$15,$0E	; _chrs
-		.BYTE	$04	; _lvl_start_X
-		.BYTE	$07	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl5_layouts	; _layout_ptr
-		.WORD	_lvl5_scrolls	; _scrolls_ptr
-		.WORD	_tileset02	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$4D	; _split_pos
-		.BYTE	$0F	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_palA_05	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$15,$0E
+		.BYTE	$04
+		.BYTE	$07
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$01
+		.WORD	_lvl5_layouts
+		.WORD	_lvl5_scrolls
+		.WORD	_tileset02
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$4D
+		.BYTE	$0F
+		.BYTE	$00,$00
+		.WORD	_room_palA_05
+		.BYTE	$8C
 _cutscene_room_cfg07:
-		.BYTE	$15,$0E	; _chrs
-		.BYTE	$04	; _lvl_start_X
-		.BYTE	$07	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl5_layouts	; _layout_ptr
-		.WORD	_lvl5_scrolls	; _scrolls_ptr
-		.WORD	_tileset02	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$4D	; _split_pos
-		.BYTE	$0F	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal13	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$15,$0E
+		.BYTE	$04
+		.BYTE	$07
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$01
+		.WORD	_lvl5_layouts
+		.WORD	_lvl5_scrolls
+		.WORD	_tileset02
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$4D
+		.BYTE	$0F
+		.BYTE	$00,$00
+		.WORD	_room_pal13
+		.BYTE	$8C
 _cutscene_room_cfg09:
-		.BYTE	$18,$0E	; _chrs
-		.BYTE	$06	; _lvl_start_X
-		.BYTE	$00	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$4D	; _split_pos
-		.BYTE	$14	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_palA_09	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$18,$0E
+		.BYTE	$06
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$01
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$4D
+		.BYTE	$14
+		.BYTE	$00,$00
+		.WORD	_room_palA_09
+		.BYTE	$8C
 _cutscene_room_cfg0A:
-		.BYTE	$13,$0E	; _chrs
-		.BYTE	$04	; _lvl_start_X
-		.BYTE	$02	; _lvl_start_Y
-		.BYTE	$18	; _players_X
-		.BYTE	$C0	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl4_layouts	; _layout_ptr
-		.WORD	_lvl4_scrolls	; _scrolls_ptr
-		.WORD	_tileset05	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$4D	; _split_pos
-		.BYTE	$11	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal06	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$13,$0E
+		.BYTE	$04
+		.BYTE	$02
+		.BYTE	$18
+		.BYTE	$C0
+		.BYTE	$01
+		.WORD	_lvl4_layouts
+		.WORD	_lvl4_scrolls
+		.WORD	_tileset05
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$4D
+		.BYTE	$11
+		.BYTE	$00,$00
+		.WORD	_room_pal06
+		.BYTE	$8C
 _cutscene_room_cfg0B:
-		.BYTE	$18,$0E	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$01	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$4D	; _split_pos
-		.BYTE	$15	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_palA_0B	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$18,$0E
+		.BYTE	$00
+		.BYTE	$01
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$01
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$4D
+		.BYTE	$15
+		.BYTE	$00,$00
+		.WORD	_room_palA_0B
+		.BYTE	$8C
 _cutscene_room_cfg0C:
-		.BYTE	$18,$0E	; _chrs
-		.BYTE	$02	; _lvl_start_X
-		.BYTE	$01	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$4D	; _split_pos
-		.BYTE	$0A	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_palA_0C	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$18,$0E
+		.BYTE	$02
+		.BYTE	$01
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$01
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$4D
+		.BYTE	$0A
+		.BYTE	$00,$00
+		.WORD	_room_palA_0C
+		.BYTE	$8C
 _cutscene_room_cfg0D:
-		.BYTE	$18,$0E	; _chrs
-		.BYTE	$06	; _lvl_start_X
-		.BYTE	$01	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$4D	; _split_pos
-		.BYTE	$0A	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_palA_0D	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$18,$0E
+		.BYTE	$06
+		.BYTE	$01
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$01
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$4D
+		.BYTE	$0A
+		.BYTE	$00,$00
+		.WORD	_room_palA_0D
+		.BYTE	$8C
 _cutscene_room_cfg0E:
-		.BYTE	$19,$0E	; _chrs
-		.BYTE	$06	; _lvl_start_X
-		.BYTE	$03	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$21	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$4D	; _split_pos
-		.BYTE	$12	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_palA_0E	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$19,$0E
+		.BYTE	$06
+		.BYTE	$03
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$21
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$4D
+		.BYTE	$12
+		.BYTE	$00,$00
+		.WORD	_room_palA_0E
+		.BYTE	$8C
 _cutscene_room_cfg0F:
-		.BYTE	$17,$0E	; _chrs
-		.BYTE	$02	; _lvl_start_X
-		.BYTE	$06	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$4D	; _split_pos
-		.BYTE	$18	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$17,$0E
+		.BYTE	$02
+		.BYTE	$06
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$01
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$4D
+		.BYTE	$18
+		.BYTE	$00,$00
+		.WORD	_room_pal2B
+		.BYTE	$8C
 _cutscene_room_cfg10:
-		.BYTE	$17,$0E	; _chrs
-		.BYTE	$02	; _lvl_start_X
-		.BYTE	$06	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$FF	; _split_pos
-		.BYTE	$18	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_pal2B	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$17,$0E
+		.BYTE	$02
+		.BYTE	$06
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$01
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$FF
+		.BYTE	$18
+		.BYTE	$00,$00
+		.WORD	_room_pal2B
+		.BYTE	$8C
 _cutscene_room_cfg11:
-		.BYTE	$18,$0E	; _chrs
-		.BYTE	$00	; _lvl_start_X
-		.BYTE	$06	; _lvl_start_Y
-		.BYTE	$00	; _players_X
-		.BYTE	$00	; _players_Y
-		.BYTE	$01	; _flags
-		.WORD	_lvl8_layouts	; _layout_ptr
-		.WORD	_lvl8_scrolls	; _scrolls_ptr
-		.WORD	_tileset06	; _tiles_ptr
-		.WORD	_room_prizes_dummy; _prizes_ptr
-		.WORD	_room_objects_dummy; _enemies_ptr
-		.BYTE	$1E	; _mmc1_ctrl
-		.BYTE	$4D	; _split_pos
-		.BYTE	$19	; _music_idx
-		.BYTE	$00,$00	; field_14
-		.WORD	_room_palA_11	; _bg_pal_ptr
-		.BYTE	$8C	; field_18
+		.BYTE	$18,$0E
+		.BYTE	$00
+		.BYTE	$06
+		.BYTE	$00
+		.BYTE	$00
+		.BYTE	$01
+		.WORD	_lvl8_layouts
+		.WORD	_lvl8_scrolls
+		.WORD	_tileset06
+		.WORD	_room_prizes_dummy
+		.WORD	_room_objects_dummy
+		.BYTE	$1E
+		.BYTE	$4D
+		.BYTE	$19
+		.BYTE	$00,$00
+		.WORD	_room_palA_11
+		.BYTE	$8C
+
+		SECTION_END		05, "ROOM CONFIGURATION DATA"
 
 		BANK_END 2,$C000

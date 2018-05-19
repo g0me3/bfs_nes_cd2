@@ -15,11 +15,11 @@ loc_98007:
 		LDY		#$02
 		LDX		#$04
 loc_98011:
-		STX		byte_F7
+		STX		_apu_tmpF7
 loc_98013:
 		TYA
 		PHA
-		LDX		byte_F7
+		LDX		_apu_tmpF7
 		LDA		_apu_active_chnls_flags
 		AND		_apu_set_bitmasks,X
 		BEQ		loc_98027
@@ -27,7 +27,7 @@ loc_98013:
 		JSR		_apu_playB
 		JSR		_apu_playC
 loc_98027:
-		INC		byte_F7
+		INC		_apu_tmpF7
 		PLA
 		TAY
 		DEY
@@ -157,7 +157,7 @@ _apu_playE_A_sub0:
 
 ; =============== S U B R O U T I N E =======================================
 _apu_playE_A_sub1:
-		LDA		byte_7EE
+		LDA		_apu_var12
 		BEQ		_apu_playE_A_sub4
 		JSR		_apu_playE_A_sub1_A
 		JMP		nullsub6
@@ -176,7 +176,7 @@ _apu_playE_A_sub2:
 
 ; =============== S U B R O U T I N E =======================================
 _apu_playE_A_sub3:
-		LDA		byte_7EF
+		LDA		_apu_var13
 		BEQ		_j_nullsub6
 
 ; =============== S U B R O U T I N E =======================================
@@ -200,7 +200,7 @@ _apu_playE_A_sub0_A:
 		SBC		_apu_vars1,X
 		BCC		loc_9813F
 		SEC
-		SBC		byte_FB
+		SBC		_apu_tmpFB
 		BCS		loc_98141
 loc_9813F:
 		LDA		#$00
@@ -263,7 +263,7 @@ _apu_playE_A_sub1_A:
 		SBC		_apu_vars1+3
 		BCC		loc_981A5
 		SEC
-		SBC		byte_FB
+		SBC		_apu_tmpFB
 		BCS		loc_981A7
 loc_981A5:
 		LDA		#$00
@@ -271,10 +271,10 @@ loc_981A7:
 		ORA		_apu_vars12+3
 		ORA		#$10
 		STA		_APU_PULSE2_ENV
-		LDA		byte_7ED
+		LDA		_apu_var11
 		LSR
 		TAY
-		LDA		byte_7EC
+		LDA		_apu_var10
 		ROR
 		STA		_APU_PULSE2_TIME
 		TYA
@@ -288,16 +288,16 @@ _apu_playD:
 		BNE		nullsub2
 		LDA		_apu_snd1_allow_flag
 		BEQ		locret_981E4
-		LDA		byte_FB
+		LDA		_apu_tmpFB
 		CMP		#$10
 		BCS		loc_981E0
-		INC		byte_FA
-		LDA		byte_FA
+		INC		_apu_tmpFA
+		LDA		_apu_tmpFA
 		CMP		#$04
 		BCC		locret_981E4
 		LDA		#$00
-		STA		byte_FA
-		INC		byte_FB
+		STA		_apu_tmpFA
+		INC		_apu_tmpFB
 		BNE		locret_981E4
 loc_981E0:
 		LDA		#$00
@@ -309,18 +309,18 @@ locret_981E4:
 _apu_playF_unref:
 		LDA		_apu_snd0_allow_flag
 		BEQ		nullsub2
-		INC		byte_FA
-		LDA		byte_FA
+		INC		_apu_tmpFA
+		LDA		_apu_tmpFA
 		CMP		#$04
 		BCC		nullsub2
 		LDA		#$00
-		STA		byte_FA
-		LDA		byte_FB
+		STA		_apu_tmpFA
+		LDA		_apu_tmpFB
 		BNE		loc_981FD
 		STA		_apu_snd0_allow_flag
 		BEQ		nullsub2
 loc_981FD:
-		DEC		byte_FB
+		DEC		_apu_tmpFB
 
 ; =============== S U B R O U T I N E =======================================
 nullsub2:
@@ -440,7 +440,7 @@ loc_98278:
 		STY		_apu_mus_allow_flag
 		STY		_apu_snd0_allow_flag
 		STY		_apu_snd1_allow_flag
-		STY		byte_FB
+		STY		_apu_tmpFB
 loc_982B4:
 		TYA
 		STA		(_apu_cur_pc),Y
@@ -458,9 +458,9 @@ loc_982BD:
 		ORA		_apu_tmpF2
 		BNE		loc_982B4
 		LDA		#<[byte_992B5]
-		STA		byte_7EA
+		STA		_apu_ptr0
 		LDA		#>[byte_992B5]
-		STA		byte_7EB
+		STA		_apu_ptr0+1
 		LDX		#$00
 loc_982DA:
 		JSR		_apu_chnl_init
@@ -483,7 +483,7 @@ _apu_chnl_init:
 		STA		_apu_vars3,X
 		STA		_apu_vars4,X
 		STA		_apu_chnl_delay,X
-		STA		byte_FD
+		STA		_apu_tmpFD
 		STA		_apu_vars6,X
 		STA		_apu_vars7,X
 		STA		_apu_vars8,X
@@ -518,13 +518,13 @@ _apu_load_data:
 		STA		_apu_mus_allow_flag
 		STA		_apu_snd0_allow_flag
 		STA		_apu_snd1_allow_flag
-		STA		byte_FB
-		STA		byte_7EE
-		STA		byte_7EF
+		STA		_apu_tmpFB
+		STA		_apu_var12
+		STA		_apu_var13
 		LDX		#$0C
 loc_98358:
 		TXA
-		STA		byte_7F0,X
+		STA		_apu_varsF,X
 		DEX
 		BPL		loc_98358
 		LDX		#$00
@@ -632,7 +632,7 @@ loc_983F0:
 		INC		_apu_varsE,X
 		JMP		loc_98493
 loc_98416:
-		LDY		byte_FD
+		LDY		_apu_tmpFD
 		BEQ		loc_9841D
 		JMP		loc_98493
 loc_9841D:
@@ -695,7 +695,7 @@ loc_98482:
 		INC		_apu_varsE,X
 loc_98493:
 		LDA		#$00
-		STA		byte_FD
+		STA		_apu_tmpFD
 		LDA		_apu_cur_pc
 		STA		_apu_chnl_pc_lo,X
 		LDA		_apu_cur_pc+1
@@ -721,9 +721,9 @@ _apu_cmd_lib:
 		.WORD	_apu_cmdE0
 		.WORD	_apu_cmdE1
 		.WORD	_apu_cmdE2
-		.WORD	_apu_cmdE3	; dummy
-		.WORD	_apu_cmdE4	; dummy
-		.WORD	_apu_cmdE5	; dummy
+		.WORD	_apu_cmdE3	; unused
+		.WORD	_apu_cmdE4	; unused
+		.WORD	_apu_cmdE5	; unused
 		.WORD	0
 		.WORD	0
 		.WORD	_apu_cmdE8
@@ -731,7 +731,7 @@ _apu_cmd_lib:
 		.WORD	_apu_cmdEA
 		.WORD	_apu_cmdEB
 		.WORD	_apu_cmdEC
-		.WORD	_apu_cmdED	; arg byte
+		.WORD	_apu_cmdED	; unused
 		.WORD	0
 		.WORD	0
 		.WORD	_apu_cmdF0
@@ -889,7 +889,7 @@ _apu_cmdE5:
 ; arg none
 _apu_cmdE8:
 		LDA		#$01
-		STA		byte_FD
+		STA		_apu_tmpFD
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
@@ -995,12 +995,12 @@ _apu_cmdED:
 		PLA
 		AND		#$0F
 		TAY
-		LDA		byte_7F0,X
+		LDA		_apu_varsF,X
 		PHA
-		LDA		byte_7F0,Y
-		STA		byte_7F0,X
+		LDA		_apu_varsF,Y
+		STA		_apu_varsF,X
 		PLA
-		STA		byte_7F0,Y
+		STA		_apu_varsF,Y
 		PLA
 		TAX
 		RTS
@@ -1061,18 +1061,18 @@ _apu_chnl_pop_byte:
 ; =============== S U B R O U T I N E =======================================
 _apu_data_load_A:
 		TAY
-		LDA		byte_7F0,Y
+		LDA		_apu_varsF,Y
 		ASL
 		TAY
 		LDA		off_99283,Y
-		STA		byte_7EA
+		STA		_apu_ptr0
 		LDA		off_99283+1,Y
-		STA		byte_7EB
+		STA		_apu_ptr0+1
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _apu_playB:
-		LDX		byte_F7
+		LDX		_apu_tmpF7
 		CPX		#$03
 		BEQ		loc_98677
 locret_98676:
@@ -1081,11 +1081,11 @@ loc_98677:
 		LDA		_apu_varsD,X
 		BMI		locret_98676
 		LDA		#$00
-		STA		byte_7EE
-		STA		byte_7EF
-		LDA		byte_7EA
+		STA		_apu_var12
+		STA		_apu_var13
+		LDA		_apu_ptr0
 		STA		_apu_cur_pc
-		LDA		byte_7EB
+		LDA		_apu_ptr0+1
 		STA		_apu_cur_pc+1
 loc_9868E:
 		JSR		_apu_stream_get_byte
@@ -1120,7 +1120,7 @@ loc_986BE:
 		STA		_apu_vars12,X
 		JMP		loc_9868E
 loc_986CA:
-		INC		byte_7EF
+		INC		_apu_var13
 		TYA
 		AND		#$1F
 		STA		_apu_vars6,X
@@ -1129,26 +1129,26 @@ loc_986CA:
 		INC		_apu_varsE,X
 		JMP		loc_986F0
 loc_986DE:
-		INC		byte_7EE
+		INC		_apu_var12
 		TYA
 		AND		#$0F
-		STA		byte_7ED
+		STA		_apu_var11
 		JSR		_apu_stream_get_byte
-		STA		byte_7EC
+		STA		_apu_var10
 		INC		_apu_varsE+1
 loc_986F0:
 		LDA		_apu_cur_pc
-		STA		byte_7EA
+		STA		_apu_ptr0
 		LDA		_apu_cur_pc+1
-		STA		byte_7EB
+		STA		_apu_ptr0+1
 		RTS
 loc_986FB:
 		LDA		#$00
-		STA		byte_7EE
-		STA		byte_7EF
+		STA		_apu_var12
+		STA		_apu_var13
 		STA		_apu_vars7,X
 		STA		_apu_vars6,X
-		INC		byte_7EF
+		INC		_apu_var13
 		RTS
 _apu_freq_table:
 		.WORD	$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
@@ -1284,1642 +1284,1642 @@ _apu_mus22:
 		.BYTE	$10
 		.WORD	_apu_mus22_A
 _apu_mus22_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$EA,$04	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$DA,$03	; CMDDA
-		.BYTE	$EA,$F4	; CMDEA
-		.BYTE	$C0	; DATA
-		.BYTE	$DB,$FD	; CMDDB
-		.BYTE	$D6	; CMDD6
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$F0,$06	; LOOP_START
-		.BYTE	$E1,$01	; CMDE1
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$B7	; DATA
-		.BYTE	$EA,$03	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDE9	$00
+		CMDE1	$02
+		LOOP_START	$03
+			CMDD5
+			DATA	$00
+			CMDDA	$FF
+			CMDEA	$04
+		DO_LOOP
+		CMDDA	$03
+		CMDEA	$F4
+		DATA	$C0
+		CMDDB	$FD
+		CMDD6
+		CMDE9	$00
+		LOOP_START	$06
+			CMDE1	$01
+			CMDD9	$F4
+			DATA	$B7
+			CMDEA	$03
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus23:
 		.BYTE	$10
 		.WORD	_apu_mus23_A
 _apu_mus23_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D3	; CMDD3
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$EB,$B3	; CMDEB
-		.BYTE	$71,$41	; DATA
-		.BYTE	$DA,$04	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDD3
+		LOOP_START	$08
+			CMDEB	$B3
+			DATA	$71,$41
+			CMDDA	$04
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus24:
 		.BYTE	$10
 		.WORD	_apu_mus24_A
 _apu_mus24_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D3	; CMDD3
-		.BYTE	$EB,$93	; CMDEB
-		.BYTE	$40,$50,$40,$50	; DATA
-		.BYTE	$EB,$9B	; CMDEB
-		.BYTE	$00,$10,$00,$10	; DATA
-		.BYTE	$EC,$D4	; CMDEC
-		.BYTE	$DB,$08	; CMDDB
-		.BYTE	$F0,$10	; LOOP_START
-		.BYTE	$70	; DATA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDE9	$00
+		CMDD3
+		CMDEB	$93
+		DATA	$40,$50,$40,$50
+		CMDEB	$9B
+		DATA	$00,$10,$00,$10
+		CMDEC	$D4
+		CMDDB	$08
+			LOOP_START	$10
+			DATA	$70
+			CMDDA	$FF
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus25:
 		.BYTE	$30
 		.WORD	_apu_mus25_A
 		.WORD	_apu_mus25_B
 _apu_mus25_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$DA,$06	; CMDDA
-		.BYTE	$D9,$FB	; CMDD9
-		.BYTE	$D3	; CMDD3
-		.BYTE	$EB,$93	; CMDEB
-		.BYTE	$41	; DATA
-		.BYTE	$D9,$F8	; CMDD9
-		.BYTE	$EB,$9B	; CMDEB
-		.BYTE	$00	; DATA
-		.BYTE	$D9,$F8	; CMDD9
-		.BYTE	$D2	; CMDD2
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$EB,$93	; CMDEB
-		.BYTE	$90	; DATA
-		.BYTE	$EB,$9B	; CMDEB
-		.BYTE	$00	; DATA
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$EB,$95	; CMDEB
-		.BYTE	$97,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDE9	$00
+		CMDDA	$06
+		CMDD9	$FB
+		CMDD3
+		CMDEB	$93
+		DATA	$41
+		CMDD9	$F8
+		CMDEB	$9B
+		DATA	$00
+		CMDD9	$F8
+		CMDD2
+		LOOP_START	$02
+			CMDEB	$93
+			DATA	$90
+			CMDEB	$9B
+			DATA	$00
+			CMDE9	$00
+		DO_LOOP
+		CMDEB	$95
+		DATA	$97,$C0
+		ASTOP
 _apu_mus25_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$B2,$C1,$A2	; DATA
-		.BYTE	$E9,$02	; CMDE9
-		.BYTE	$92,$82	; DATA
-		.BYTE	$E9,$05	; CMDE9
-		.BYTE	$72,$62,$52,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDE9	$00
+		DATA	$B2,$C1,$A2
+		CMDE9	$02
+		DATA	$92,$82
+		CMDE9	$05
+		DATA	$72,$62,$52,$C0
+		ASTOP
 _apu_mus26:
 		.BYTE	$10
 		.WORD	_apu_mus26_A
 _apu_mus26_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D5	; CMDD5
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$EB,$93	; CMDEB
-		.BYTE	$73,$53,$43,$23,$43,$53 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDD5
+		LOOP_START	$04
+			CMDEB	$93
+			DATA	$73,$53,$43,$23,$43,$53
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus27:
 		.BYTE	$20
 		.WORD	_apu_mus27_A
 _apu_mus27_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$B2,$A2,$92	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$02
+		CMDE9	$00
+		LOOP_START	$04
+			DATA	$B2,$A2,$92
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus28:
 		.BYTE	$20
 		.WORD	_apu_mus28_A
 _apu_mus28_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$00	; CMDD9
-		.BYTE	$F0,$0B	; LOOP_START
-		.BYTE	$00	; DATA
-		.BYTE	$DA,$01	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D9,$00	; CMDD9
-		.BYTE	$F0,$0B	; LOOP_START
-		.BYTE	$B3	; DATA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDE9	$00
+		CMDD9	$00
+		LOOP_START	$0B
+			DATA	$00
+			CMDDA	$01
+		DO_LOOP
+		CMDD9	$00
+		LOOP_START	$0B
+			DATA	$B3
+			CMDDA	$FF
+			CMDEA	$01
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus29:
 		.BYTE	$10
 		.WORD	_apu_mus29_A
 _apu_mus29_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$EB,$85	; CMDEB
-		.BYTE	$E9,$0A	; CMDE9
-		.BYTE	$D6	; CMDD6
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$71,$91,$B1	; DATA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDEB	$85
+		CMDE9	$0A
+		CMDD6
+		LOOP_START	$03
+			DATA	$71,$91,$B1
+			CMDEA	$02
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus2A:
 		.BYTE	$10
 		.WORD	_apu_mus2A_A
 _apu_mus2A_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$EB,$93	; CMDEB
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D3	; CMDD3
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$40,$50	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$F0,$10	; LOOP_START
-		.BYTE	$41	; DATA
-		.BYTE	$D8	; CMDD8
-		.BYTE	$91	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$01	; DATA
-		.BYTE	$DA,$FE	; CMDDA
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$01
+		CMDEB	$93
+		CMDE9	$00
+		CMDD3
+		LOOP_START	$03
+			DATA	$40,$50
+		DO_LOOP
+		DATA	$C1
+		CMDD4
+		LOOP_START	$10
+			DATA	$41
+			CMDD8
+			DATA	$91
+			CMDD7
+			DATA	$01
+			CMDDA	$FE
+			CMDEA	$01
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus2B:
 		.BYTE	$30
 		.WORD	_apu_mus2B_A
 		.WORD	_apu_mus2B_B
 _apu_mus2B_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D1	; CMDD1
-		.BYTE	$91,$C0	; DATA
-		.BYTE	$D1	; CMDD1
-		.BYTE	$D9,$00	; CMDD9
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$01,$01	; DATA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$EA,$08	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$01
+		CMDE9	$00
+		CMDD1
+		DATA	$91,$C0
+		CMDD1
+		CMDD9	$00
+		LOOP_START	$02
+			DATA	$01,$01
+			CMDDA	$FF
+			CMDEA	$08
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus2B_B:
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$B1,$C0	; DATA
-		.BYTE	$D9,$00	; CMDD9
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$A1,$B1	; DATA
-		.BYTE	$DA,$01	; CMDDA
-		.BYTE	$EA,$08	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE0	$01
+		CMDE9	$00
+		DATA	$B1,$C0
+		CMDD9	$00
+		LOOP_START	$02
+			DATA	$A1,$B1
+			CMDDA	$01
+			CMDEA	$08
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus2C:
 		.BYTE	$10
 		.WORD	_apu_mus2C_A
 _apu_mus2C_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$D3	; CMDD3
-		.BYTE	$EB,$9D	; CMDEB
-		.BYTE	$E9,$08	; CMDE9
-		.BYTE	$71	; DATA
-		.BYTE	$E9,$06	; CMDE9
-		.BYTE	$90	; DATA
-		.BYTE	$E9,$02	; CMDE9
-		.BYTE	$B1	; DATA
-		.BYTE	$E9,$05	; CMDE9
-		.BYTE	$EB,$95	; CMDEB
-		.BYTE	$D7	; CMDD7
-		.BYTE	$01,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$02
+		CMDD3
+		CMDEB	$9D
+		CMDE9	$08
+		DATA	$71
+		CMDE9	$06
+		DATA	$90
+		CMDE9	$02
+		DATA	$B1
+		CMDE9	$05
+		CMDEB	$95
+		CMDD7
+		DATA	$01,$C0
+		ASTOP
 _apu_mus2D:
 		.BYTE	$30
 		.WORD	_apu_mus2D_A
 		.WORD	_apu_mus2D_B
 _apu_mus2D_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$EB,$9D	; CMDEB
-		.BYTE	$D2	; CMDD2
-		.BYTE	$77	; DATA
-		.BYTE	$EB,$95	; CMDEB
-		.BYTE	$77,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDE9	$03
+		CMDEB	$9D
+		CMDD2
+		DATA	$77
+		CMDEB	$95
+		DATA	$77,$C0
+		ASTOP
 _apu_mus2D_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$D9,$FC	; CMDD9
-		.BYTE	$B0	; DATA
-		.BYTE	$D9,$00	; CMDD9
-		.BYTE	$B0	; DATA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$E9,$08	; CMDE9
-		.BYTE	$71,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		LOOP_START	$03
+			CMDD9	$FC
+			DATA	$B0
+			CMDD9	$00
+			DATA	$B0
+			CMDEA	$02
+		DO_LOOP
+		CMDE9	$08
+		DATA	$71,$C0
+		ASTOP
 _apu_mus2E:
 		.BYTE	$10
 		.WORD	_apu_mus2E_A
 _apu_mus2E_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$EB,$93	; CMDEB
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D5	; CMDD5
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$40	; DATA
-		.BYTE	$D8	; CMDD8
-		.BYTE	$90	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$00	; DATA
-		.BYTE	$DA,$04	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$DA,$F4	; CMDDA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$40	; DATA
-		.BYTE	$D8	; CMDD8
-		.BYTE	$90	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$00	; DATA
-		.BYTE	$DA,$FE	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$40	; DATA
-		.BYTE	$D8	; CMDD8
-		.BYTE	$90	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$00	; DATA
-		.BYTE	$DA,$FE	; CMDDA
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$01
+		CMDEB	$93
+		CMDE9	$00
+		CMDD5
+		LOOP_START	$03
+			DATA	$40
+			CMDD8
+			DATA	$90
+			CMDD7
+			DATA	$00
+			CMDDA	$04
+		DO_LOOP
+		CMDDA	$F4
+		CMDD5
+		LOOP_START	$08
+			DATA	$40
+			CMDD8
+			DATA	$90
+			CMDD7
+			DATA	$00
+			CMDDA	$FE
+		DO_LOOP
+		LOOP_START	$08
+			DATA	$40
+			CMDD8
+			DATA	$90
+			CMDD7
+			DATA	$00
+			CMDDA	$FE
+			CMDEA	$01
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus2F:
 		.BYTE	$30
 		.WORD	_apu_mus2F_A
 		.WORD	_apu_mus2F_B
 _apu_mus2F_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D1	; CMDD1
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$D1	; CMDD1
-		.BYTE	$00,$C0,$C0	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$D1	; CMDD1
-		.BYTE	$00,$C0,$C0,$C0	; DATA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDD1
+		DATA	$00,$C0
+		CMDD1
+		DATA	$00,$C0,$C0
+		CMDD2
+		DATA	$00,$C0
+		CMDD1
+		DATA	$00,$C0,$C0,$C0
+		CMDDA	$FF
+		CMDEA	$01
+		DATA	$C0
+		ASTOP
 _apu_mus2F_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D1	; CMDD1
-		.BYTE	$C0,$00	; DATA
-		.BYTE	$D1	; CMDD1
-		.BYTE	$C0,$00,$00	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$C0,$B0	; DATA
-		.BYTE	$D1	; CMDD1
-		.BYTE	$C0,$90,$B0,$90	; DATA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDD1
+		DATA	$C0,$00
+		CMDD1
+		DATA	$C0,$00,$00
+		CMDD2
+		DATA	$C0,$B0
+		CMDD1
+		DATA	$C0,$90,$B0,$90
+		CMDDA	$FF
+		CMDEA	$01
+		DATA	$C0
+		ASTOP
 _apu_mus30:
 		.BYTE	$30
 		.WORD	_apu_mus30_A
 		.WORD	_apu_mus30_B
 _apu_mus30_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40,$90,$C1	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$91,$A1,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDD4
+		DATA	$40,$90,$C1
+		CMDD7
+		DATA	$91,$A1,$C0
+		ASTOP
 _apu_mus30_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$B1,$A0,$C0,$71,$C0 ; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		DATA	$B1,$A0,$C0,$71,$C0
+		ASTOP
 _apu_mus31:
 		.BYTE	$10
 		.WORD	_apu_mus31_A
 _apu_mus31_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D9,$0C	; CMDD9
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40,$30	; DATA
-		.BYTE	$D8	; CMDD8
-		.BYTE	$00	; DATA
-		.BYTE	$EA,$06	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDD9	$0C
+		CMDE9	$00
+		LOOP_START	$03
+			CMDD4
+			DATA	$40,$30
+			CMDD8
+			DATA	$00
+			CMDEA	$06
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus32:
 		.BYTE	$10
 		.WORD	_apu_mus32_A
 _apu_mus32_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D4	; CMDD4
-		.BYTE	$D9,$FD	; CMDD9
-		.BYTE	$EB,$8C	; CMDEB
-		.BYTE	$41,$B1,$81	; DATA
-		.BYTE	$EC,$D9	; CMDEC
-		.BYTE	$00	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$44,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDD4
+		CMDD9	$FD
+		CMDEB	$8C
+		DATA	$41,$B1,$81
+		CMDEC	$D9
+		DATA	$00
+		CMDD7
+		DATA	$44,$C0
+		ASTOP
 _apu_mus33:
 		.BYTE	$10
 		.WORD	_apu_mus33_A
 _apu_mus33_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$01	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B2,$72	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$22,$B2,$72	; DATA
-		.BYTE	$DA,$05	; CMDDA
-		.BYTE	$EA,$03	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$01
+		CMDE0	$01
+		LOOP_START	$04
+			CMDD3
+			DATA	$B2,$72
+			CMDD7
+			DATA	$22,$B2,$72
+			CMDDA	$05
+			CMDEA	$03
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus34:
 		.BYTE	$10
 		.WORD	_apu_mus34_A
 _apu_mus34_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$01	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$40,$70	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$00	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$01,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$01
+		CMDE0	$04
+		LOOP_START	$02
+			CMDD4
+			DATA	$70,$40,$70
+			CMDD7
+			DATA	$00
+		DO_LOOP
+		DATA	$01,$C0
+		ASTOP
 _apu_mus35:
 		.BYTE	$30
 		.WORD	_apu_mus35_A
 		.WORD	_apu_mus35_B
 _apu_mus35_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$DB,$81	; CMDDB
-		.BYTE	$D9,$05	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$E9,$04	; CMDE9
-		.BYTE	$D2	; CMDD2
-		.BYTE	$00,$30,$60,$90,$60,$40 ;	DATA
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D2	; CMDD2
-		.BYTE	$00,$30,$60,$90,$60,$40 ;	DATA
-		.BYTE	$E9,$05	; CMDE9
-		.BYTE	$D2	; CMDD2
-		.BYTE	$00,$30,$60,$90,$60,$40,$C0 ; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDDB	$81
+		CMDD9	$05
+		DATA	$C1
+		CMDE9	$04
+		CMDD2
+		DATA	$00,$30,$60,$90,$60,$40
+		CMDE9	$00
+		CMDD2
+		DATA	$00,$30,$60,$90,$60,$40
+		CMDE9	$05
+		CMDD2
+		DATA	$00,$30,$60,$90,$60,$40,$C0
+		ASTOP
 _apu_mus35_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$05	; CMDE9
-		.BYTE	$52,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$01
+		CMDE9	$05
+		DATA	$52,$C0
+		ASTOP
 _apu_mus36:
 		.BYTE	$10
 		.WORD	_apu_mus36_A
 _apu_mus36_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$10,$20,$30,$40,$30,$20,$10 ;	DATA
-		.BYTE	$EA,$04	; CMDEA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDE9	$00
+		CMDE0	$01
+		LOOP_START	$04
+			CMDD4
+			DATA	$00,$10,$20,$30,$40,$30,$20,$10
+			CMDEA	$04
+			CMDDA	$FF
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus37:
 		.BYTE	$10
 		.WORD	_apu_mus37_A
 _apu_mus37_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$F0,$10	; LOOP_START
-		.BYTE	$D9,$00	; CMDD9
-		.BYTE	$D2	; CMDD2
-		.BYTE	$B0,$A0	; DATA
-		.BYTE	$DA,$02	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$01
+		LOOP_START	$10
+			CMDD9	$00
+			CMDD2
+			DATA	$B0,$A0
+			CMDDA	$02
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus38:
 		.BYTE	$10
 		.WORD	_apu_mus38_A
 _apu_mus38_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D5	; CMDD5
-		.BYTE	$EB,$83	; CMDEB
-		.BYTE	$B2	; DATA
-		.BYTE	$EC,$75	; CMDEC
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDD5
+		CMDEB	$83
+		DATA	$B2
+		CMDEC	$75
+		DATA	$C0
+		ASTOP
 _apu_mus39:
 		.BYTE	$20
 		.WORD	_apu_mus39_A
 _apu_mus39_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$0A	; CMDE9
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$60,$90,$80,$40	; DATA
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$40,$60,$20,$00	; DATA
-		.BYTE	$EA,$04	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDE9	$0A
+		LOOP_START	$02
+			DATA	$60,$90,$80,$40
+			CMDE9	$00
+		DO_LOOP
+		LOOP_START	$04
+			DATA	$40,$60,$20,$00
+			CMDEA	$04
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus3A:
 		.BYTE	$10
 		.WORD	_apu_mus3A_A
 _apu_mus3A_A:
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E2,$01	; CMDE2
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D4	; CMDD4
-		.BYTE	$DB,$03	; CMDDB
-		.BYTE	$F0,$06	; LOOP_START
-		.BYTE	$B1,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE0	$01
+		CMDE1	$02
+		CMDE2	$01
+		CMDE9	$00
+		CMDD4
+		CMDDB	$03
+		LOOP_START	$06
+			DATA	$B1,$C0
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus3B:
 		.BYTE	$30
 		.WORD	_apu_mus3B_A
 		.WORD	_apu_mus3B_B
 _apu_mus3B_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$EB,$BD	; CMDEB
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01,$72,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDE9	$00
+		CMDEB	$BD
+		CMDD3
+		DATA	$01,$72,$C0
+		ASTOP
 _apu_mus3B_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$C1,$32,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$01
+		CMDE9	$00
+		DATA	$C1,$32,$C0
+		ASTOP
 _apu_mus3C:
 		.BYTE	$10
 		.WORD	_apu_mus3C_A
 _apu_mus3C_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$EB,$85	; CMDEB
-		.BYTE	$D3	; CMDD3
-		.BYTE	$52	; DATA
-		.BYTE	$EB,$8D	; CMDEB
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$D3	; CMDD3
-		.BYTE	$52,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDE9	$00
+		CMDEB	$85
+		CMDD3
+		DATA	$52
+		CMDEB	$8D
+		CMDE9	$03
+		CMDD3
+		DATA	$52,$C0
+		ASTOP
 _apu_mus3D:
 		.BYTE	$30
 		.WORD	_apu_mus3D_A
 		.WORD	_apu_mus3D_B
 _apu_mus3D_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D0	; CMDD0
-		.BYTE	$90,$A0	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$00	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$02
+		LOOP_START	$02
+			CMDD0
+			DATA	$90,$A0
+			CMDD7
+			DATA	$00
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus3D_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$D9,$FD	; CMDD9
-		.BYTE	$B2,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$04
+		CMDD9	$FD
+		DATA	$B2,$C0
+		ASTOP
 _apu_mus3E:
 		.BYTE	$30
 		.WORD	_apu_mus3E_A
 		.WORD	_apu_mus3E_B
 _apu_mus3E_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$D2	; CMDD2
-		.BYTE	$EB,$9D	; CMDEB
-		.BYTE	$97,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$04
+		CMDD2
+		CMDEB	$9D
+		DATA	$97,$C0
+		ASTOP
 _apu_mus3E_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$05	; CMDE9
-		.BYTE	$81,$71,$61,$51,$41,$C0 ;	DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$04
+		CMDE9	$05
+		DATA	$81,$71,$61,$51,$41,$C0
+		ASTOP
 _apu_mus3F:
 		.BYTE	$20
 		.WORD	_apu_mus3F_A
 _apu_mus3F_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D9,$FC	; CMDD9
-		.BYTE	$C0,$B1	; DATA
-		.BYTE	$D9,$00	; CMDD9
-		.BYTE	$C0,$93,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDD9	$FC
+		DATA	$C0,$B1
+		CMDD9	$00
+		DATA	$C0,$93,$C0
+		ASTOP
 _apu_mus40:
 		.BYTE	$20
 		.WORD	_apu_mus40_A
 _apu_mus40_A:
-		.BYTE	$E2,$02	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$00,$10,$20,$33,$C0 ; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$02
+		CMDE1	$02
+		CMDE0	$01
+		DATA	$00,$10,$20,$33,$C0
+		ASTOP
 _apu_mus41:
 		.BYTE	$20
 		.WORD	_apu_mus41_A
 _apu_mus41_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$21,$43,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$04
+		DATA	$21,$43,$C0
+		ASTOP
 _apu_mus42:
 		.BYTE	$10
 		.WORD	_apu_mus42_A
 _apu_mus42_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D3	; CMDD3
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$EB,$B3	; CMDEB
-		.BYTE	$73,$93	; DATA
-		.BYTE	$EA,$04	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDD3
+		LOOP_START	$03
+			CMDEB	$B3
+			DATA	$73,$93
+			CMDEA	$04
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus43:
 		.BYTE	$30
 		.WORD	_apu_mus43_A
 		.WORD	_apu_mus43_B
 _apu_mus43_B:
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$F0,$06	; LOOP_START
-		.BYTE	$80,$90,$A0,$B0,$A0,$90,$80 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE0	$01
+		CMDE9	$03
+		LOOP_START	$06
+			DATA	$80,$90,$A0,$B0,$A0,$90,$80
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus43_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$F0,$06	; LOOP_START
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D3	; CMDD3
-		.BYTE	$40,$10	; DATA
-		.BYTE	$D8	; CMDD8
-		.BYTE	$B0	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$00,$20,$30,$10	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$01
+		CMDD9	$F4
+		LOOP_START	$06
+			CMDE9	$00
+			CMDD3
+			DATA	$40,$10
+			CMDD8
+			DATA	$B0
+			CMDD7
+			DATA	$00,$20,$30,$10
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus44:
 		.BYTE	$30
 		.WORD	_apu_mus44_A
 		.WORD	_apu_mus44_B
 _apu_mus44_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$EB,$85	; CMDEB
-		.BYTE	$D9,$F8	; CMDD9
-		.BYTE	$D0	; CMDD0
-		.BYTE	$92,$C0	; DATA
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$91,$C0	; DATA
-		.BYTE	$EA,$04	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$02
+		CMDEB	$85
+		CMDD9	$F8
+		CMDD0
+		DATA	$92,$C0
+		LOOP_START	$03
+			DATA	$91,$C0
+			CMDEA	$04
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus44_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D9,$FE	; CMDD9
-		.BYTE	$B2,$C0	; DATA
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$A6	; DATA
-		.BYTE	$EA,$04	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$01
+		CMDD9	$FE
+		DATA	$B2,$C0
+		LOOP_START	$04
+			DATA	$A6
+			CMDEA	$04
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus45:
 		.BYTE	$20
 		.WORD	_apu_mus45_A
 _apu_mus45_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$00,$01,$00,$00	; DATA
-		.BYTE	$F0,$0A	; LOOP_START
-		.BYTE	$B0,$90,$B0,$90,$B0 ; DATA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		DATA	$00,$01,$00,$00
+		LOOP_START	$0A
+			DATA	$B0,$90,$B0,$90,$B0
+			CMDDA	$FF
+			CMDEA	$02
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus46:
 		.BYTE	$30
 		.WORD	_apu_mus46_A
 		.WORD	_apu_mus46_B
 _apu_mus46_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D1	; CMDD1
-		.BYTE	$EC,$21	; CMDEC
-		.BYTE	$32	; DATA
-		.BYTE	$EB,$85	; CMDEB
-		.BYTE	$D7	; CMDD7
-		.BYTE	$51,$31,$21,$C4	; DATA
-		.BYTE	$EA,$03	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		LOOP_START	$04
+			CMDD1
+			CMDEC	$21
+			DATA	$32
+			CMDEB	$85
+			CMDD7
+			DATA	$51,$31,$21,$C4
+			CMDEA	$03
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus46_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$D9,$FE	; CMDD9
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$C0,$B6	; DATA
-		.BYTE	$EA,$04	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$02
+		CMDD9	$FE
+		LOOP_START	$04
+			DATA	$C0,$B6
+			CMDEA	$04
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus47:
 		.BYTE	$10
 		.WORD	_apu_mus47_A
 _apu_mus47_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$D3	; CMDD3
-		.BYTE	$EB,$9D	; CMDEB
-		.BYTE	$E9,$09	; CMDE9
-		.BYTE	$74	; DATA
-		.BYTE	$E9,$07	; CMDE9
-		.BYTE	$EB,$95	; CMDEB
-		.BYTE	$B4,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$02
+		CMDD3
+		CMDEB	$9D
+		CMDE9	$09
+		DATA	$74
+		CMDE9	$07
+		CMDEB	$95
+		DATA	$B4,$C0
+		ASTOP
 _apu_mus4A:
 		.BYTE	$10
 		.WORD	_apu_mus4A_A
 _apu_mus4A_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$07	; CMDD9
-		.BYTE	$D3	; CMDD3
-		.BYTE	$EB,$8B	; CMDEB
-		.BYTE	$71	; DATA
-		.BYTE	$E9,$02	; CMDE9
-		.BYTE	$EB,$83	; CMDEB
-		.BYTE	$71,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDE9	$00
+		CMDD9	$07
+		CMDD3
+		CMDEB	$8B
+		DATA	$71
+		CMDE9	$02
+		CMDEB	$83
+		DATA	$71,$C0
+		ASTOP
 _apu_mus4B:
 		.BYTE	$20
 		.WORD	_apu_mus4B_A
 _apu_mus4B_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$E9,$05	; CMDE9
-		.BYTE	$F0,$14	; LOOP_START
-		.BYTE	$50	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$02
+		CMDE9	$05
+		LOOP_START	$14
+			DATA	$50
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus4D:
 		.BYTE	$20
 		.WORD	_apu_mus4D_A
 _apu_mus4D_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$70,$C2,$71,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		DATA	$70,$C2,$71,$C0
+		ASTOP
 _apu_mus4E:
 		.BYTE	$30
 		.WORD	_apu_mus4E_A
 		.WORD	_apu_mus4E_B
 _apu_mus4E_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D1	; CMDD1
-		.BYTE	$50,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDD1
+		DATA	$50,$C0
+		ASTOP
 _apu_mus4E_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D9,$FF	; CMDD9
-		.BYTE	$B2,$C0	; DATA
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$93,$C1,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDD9	$FF
+		DATA	$B2,$C0
+		CMDE9	$03
+		DATA	$93,$C1,$C0
+		ASTOP
 _apu_mus4F:
 		.BYTE	$10
 		.WORD	_apu_mus4F_A
 _apu_mus4F_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D3	; CMDD3
-		.BYTE	$F0,$0A	; LOOP_START
-		.BYTE	$EB,$B3	; CMDEB
-		.BYTE	$73,$53	; DATA
-		.BYTE	$DA,$02	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDD3
+		LOOP_START	$0A
+			CMDEB	$B3
+			DATA	$73,$53
+			CMDDA	$02
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus50:
 		.BYTE	$30
 		.WORD	_apu_mus50_A
 		.WORD	_apu_mus50_B
 _apu_mus50_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$DA,$0C	; CMDDA
-		.BYTE	$D1	; CMDD1
-		.BYTE	$91	; DATA
-		.BYTE	$D1	; CMDD1
-		.BYTE	$D9,$08	; CMDD9
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$00	; DATA
-		.BYTE	$DA,$01	; CMDDA
-		.BYTE	$EA,$05	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDE9	$00
+		CMDDA	$0C
+		CMDD1
+		DATA	$91
+		CMDD1
+		CMDD9	$08
+		LOOP_START	$02
+			DATA	$00
+			CMDDA	$01
+			CMDEA	$05
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus50_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$B0,$C1,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		DATA	$B0,$C1,$C0
+		ASTOP
 _apu_mus51:
 		.BYTE	$20
 		.WORD	_apu_mus51_A
 _apu_mus51_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D9,$FE	; CMDD9
-		.BYTE	$B2,$C0	; DATA
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$A6	; DATA
-		.BYTE	$EA,$04	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$01
+		CMDD9	$FE
+		DATA	$B2,$C0
+		LOOP_START	$04
+			DATA	$A6
+			CMDEA	$04
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus52:
 		.BYTE	$10
 		.WORD	_apu_mus52_A
 _apu_mus52_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$EB,$94	; CMDEB
-		.BYTE	$D4	; CMDD4
-		.BYTE	$73,$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$DB,$08	; CMDDB
-		.BYTE	$27,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDEB	$94
+		CMDD4
+		DATA	$73,$C0
+		CMDD5
+		CMDDB	$08
+		DATA	$27,$C0
+		ASTOP
 _apu_mus53:
 		.BYTE	$10
 		.WORD	_apu_mus53_A
 _apu_mus53_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D3	; CMDD3
-		.BYTE	$EB,$8B	; CMDEB
-		.BYTE	$73	; DATA
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$D9,$07	; CMDD9
-		.BYTE	$01,$21,$01,$21	; DATA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDD3
+		CMDEB	$8B
+		DATA	$73
+		CMDE0	$01
+		LOOP_START	$02
+			CMDD3
+			CMDD9	$07
+			DATA	$01,$21,$01,$21
+			CMDEA	$02
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus54:
 		.BYTE	$10
 		.WORD	_apu_mus54_A
 _apu_mus54_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$06	; CMDD9
-		.BYTE	$F0,$05	; LOOP_START
-		.BYTE	$D2	; CMDD2
-		.BYTE	$50	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$50	; DATA
-		.BYTE	$DA,$01	; CMDDA
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$01
+		CMDE9	$00
+		CMDD9	$06
+		LOOP_START	$05
+			CMDD2
+			DATA	$50
+			CMDD7
+			DATA	$50
+			CMDDA	$01
+			CMDEA	$01
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus55:
 		.BYTE	$10
 		.WORD	_apu_mus55_A
 _apu_mus55_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$EB,$BD	; CMDEB
-		.BYTE	$D2	; CMDD2
-		.BYTE	$0F,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$03
+		CMDEB	$BD
+		CMDD2
+		DATA	$0F,$C0
+		ASTOP
 _apu_mus56:
 		.BYTE	$10
 		.WORD	_apu_mus56_A
 _apu_mus56_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D9,$05	; CMDD9
-		.BYTE	$D3	; CMDD3
-		.BYTE	$EB,$8B	; CMDEB
-		.BYTE	$51,$C0,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDD9	$05
+		CMDD3
+		CMDEB	$8B
+		DATA	$51,$C0,$C0
+		ASTOP
 _apu_mus57:
 		.BYTE	$10
 		.WORD	_apu_mus57_A
 _apu_mus57_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D9,$05	; CMDD9
-		.BYTE	$D3	; CMDD3
-		.BYTE	$EB,$8B	; CMDEB
-		.BYTE	$91,$C0,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDD9	$05
+		CMDD3
+		CMDEB	$8B
+		DATA	$91,$C0,$C0
+		ASTOP
 _apu_mus58:
 		.BYTE	$10
 		.WORD	_apu_mus58_A
 _apu_mus58_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D9,$02	; CMDD9
-		.BYTE	$D4	; CMDD4
-		.BYTE	$EB,$8B	; CMDEB
-		.BYTE	$41,$C0,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDD9	$02
+		CMDD4
+		CMDEB	$8B
+		DATA	$41,$C0,$C0
+		ASTOP
 _apu_mus59:
 		.BYTE	$10
 		.WORD	_apu_mus59_A
 _apu_mus59_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D9,$05	; CMDD9
-		.BYTE	$D2	; CMDD2
-		.BYTE	$EB,$8B	; CMDEB
-		.BYTE	$B1,$C0,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDD9	$05
+		CMDD2
+		CMDEB	$8B
+		DATA	$B1,$C0,$C0
+		ASTOP
 _apu_mus5A:
 		.BYTE	$10
 		.WORD	_apu_mus5A_A
 _apu_mus5A_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$02	; CMDE9
-		.BYTE	$D9,$05	; CMDD9
-		.BYTE	$D4	; CMDD4
-		.BYTE	$EB,$8B	; CMDEB
-		.BYTE	$51,$C0,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDE9	$02
+		CMDD9	$05
+		CMDD4
+		CMDEB	$8B
+		DATA	$51,$C0,$C0
+		ASTOP
 _apu_mus5B:
 		.BYTE	$10
 		.WORD	_apu_mus5B_A
 _apu_mus5B_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D9,$07	; CMDD9
-		.BYTE	$D3	; CMDD3
-		.BYTE	$EB,$8B	; CMDEB
-		.BYTE	$01,$C0,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDD9	$07
+		CMDD3
+		CMDEB	$8B
+		DATA	$01,$C0,$C0
+		ASTOP
 _apu_mus5C:
 		.BYTE	$20
 		.WORD	_apu_mus5C_A
 _apu_mus5C_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$05	; CMDE9
-		.BYTE	$90,$C1,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDE9	$05
+		DATA	$90,$C1,$C0
+		ASTOP
 _apu_mus5D:
 		.BYTE	$20
 		.WORD	_apu_mus5D_A
 _apu_mus5D_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$B0,$C1,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDE9	$03
+		DATA	$B0,$C1,$C0
+		ASTOP
 _apu_mus5E:
 		.BYTE	$10
 		.WORD	_apu_mus5E_A
 _apu_mus5E_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$DB,$81	; CMDDB
-		.BYTE	$D9,$08	; CMDD9
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$D2	; CMDD2
-		.BYTE	$00,$30,$60,$90,$60,$40 ;	DATA
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D2	; CMDD2
-		.BYTE	$00,$30,$60,$90,$60,$40 ;	DATA
-		.BYTE	$E9,$05	; CMDE9
-		.BYTE	$D2	; CMDD2
-		.BYTE	$00,$30,$60,$90,$60,$40,$C0 ; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDDB	$81
+		CMDD9	$08
+		CMDE9	$03
+		CMDD2
+		DATA	$00,$30,$60,$90,$60,$40
+		CMDE9	$00
+		CMDD2
+		DATA	$00,$30,$60,$90,$60,$40
+		CMDE9	$05
+		CMDD2
+		DATA	$00,$30,$60,$90,$60,$40,$C0
+		ASTOP
 _apu_mus5F:
 		.BYTE	$10
 		.WORD	_apu_mus5F_A
 _apu_mus5F_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$D3	; CMDD3
-		.BYTE	$EB,$93	; CMDEB
-		.BYTE	$91	; DATA
-		.BYTE	$EB,$9B	; CMDEB
-		.BYTE	$01,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$02
+		CMDD3
+		CMDEB	$93
+		DATA	$91
+		CMDEB	$9B
+		DATA	$01,$C0
+		ASTOP
 _apu_mus60:
 		.BYTE	$30
 		.WORD	_apu_mus60_A
 		.WORD	_apu_mus60_B
 _apu_mus60_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$DA,$0C	; CMDDA
-		.BYTE	$D1	; CMDD1
-		.BYTE	$91,$C0	; DATA
-		.BYTE	$D1	; CMDD1
-		.BYTE	$D9,$00	; CMDD9
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$01,$01	; DATA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$EA,$08	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDE9	$00
+		CMDDA	$0C
+		CMDD1
+		DATA	$91,$C0
+		CMDD1
+		CMDD9	$00
+		LOOP_START	$02
+			DATA	$01,$01
+			CMDDA	$FF
+			CMDEA	$08
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus60_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$01,$C0	; DATA
-		.BYTE	$D9,$00	; CMDD9
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$11,$01	; DATA
-		.BYTE	$DA,$01	; CMDDA
-		.BYTE	$EA,$08	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE0	$01
+		CMDE9	$03
+		DATA	$01,$C0
+		CMDD9	$00
+		LOOP_START	$02
+			DATA	$11,$01
+			CMDDA	$01
+			CMDEA	$08
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus61:
 		.BYTE	$10
 		.WORD	_apu_mus61_A
 _apu_mus61_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D2	; CMDD2
-		.BYTE	$71,$C0,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDD2
+		DATA	$71,$C0,$C0
+		ASTOP
 _apu_mus62:
 		.BYTE	$30
 		.WORD	_apu_mus62_A
 		.WORD	_apu_mus62_B
 _apu_mus62_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D3	; CMDD3
-		.BYTE	$EB,$85	; CMDEB
-		.BYTE	$91	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$91	; DATA
-		.BYTE	$D8	; CMDD8
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDD3
+		CMDEB	$85
+		DATA	$91
+		CMDD7
+		DATA	$91
+		CMDD8
+		DATA	$C0
+		ASTOP
 _apu_mus62_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$70,$C2,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		DATA	$70,$C2,$C0
+		ASTOP
 _apu_mus63:
 		.BYTE	$30
 		.WORD	_apu_mus63_A
 		.WORD	_apu_mus63_B
 _apu_mus63_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D0	; CMDD0
-		.BYTE	$91,$C0	; DATA
-		.BYTE	$D1	; CMDD1
-		.BYTE	$D9,$00	; CMDD9
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$92	; DATA
-		.BYTE	$EA,$08	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$01
+		CMDE9	$00
+		CMDD0
+		DATA	$91,$C0
+		CMDD1
+		CMDD9	$00
+		LOOP_START	$02
+			DATA	$92
+			CMDEA	$08
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus63_B:
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$B1,$C0	; DATA
-		.BYTE	$D9,$00	; CMDD9
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$A1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$0F	; LOOP_START
-		.BYTE	$B0	; DATA
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE0	$01
+		CMDE9	$00
+		DATA	$B1,$C0
+		CMDD9	$00
+		LOOP_START	$04
+			DATA	$A1
+		DO_LOOP
+		LOOP_START	$0F
+			DATA	$B0
+			CMDEA	$01
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus64:
 		.BYTE	$30
 		.WORD	_apu_mus64_A
 		.WORD	_apu_mus64_B
 _apu_mus64_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$01	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D6	; CMDD6
-		.BYTE	$EB,$8D	; CMDEB
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$81,$C1	; DATA
-		.BYTE	$EA,$03	; CMDEA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$01
+		CMDE0	$01
+		CMDD6
+		CMDEB	$8D
+		CMDE9	$00
+		LOOP_START	$04
+			DATA	$81,$C1
+			CMDEA	$03
+			CMDDA	$FF
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus64_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$70	; DATA
-		.BYTE	$EA,$FE	; CMDEA
-		.BYTE	$A0,$90,$50	; DATA
-		.BYTE	$EA,$04	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		LOOP_START	$04
+			CMDEA	$02
+			DATA	$70
+			CMDEA	$FE
+			DATA	$A0,$90,$50
+			CMDEA	$04
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus65:
 		.BYTE	$20
 		.WORD	_apu_mus65_A
 _apu_mus65_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$51,$C0	; DATA
-		.BYTE	$D9,$00	; CMDD9
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$81	; DATA
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$EA,$FD	; CMDEA
-		.BYTE	$F0,$0F	; LOOP_START
-		.BYTE	$A0	; DATA
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDE0	$02
+		CMDE9	$00
+		DATA	$51,$C0
+		CMDD9	$00
+		LOOP_START	$03
+			DATA	$81
+			CMDEA	$01
+		DO_LOOP
+		CMDEA	$FD
+		LOOP_START	$0F
+			DATA	$A0
+			CMDEA	$01
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus66:
 		.BYTE	$30
 		.WORD	_apu_mus66_A
 		.WORD	_apu_mus66_B
 _apu_mus66_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$08	; CMDE9
-		.BYTE	$DB,$81	; CMDDB
-		.BYTE	$D9,$88	; CMDD9
-		.BYTE	$D0	; CMDD0
-		.BYTE	$00,$C3	; DATA
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D0	; CMDD0
-		.BYTE	$01,$C1,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDE9	$08
+		CMDDB	$81
+		CMDD9	$88
+		CMDD0
+		DATA	$00,$C3
+		CMDE9	$00
+		CMDD0
+		DATA	$01,$C1,$C0
+		ASTOP
 _apu_mus66_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$DB,$81	; CMDDB
-		.BYTE	$D9,$88	; CMDD9
-		.BYTE	$C0,$B3,$C1,$31,$21,$11 ;	DATA
-		.BYTE	$E9,$08	; CMDE9
-		.BYTE	$01,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDE9	$00
+		CMDDB	$81
+		CMDD9	$88
+		DATA	$C0,$B3,$C1,$31,$21,$11
+		CMDE9	$08
+		DATA	$01,$C0
+		ASTOP
 _apu_mus67:
 		.BYTE	$20
 		.WORD	_apu_mus67_A
 _apu_mus67_A:
-		.BYTE	$E2,$05	; CMDE2
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$E9,$02	; CMDE9
-		.BYTE	$71	; DATA
-		.BYTE	$D9,$00	; CMDD9
-		.BYTE	$E9,$01	; CMDE9
-		.BYTE	$71	; DATA
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$81	; DATA
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$91	; DATA
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$F0,$0F	; LOOP_START
-		.BYTE	$A0	; DATA
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$05
+		CMDE0	$02
+		CMDE9	$02
+		DATA	$71
+		CMDD9	$00
+		CMDE9	$01
+		DATA	$71
+		CMDE9	$00
+		DATA	$81
+		CMDE9	$00
+		DATA	$91
+		CMDE9	$00
+		LOOP_START	$0F
+			DATA	$A0
+			CMDEA	$01
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus68:
 		.BYTE	$30
 		.WORD	_apu_mus68_A
 		.WORD	_apu_mus68_B
 _apu_mus68_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D6	; CMDD6
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$61,$C1	; DATA
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$11,$C1,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$01
+		CMDE9	$00
+		CMDD6
+		CMDE1	$00
+		DATA	$61,$C1
+		CMDE1	$03
+		DATA	$11,$C1,$C0
+		ASTOP
 _apu_mus68_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$51,$C1,$73,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDE9	$03
+		DATA	$51,$C1,$73,$C0
+		ASTOP
 _apu_mus69:
 		.BYTE	$10
 		.WORD	_apu_mus69_A
 _apu_mus69_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D4	; CMDD4
-		.BYTE	$50	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$B0,$80,$A0,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$01
+		CMDE9	$00
+		CMDD4
+		DATA	$50
+		CMDD7
+		DATA	$B0,$80,$A0,$C0
+		ASTOP
 _apu_mus6A:
 		.BYTE	$10
 		.WORD	_apu_mus6A_A
 _apu_mus6A_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$FF	; CMDD9
-		.BYTE	$D5	; CMDD5
-		.BYTE	$70	; DATA
-		.BYTE	$D8	; CMDD8
-		.BYTE	$D8	; CMDD8
-		.BYTE	$D8	; CMDD8
-		.BYTE	$C0,$C0	; DATA
-		.BYTE	$D8	; CMDD8
-		.BYTE	$C0	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$00,$20	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$70,$70,$A0	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$50	; DATA
-		.BYTE	$D7	; CMDD7
-		.BYTE	$B0,$80,$A0,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$01
+		CMDE9	$00
+		CMDD9	$FF
+		CMDD5
+		DATA	$70
+		CMDD8
+		CMDD8
+		CMDD8
+		DATA	$C0,$C0
+		CMDD8
+		DATA	$C0
+		CMDD7
+		DATA	$00,$20
+		CMDD7
+		DATA	$70,$70,$A0
+		CMDD7
+		DATA	$50
+		CMDD7
+		DATA	$B0,$80,$A0,$C0
+		ASTOP
 _apu_mus6B:
 		.BYTE	$20
 		.WORD	_apu_mus6B_A
 _apu_mus6B_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$51,$C0,$41,$C0,$31,$C0 ;	DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDE9	$00
+		DATA	$51,$C0,$41,$C0,$31,$C0
+		ASTOP
 _apu_mus6C:
 		.BYTE	$30
 		.WORD	_apu_mus6C_A
 		.WORD	_apu_mus6C_B
 _apu_mus6C_A:
-		.BYTE	$E2,$12	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D1	; CMDD1
-		.BYTE	$21,$91	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$12
+		CMDE1	$02
+		CMDE0	$01
+		LOOP_START	$02
+			CMDD1
+			DATA	$21,$91
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus6C_B:
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$B1	; DATA
-		.BYTE	$D9,$FC	; CMDD9
-		.BYTE	$B1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE0	$01
+		CMDE2	$04
+		CMDE9	$00
+		LOOP_START	$02
+			DATA	$B1
+			CMDD9	$FC
+			DATA	$B1
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus6D:
 		.BYTE	$30
 		.WORD	_apu_mus6D_A
 		.WORD	_apu_mus6D_B
 _apu_mus6D_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D2	; CMDD2
-		.BYTE	$00,$70,$00	; DATA
-		.BYTE	$D6	; CMDD6
-		.BYTE	$C3	; DATA
-		.BYTE	$F0,$0F	; LOOP_START
-		.BYTE	$90	; DATA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$DA,$FD	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDD2
+		DATA	$00,$70,$00
+		CMDD6
+		DATA	$C3
+		LOOP_START	$0F
+			DATA	$90
+			CMDEA	$02
+			CMDDA	$FD
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus6D_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$80,$A0,$B0,$B0,$90,$C1,$01 ; DATA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$11	; DATA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$21	; DATA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$31	; DATA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$41	; DATA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$51	; DATA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$61	; DATA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$71,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		DATA	$80,$A0,$B0,$B0,$90,$C1,$01
+		CMDEA	$02
+		DATA	$11
+		CMDEA	$02
+		DATA	$21
+		CMDEA	$02
+		DATA	$31
+		CMDEA	$02
+		DATA	$41
+		CMDEA	$02
+		DATA	$51
+		CMDEA	$02
+		DATA	$61
+		CMDEA	$02
+		DATA	$71,$C0
+		ASTOP
 _apu_mus6E:
 		.BYTE	$20
 		.WORD	_apu_mus6E_A
 _apu_mus6E_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$32,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$01
+		CMDE9	$00
+		DATA	$32,$C0
+		ASTOP
 _apu_mus6F:
 		.BYTE	$30
 		.WORD	_apu_mus6F_A
 		.WORD	_apu_mus6F_B
 _apu_mus6F_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D3	; CMDD3
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$90,$A0,$90,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		CMDD3
+		LOOP_START	$04
+			DATA	$90,$A0,$90,$C0
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus6F_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$52,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$01
+		LOOP_START	$04
+			DATA	$52,$C0
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus70:
 		.BYTE	$10
 		.WORD	_apu_mus70_A
 _apu_mus70_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D9,$F8	; CMDD9
-		.BYTE	$F0,$10	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$10,$20,$30,$40,$30,$20,$10 ;	DATA
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		CMDE9	$00
+		CMDE0	$01
+		CMDD9	$F8
+		LOOP_START	$10
+			CMDD5
+			DATA	$00,$10,$20,$30,$40,$30,$20,$10
+			CMDEA	$01
+			CMDDA	$FF
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus71:
 		.BYTE	$30
 		.WORD	_apu_mus71_A
 		.WORD	_apu_mus71_B
 _apu_mus71_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$EB,$B5	; CMDEB
-		.BYTE	$D4	; CMDD4
-		.BYTE	$C0,$9B,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$04
+		CMDEB	$B5
+		CMDD4
+		DATA	$C0,$9B,$C0
+		ASTOP
 _apu_mus71_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$70,$A0,$90,$50	; DATA
-		.BYTE	$EA,$04	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$02
+		CMDE0	$01
+		LOOP_START	$04
+			DATA	$70,$A0,$90,$50
+			CMDEA	$04
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus72:
 		.BYTE	$10
 		.WORD	_apu_mus72_A
 _apu_mus72_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B2,$71,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$02
+		CMDE0	$01
+		CMDE9	$00
+		CMDD4
+		DATA	$B2,$71,$C0
+		ASTOP
 _apu_mus73:
 		.BYTE	$30
 		.WORD	_apu_mus73_A
 		.WORD	_apu_mus73_B
 _apu_mus73_A:
-		.BYTE	$E2,$05	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$E9,$0A	; CMDE9
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$CF	; DATA
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D5	; CMDD5
-		.BYTE	$F0,$06	; LOOP_START
-		.BYTE	$70	; DATA
-		.BYTE	$DA,$01	; CMDDA
-		.BYTE	$EA,$FF	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$DA,$FA	; CMDDA
-		.BYTE	$D6	; CMDD6
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$00	; DATA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$DA,$04	; CMDDA
-		.BYTE	$90,$80	; DATA
-		.BYTE	$D6	; CMDD6
-		.BYTE	$01	; DATA
-		.BYTE	$EA,$FF	; CMDEA
-		.BYTE	$30	; DATA
-		.BYTE	$EA,$FF	; CMDEA
-		.BYTE	$40	; DATA
-		.BYTE	$EA,$FF	; CMDEA
-		.BYTE	$50	; DATA
-		.BYTE	$EA,$FF	; CMDEA
-		.BYTE	$62	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$05
+		CMDE1	$02
+		CMDE0	$01
+		CMDE9	$00
+		LOOP_START	$02
+			CMDE9	$0A
+			CMDE0	$02
+			DATA	$CF
+			CMDE0	$01
+			CMDD5
+			LOOP_START	$06
+				DATA	$70
+				CMDDA	$01
+				CMDEA	$FF
+			DO_LOOP
+			CMDDA	$FA
+			CMDD6
+			LOOP_START	$04
+				DATA	$00
+				CMDDA	$FF
+				CMDEA	$01
+			DO_LOOP
+			CMDDA	$04
+			DATA	$90,$80
+			CMDD6
+			DATA	$01
+			CMDEA	$FF
+			DATA	$30
+			CMDEA	$FF
+			DATA	$40
+			CMDEA	$FF
+			DATA	$50
+			CMDEA	$FF
+			DATA	$62
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus73_B:
-		.BYTE	$E2,$05	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$E9,$0E	; CMDE9
-		.BYTE	$A0,$90	; DATA
-		.BYTE	$E9,$0C	; CMDE9
-		.BYTE	$A0,$90	; DATA
-		.BYTE	$E9,$09	; CMDE9
-		.BYTE	$90,$70	; DATA
-		.BYTE	$E9,$07	; CMDE9
-		.BYTE	$80,$60	; DATA
-		.BYTE	$E9,$04	; CMDE9
-		.BYTE	$70,$50	; DATA
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$F0,$14	; LOOP_START
-		.BYTE	$80,$60,$70,$50	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$E9,$02	; CMDE9
-		.BYTE	$70,$50	; DATA
-		.BYTE	$E9,$04	; CMDE9
-		.BYTE	$70,$50	; DATA
-		.BYTE	$E9,$06	; CMDE9
-		.BYTE	$80,$60	; DATA
-		.BYTE	$E9,$08	; CMDE9
-		.BYTE	$80,$60	; DATA
-		.BYTE	$E9,$0A	; CMDE9
-		.BYTE	$90,$70	; DATA
-		.BYTE	$E9,$0C	; CMDE9
-		.BYTE	$90,$70	; DATA
-		.BYTE	$E9,$0E	; CMDE9
-		.BYTE	$A0,$90	; DATA
-		.BYTE	$E9,$0E	; CMDE9
-		.BYTE	$A0,$90,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$05
+		CMDE1	$03
+		CMDE0	$02
+		CMDE9	$0E
+		DATA	$A0,$90
+		CMDE9	$0C
+		DATA	$A0,$90
+		CMDE9	$09
+		DATA	$90,$70
+		CMDE9	$07
+		DATA	$80,$60
+		CMDE9	$04
+		DATA	$70,$50
+		CMDE9	$00
+		LOOP_START	$14
+			DATA	$80,$60,$70,$50
+		DO_LOOP
+		CMDE9	$02
+		DATA	$70,$50
+		CMDE9	$04
+		DATA	$70,$50
+		CMDE9	$06
+		DATA	$80,$60
+		CMDE9	$08
+		DATA	$80,$60
+		CMDE9	$0A
+		DATA	$90,$70
+		CMDE9	$0C
+		DATA	$90,$70
+		CMDE9	$0E
+		DATA	$A0,$90
+		CMDE9	$0E
+		DATA	$A0,$90,$C0
+		ASTOP
 _apu_mus74:
 		.BYTE	$30
 		.WORD	_apu_mus74_A
 		.WORD	_apu_mus74_B
 _apu_mus74_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$04	; CMDE9
-		.BYTE	$F0,$0A	; LOOP_START
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$C0	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$70	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$40	; DATA
-		.BYTE	$D9,$FE	; CMDD9
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$0A	; LOOP_START
-		.BYTE	$EA,$FF	; CMDEA
-		.BYTE	$C0	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$70	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$40	; DATA
-		.BYTE	$D9,$02	; CMDD9
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$19	; LOOP_START
-		.BYTE	$C0	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$70	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$40	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$02
+		CMDE0	$01
+		CMDE9	$04
+		LOOP_START	$0A
+			CMDEA	$01
+			DATA	$C0
+			CMDD2
+			DATA	$70
+			CMDD2
+			DATA	$40
+			CMDD9	$FE
+		DO_LOOP
+		LOOP_START	$0A
+			CMDEA	$FF
+			DATA	$C0
+			CMDD2
+			DATA	$70
+			CMDD2
+			DATA	$40
+			CMDD9	$02
+		DO_LOOP
+		LOOP_START	$19
+			DATA	$C0
+			CMDD2
+			DATA	$70
+			CMDD2
+			DATA	$40
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus74_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$F0,$0A	; LOOP_START
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$00,$80,$C0	; DATA
-		.BYTE	$D9,$FF	; CMDD9
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$0A	; LOOP_START
-		.BYTE	$EA,$FF	; CMDEA
-		.BYTE	$00,$80,$C0	; DATA
-		.BYTE	$D9,$01	; CMDD9
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$19	; LOOP_START
-		.BYTE	$00,$50,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$00
+		CMDE0	$01
+		CMDE9	$00
+		LOOP_START	$0A
+			CMDEA	$01
+			DATA	$00,$80,$C0
+			CMDD9	$FF
+		DO_LOOP
+		LOOP_START	$0A
+			CMDEA	$FF
+			DATA	$00,$80,$C0
+			CMDD9	$01
+		DO_LOOP
+		LOOP_START	$19
+			DATA	$00,$50,$C0
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus00:
 		.BYTE	0
 _apu_chnl_data_dummy:
@@ -3186,473 +3186,450 @@ _apu_mus01:
 		.WORD	_apu_mus01_C
 		.WORD	_apu_mus01_D
 _apu_mus01_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$01	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$01
+		CMDE0	$05
+		CMDE9	$03
+		CMDD9	$F4
 byte_994F4:
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$30,$C0,$32,$C0,$30,$C0,$33,$C1,$22,$C0 ;	DATA
-		.BYTE	$F0,$0E	; LOOP_START
-		.BYTE	$20,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_995DE
-		.BYTE	$C3	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71,$C1,$A1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$21,$C1,$03	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A2,$C0,$93,$C1,$63 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_995DE
-		.BYTE	$C3	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71,$C1,$A1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$21,$C1,$23,$01,$C1,$03 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$C1,$32,$C0,$20,$C0,$20,$C2 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A3	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$33,$22,$C0,$23,$C3 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$21,$C1,$23,$01,$C1,$21,$C1 ;	DATA
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$50,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$51,$C1,$47,$C1,$41,$C1,$01,$23,$41,$50,$C0,$50,$C0,$50,$C0,$52 ;	DATA
-		.BYTE	$C0,$43,$71,$51,$41,$C1,$05,$C1
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$50,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$52,$C0,$74,$C0,$53,$31,$23,$35,$03,$21,$C1,$31,$C1,$71,$51,$C1 ;	DATA
-		.BYTE	$51,$C1,$33,$51,$C1
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$80,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$82,$C0,$77,$C1,$73,$31,$53,$71,$80,$C0,$80,$C0,$80,$C0,$82,$C0 ;	DATA
-		.BYTE	$73,$A1,$81,$71,$C1,$35,$C1
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$80,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$82,$C0,$A5,$83,$61,$51,$C1,$65,$33,$51,$C1,$61,$C1,$A1,$81,$C1 ;	DATA
-		.BYTE	$83,$63,$81,$C1
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$B0,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$B2,$C0,$A7,$C1,$A3,$61,$81,$C1,$A1,$B0,$C0,$B0,$C0,$B0,$C0,$B2 ;	DATA
-		.BYTE	$C0,$A3
-		.BYTE	$D6	; CMDD6
-		.BYTE	$11	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$B1,$A1,$C1,$65,$C1 ; DATA
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$B0,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$B2,$C0	; DATA
-		.BYTE	$D6	; CMDD6
-		.BYTE	$14,$CC	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_994F4
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		DATA	$C1
+		CMDD5
+		DATA	$30,$C0,$32,$C0,$30,$C0,$33,$C1,$22,$C0
+		LOOP_START	$0E
+			DATA	$20,$C0
+		DO_LOOP
+		AJSR	byte_995DE
+		DATA	$C3
+		CMDD4
+		DATA	$71,$C1,$A1
+		CMDD5
+		DATA	$21,$C1,$03
+		CMDD4
+		DATA	$A2,$C0,$93,$C1,$63
+		AJSR	byte_995DE
+		DATA	$C3
+		CMDD4
+		DATA	$71,$C1,$A1
+		CMDD5
+		DATA	$21,$C1,$23,$01,$C1,$03
+		CMDD4
+		DATA	$A1
+		CMDD5
+		DATA	$01,$C1,$32,$C0,$20,$C0,$20,$C2
+		CMDD4
+		DATA	$A3
+		CMDD5
+		DATA	$33,$22,$C0,$23,$C3
+		CMDD4
+		DATA	$A1
+		CMDD5
+		DATA	$01,$21,$C1,$23,$01,$C1,$21,$C1
+		LOOP_START	$04
+			DATA	$50,$C0
+		DO_LOOP
+		DATA	$51,$C1,$47,$C1,$41,$C1,$01,$23,$41,$50,$C0,$50,$C0,$50,$C0,$52
+		DATA	$C0,$43,$71,$51,$41,$C1,$05,$C1
+		LOOP_START	$04
+			DATA	$50,$C0
+		DO_LOOP
+		DATA	$52,$C0,$74,$C0,$53,$31,$23,$35,$03,$21,$C1,$31,$C1,$71,$51,$C1
+		DATA	$51,$C1,$33,$51,$C1
+		LOOP_START	$04
+			DATA	$80,$C0
+		DO_LOOP
+		DATA	$82,$C0,$77,$C1,$73,$31,$53,$71,$80,$C0,$80,$C0,$80,$C0,$82,$C0
+		DATA	$73,$A1,$81,$71,$C1,$35,$C1
+		LOOP_START	$04
+			DATA	$80,$C0
+		DO_LOOP
+		DATA	$82,$C0,$A5,$83,$61,$51,$C1,$65,$33,$51,$C1,$61,$C1,$A1,$81,$C1
+		DATA	$83,$63,$81,$C1
+		LOOP_START	$04
+			DATA	$B0,$C0
+		DO_LOOP
+		DATA	$B2,$C0,$A7,$C1,$A3,$61,$81,$C1,$A1,$B0,$C0,$B0,$C0,$B0,$C0,$B2
+		DATA	$C0,$A3
+		CMDD6
+		DATA	$11
+		CMDD5
+		DATA	$B1,$A1,$C1,$65,$C1
+		LOOP_START	$04
+			DATA	$B0,$C0
+		DO_LOOP
+		DATA	$B2,$C0
+		CMDD6
+		DATA	$14,$CC
+		AJMP	byte_994F4
+		DATA	$C0
+		ASTOP
 byte_995DE:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71,$C3	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$27,$C1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+			CMDD4
+			DATA	$71,$C3
+			CMDD5
+			DATA	$27,$C1
+		DO_LOOP
+		ARET
 _apu_mus01_B:
-		.BYTE	$E2,$01	; CMDE2
-		.BYTE	$E1,$01	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$01
+		CMDE1	$01
+		CMDE0	$05
+		CMDD9	$F4
 byte_995F0:
-		.BYTE	$E9,$05	; CMDE9
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C0,$02,$C0,$00,$C0,$03,$C1 ;	DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A2,$C0	; DATA
-		.BYTE	$F0,$0E	; LOOP_START
-		.BYTE	$A0,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$E9,$09	; CMDE9
-		.BYTE	$F2	; JSR
-		.WORD	byte_996D1
-		.BYTE	$D4	; CMDD4
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_996D1
-		.BYTE	$D3	; CMDD3
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$90,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$E9,$05	; CMDE9
-		.BYTE	$72,$C0,$50,$C0,$50,$C0,$C1,$53,$73,$53,$53,$C3,$51,$91,$91,$C1 ;	DATA
-		.BYTE	$93,$91,$C1,$91,$C1
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$90,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$91,$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F2	; JSR
-		.WORD	byte_996DE
-		.BYTE	$D3	; CMDD3
-		.BYTE	$57,$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$C1,$01	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F2	; JSR
-		.WORD	byte_996DE
-		.BYTE	$D3	; CMDD3
-		.BYTE	$53,$C3	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$01,$C5	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51,$81	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51,$81	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$81	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$31,$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$81	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$31,$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$21,$51,$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A3	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$21,$C1	; DATA
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$02,$C0,$37,$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A5,$8A,$A0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$20,$30,$50,$77,$C1 ;	DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A5,$85,$C3	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$31,$31,$C5	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$81,$B1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$31,$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$81,$B1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$31,$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$31,$61,$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$31,$61,$C1,$11,$51,$81,$C1,$13,$51,$C1 ;	DATA
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$30,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$31,$C1,$61	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F2	; JSR
-		.WORD	byte_996E6
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B7,$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$61,$C1,$61	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F2	; JSR
-		.WORD	byte_996E6
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B3,$C3	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$61,$61,$C1,$A4,$CC ; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_995F0
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE9	$05
+		DATA	$C1
+		CMDD5
+		DATA	$00,$C0,$02,$C0,$00,$C0,$03,$C1
+		CMDD3
+		DATA	$A2,$C0
+		LOOP_START	$0E
+			DATA	$A0,$C0
+		DO_LOOP
+		CMDE9	$09
+		AJSR	byte_996D1
+		CMDD4
+		LOOP_START	$08
+			DATA	$00,$C0
+		DO_LOOP
+		AJSR	byte_996D1
+		CMDD3
+		LOOP_START	$08
+			DATA	$90,$C0
+		DO_LOOP
+		CMDE9	$05
+		DATA	$72,$C0,$50,$C0,$50,$C0,$C1,$53,$73,$53,$53,$C3,$51,$91,$91,$C1
+		DATA	$93,$91,$C1,$91,$C1
+		LOOP_START	$04
+			DATA	$90,$C0
+		DO_LOOP
+		DATA	$91,$C1
+		CMDD4
+		DATA	$01
+		CMDE8
+		AJSR	byte_996DE
+		CMDD3
+		DATA	$57,$C1
+		CMDD4
+		DATA	$01,$C1,$01
+		CMDE8
+		AJSR	byte_996DE
+		CMDD3
+		DATA	$53,$C3
+		CMDD4
+		DATA	$01,$01,$C5
+		CMDD3
+		DATA	$51,$81
+		CMDD4
+		DATA	$01,$C1
+		CMDD3
+		DATA	$51,$81
+		CMDD4
+		DATA	$01,$C1
+		CMDD3
+		DATA	$81
+		CMDD4
+		DATA	$01,$31,$C1
+		CMDD3
+		DATA	$81
+		CMDD4
+		DATA	$01,$31,$C1
+		CMDD3
+		DATA	$A1
+		CMDD4
+		DATA	$21,$51,$C1
+		CMDD3
+		DATA	$A3
+		CMDD4
+		DATA	$21,$C1
+		LOOP_START	$04
+			DATA	$00,$C0
+		DO_LOOP
+		DATA	$02,$C0,$37,$C1
+		CMDD3
+		DATA	$A5,$8A,$A0
+		CMDD4
+		DATA	$00,$20,$30,$50,$77,$C1
+		CMDD3
+		DATA	$A5,$85,$C3
+		CMDD4
+		DATA	$31,$31,$C5
+		CMDD3
+		DATA	$81,$B1
+		CMDD4
+		DATA	$31,$C1
+		CMDD3
+		DATA	$81,$B1
+		CMDD4
+		DATA	$31,$C1
+		CMDD3
+		DATA	$B1
+		CMDD4
+		DATA	$31,$61,$C1
+		CMDD3
+		DATA	$B1
+		CMDD4
+		DATA	$31,$61,$C1,$11,$51,$81,$C1,$13,$51,$C1
+		LOOP_START	$04
+			DATA	$30,$C0
+		DO_LOOP
+		DATA	$31,$C1,$61
+		CMDE8
+		AJSR	byte_996E6
+		CMDD3
+		DATA	$B7,$C1
+		CMDD4
+		DATA	$61,$C1,$61
+		CMDE8
+		AJSR	byte_996E6
+		CMDD3
+		DATA	$B3,$C3
+		CMDD4
+		DATA	$61,$61,$C1,$A4,$CC
+		AJMP	byte_995F0
+		DATA	$C0
+		ASTOP
 byte_996D1:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$F0,$10	; LOOP_START
-		.BYTE	$20,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D4	; CMDD4
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$30,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		CMDD4
+		LOOP_START	$10
+			DATA	$20,$C0
+		DO_LOOP
+		CMDD4
+		LOOP_START	$08
+			DATA	$30,$C0
+		DO_LOOP
+		ARET
 byte_996DE:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$05,$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$75,$51	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$05,$C1
+		CMDD3
+		DATA	$75,$51
+		CMDE8
+		ARET
 byte_996E6:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$65,$C1,$15	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B1	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$65,$C1,$15
+		CMDD3
+		DATA	$B1
+		CMDE8
+		ARET
 _apu_mus01_C:
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE2	$03
+		CMDE1	$00
+		CMDE0	$05
+		CMDE9	$00
 byte_996F6:
-		.BYTE	$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$90,$C0,$92,$C0,$90,$C0,$93,$C1 ;	DATA
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_997FC
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_99807
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01,$C3	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$75,$C1,$71,$51,$C3,$53 ;	DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$91	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$31,$61	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_997FC
-		.BYTE	$F2	; JSR
-		.WORD	byte_99807
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01,$C3,$75,$C1,$31,$53,$C1 ; DATA
-		.BYTE	$E2,$02	; CMDE2
-		.BYTE	$51,$51,$51,$51,$51 ; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$F0,$10	; LOOP_START
-		.BYTE	$A1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51,$51,$C1,$51,$51,$51,$51 ; DATA
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$56,$C0	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$71,$91,$B5	; DATA
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$C0,$01,$21,$31 ; DATA
-		.BYTE	$E2,$02	; CMDE2
-		.BYTE	$51,$51,$C1,$51,$51 ; DATA
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$51,$71	; DATA
-		.BYTE	$E2,$02	; CMDE2
-		.BYTE	$81	; DATA
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$81	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$A1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$A1,$C1	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A3	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01,$25	; DATA
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$31	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$30,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$31	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$30,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$31	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$30,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$31	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$30,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$31	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$30,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$31	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$30,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$30,$C0,$31,$51,$61 ; DATA
-		.BYTE	$E2,$02	; CMDE2
-		.BYTE	$81,$81,$C1,$81,$81 ; DATA
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$81,$A1	; DATA
-		.BYTE	$E2,$02	; CMDE2
-		.BYTE	$B1	; DATA
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$B1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D4	; CMDD4
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$11	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$11,$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$13,$31,$55	; DATA
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$61	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$60,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$61	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$60,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$61	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$60,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$61	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$60,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$61	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$60,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$61	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$60,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$60,$C0,$61,$81,$A1,$62,$CC ; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_996F6
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		DATA	$C1
+		CMDD3
+		DATA	$90,$C0,$92,$C0,$90,$C0,$93,$C1
+		LOOP_START	$03
+			AJSR	byte_997FC
+		DO_LOOP
+		AJSR	byte_99807
+		CMDD3
+		DATA	$01,$C3
+		CMDD2
+		DATA	$75,$C1,$71,$51,$C3,$53
+		CMDD3
+		DATA	$91
+		CMDD4
+		DATA	$31,$61
+		AJSR	byte_997FC
+		AJSR	byte_99807
+		CMDD3
+		DATA	$01,$C3,$75,$C1,$31,$53,$C1
+		CMDE2	$02
+		DATA	$51,$51,$51,$51,$51
+		CMDD2
+		LOOP_START	$10
+			DATA	$A1
+		DO_LOOP
+		CMDD3
+		DATA	$51,$51,$C1,$51,$51,$51,$51
+		CMDE2	$03
+		DATA	$56,$C0
+		CMDD2
+		DATA	$71,$91,$B5
+		LOOP_START	$03
+			CMDD3
+			DATA	$01
+			CMDD4
+			DATA	$00,$C0
+			CMDD3
+			DATA	$01
+			CMDD4
+			DATA	$00,$C0
+			CMDD3
+			DATA	$01
+			CMDD4
+			DATA	$00,$C0
+			CMDD3
+			DATA	$01
+			CMDD4
+			DATA	$00,$C0
+		DO_LOOP
+		CMDD3
+		DATA	$01
+		CMDD4
+		DATA	$00,$C0
+		CMDD3
+		DATA	$01
+		CMDD4
+		DATA	$00,$C0
+		CMDD3
+		DATA	$00,$C0,$01,$21,$31
+		CMDE2	$02
+		DATA	$51,$51,$C1,$51,$51
+		CMDE2	$03
+		DATA	$51,$71
+		CMDE2	$02
+		DATA	$81
+		LOOP_START	$08
+			DATA	$81
+		DO_LOOP
+		LOOP_START	$08
+			DATA	$A1
+		DO_LOOP
+		CMDE2	$03
+		DATA	$A1,$C1
+		CMDD2
+		DATA	$A3
+		CMDD3
+		DATA	$01,$25
+		LOOP_START	$03
+			CMDD3
+			DATA	$31
+			CMDD4
+			DATA	$30,$C0
+			CMDD3
+			DATA	$31
+			CMDD4
+			DATA	$30,$C0
+			CMDD3
+			DATA	$31
+			CMDD4
+			DATA	$30,$C0
+			CMDD3
+			DATA	$31
+			CMDD4
+			DATA	$30,$C0
+		DO_LOOP
+		CMDD3
+		DATA	$31
+		CMDD4
+		DATA	$30,$C0
+		CMDD3
+		DATA	$31
+		CMDD4
+		DATA	$30,$C0
+		CMDD3
+		DATA	$30,$C0,$31,$51,$61
+		CMDE2	$02
+		DATA	$81,$81,$C1,$81,$81
+		CMDE2	$03
+		DATA	$81,$A1
+		CMDE2	$02
+		DATA	$B1
+		LOOP_START	$08
+			DATA	$B1
+		DO_LOOP
+		CMDD4
+		LOOP_START	$08
+			DATA	$11
+		DO_LOOP
+		CMDE2	$03
+		DATA	$11,$C1
+		CMDD3
+		DATA	$13,$31,$55
+		LOOP_START	$03
+			CMDD3
+			DATA	$61
+			CMDD4
+			DATA	$60,$C0
+			CMDD3
+			DATA	$61
+			CMDD4
+			DATA	$60,$C0
+			CMDD3
+			DATA	$61
+			CMDD4
+			DATA	$60,$C0
+			CMDD3
+			DATA	$61
+			CMDD4
+			DATA	$60,$C0
+		DO_LOOP
+		CMDD3
+		DATA	$61
+		CMDD4
+		DATA	$60,$C0
+		CMDD3
+		DATA	$61
+		CMDD4
+		DATA	$60,$C0
+		CMDD3
+		DATA	$60,$C0,$61,$81,$A1,$62,$CC
+		AJMP	byte_996F6
+		DATA	$C0
+		ASTOP
 byte_997FC:
-		.BYTE	$D2	; CMDD2
-		.BYTE	$71,$C3	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$23	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$21	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$91,$A1	; DATA
-		.BYTE	$F3	; RET
+		CMDD2
+		DATA	$71,$C3
+		CMDD3
+		DATA	$23
+		CMDD4
+		DATA	$21
+		CMDD3
+		DATA	$91,$A1
+		ARET
 byte_99807:
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A1,$C3	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$23	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$21	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$91,$A1	; DATA
-		.BYTE	$F3	; RET
+		CMDD2
+		DATA	$A1,$C3
+		CMDD3
+		DATA	$23
+		CMDD4
+		DATA	$21
+		CMDD3
+		DATA	$91,$A1
+		ARET
 _apu_mus01_D:
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE0	$05
+		CMDE9	$00
 byte_99816:
 		.BYTE	$01,$21,$23,$21,$23,$21
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$03,$23,$01,$01,$23 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$03,$33,$03,$33	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$03,$33,$C1,$21,$33 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$03,$33,$C1,$20,$20,$23 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9985A
-		.BYTE	$F2	; JSR
-		.WORD	byte_9986C
-		.BYTE	$F2	; JSR
-		.WORD	byte_99863
-		.BYTE	$F2	; JSR
-		.WORD	byte_9986C
-		.BYTE	$F2	; JSR
-		.WORD	byte_99863
-		.BYTE	$F2	; JSR
-		.WORD	byte_9986C
-		.BYTE	$F2	; JSR
-		.WORD	byte_9985A
-		.BYTE	$03,$23,$21,$21,$01,$21,$CF ; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_99816	; DATA
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+			DATA	$03,$23,$01,$01,$23
+		DO_LOOP
+		LOOP_START	$04
+			DATA	$03,$33,$03,$33
+		DO_LOOP
+		LOOP_START	$03
+			DATA	$03,$33,$C1,$21,$33
+		DO_LOOP
+		DATA	$03,$33,$C1,$20,$20,$23
+		AJSR	byte_9985A
+		AJSR	byte_9986C
+		AJSR	byte_99863
+		AJSR	byte_9986C
+		AJSR	byte_99863
+		AJSR	byte_9986C
+		AJSR	byte_9985A
+		DATA	$03,$23,$21,$21,$01,$21,$CF
+		AJMP	byte_99816
+		DATA	$C0
+		ASTOP
 byte_9985A:
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$03,$23,$01,$01,$23 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$03
+			DATA	$03,$23,$01,$01,$23
+		DO_LOOP
+		ARET
 byte_99863:
-		.BYTE	$F0,$07	; LOOP_START
-		.BYTE	$03,$23,$01,$01,$23 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$07
+			DATA	$03,$23,$01,$01,$23
+		DO_LOOP
+		ARET
 byte_9986C:
-		.BYTE	$C7,$21,$20,$20,$23	; DATA
-		.BYTE	$F3	; RET
+		DATA	$C7,$21,$20,$20,$23
+		ARET
 _apu_mus02:
 		.BYTE	$0F
 		.WORD	_apu_mus02_A
@@ -3660,296 +3637,276 @@ _apu_mus02:
 		.WORD	_apu_mus02_C
 		.WORD	_apu_mus02_D
 _apu_mus02_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$01	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$04	; CMDE9
-		.BYTE	$D9,$EE	; CMDD9
+		CMDE2	$00
+		CMDE1	$01
+		CMDE0	$06
+		CMDE9	$04
+		CMDD9	$EE
 byte_99885:
-		.BYTE	$E1,$01	; CMDE1
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99929
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40,$60,$70,$90,$C1,$90,$C0,$70,$C0,$60,$C0,$40,$C0,$20,$C0 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99929
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40,$60,$70,$90,$C1,$90,$C0,$70,$60,$40,$C0,$20,$C2 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$F2	; JSR
-		.WORD	byte_9993C
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$A0,$B0,$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$C0,$90,$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$90,$70,$60,$40,$20,$C0 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9993C
-		.BYTE	$40,$30,$40,$60,$40,$60,$C0,$90,$C3,$73 ;	DATA
-		.BYTE	$E1,$01	; CMDE1
-		.BYTE	$F2	; JSR
-		.WORD	byte_9994D
-		.BYTE	$D5	; CMDD5
-		.BYTE	$11	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$11	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$10,$20,$C0,$40,$C1,$10,$C0 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9994D
-		.BYTE	$11	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$11	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$11	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B1,$91,$71	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99957
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$D4	; CMDD4
-		.BYTE	$60,$70,$90,$C0,$70,$90,$B0,$C0 ;	DATA
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$D5	; CMDD5
-		.BYTE	$10,$C0,$20,$C0,$42,$C0 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99957
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$D5	; CMDD5
-		.BYTE	$60,$40,$20,$10	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$90,$70,$60,$40,$60,$40,$60,$43 ; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_99885
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE1	$01
+		LOOP_START	$02
+			AJSR	byte_99929
+			CMDD5
+			DATA	$40,$60,$70,$90,$C1,$90,$C0,$70,$C0,$60,$C0,$40,$C0,$20,$C0
+			AJSR	byte_99929
+			CMDD5
+			DATA	$40,$60,$70,$90,$C1,$90,$C0,$70,$60,$40,$C0,$20,$C2
+		DO_LOOP
+		CMDE1	$02
+		AJSR	byte_9993C
+		CMDD4
+		DATA	$B0,$A0,$B0,$C0
+		CMDD5
+		DATA	$20,$C0
+		CMDD4
+		DATA	$B0,$C0,$90,$C0
+		CMDD5
+		DATA	$90,$70,$60,$40,$20,$C0
+		AJSR	byte_9993C
+		DATA	$40,$30,$40,$60,$40,$60,$C0,$90,$C3,$73
+		CMDE1	$01
+		AJSR	byte_9994D
+		CMDD5
+		DATA	$11
+		CMDD4
+		DATA	$91
+		CMDD5
+		DATA	$11
+		CMDD4
+		DATA	$91
+		CMDD5
+		DATA	$10,$20,$C0,$40,$C1,$10,$C0
+		AJSR	byte_9994D
+		DATA	$11
+		CMDD4
+		DATA	$91
+		CMDD5
+		DATA	$11
+		CMDD4
+		DATA	$91
+		CMDD5
+		DATA	$11
+		CMDD4
+		DATA	$B1,$91,$71
+		AJSR	byte_99957
+		CMDE1	$03
+		CMDD4
+		DATA	$60,$70,$90,$C0,$70,$90,$B0,$C0
+		CMDE1	$00
+		CMDD5
+		DATA	$10,$C0,$20,$C0,$42,$C0
+		AJSR	byte_99957
+		CMDE1	$03
+		CMDD5
+		DATA	$60,$40,$20,$10
+		CMDD4
+		DATA	$B0,$90,$70,$60,$40,$60,$40,$60,$43
+		AJMP	byte_99885
+		DATA	$C0
+		ASTOP
 byte_99929:
-		.BYTE	$D5	; CMDD5
-		.BYTE	$60,$40,$60,$C0,$20,$C0 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90,$C0,$71,$90,$B0 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$10,$C0,$20,$C0	; DATA
-		.BYTE	$F3	; RET
+		CMDD5
+		DATA	$60,$40,$60,$C0,$20,$C0
+		CMDD4
+		DATA	$90,$C0,$71,$90,$B0
+		CMDD5
+		DATA	$10,$C0,$20,$C0
+		ARET
 byte_9993C:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$A0,$B0,$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$C0,$91	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$61,$41,$21	; DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$B0,$A0,$B0,$C0
+		CMDD5
+		DATA	$20,$C0
+		CMDD4
+		DATA	$B0,$C0,$91
+		CMDD5
+		DATA	$61,$41,$21
+		ARET
 byte_9994D:
-		.BYTE	$D5	; CMDD5
-		.BYTE	$63,$21	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$93,$B3	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$11	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F3	; RET
+		CMDD5
+		DATA	$63,$21
+		CMDD4
+		DATA	$93,$B3
+		CMDD5
+		DATA	$11
+		CMDE8
+		ARET
 byte_99957:
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$D4	; CMDD4
-		.BYTE	$60,$70,$90,$C0,$70,$90,$B0,$C0 ;	DATA
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$D5	; CMDD5
-		.BYTE	$10,$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$C0,$92,$C0	; DATA
-		.BYTE	$F3	; RET
+		CMDE1	$03
+		CMDD4
+		DATA	$60,$70,$90,$C0,$70,$90,$B0,$C0
+		CMDE1	$00
+		CMDD5
+		DATA	$10,$C0
+		CMDD4
+		DATA	$B0,$C0,$92,$C0
+		ARET
 _apu_mus02_B:
-		.BYTE	$E2,$01	; CMDE2
-		.BYTE	$E1,$01	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$D9,$FA	; CMDD9
+		CMDE2	$01
+		CMDE1	$01
+		CMDE0	$06
+		CMDD9	$FA
 byte_99975:
-		.BYTE	$E9,$09	; CMDE9
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_999FC
-		.BYTE	$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$91,$B1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$11,$21,$41,$61,$41 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_999FC
-		.BYTE	$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$91,$B1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$11,$20,$10,$20,$40,$20,$C2 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E9,$08	; CMDE9
-		.BYTE	$F2	; JSR
-		.WORD	byte_99A08
-		.BYTE	$D4	; CMDD4
-		.BYTE	$47,$27	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99A08
-		.BYTE	$E1,$01	; CMDE1
-		.BYTE	$DA,$F4	; CMDDA
-		.BYTE	$40,$30,$40,$60,$40,$60,$C0,$90,$C3,$73 ;	DATA
-		.BYTE	$DA,$0C	; CMDDA
-		.BYTE	$E2,$02	; CMDE2
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$21,$41,$61,$21,$41,$61,$41,$61 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71,$61,$71,$61,$91,$71,$61,$41 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$E2,$01	; CMDE2
-		.BYTE	$F2	; JSR
-		.WORD	byte_99A0D
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$D4	; CMDD4
-		.BYTE	$20,$40,$60,$C0,$40,$60,$70,$C0 ;	DATA
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$90,$C0,$B0,$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$12,$C0	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99A0D
-		.BYTE	$E1,$01	; CMDE1
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$10	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$90,$70,$60,$40,$20,$10,$20,$10,$20,$13 ; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_99975
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE9	$09
+		LOOP_START	$02
+			AJSR	byte_999FC
+			DATA	$C1
+			CMDD3
+			DATA	$91,$B1
+			CMDD4
+			DATA	$11,$21,$41,$61,$41
+			AJSR	byte_999FC
+			DATA	$C1
+			CMDD3
+			DATA	$91,$B1
+			CMDD4
+			DATA	$11,$20,$10,$20,$40,$20,$C2
+		DO_LOOP
+		CMDE1	$02
+		CMDE9	$08
+		AJSR	byte_99A08
+		CMDD4
+		DATA	$47,$27
+		AJSR	byte_99A08
+		CMDE1	$01
+		CMDDA	$F4
+		DATA	$40,$30,$40,$60,$40,$60,$C0,$90,$C3,$73
+		CMDDA	$0C
+		CMDE2	$02
+		LOOP_START	$02
+			CMDD4
+			DATA	$21,$41,$61,$21,$41,$61,$41,$61
+			CMDD4
+			DATA	$71,$61,$71,$61,$91,$71,$61,$41
+		DO_LOOP
+		CMDE2	$01
+		AJSR	byte_99A0D
+		CMDE1	$03
+		CMDD4
+		DATA	$20,$40,$60,$C0,$40,$60,$70,$C0
+		CMDE1	$00
+		DATA	$90,$C0,$B0,$C0
+		CMDD5
+		DATA	$12,$C0
+		AJSR	byte_99A0D
+		CMDE1	$01
+		CMDD5
+		DATA	$20,$10
+		CMDD4
+		DATA	$B0,$90,$70,$60,$40,$20,$10,$20,$10,$20,$13
+		AJMP	byte_99975
+		DATA	$C0
+		ASTOP
 byte_999FC:
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$61,$21	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$91,$C1,$71,$B1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41	; DATA
-		.BYTE	$F3	; RET
+		DATA	$C1
+		CMDD4
+		DATA	$61,$21
+		CMDD3
+		DATA	$91,$C1,$71,$B1
+		CMDD4
+		DATA	$41
+		ARET
 byte_99A08:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$77,$63,$23	; DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$77,$63,$23
+		ARET
 byte_99A0D:
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$D4	; CMDD4
-		.BYTE	$20,$40,$60,$C0,$40,$60,$70,$C0 ;	DATA
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$90,$C0,$70,$C0,$62,$C0 ;	DATA
-		.BYTE	$F3	; RET
+		CMDE1	$03
+		CMDD4
+		DATA	$20,$40,$60,$C0,$40,$60,$70,$C0
+		CMDE1	$00
+		DATA	$90,$C0,$70,$C0,$62,$C0
+		ARET
 _apu_mus02_C:
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$FA	; CMDD9
+		CMDE2	$03
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$00
+		CMDD9	$FA
 byte_99A2B:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99A86
-		.BYTE	$D3	; CMDD3
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$91,$C1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$91,$B0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$10	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99A86
-		.BYTE	$D3	; CMDD3
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$91,$C1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D4	; CMDD4
-		.BYTE	$21,$C1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71,$C1,$71,$C1,$67 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$41,$C1,$42,$90,$C3,$93 ;	DATA
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$20,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$70,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$93	; DATA
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$90,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D2	; CMDD2
-		.BYTE	$90,$C0,$B0,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$10,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21,$C1,$71,$C1,$90,$C0,$90,$C0,$92,$C0 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F8	; JMP
-		.WORD	byte_99A2B
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+			AJSR	byte_99A86
+			CMDD3
+			LOOP_START	$03
+				DATA	$91,$C1
+			DO_LOOP
+			DATA	$91,$B0
+			CMDD4
+			DATA	$10
+			AJSR	byte_99A86
+			CMDD3
+			LOOP_START	$03
+				DATA	$91,$C1
+			DO_LOOP
+			CMDD4
+			DATA	$21,$C1
+		DO_LOOP
+		LOOP_START	$03
+			CMDD3
+			DATA	$71,$C1,$71,$C1,$67
+		DO_LOOP
+		CMDD3
+		DATA	$41,$C1,$42,$90,$C3,$93
+		LOOP_START	$02
+			CMDD3
+			LOOP_START	$04
+				DATA	$20,$C0
+			DO_LOOP
+			LOOP_START	$03
+				DATA	$70,$C0
+			DO_LOOP
+			DATA	$93
+			LOOP_START	$04
+				DATA	$90,$C0
+			DO_LOOP
+			CMDD2
+			DATA	$90,$C0,$B0,$C0
+			CMDD3
+			DATA	$10,$C0
+		DO_LOOP
+		LOOP_START	$04
+			CMDD3
+			DATA	$21,$C1,$71,$C1,$90,$C0,$90,$C0,$92,$C0
+		DO_LOOP
+		AJMP	byte_99A2B
+		DATA	$C0
+		ASTOP
 byte_99A86:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$21,$C1,$01,$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B7	; DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$21,$C1,$01,$C1
+		CMDD3
+		DATA	$B7
+		ARET
 _apu_mus02_D:
-		.BYTE	$E0,$06	; CMDE0
+		CMDE0	$06
 byte_99A90:
-		.BYTE	$E9,$08	; CMDE9
-		.BYTE	$F0,$20	; LOOP_START
-		.BYTE	$31,$30,$30	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$10	; DATA
-		.BYTE	$F0,$0F	; LOOP_START
-		.BYTE	$30	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$10,$30,$30,$30	; DATA
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$30	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$10,$30,$30,$30	; DATA
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$23	; DATA
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$01,$31,$21,$31	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$33,$33,$21,$21,$23 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$33,$33,$20,$20,$20,$20,$21,$21 ;	DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_99A90
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE9	$08
+		LOOP_START	$20
+			DATA	$31,$30,$30
+		DO_LOOP
+		LOOP_START	$03
+			DATA	$10
+			LOOP_START	$0F
+				DATA	$30
+			DO_LOOP
+		DO_LOOP
+		DATA	$10,$30,$30,$30
+		LOOP_START	$04
+			DATA	$30
+		DO_LOOP
+		DATA	$10,$30,$30,$30
+		CMDE9	$00
+		DATA	$23
+		LOOP_START	$08
+			DATA	$01,$31,$21,$31
+		DO_LOOP
+		LOOP_START	$03
+			DATA	$33,$33,$21,$21,$23
+		DO_LOOP
+		DATA	$33,$33,$20,$20,$20,$20,$21,$21
+		AJMP	byte_99A90
+		DATA	$C0
+		ASTOP
 _apu_mus03:
 		.BYTE	$0F
 		.WORD	_apu_mus03_A
@@ -3957,256 +3914,226 @@ _apu_mus03:
 		.WORD	_apu_mus03_C
 		.WORD	_apu_mus03_D
 _apu_mus03_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$03
+		CMDD9	$F4
 byte_99ADE:
-		.BYTE	$F2	; JSR
-		.WORD	byte_99B96
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$C0,$22,$00,$C0,$00,$C0,$00,$50,$C0,$40,$C0 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99B96
-		.BYTE	$F2	; JSR
-		.WORD	byte_99BA6
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$C0,$20,$C0,$01,$00,$20,$C0 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$C0,$70,$B0,$C0 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99BB7
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B1,$C0,$B1,$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$70,$C0,$72,$91,$C1 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$C0,$40,$20,$C0,$51,$50,$40,$C0,$22,$C0,$21,$C0,$22,$41,$20 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$C0,$72,$90,$B0 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99BB7
-		.BYTE	$B0,$C0,$B0,$C0,$B1 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$C0,$70,$C0,$70 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50,$C0,$40,$C0,$C1,$20,$C0,$40,$20,$C0,$70 ; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$73	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$70,$50,$40,$20,$00 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$90,$70	; DATA
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$F2	; JSR
-		.WORD	byte_99BC6
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$C0,$20,$C0,$20 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$C0,$20,$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$90,$C0,$B0,$C0,$C0 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$40,$20,$50,$40,$C0,$51,$50,$40,$C0,$23 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99BC6
-		.BYTE	$50,$C0,$50,$C0,$40,$21,$70,$90,$C0,$90,$70,$C3 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99BA6
-		.BYTE	$F8	; JMP
-		.WORD	byte_99ADE
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_99B96
+		DATA	$C1
+		CMDD5
+		DATA	$20,$C0,$22,$00,$C0,$00,$C0,$00,$50,$C0,$40,$C0
+		AJSR	byte_99B96
+		AJSR	byte_99BA6
+		CMDD5
+		DATA	$20,$C0,$20,$C0,$01,$00,$20,$C0
+		CMDD4
+		DATA	$70,$C0,$70,$B0,$C0
+		CMDD5
+		DATA	$00,$C0
+		AJSR	byte_99BB7
+		CMDD4
+		DATA	$B1,$C0,$B1,$C0
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$B0,$70,$C0,$72,$91,$C1
+		CMDD5
+		DATA	$20,$C0,$40,$20,$C0,$51,$50,$40,$C0,$22,$C0,$21,$C0,$22,$41,$20
+		CMDD4
+		DATA	$70,$C0,$72,$90,$B0
+		AJSR	byte_99BB7
+		DATA	$B0,$C0,$B0,$C0,$B1
+		CMDD5
+		DATA	$00
+		CMDD4
+		DATA	$B0,$C0,$70,$C0,$70
+		CMDD5
+		DATA	$50,$C0,$40,$C0,$C1,$20,$C0,$40,$20,$C0,$70
+		CMDE8
+		DATA	$73
+		CMDE8
+		CMDE0	$03
+		DATA	$70,$50,$40,$20,$00
+		CMDD4
+		DATA	$B0,$90,$70
+		CMDE0	$06
+		AJSR	byte_99BC6
+		CMDD5
+		DATA	$20,$C0,$20,$C0,$20
+		CMDD4
+		DATA	$B0,$C0
+		CMDD5
+		DATA	$20,$C0,$20,$C0
+		CMDD4
+		DATA	$B0,$90,$C0,$B0,$C0,$C0
+		CMDD5
+		DATA	$20,$40,$20,$50,$40,$C0,$51,$50,$40,$C0,$23
+		AJSR	byte_99BC6
+		DATA	$50,$C0,$50,$C0,$40,$21,$70,$90,$C0,$90,$70,$C3
+		AJSR	byte_99BA6
+		AJMP	byte_99ADE
+		DATA	$C0
+		ASTOP
 byte_99B96:
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$C0,$22,$00,$C0,$00,$C0,$00,$20,$C0 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$C0	; DATA
-		.BYTE	$F3	; RET
+		DATA	$C1
+		CMDD5
+		DATA	$20,$C0,$22,$00,$C0,$00,$C0,$00,$20,$C0
+		CMDD4
+		DATA	$B0,$C0
+		ARET
 byte_99BA6:
-		.BYTE	$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$B0,$70,$20,$90,$50,$00,$70,$C0,$71,$20,$50,$40,$20,$C0 ;	DATA
-		.BYTE	$F3	; RET
+		DATA	$C0
+		CMDD5
+		DATA	$B0,$70,$20,$90,$50,$00,$70,$C0,$71,$20,$50,$40,$20,$C0
+		ARET
 byte_99BB7:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$C0,$70,$C0,$70,$C0,$70,$C0,$50,$70,$C0,$73,$C0 ; DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$70,$C0,$70,$C0,$70,$C0,$70,$C0,$50,$70,$C0,$73,$C0
+		ARET
 byte_99BC6:
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40,$C0,$40,$C0,$40,$00,$C0,$40,$C0,$40,$C0,$00 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0,$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C0,$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$90,$70	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$20,$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$30,$40,$C0,$21,$00,$40,$00 ; DATA
-		.BYTE	$F3	; RET
+		CMDD5
+		DATA	$40,$C0,$40,$C0,$40,$00,$C0,$40,$C0,$40,$C0,$00
+		CMDD4
+		DATA	$A0,$C0
+		CMDD5
+		DATA	$00,$C0,$C0
+		CMDD4
+		DATA	$70,$90,$70
+		CMDD5
+		DATA	$00,$20,$00
+		CMDD4
+		DATA	$70
+		CMDD5
+		DATA	$30,$40,$C0,$21,$00,$40,$00
+		ARET
 _apu_mus03_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$05	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$05
+		CMDD9	$F4
 byte_99BF7:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99C29
-		.BYTE	$F2	; JSR
-		.WORD	byte_99C38
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99C48
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_99C52
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99C48
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_99C52
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$C0,$20,$C0,$00 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40,$50,$C0,$50,$40,$C3 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99C38
-		.BYTE	$F8	; JMP
-		.WORD	byte_99BF7
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+			AJSR	byte_99C29
+			AJSR	byte_99C38
+		DO_LOOP
+		LOOP_START	$08
+			AJSR	byte_99C48
+		DO_LOOP
+		AJSR	byte_99C52
+		LOOP_START	$02
+			AJSR	byte_99C48
+		DO_LOOP
+		AJSR	byte_99C52
+		CMDD5
+		DATA	$20,$C0,$20,$C0,$00
+		CMDD4
+		DATA	$B1
+		CMDD5
+		DATA	$40,$50,$C0,$50,$40,$C3
+		AJSR	byte_99C38
+		AJMP	byte_99BF7
+		DATA	$C0
+		ASTOP
 byte_99C29:
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$C0,$B2,$90,$C0,$90,$C0,$90,$B0,$C0,$70,$C0 ;	DATA
-		.BYTE	$F3	; RET
+		DATA	$C1
+		CMDD4
+		DATA	$B0,$C0,$B2,$90,$C0,$90,$C0,$90,$B0,$C0,$70,$C0
+		ARET
 byte_99C38:
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$C0,$B2,$90,$C0,$90,$C0,$90 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C0,$00,$C0	; DATA
-		.BYTE	$F3	; RET
+		DATA	$C1
+		CMDD4
+		DATA	$B0,$C0,$B2,$90,$C0,$90,$C0,$90
+		CMDD5
+		DATA	$00,$C0,$00,$C0
+		ARET
 byte_99C48:
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$20,$C0,$23,$02	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B0,$C3	; DATA
-		.BYTE	$F3	; RET
+		DATA	$C1
+		CMDD4
+		DATA	$20,$C0,$23,$02
+		CMDD3
+		DATA	$B0,$C3
+		ARET
 byte_99C52:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40,$C0,$43,$22,$00,$C3 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+			DATA	$C1
+			CMDD4
+			DATA	$40,$C0,$43,$22,$00,$C3
+		DO_LOOP
+		ARET
 _apu_mus03_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$00
 byte_99C66:
-		.BYTE	$F0,$0C	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99C9E
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_99CB5
-		.BYTE	$F2	; JSR
-		.WORD	byte_99C9E
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$C0,$70,$C0,$90,$C0,$90,$C0,$B0,$C0,$B0,$C0,$70,$C0,$70,$C0 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99CB5
-		.BYTE	$70,$C0,$70,$C0,$70,$C0,$70,$C0,$70,$C0,$70,$C0,$70,$C0,$70,$C0 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99C9E
-		.BYTE	$F8	; JMP
-		.WORD	byte_99C66
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$0C
+			AJSR	byte_99C9E
+		DO_LOOP
+		AJSR	byte_99CB5
+		AJSR	byte_99C9E
+		CMDD3
+		DATA	$70,$C0,$70,$C0,$90,$C0,$90,$C0,$B0,$C0,$B0,$C0,$70,$C0,$70,$C0
+		AJSR	byte_99CB5
+		DATA	$70,$C0,$70,$C0,$70,$C0,$70,$C0,$70,$C0,$70,$C0,$70,$C0,$70,$C0
+		AJSR	byte_99C9E
+		AJMP	byte_99C66
+		DATA	$C0
+		ASTOP
 byte_99C9E:
-		.BYTE	$D2	; CMDD2
-		.BYTE	$73	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71,$C0,$50,$C0,$50,$C0,$50,$70,$C0,$70 ;	DATA
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$21,$01	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$B0,$90	; DATA
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$F3	; RET
+		CMDD2
+		DATA	$73
+		CMDD3
+		DATA	$71,$C0,$50,$C0,$50,$C0,$50,$70,$C0,$70
+		CMDE0	$01
+		DATA	$21,$01
+		CMDD2
+		DATA	$B0,$90
+		CMDE0	$06
+		ARET
 byte_99CB5:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$03	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A0,$C0,$A0,$C0,$A0 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C0,$00	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$71,$51,$40,$20	; DATA
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$C0,$00,$C0,$20,$C0,$20,$C0,$40,$C0,$40,$C0,$00,$C0,$00,$C0 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD3
+		DATA	$03
+		CMDD4
+		DATA	$01,$C0
+		CMDD3
+		DATA	$A0,$C0,$A0,$C0,$A0
+		CMDD4
+		DATA	$00,$C0,$00
+		CMDD3
+		CMDE0	$01
+		DATA	$71,$51,$40,$20
+		CMDE0	$06
+		CMDD3
+		DATA	$00,$C0,$00,$C0,$20,$C0,$20,$C0,$40,$C0,$40,$C0,$00,$C0,$00,$C0
+		ARET
 _apu_mus03_D:
-		.BYTE	$E9,$02	; CMDE9
-		.BYTE	$E0,$06	; CMDE0
+		CMDE9	$02
+		CMDE0	$06
 byte_99CE3:
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99D03
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_99D0F
-		.BYTE	$F0,$07	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99D03
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_99D0F
-		.BYTE	$F0,$07	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99D03
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_99D0F
-		.BYTE	$F8	; JMP
-		.WORD	byte_99CE3
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$03
+			AJSR	byte_99D03
+		DO_LOOP
+		AJSR	byte_99D0F
+		LOOP_START	$07
+			AJSR	byte_99D03
+		DO_LOOP
+		AJSR	byte_99D0F
+		LOOP_START	$07
+			AJSR	byte_99D03
+		DO_LOOP
+		AJSR	byte_99D0F
+		AJMP	byte_99CE3
+		DATA	$C0
+		ASTOP
 byte_99D03:
-		.BYTE	$01,$21,$20,$01,$00,$20,$30,$20,$30,$21,$21	; DATA
-		.BYTE	$F3	; RET
+		DATA	$01,$21,$20,$01,$00,$20,$30,$20,$30,$21,$21
+		ARET
 byte_99D0F:
-		.BYTE	$01,$21,$20,$01,$00,$20,$30,$20,$30,$20,$20,$20,$20	; DATA
-		.BYTE	$F3	; RET
+		DATA	$01,$21,$20,$01,$00,$20,$30,$20,$30,$20,$20,$20,$20
+		ARET
 _apu_mus04:
 		.BYTE	$0F
 		.WORD	_apu_mus04_A
@@ -4214,180 +4141,168 @@ _apu_mus04:
 		.WORD	_apu_mus04_C
 		.WORD	_apu_mus04_D
 _apu_mus04_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$E8	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$00
+		CMDD9	$E8
 byte_99D30:
-		.BYTE	$F2	; JSR
-		.WORD	byte_99D71
-		.BYTE	$D4	; CMDD4
-		.BYTE	$9B,$C3	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99D71
-		.BYTE	$91,$C5,$A7	; DATA
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B3	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$21,$69	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D5	; CMDD5
-		.BYTE	$65,$7B	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41,$71,$B3	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$45	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$61,$11	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$61,$11	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$71,$11	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D5	; CMDD5
-		.BYTE	$A1,$61,$11,$A1,$61,$11,$B1,$61,$AB ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A3	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_99D30
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_99D71
+		CMDD4
+		DATA	$9B,$C3
+		AJSR	byte_99D71
+		DATA	$91,$C5,$A7
+		LOOP_START	$02
+			LOOP_START	$02
+				CMDD4
+				DATA	$B3
+				CMDD5
+				DATA	$21,$69
+			DO_LOOP
+			CMDD5
+			DATA	$65,$7B
+			CMDD4
+			DATA	$41,$71,$B3
+			CMDD5
+			DATA	$45
+		DO_LOOP
+		LOOP_START	$02
+			CMDD5
+			DATA	$61,$11
+			CMDD4
+			DATA	$A1
+			CMDD5
+			DATA	$61,$11
+			CMDD4
+			DATA	$A1
+			CMDD5
+			DATA	$71,$11
+		DO_LOOP
+		CMDD5
+		DATA	$A1,$61,$11,$A1,$61,$11,$B1,$61,$AB
+		CMDD4
+		DATA	$A3
+		AJMP	byte_99D30
+		DATA	$C0
+		ASTOP
 byte_99D71:
-		.BYTE	$D5	; CMDD5
-		.BYTE	$31,$41,$31,$41,$01 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91,$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$33,$41,$31,$41,$01 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91,$C3	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$31,$41,$31,$41,$21,$01 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$2D,$C3	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$11,$21,$11,$21	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B1,$81,$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$13,$21,$11,$21	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B1,$81,$C5	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41,$31,$41,$81,$43,$91 ;	DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F3	; RET
+		CMDD5
+		DATA	$31,$41,$31,$41,$01
+		CMDD4
+		DATA	$91,$C1
+		CMDD5
+		DATA	$33,$41,$31,$41,$01
+		CMDD4
+		DATA	$91,$C3
+		CMDD5
+		DATA	$31,$41,$31,$41,$21,$01
+		CMDD4
+		DATA	$91
+		CMDD5
+		DATA	$2D,$C3
+		CMDD5
+		DATA	$11,$21,$11,$21
+		CMDD4
+		DATA	$B1,$81,$C1
+		CMDD5
+		DATA	$13,$21,$11,$21
+		CMDD4
+		DATA	$B1,$81,$C5
+		CMDD4
+		DATA	$41,$31,$41,$81,$43,$91
+		CMDE8
+		ARET
 _apu_mus04_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$08	; CMDE9
-		.BYTE	$D9,$E8	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_99D30
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$08
+		CMDD9	$E8
+		DATA	$C1
+		AJMP	byte_99D30
+		DATA	$C0
+		ASTOP
 _apu_mus04_C:
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE2	$03
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$00
 byte_99DC2:
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99E1A
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_99E23
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99E2B
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99E1A
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_99E23
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99E2B
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$41,$C3,$43,$41,$31,$41 ;	DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$91,$C5,$A7	; DATA
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D2	; CMDD2
-		.BYTE	$B1,$C3	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$23,$61,$51,$61	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$41,$C3,$73,$B1,$A1,$B1 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$61,$C3,$61,$C3,$73 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$63,$C1	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$61,$C1,$61,$71,$81 ; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_99DC2
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$03
+		AJSR	byte_99E1A
+		DO_LOOP
+		AJSR	byte_99E23
+		LOOP_START	$03
+		AJSR	byte_99E2B
+		DO_LOOP
+		LOOP_START	$04
+		AJSR	byte_99E1A
+		DO_LOOP
+		AJSR	byte_99E23
+		LOOP_START	$02
+		AJSR	byte_99E2B
+		DO_LOOP
+		CMDD3
+		DATA	$41,$C3,$43,$41,$31,$41
+		CMDD2
+		DATA	$91,$C5,$A7
+		LOOP_START	$02
+		LOOP_START	$02
+		CMDD2
+		DATA	$B1,$C3
+		CMDD3
+		DATA	$23,$61,$51,$61
+		DO_LOOP
+		LOOP_START	$02
+		CMDD3
+		DATA	$41,$C3,$73,$B1,$A1,$B1
+		DO_LOOP
+		DO_LOOP
+		LOOP_START	$03
+		CMDD3
+		DATA	$61,$C3,$61,$C3,$73
+		DO_LOOP
+		CMDD3
+		DATA	$63,$C1
+		CMDD2
+		DATA	$61,$C1,$61,$71,$81
+		AJMP	byte_99DC2
+		DATA	$C0
+		ASTOP
 byte_99E1A:
-		.BYTE	$D2	; CMDD2
-		.BYTE	$91,$C3	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$03,$41,$31,$41	; DATA
-		.BYTE	$F3	; RET
+		CMDD2
+		DATA	$91,$C3
+		CMDD3
+		DATA	$03,$41,$31,$41
+		ARET
 byte_99E23:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21,$C3,$53,$91,$81,$91 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD3
+		DATA	$21,$C3,$53,$91,$81,$91
+		ARET
 byte_99E2B:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$41,$C3,$83,$B1,$A1,$B1 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD3
+		DATA	$41,$C3,$83,$B1,$A1,$B1
+		ARET
 _apu_mus04_D:
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
+		CMDE0	$05
+		CMDE9	$03
 byte_99E37:
-		.BYTE	$F0,$06	; LOOP_START
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$01,$31,$21,$31,$01,$31,$21,$31 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$01,$31,$21,$31,$01,$21,$21,$21 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$21,$31,$31	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$21,$31	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$33,$33,$21,$21,$21,$21 ;	DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_99E37
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$06
+		LOOP_START	$03
+		DATA	$01,$31,$21,$31,$01,$31,$21,$31
+		DO_LOOP
+		DATA	$01,$31,$21,$31,$01,$21,$21,$21
+		DO_LOOP
+		LOOP_START	$03
+		LOOP_START	$02
+		DATA	$21,$31,$31
+		DO_LOOP
+		DATA	$21,$31
+		DO_LOOP
+		DATA	$33,$33,$21,$21,$21,$21
+		AJMP	byte_99E37
+		DATA	$C0
+		ASTOP
 _apu_mus05:
 		.BYTE	$0F
 		.WORD	_apu_mus05_A
@@ -4395,325 +4310,286 @@ _apu_mus05:
 		.WORD	_apu_mus05_C
 		.WORD	_apu_mus05_D
 _apu_mus05_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$02	; CMDE9
-		.BYTE	$D9,$ED	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$04
+		CMDE9	$02
+		CMDD9	$ED
 byte_99E76:
-		.BYTE	$F2	; JSR
-		.WORD	byte_99EE6
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91,$C1,$91,$C1,$91,$51,$C1,$91,$C1,$91,$C1,$51,$91,$C1 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$C1	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99EE6
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$C1,$01,$C1,$01 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91,$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$C1,$01,$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$51,$41,$21,$C1	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99EFA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B1,$C1,$B1,$71,$C7 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99EFA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B1,$C1,$B1,$71,$C1,$91,$B3 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99F2D
-		.BYTE	$D5	; CMDD5
-		.BYTE	$21,$01,$21,$33,$C1,$33,$75,$55,$33 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_99F2D
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$71	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$51,$21,$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$73,$71	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$71	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$51,$21,$C1,$71	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F8	; JMP
-		.WORD	byte_99E76
+		AJSR	byte_99EE6
+		CMDD4
+		DATA	$91,$C1,$91,$C1,$91,$51,$C1,$91,$C1,$91,$C1,$51,$91,$C1
+		CMDD5
+		DATA	$01,$C1
+		AJSR	byte_99EE6
+		CMDD5
+		DATA	$01,$C1,$01,$C1,$01
+		CMDD4
+		DATA	$91,$C1
+		CMDD5
+		DATA	$01,$C1,$01,$C1
+		CMDD4
+		DATA	$91
+		CMDD5
+		DATA	$51,$41,$21,$C1
+		AJSR	byte_99EFA
+		CMDD4
+		DATA	$B1,$C1,$B1,$71,$C7
+		AJSR	byte_99EFA
+		CMDD4
+		DATA	$B1,$C1,$B1,$71,$C1,$91,$B3
+		AJSR	byte_99F2D
+		CMDD5
+		DATA	$21,$01,$21,$33,$C1,$33,$75,$55,$33
+		AJSR	byte_99F2D
+		LOOP_START	$02
+		DATA	$C1
+		CMDD4
+		DATA	$71
+		CMDD5
+		DATA	$71
+		CMDD4
+		DATA	$71
+		CMDD5
+		DATA	$51,$21,$C1
+		CMDD4
+		DATA	$73,$71
+		CMDD5
+		DATA	$71
+		CMDD4
+		DATA	$71
+		CMDD5
+		DATA	$51,$21,$C1,$71
+		DO_LOOP
+		AJMP	byte_99E76
 _unused_0:
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		DATA	$C0
+		ASTOP
 byte_99EE6:
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A1,$B1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$21,$C1,$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B1,$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71,$C1,$71,$91,$C1,$B3 ;	DATA
-		.BYTE	$F3	; RET
+		DATA	$C1
+		CMDD4
+		DATA	$A1,$B1
+		CMDD5
+		DATA	$01,$21,$C1,$01
+		CMDD4
+		DATA	$B1,$C1
+		CMDD4
+		DATA	$71,$C1,$71,$91,$C1,$B3
+		ARET
 byte_99EFA:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71,$C1,$71,$C1,$21,$C1,$21,$C1 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$C0,$72,$C0,$23,$C9 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51,$C1,$51,$C1,$51,$C1 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41,$51,$C1,$73,$C5 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71,$C1,$71,$C1,$21,$C1,$21,$C1 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$C0,$72,$C0,$23,$C9 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$97	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$C1	; DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$71,$C1,$71,$C1,$21,$C1,$21,$C1
+		CMDD4
+		DATA	$70,$C0,$72,$C0,$23,$C9
+		CMDD4
+		DATA	$51,$C1,$51,$C1,$51,$C1
+		CMDD4
+		DATA	$41,$51,$C1,$73,$C5
+		CMDD4
+		DATA	$71,$C1,$71,$C1,$21,$C1,$21,$C1
+		CMDD4
+		DATA	$70,$C0,$72,$C0,$23,$C9
+		CMDD4
+		DATA	$97
+		CMDD5
+		DATA	$01,$C1
+		ARET
 byte_99F2D:
-		.BYTE	$C3	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$C1,$01,$C1,$31,$C1 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$21,$C1,$21	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A9	; DATA
-		.BYTE	$F3	; RET
+		DATA	$C3
+		CMDD5
+		DATA	$01,$C1,$01,$C1,$31,$C1
+		CMDD5
+		DATA	$21,$C1,$21
+		CMDD4
+		DATA	$A9
+		ARET
 _apu_mus05_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$09	; CMDE9
-		.BYTE	$D9,$ED	; CMDD9
-		.BYTE	$DB,$FF	; CMDDB
-		.BYTE	$C2	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_99E76
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$04
+		CMDE9	$09
+		CMDD9	$ED
+		CMDDB	$FF
+		DATA	$C2
+		AJMP	byte_99E76
 _apu_mus05_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$05	; CMDD9
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$04
+		CMDE9	$00
+		CMDD9	$05
 byte_99F56:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99FEC
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99FF9
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99FEC
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_99FF9
-		.BYTE	$D2	; CMDD2
-		.BYTE	$51,$C1	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A01F
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$51	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21,$61	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$61	; DATA
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99FEC
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_99FF9
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99FEC
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_99FF9
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99FEC
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_99FF9
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_99FEC
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_99FF9
-		.BYTE	$F2	; JSR
-		.WORD	byte_99FEC
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A006
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$C0,$01	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A01F
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$03	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$03,$71	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A3,$A1	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A006
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$C0,$01	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A01F
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A0,$C0,$A1	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A01F
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A1	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$80,$C0,$81	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A01F
-		.BYTE	$D2	; CMDD2
-		.BYTE	$81	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A0,$C0,$A1	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A01F
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F8	; JMP
-		.WORD	byte_99F56
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		AJSR	byte_99FEC
+		DO_LOOP
+		LOOP_START	$02
+		AJSR	byte_99FF9
+		DO_LOOP
+		LOOP_START	$02
+		AJSR	byte_99FEC
+		DO_LOOP
+		AJSR	byte_99FF9
+		CMDD2
+		DATA	$51,$C1
+		AJSR	byte_9A01F
+		CMDD3
+		DATA	$51
+		CMDD2
+		DATA	$51
+		CMDD3
+		DATA	$21,$61
+		CMDD2
+		DATA	$61
+		LOOP_START	$02
+		AJSR	byte_99FEC
+		DO_LOOP
+		AJSR	byte_99FF9
+		LOOP_START	$03
+		AJSR	byte_99FEC
+		DO_LOOP
+		AJSR	byte_99FF9
+		LOOP_START	$03
+		AJSR	byte_99FEC
+		DO_LOOP
+		AJSR	byte_99FF9
+		LOOP_START	$03
+		AJSR	byte_99FEC
+		DO_LOOP
+		AJSR	byte_99FF9
+		AJSR	byte_99FEC
+		AJSR	byte_9A006
+		CMDD3
+		DATA	$00,$C0,$01
+		AJSR	byte_9A01F
+		CMDD3
+		DATA	$01
+		CMDD3
+		DATA	$71
+		CMDD4
+		DATA	$03
+		CMDD3
+		DATA	$03,$71
+		CMDD4
+		DATA	$01
+		CMDD3
+		DATA	$01
+		CMDD2
+		DATA	$A1
+		CMDD3
+		DATA	$A3,$A1
+		AJSR	byte_9A006
+		LOOP_START	$02
+		CMDD3
+		DATA	$00,$C0,$01
+		AJSR	byte_9A01F
+		CMDD3
+		DATA	$01
+		CMDD2
+		DATA	$A0,$C0,$A1
+		AJSR	byte_9A01F
+		CMDD2
+		DATA	$A1
+		CMDD2
+		DATA	$80,$C0,$81
+		AJSR	byte_9A01F
+		CMDD2
+		DATA	$81
+		CMDD2
+		DATA	$A0,$C0,$A1
+		AJSR	byte_9A01F
+		CMDD2
+		DATA	$A1
+		DO_LOOP
+		AJMP	byte_99F56
+		DATA	$C0
+		ASTOP
 byte_99FEC:
-		.BYTE	$D2	; CMDD2
-		.BYTE	$72,$C0	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A01F
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21,$C1,$71,$61,$71 ; DATA
-		.BYTE	$F3	; RET
+		CMDD2
+		DATA	$72,$C0
+		AJSR	byte_9A01F
+		CMDD3
+		DATA	$21,$C1,$71,$61,$71
+		ARET
 byte_99FF9:
-		.BYTE	$D2	; CMDD2
-		.BYTE	$52,$C0	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A01F
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01,$C1,$51,$41,$51 ; DATA
-		.BYTE	$F3	; RET
+		CMDD2
+		DATA	$52,$C0
+		AJSR	byte_9A01F
+		CMDD3
+		DATA	$01,$C1,$51,$41,$51
+		ARET
 byte_9A006:
-		.BYTE	$D2	; CMDD2
-		.BYTE	$82,$C0	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A01F
-		.BYTE	$D3	; CMDD3
-		.BYTE	$31,$C1,$81,$71,$81 ; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A2,$C0	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A01F
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51,$C1,$A1,$91,$A1 ; DATA
-		.BYTE	$F3	; RET
+		CMDD2
+		DATA	$82,$C0
+		AJSR	byte_9A01F
+		CMDD3
+		DATA	$31,$C1,$81,$71,$81
+		CMDD2
+		DATA	$A2,$C0
+		AJSR	byte_9A01F
+		CMDD3
+		DATA	$51,$C1,$A1,$91,$A1
+		ARET
 byte_9A01F:
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$D4	; CMDD4
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$00	; DATA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$DA,$08	; CMDDA
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$F3	; RET
+		CMDE0	$01
+		CMDD4
+		LOOP_START	$08
+		DATA	$00
+		CMDDA	$FF
+		DO_LOOP
+		CMDDA	$08
+		CMDE0	$04
+		ARET
 _apu_mus05_D:
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$F0,$06	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A06B
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$01	; DATA
-		.BYTE	$E9,$06	; CMDE9
-		.BYTE	$31	; DATA
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$21	; DATA
-		.BYTE	$E9,$06	; CMDE9
-		.BYTE	$31	; DATA
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$01,$21,$21,$21	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A06B
-		.BYTE	$E9,$06	; CMDE9
-		.BYTE	$11	; DATA
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$21,$21	; DATA
-		.BYTE	$E9,$06	; CMDE9
-		.BYTE	$11	; DATA
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$21,$21	; DATA
-		.BYTE	$E9,$06	; CMDE9
-		.BYTE	$11	; DATA
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$21	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A06B
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A06B
-		.BYTE	$F8	; JMP
-		.WORD	_apu_mus05_D	; DATA
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE0	$04
+		CMDE9	$03
+		LOOP_START	$06
+		AJSR	byte_9A06B
+		CMDE9	$03
+		DATA	$01
+		CMDE9	$06
+		DATA	$31
+		CMDE9	$03
+		DATA	$21
+		CMDE9	$06
+		DATA	$31
+		CMDE9	$03
+		DATA	$01,$21,$21,$21
+		DO_LOOP
+		AJSR	byte_9A06B
+		CMDE9	$06
+		DATA	$11
+		CMDE9	$03
+		DATA	$21,$21
+		CMDE9	$06
+		DATA	$11
+		CMDE9	$03
+		DATA	$21,$21
+		CMDE9	$06
+		DATA	$11
+		CMDE9	$03
+		DATA	$21
+		AJSR	byte_9A06B
+		AJSR	byte_9A06B
+		AJMP	_apu_mus05_D
+		DATA	$C0
+		ASTOP
 byte_9A06B:
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$01	; DATA
-		.BYTE	$E9,$06	; CMDE9
-		.BYTE	$31	; DATA
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$21	; DATA
-		.BYTE	$E9,$06	; CMDE9
-		.BYTE	$31	; DATA
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$01	; DATA
-		.BYTE	$E9,$06	; CMDE9
-		.BYTE	$31	; DATA
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$21,$21	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$03
+		DATA	$01
+		CMDE9	$06
+		DATA	$31
+		CMDE9	$03
+		DATA	$21
+		CMDE9	$06
+		DATA	$31
+		CMDE9	$03
+		DATA	$01
+		CMDE9	$06
+		DATA	$31
+		CMDE9	$03
+		DATA	$21,$21
+		DO_LOOP
+		ARET
 _apu_mus06:
 		.BYTE	$0F
 		.WORD	_apu_mus06_A
@@ -4721,374 +4597,350 @@ _apu_mus06:
 		.WORD	_apu_mus06_C
 		.WORD	_apu_mus06_D
 _apu_mus06_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$CF,$CF	; DATA
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$03
+		CMDD9	$F4
+		DATA	$CF,$CF
 byte_9A098:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A0FC
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$50,$70,$50,$70,$50,$C0,$71 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A0FC
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$50,$70,$50,$70,$50,$C0 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A10D
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71,$80,$C0,$90,$C0,$40,$50,$C0,$73,$C0 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A10D
-		.BYTE	$D5	; CMDD5
-		.BYTE	$70,$C0,$71,$50,$C0,$51,$40,$20,$30,$43,$C0 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A11E
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C1,$00,$20,$C0,$42,$01 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A11E
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$90,$A0,$B0,$C1 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$02	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C3	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A098	; DATA
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		AJSR	byte_9A0FC
+		LOOP_START	$02
+		CMDD4
+		DATA	$50,$70,$50,$70,$50,$C0,$71
+		DO_LOOP
+		AJSR	byte_9A0FC
+		LOOP_START	$02
+		CMDD4
+		DATA	$50,$70,$50,$70,$50,$C0
+		CMDD5
+		DATA	$01
+		DO_LOOP
+		DO_LOOP
+		AJSR	byte_9A10D
+		DATA	$C1
+		CMDD4
+		DATA	$71,$80,$C0,$90,$C0,$40,$50,$C0,$73,$C0
+		AJSR	byte_9A10D
+		CMDD5
+		DATA	$70,$C0,$71,$50,$C0,$51,$40,$20,$30,$43,$C0
+		AJSR	byte_9A11E
+		DATA	$C1
+		CMDD4
+		DATA	$A0
+		CMDD5
+		DATA	$00
+		CMDD4
+		DATA	$A0
+		CMDD5
+		DATA	$00,$C1,$00,$20,$C0,$42,$01
+		AJSR	byte_9A11E
+		DATA	$C1
+		CMDD4
+		DATA	$70,$90,$A0,$B0,$C1
+		CMDD5
+		DATA	$02
+		CMDD4
+		DATA	$00,$C3
+		AJMP	byte_9A098
+		DATA	$C0
+		ASTOP
 byte_9A0FC:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$20,$40,$20,$40,$20,$C0,$70,$C0,$B1,$90,$C0,$70,$C0,$60,$C0 ; DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$20,$40,$20,$40,$20,$C0,$70,$C0,$B1,$90,$C0,$70,$C0,$60,$C0
+		ARET
 byte_9A10D:
-		.BYTE	$D5	; CMDD5
-		.BYTE	$41,$20,$C0,$00,$C0 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90,$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$31,$20,$00,$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$92	; DATA
-		.BYTE	$F3	; RET
+		CMDD5
+		DATA	$41,$20,$C0,$00,$C0
+		CMDD4
+		DATA	$90,$C0
+		CMDD5
+		DATA	$31,$20,$00,$C0
+		CMDD4
+		DATA	$92
+		ARET
 byte_9A11E:
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50,$C0,$50,$C0,$30,$00,$C0,$50,$C0,$50,$C0,$50,$30,$00,$C0,$50 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD5
+		DATA	$50,$C0,$50,$C0,$30,$00,$C0,$50,$C0,$50,$C0,$50,$30,$00,$C0,$50
+		ARET
 _apu_mus06_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$07	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B0,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$07
+		CMDD9	$F4
+		LOOP_START	$02
+		LOOP_START	$04
+		CMDD3
+		DATA	$B0,$C0
+		DO_LOOP
+		LOOP_START	$04
+		CMDD4
+		DATA	$00,$C0
+		DO_LOOP
+		DO_LOOP
 byte_9A149:
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B0,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$90,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A1A8
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40,$C0,$40,$C0,$20,$C0,$20,$C0,$00,$C0,$00,$C0 ;	DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$C0,$70,$C0	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A1A8
-		.BYTE	$70,$C0,$70,$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$C0,$70,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$C0,$70,$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$C0,$70,$C0	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A1B5
-		.BYTE	$D4	; CMDD4
-		.BYTE	$30,$C0,$30,$C0,$30,$C0,$30,$C0,$70,$C0,$70,$C0,$70,$C0,$70,$C0 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A1B5
-		.BYTE	$D5	; CMDD5
-		.BYTE	$02	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C1,$00,$C0,$03,$C3 ;	DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A149
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$04
+		LOOP_START	$08
+		CMDD3
+		DATA	$B0,$C0
+		DO_LOOP
+		LOOP_START	$08
+		CMDD3
+		DATA	$90,$C0
+		DO_LOOP
+		DO_LOOP
+		AJSR	byte_9A1A8
+		CMDD4
+		DATA	$40,$C0,$40,$C0,$20,$C0,$20,$C0,$00,$C0,$00,$C0
+		CMDD3
+		DATA	$70,$C0,$70,$C0
+		AJSR	byte_9A1A8
+		DATA	$70,$C0,$70,$C0
+		CMDD4
+		DATA	$70,$C0,$70,$C0
+		CMDD3
+		DATA	$70,$C0,$70,$C0
+		CMDD4
+		DATA	$70,$C0,$70,$C0
+		AJSR	byte_9A1B5
+		CMDD4
+		DATA	$30,$C0,$30,$C0,$30,$C0,$30,$C0,$70,$C0,$70,$C0,$70,$C0,$70,$C0
+		AJSR	byte_9A1B5
+		CMDD5
+		DATA	$02
+		CMDD4
+		DATA	$00,$C1,$00,$C0,$03,$C3
+		AJMP	byte_9A149
+		DATA	$C0
+		ASTOP
 byte_9A1A8:
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$90,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$04
+		CMDD3
+		DATA	$90,$C0
+		DO_LOOP
+		LOOP_START	$04
+		CMDD4
+		DATA	$00,$C0
+		DO_LOOP
+		ARET
 byte_9A1B5:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C0,$00,$C0,$00,$C0,$00,$C0,$00,$C0,$00,$C0,$00,$C0,$00,$C0 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$00,$C0,$00,$C0,$00,$C0,$00,$C0,$00,$C0,$00,$C0,$00,$C0,$00,$C0
+		ARET
 _apu_mus06_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$B0,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$70,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$91	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$90,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$00
+		LOOP_START	$02
+		CMDD3
+		DATA	$71
+		CMDD5
+		DATA	$B0,$C0
+		CMDD3
+		DATA	$21
+		CMDD5
+		DATA	$70,$C0
+		CMDD3
+		DATA	$91
+		CMDD5
+		DATA	$90,$C0
+		CMDD3
+		DATA	$21
+		CMDD5
+		DATA	$20,$C0
+		DO_LOOP
 byte_9A1E6:
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A280
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A295
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A280
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$90,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A280
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A295
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A280
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$90,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$90,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$40	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A2A3
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$70,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$41	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A2A3
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$70,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$70	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$70	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$50	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$40	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A2B4
-		.BYTE	$D3	; CMDD3
-		.BYTE	$81	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$80	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$80	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$80	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$30	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$00	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A2B4
-		.BYTE	$00	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$C0,$01,$41,$51,$61 ;	DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A1E6
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_9A280
+		AJSR	byte_9A295
+		AJSR	byte_9A280
+		LOOP_START	$02
+		CMDD3
+		DATA	$51
+		CMDD5
+		DATA	$90,$C0
+		CMDD3
+		DATA	$01
+		CMDD5
+		DATA	$50,$C0
+		DO_LOOP
+		AJSR	byte_9A280
+		AJSR	byte_9A295
+		AJSR	byte_9A280
+		CMDD3
+		DATA	$51
+		CMDD5
+		DATA	$90,$C0
+		CMDD3
+		DATA	$01
+		CMDD5
+		DATA	$50,$C0
+		CMDD3
+		DATA	$51
+		CMDD5
+		DATA	$90,$C0
+		CMDD3
+		DATA	$01
+		CMDD5
+		DATA	$50
+		CMDD3
+		DATA	$40
+		AJSR	byte_9A2A3
+		CMDD3
+		DATA	$71
+		CMDD5
+		DATA	$70,$C0
+		CMDD3
+		DATA	$51
+		CMDD5
+		DATA	$50,$C0
+		CMDD3
+		DATA	$41
+		CMDD5
+		DATA	$40,$C0
+		CMDD3
+		DATA	$01
+		CMDD5
+		DATA	$00,$C0
+		AJSR	byte_9A2A3
+		LOOP_START	$02
+		CMDD3
+		DATA	$71
+		CMDD5
+		DATA	$70,$C0
+		DO_LOOP
+		CMDD3
+		DATA	$70
+		CMDD5
+		DATA	$70
+		CMDD3
+		DATA	$70
+		CMDD5
+		DATA	$70
+		CMDD3
+		DATA	$50
+		CMDD5
+		DATA	$50
+		CMDD3
+		DATA	$40
+		CMDD5
+		DATA	$40
+		AJSR	byte_9A2B4
+		CMDD3
+		DATA	$81
+		CMDD5
+		DATA	$80
+		CMDD3
+		DATA	$80
+		CMDD4
+		DATA	$00
+		CMDD5
+		DATA	$80
+		CMDD4
+		DATA	$30
+		CMDD3
+		DATA	$A0
+		CMDD4
+		DATA	$01
+		CMDD5
+		DATA	$40
+		CMDD4
+		DATA	$00,$00
+		CMDD5
+		DATA	$40
+		CMDD4
+		DATA	$01
+		AJSR	byte_9A2B4
+		DATA	$00
+		CMDD3
+		DATA	$B0
+		CMDD4
+		DATA	$00
+		CMDD3
+		DATA	$B0
+		CMDD4
+		DATA	$01
+		CMDD3
+		DATA	$00,$C0,$01,$41,$51,$61
+		AJMP	byte_9A1E6
+		DATA	$C0
+		ASTOP
 byte_9A280:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$B0,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$70,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$B0,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$C0	; DATA
-		.BYTE	$F3	; RET
+		CMDD3
+		DATA	$71
+		CMDD5
+		DATA	$B0,$C0
+		CMDD3
+		DATA	$21
+		CMDD5
+		DATA	$70,$C0
+		CMDD3
+		DATA	$71
+		CMDD5
+		DATA	$B0,$C0
+		CMDD3
+		DATA	$21
+		CMDD5
+		DATA	$20,$C0
+		ARET
 byte_9A295:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$90,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+		CMDD3
+		DATA	$51
+		CMDD5
+		DATA	$90,$C0
+		CMDD3
+		DATA	$01
+		CMDD5
+		DATA	$50,$C0
+		DO_LOOP
+		ARET
 byte_9A2A3:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$61	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$60,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+		CMDD3
+		DATA	$51
+		CMDD5
+		DATA	$50,$C0
+		DO_LOOP
+		LOOP_START	$02
+		CMDD3
+		DATA	$61
+		CMDD5
+		DATA	$60,$C0
+		DO_LOOP
+		ARET
 byte_9A2B4:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$50,$80	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$51	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$50,$80	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$F3	; RET
+		CMDD3
+		DATA	$51
+		CMDD5
+		DATA	$50
+		CMDD3
+		DATA	$50,$80
+		CMDD5
+		DATA	$50
+		CMDD4
+		DATA	$00
+		CMDD3
+		DATA	$00,$51
+		CMDD5
+		DATA	$50
+		CMDD3
+		DATA	$50,$80
+		CMDD5
+		DATA	$50
+		CMDD4
+		DATA	$01
+		ARET
 _apu_mus06_D:
-		.BYTE	$E9,$08	; CMDE9
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$D2	; CMDD2
-		.BYTE	$11,$30,$30	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	_apu_mus06_D
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE9	$08
+		CMDE0	$06
+		CMDD2
+		DATA	$11,$30,$30
+		AJMP	_apu_mus06_D
+		DATA	$C0
+		ASTOP
 _apu_mus07:
 		.BYTE	$0F
 		.WORD	_apu_mus07_A
@@ -5096,323 +4948,305 @@ _apu_mus07:
 		.WORD	_apu_mus07_C
 		.WORD	_apu_mus07_D
 _apu_mus07_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$02	; CMDE9
-		.BYTE	$D9,$F2	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$02
+		CMDD9	$F2
 byte_9A2EC:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$F0,$06	; LOOP_START
-		.BYTE	$41,$30	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$41,$50,$C1,$40	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C2	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91,$C0,$81,$90,$C1 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A399
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$41	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$80	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D5	; CMDD5
-		.BYTE	$31,$40,$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B2,$80,$C2	; DATA
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$42,$91,$C0,$81,$90,$C1 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A399
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$D5	; CMDD5
-		.BYTE	$C1,$50	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$51	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$80	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D5	; CMDD5
-		.BYTE	$31,$40,$C1,$92,$C3 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A3A5
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90,$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$12	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$11	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$11	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0,$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$30	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$31,$40	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$31,$C0,$41	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B3,$C2	; DATA
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$91,$B0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$90	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$31,$42,$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$92,$41,$92,$40,$81,$90 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90,$B1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$02	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90,$B1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$31,$40,$31,$40,$C1,$43 ; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A2EC
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		CMDD4
+		LOOP_START	$06
+		DATA	$41,$30
+		DO_LOOP
+		DATA	$41,$50,$C1,$40
+		DO_LOOP
+		DATA	$C2
+		CMDD4
+		DATA	$91,$C0,$81,$90,$C1
+		CMDD5
+		DATA	$00
+		CMDE8
+		AJSR	byte_9A399
+		CMDE1	$02
+		DATA	$C1
+		CMDD5
+		DATA	$40
+		CMDE8
+		LOOP_START	$03
+		CMDD5
+		DATA	$41
+		CMDD4
+		DATA	$80
+		DO_LOOP
+		CMDD5
+		DATA	$31,$40,$C1
+		CMDD4
+		DATA	$B2,$80,$C2
+		CMDE1	$03
+		DATA	$42,$91,$C0,$81,$90,$C1
+		CMDD5
+		DATA	$00
+		CMDE8
+		AJSR	byte_9A399
+		CMDE1	$02
+		CMDD5
+		DATA	$C1,$50
+		CMDE8
+		LOOP_START	$03
+		CMDD5
+		DATA	$51
+		CMDD4
+		DATA	$80
+		DO_LOOP
+		CMDD5
+		DATA	$31,$40,$C1,$92,$C3
+		AJSR	byte_9A3A5
+		CMDE1	$03
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$B0
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$B0
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$90,$C1
+		CMDD5
+		DATA	$12
+		CMDD4
+		DATA	$B0
+		CMDD5
+		DATA	$11
+		CMDD4
+		DATA	$B0
+		CMDD5
+		DATA	$11
+		CMDD4
+		DATA	$A0,$C1
+		CMDD5
+		DATA	$30
+		CMDE8
+		LOOP_START	$04
+		DATA	$31,$40
+		DO_LOOP
+		DATA	$31,$C0,$41
+		CMDD4
+		DATA	$B3,$C2
+		CMDE1	$02
+		LOOP_START	$02
+		CMDD3
+		DATA	$91,$B0
+		CMDD4
+		DATA	$01
+		CMDD3
+		DATA	$90
+		CMDD4
+		DATA	$31,$42,$00
+		CMDD4
+		DATA	$92,$41,$92,$40,$81,$90
+		DO_LOOP
+		CMDE1	$03
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$90,$B1
+		CMDD5
+		DATA	$02
+		CMDD4
+		DATA	$90,$B1
+		CMDD5
+		DATA	$00,$31,$40,$31,$40,$C1,$43
+		AJMP	byte_9A2EC
+		DATA	$C0
+		ASTOP
 byte_9A399:
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C0,$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B1,$C0,$A1,$C0,$B1,$C0 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD5
+		DATA	$00,$C0,$00
+		CMDD4
+		DATA	$B1,$C0,$A1,$C0,$B1,$C0
+		ARET
 byte_9A3A5:
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$91,$40,$81,$40,$C1,$70,$42 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$62,$21,$43,$C2	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		CMDE1	$00
+		LOOP_START	$02
+		CMDD5
+		DATA	$91,$40,$81,$40,$C1,$70,$42
+		CMDD5
+		DATA	$62,$21,$43,$C2
+		DO_LOOP
+		ARET
 _apu_mus07_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$06	; CMDE9
-		.BYTE	$D9,$F2	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$06
+		CMDD9	$F2
 byte_9A3C2:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$F0,$06	; LOOP_START
-		.BYTE	$01,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$01,$C2,$00	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A44E
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$80	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$81,$40	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$81,$80,$C1,$82,$40,$C2 ;	DATA
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A44E
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$C1,$80	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$81,$50	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$81,$80,$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$42,$C3	; DATA
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$DB,$05	; CMDDB
-		.BYTE	$DA,$F4	; CMDDA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A3A5
-		.BYTE	$DA,$0C	; CMDDA
-		.BYTE	$DB,$00	; CMDDB
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$D4	; CMDD4
-		.BYTE	$21,$C2,$26,$31,$C2,$36,$C1,$40 ;	DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B1,$80,$41,$80,$B1 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40,$C1,$93,$81,$C0,$91,$C0 ; DATA
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$C1	; DATA
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D6	; CMDD6
-		.BYTE	$00	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$B1,$90	; DATA
-		.BYTE	$D6	; CMDD6
-		.BYTE	$01	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$B0,$91	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D6	; CMDD6
-		.BYTE	$00	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$B1,$90	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$EA,$FE	; CMDEA
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41,$40,$41,$42,$40,$41,$40,$91,$90,$91,$90,$C1,$83 ; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A3C2
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		CMDD4
+		LOOP_START	$06
+		DATA	$01,$C0
+		DO_LOOP
+		DATA	$01,$C2,$00
+		DO_LOOP
+		AJSR	byte_9A44E
+		CMDE1	$02
+		DATA	$C1
+		CMDD4
+		DATA	$80
+		CMDE8
+		LOOP_START	$03
+		DATA	$81,$40
+		DO_LOOP
+		DATA	$81,$80,$C1,$82,$40,$C2
+		CMDE1	$03
+		AJSR	byte_9A44E
+		CMDE1	$02
+		DATA	$C1,$80
+		CMDE8
+		LOOP_START	$03
+		DATA	$81,$50
+		DO_LOOP
+		DATA	$81,$80,$C1
+		CMDD5
+		DATA	$42,$C3
+		CMDE1	$00
+		CMDDB	$05
+		CMDDA	$F4
+		AJSR	byte_9A3A5
+		CMDDA	$0C
+		CMDDB	$00
+		CMDE1	$03
+		CMDD4
+		DATA	$21,$C2,$26,$31,$C2,$36,$C1,$40
+		CMDD3
+		DATA	$B1,$80,$41,$80,$B1
+		CMDD4
+		DATA	$40,$C1,$93,$81,$C0,$91,$C0
+		CMDE1	$03
+		CMDEA	$02
+		LOOP_START	$02
+		DATA	$C1
+		LOOP_START	$02
+		CMDD6
+		DATA	$00
+		CMDD5
+		DATA	$B1,$90
+		CMDD6
+		DATA	$01
+		CMDD5
+		DATA	$B0,$91
+		DO_LOOP
+		CMDD6
+		DATA	$00
+		CMDD5
+		DATA	$B1,$90
+		DO_LOOP
+		CMDEA	$FE
+		CMDE1	$00
+		CMDD4
+		DATA	$41,$40,$41,$42,$40,$41,$40,$91,$90,$91,$90,$C1,$83
+		AJMP	byte_9A3C2
+		DATA	$C0
+		ASTOP
 byte_9A44E:
-		.BYTE	$C2	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41,$C0,$41,$40,$C1,$41,$C0,$40,$41,$C0,$41,$C0,$41,$C0 ;	DATA
-		.BYTE	$F3	; RET
+		DATA	$C2
+		CMDD4
+		DATA	$41,$C0,$41,$40,$C1,$41,$C0,$40,$41,$C0,$41,$C0,$41,$C0
+		ARET
 _apu_mus07_C:
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$FE	; CMDD9
+		CMDE2	$03
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$00
+		CMDD9	$FE
 byte_9A469:
-		.BYTE	$F0,$06	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A4D0
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$45,$41,$C0,$41,$C0 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A4D6
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A4D0
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$25,$21,$C0,$21,$C0 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A4D6
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A4D0
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A4DF
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A4D0
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A4DF
-		.BYTE	$D3	; CMDD3
-		.BYTE	$22,$42,$52,$22,$32,$52,$72,$32,$42 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$42	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$42	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$42	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$41,$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$42,$60,$82	; DATA
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$92,$92,$72,$72	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$62,$62,$52,$52	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$22	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$22	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$22	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$22	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$42	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$42	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$42	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$40	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A469
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$06
+		AJSR	byte_9A4D0
+		DO_LOOP
+		CMDD3
+		DATA	$45,$41,$C0,$41,$C0
+		AJSR	byte_9A4D6
+		LOOP_START	$02
+		AJSR	byte_9A4D0
+		DO_LOOP
+		CMDD3
+		DATA	$25,$21,$C0,$21,$C0
+		AJSR	byte_9A4D6
+		AJSR	byte_9A4D0
+		AJSR	byte_9A4DF
+		AJSR	byte_9A4D0
+		AJSR	byte_9A4DF
+		CMDD3
+		DATA	$22,$42,$52,$22,$32,$52,$72,$32,$42
+		CMDD4
+		DATA	$42
+		CMDD3
+		DATA	$42
+		CMDD4
+		DATA	$42
+		CMDD3
+		DATA	$41,$C0
+		CMDD4
+		DATA	$41
+		CMDD3
+		DATA	$42,$60,$82
+		LOOP_START	$02
+		CMDD3
+		DATA	$92,$92,$72,$72
+		CMDD3
+		DATA	$62,$62,$52,$52
+		DO_LOOP
+		CMDD3
+		DATA	$22
+		CMDD4
+		DATA	$22
+		CMDD3
+		DATA	$22
+		CMDD4
+		DATA	$22
+		CMDD3
+		DATA	$42
+		CMDD4
+		DATA	$42
+		CMDD3
+		DATA	$42
+		CMDD4
+		DATA	$41
+		CMDD3
+		DATA	$40
+		AJMP	byte_9A469
+		DATA	$C0
+		ASTOP
 byte_9A4D0:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$92,$82,$72,$62	; DATA
-		.BYTE	$F3	; RET
+		CMDD3
+		DATA	$92,$82,$72,$62
+		ARET
 byte_9A4D6:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$41,$C2,$42	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$42	; DATA
-		.BYTE	$F3	; RET
+		CMDD3
+		DATA	$41,$C2,$42
+		CMDD4
+		DATA	$40
+		CMDD3
+		DATA	$42
+		ARET
 byte_9A4DF:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21,$C2,$42,$40	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40,$C1	; DATA
-		.BYTE	$F3	; RET
+		CMDD3
+		DATA	$21,$C2,$42,$40
+		CMDD4
+		DATA	$40,$C1
+		ARET
 _apu_mus07_D:
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$06	; CMDE9
+		CMDE0	$06
+		CMDE9	$06
 byte_9A4EC:
 		.BYTE	$12,$31,$30,$12,$31,$30
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A4EC
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJMP	byte_9A4EC
+		DATA	$C0
+		ASTOP
 _apu_mus08:
 		.BYTE	$0F
 		.WORD	_apu_mus08_A
@@ -5420,213 +5254,194 @@ _apu_mus08:
 		.WORD	_apu_mus08_C
 		.WORD	_apu_mus08_D
 _apu_mus08_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$00
+		CMDE0	$03
+		CMDE9	$00
+		CMDD9	$F4
 byte_9A50A:
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A594
-		.BYTE	$D5	; CMDD5
-		.BYTE	$21,$51,$C1,$51,$51,$01,$C1,$01,$31,$21,$01 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$21	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91,$C1	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A594
-		.BYTE	$D5	; CMDD5
-		.BYTE	$51,$01,$31,$01,$31,$21,$01 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A1,$91,$51,$71,$91,$51,$C5 ; DATA
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$93	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$C1,$07,$23,$01,$C1,$07 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$23,$51,$C1,$51,$C1,$51,$C1,$73,$51,$C1,$57 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91,$C1,$91,$C1,$93,$71,$C1,$93,$71,$C1,$7B,$01,$C1,$21,$C1,$41 ;	DATA
-		.BYTE	$C1,$57
-		.BYTE	$D5	; CMDD5
-		.BYTE	$53,$C3	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A5A5
-		.BYTE	$D5	; CMDD5
-		.BYTE	$51,$01,$31,$21,$01 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A1,$91,$A1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91,$A1,$71,$91,$A1,$91,$C1 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A5A5
-		.BYTE	$D5	; CMDD5
-		.BYTE	$51,$01,$31,$21,$01 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A1,$91,$A1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91,$A1,$71,$51,$C5 ; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A50A
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_9A594
+		CMDD5
+		DATA	$21,$51,$C1,$51,$51,$01,$C1,$01,$31,$21,$01
+		CMDD4
+		DATA	$A1
+		CMDD5
+		DATA	$01,$21
+		CMDD4
+		DATA	$91,$C1
+		AJSR	byte_9A594
+		CMDD5
+		DATA	$51,$01,$31,$01,$31,$21,$01
+		CMDD4
+		DATA	$A1,$91,$51,$71,$91,$51,$C5
+		LOOP_START	$02
+		CMDD3
+		DATA	$93
+		CMDD4
+		DATA	$01,$C1,$07,$23,$01,$C1,$07
+		CMDD4
+		DATA	$23,$51,$C1,$51,$C1,$51,$C1,$73,$51,$C1,$57
+		CMDD4
+		DATA	$91,$C1,$91,$C1,$93,$71,$C1,$93,$71,$C1,$7B,$01,$C1,$21,$C1,$41
+		DATA	$C1,$57
+		CMDD5
+		DATA	$53,$C3
+		DO_LOOP
+		AJSR	byte_9A5A5
+		CMDD5
+		DATA	$51,$01,$31,$21,$01
+		CMDD4
+		DATA	$A1,$91,$A1
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$91,$A1,$71,$91,$A1,$91,$C1
+		AJSR	byte_9A5A5
+		CMDD5
+		DATA	$51,$01,$31,$21,$01
+		CMDD4
+		DATA	$A1,$91,$A1
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$91,$A1,$71,$51,$C5
+		AJMP	byte_9A50A
+		DATA	$C0
+		ASTOP
 byte_9A594:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51,$C1,$53,$71,$51,$C1,$51,$71,$91,$C1,$91,$71,$51,$C1,$51 ; DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$51,$C1,$53,$71,$51,$C1,$51,$71,$91,$C1,$91,$71,$51,$C1,$51
+		ARET
 byte_9A5A5:
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40,$50,$C1,$51,$C1 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$04
+		CMDD5
+		DATA	$40,$50,$C1,$51,$C1
+		DO_LOOP
+		ARET
 _apu_mus08_B:
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$09	; CMDE9
+		CMDE2	$03
+		CMDE1	$00
+		CMDE0	$06
+		CMDE9	$09
 byte_9A5B7:
-		.BYTE	$F0,$05	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A5D4
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A5E3
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A5D4
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A5E3
-		.BYTE	$F0,$05	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A5D4
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A5B7
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$05
+		AJSR	byte_9A5D4
+		DO_LOOP
+		AJSR	byte_9A5E3
+		LOOP_START	$02
+		AJSR	byte_9A5D4
+		DO_LOOP
+		AJSR	byte_9A5E3
+		LOOP_START	$05
+		AJSR	byte_9A5D4
+		DO_LOOP
+		AJMP	byte_9A5B7
+		DATA	$C0
+		ASTOP
 byte_9A5D4:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51,$90	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$90	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$20,$00	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+		CMDD3
+		DATA	$51,$90
+		CMDD4
+		DATA	$00
+		CMDD3
+		DATA	$90
+		CMDD4
+		DATA	$00,$20,$00
+		DO_LOOP
+		ARET
 byte_9A5E3:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$20,$50,$20,$50,$70,$50 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$40,$70,$40,$70,$90,$70 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+		CMDD3
+		DATA	$A1
+		CMDD4
+		DATA	$20,$50,$20,$50,$70,$50
+		DO_LOOP
+		LOOP_START	$02
+		CMDD4
+		DATA	$01,$40,$70,$40,$70,$90,$70
+		DO_LOOP
+		ARET
 _apu_mus08_C:
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE2	$03
+		CMDE1	$03
+		CMDE0	$03
+		CMDE9	$00
 byte_9A603:
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A643
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A653
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A643
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$23	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$90,$A0,$A1	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A3	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$90,$A0,$A1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$43	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$B0	; DATA
-		.BYTE	$D6	; CMDD6
-		.BYTE	$00,$01	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$03	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$B0	; DATA
-		.BYTE	$D6	; CMDD6
-		.BYTE	$00,$01	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A653
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A643
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A653
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A603
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$03
+		AJSR	byte_9A643
+		DO_LOOP
+		LOOP_START	$02
+		AJSR	byte_9A653
+		AJSR	byte_9A643
+		LOOP_START	$02
+		CMDD3
+		DATA	$23
+		CMDD5
+		DATA	$90,$A0,$A1
+		CMDD2
+		DATA	$A3
+		CMDD5
+		DATA	$90,$A0,$A1
+		DO_LOOP
+		LOOP_START	$02
+		CMDD3
+		DATA	$43
+		CMDD5
+		DATA	$B0
+		CMDD6
+		DATA	$00,$01
+		CMDD3
+		DATA	$03
+		CMDD5
+		DATA	$B0
+		CMDD6
+		DATA	$00,$01
+		DO_LOOP
+		DO_LOOP
+		LOOP_START	$02
+		AJSR	byte_9A653
+		AJSR	byte_9A643
+		DO_LOOP
+		AJSR	byte_9A653
+		AJMP	byte_9A603
+		DATA	$C0
+		ASTOP
 byte_9A643:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$53	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40,$50,$51	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$03	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40,$50,$51	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+		CMDD3
+		DATA	$53
+		CMDD5
+		DATA	$40,$50,$51
+		CMDD3
+		DATA	$03
+		CMDD5
+		DATA	$40,$50,$51
+		DO_LOOP
+		ARET
 byte_9A653:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$53	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40,$50,$51	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$03	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40,$50,$51	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$53,$03,$23,$43	; DATA
-		.BYTE	$F3	; RET
+		CMDD3
+		DATA	$53
+		CMDD5
+		DATA	$40,$50,$51
+		CMDD3
+		DATA	$03
+		CMDD5
+		DATA	$40,$50,$51
+		CMDD3
+		DATA	$53,$03,$23,$43
+		ARET
 _apu_mus08_D:
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE0	$06
+		CMDE9	$00
 byte_9A669:
-		.BYTE	$F0,$0E	; LOOP_START
-		.BYTE	$01,$20,$20	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$31,$21,$21,$21	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A669
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$0E
+		DATA	$01,$20,$20
+		DO_LOOP
+		DATA	$31,$21,$21,$21
+		AJMP	byte_9A669
+		DATA	$C0
+		ASTOP
 _apu_mus09:
 		.BYTE	$0F
 		.WORD	_apu_mus09_A
@@ -5634,233 +5449,223 @@ _apu_mus09:
 		.WORD	_apu_mus09_C
 		.WORD	_apu_mus09_D
 _apu_mus09_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$07	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$07
+		CMDE9	$00
+		CMDD9	$F4
 byte_9A68B:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90,$C0,$40,$C0,$70,$C0,$40,$90,$C0,$90,$C0,$40,$70,$C0,$40,$C0 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90,$C0,$40,$C0,$70,$C0,$40,$90,$C0,$90,$C0,$40 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A713
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$C0,$90,$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$C0,$92,$70,$C0 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A713
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40,$20,$40,$70,$C1,$40,$20,$40 ;	DATA
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$70	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$73	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F0,$0C	; LOOP_START
-		.BYTE	$71	; DATA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$DA,$0C	; CMDDA
-		.BYTE	$EA,$F4	; CMDEA
-		.BYTE	$E0,$07	; CMDE0
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A722
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$00,$20,$41,$C0,$70,$40,$70,$90,$C3 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A722
-		.BYTE	$C1,$20,$00,$20,$41,$C0 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$90,$C0,$90,$C3 ; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A68B
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		CMDD4
+		DATA	$90,$C0,$40,$C0,$70,$C0,$40,$90,$C0,$90,$C0,$40,$70,$C0,$40,$C0
+		CMDD4
+		DATA	$90,$C0,$40,$C0,$70,$C0,$40,$90,$C0,$90,$C0,$40
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$B0,$C0
+		DO_LOOP
+		LOOP_START	$02
+		AJSR	byte_9A713
+		DATA	$C1
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$B0,$C0,$90,$C0
+		CMDD5
+		DATA	$00
+		CMDD4
+		DATA	$B0,$C0,$92,$70,$C0
+		AJSR	byte_9A713
+		CMDE1	$00
+		DATA	$C1
+		CMDD5
+		DATA	$40,$20,$40,$70,$C1,$40,$20,$40
+		CMDE1	$03
+		CMDE2	$04
+		DATA	$70
+		CMDE8
+		CMDE0	$01
+		DATA	$73
+		CMDE8
+		LOOP_START	$0C
+		DATA	$71
+		CMDDA	$FF
+		CMDEA	$01
+		DO_LOOP
+		CMDDA	$0C
+		CMDEA	$F4
+		CMDE0	$07
+		CMDE2	$00
+		DO_LOOP
+		AJSR	byte_9A722
+		DATA	$C1
+		CMDD5
+		DATA	$20,$00,$20,$41,$C0,$70,$40,$70,$90,$C3
+		AJSR	byte_9A722
+		DATA	$C1,$20,$00,$20,$41,$C0
+		CMDD4
+		DATA	$70,$90,$C0,$90,$C3
+		AJMP	byte_9A68B
+		DATA	$C0
+		ASTOP
 byte_9A713:
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90,$70,$90,$C2,$40,$20,$C0,$40,$C0,$70,$C0,$90 ;	DATA
-		.BYTE	$F3	; RET
+		DATA	$C1
+		CMDD4
+		DATA	$90,$70,$90,$C2,$40,$20,$C0,$40,$C0,$70,$C0,$90
+		ARET
 byte_9A722:
-		.BYTE	$D5	; CMDD5
-		.BYTE	$90,$70,$90,$40,$C0,$70,$40,$00,$20,$C0,$00,$C0,$20,$42 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD5
+		DATA	$90,$70,$90,$40,$C0,$70,$40,$00,$20,$C0,$00,$C0,$20,$42
+		ARET
 _apu_mus09_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$07	; CMDE0
-		.BYTE	$E9,$05	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$07
+		CMDE9	$05
+		CMDD9	$F4
 byte_9A73C:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$90,$C0,$90	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$90	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$90,$C0,$90	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$41,$21	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A7A0
-		.BYTE	$C1	; DATA
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$90,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40,$21,$42	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A7A0
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40,$20,$40,$70	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$E8	; CMDE8
-		.BYTE	$73	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$90,$C0,$91	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$90,$C0,$01,$20,$C0,$00,$20,$40,$71 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$20,$C0,$21	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$20,$C0,$41	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40,$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41,$70,$90,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A73C
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		LOOP_START	$03
+		CMDD3
+		DATA	$90,$C0,$90
+		CMDD4
+		DATA	$00
+		CMDD3
+		DATA	$70,$90
+		CMDD4
+		DATA	$00
+		CMDD3
+		DATA	$70
+		DO_LOOP
+		DATA	$90,$C0,$90
+		CMDD4
+		DATA	$00,$41,$21
+		DO_LOOP
+		LOOP_START	$02
+		AJSR	byte_9A7A0
+		DATA	$C1
+		LOOP_START	$04
+		CMDD3
+		DATA	$90,$C0
+		DO_LOOP
+		CMDD4
+		DATA	$40,$21,$42
+		AJSR	byte_9A7A0
+		CMDE1	$00
+		LOOP_START	$02
+		DATA	$C1
+		CMDD4
+		DATA	$40,$20,$40,$70
+		DO_LOOP
+		CMDE8
+		DATA	$73
+		DO_LOOP
+		LOOP_START	$02
+		CMDD3
+		DATA	$90,$C0,$91
+		CMDD4
+		DATA	$70,$90,$C0,$01,$20,$C0,$00,$20,$40,$71
+		CMDD4
+		DATA	$20,$C0,$21
+		CMDD5
+		DATA	$20
+		CMDD4
+		DATA	$20,$C0,$41
+		CMDD5
+		DATA	$40,$C0
+		CMDD4
+		DATA	$41,$70,$90,$C0
+		DO_LOOP
+		AJMP	byte_9A73C
+		DATA	$C0
+		ASTOP
 byte_9A7A0:
-		.BYTE	$C1	; DATA
-		.BYTE	$F0,$05	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$90,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$90	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$90	; DATA
-		.BYTE	$F3	; RET
+		DATA	$C1
+		LOOP_START	$05
+		CMDD3
+		DATA	$90,$C0
+		DO_LOOP
+		DATA	$90
+		CMDD4
+		DATA	$01
+		CMDD3
+		DATA	$90
+		ARET
 _apu_mus09_C:
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$07	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE2	$03
+		CMDE1	$03
+		CMDE0	$07
+		CMDE9	$00
 byte_9A7B5:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D2	; CMDD2
-		.BYTE	$91	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$40	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$90,$C0,$90	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$40	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$90	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$C0,$01,$51,$01 ; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21,$70,$20,$C0,$20,$70,$20 ; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$70,$C0,$71	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$71	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D2	; CMDD2
-		.BYTE	$91	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$40	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$90,$C0,$90	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$40	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$90	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$C0,$01,$71,$01 ; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21,$60,$20,$C0,$20,$60,$20,$40,$C0,$41,$71,$91 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D2	; CMDD2
-		.BYTE	$90,$C0,$91	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$90,$C0,$01,$20,$C0,$00,$20,$40,$71 ;	DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$20,$C0,$21	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$20	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$20,$C0,$41	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$41,$70,$90,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A7B5
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		CMDD2
+		DATA	$91
+		CMDD3
+		DATA	$40
+		CMDD2
+		DATA	$90,$C0,$90
+		CMDD3
+		DATA	$40
+		CMDD2
+		DATA	$90
+		CMDD3
+		DATA	$00,$C0,$01,$51,$01
+		CMDD3
+		DATA	$21,$70,$20,$C0,$20,$70,$20
+		CMDD2
+		DATA	$70,$C0,$71
+		CMDD3
+		DATA	$21
+		CMDD2
+		DATA	$71
+		DO_LOOP
+		LOOP_START	$04
+		CMDD2
+		DATA	$91
+		CMDD3
+		DATA	$40
+		CMDD2
+		DATA	$90,$C0,$90
+		CMDD3
+		DATA	$40
+		CMDD2
+		DATA	$90
+		CMDD3
+		DATA	$00,$C0,$01,$71,$01
+		CMDD3
+		DATA	$21,$60,$20,$C0,$20,$60,$20,$40,$C0,$41,$71,$91
+		DO_LOOP
+		LOOP_START	$02
+		CMDD2
+		DATA	$90,$C0,$91
+		CMDD3
+		DATA	$70,$90,$C0,$01,$20,$C0,$00,$20,$40,$71
+		CMDD3
+		DATA	$20,$C0,$21
+		CMDD4
+		DATA	$20
+		CMDD3
+		DATA	$20,$C0,$41
+		CMDD4
+		DATA	$40,$C0
+		CMDD3
+		DATA	$41,$70,$90,$C0
+		DO_LOOP
+		AJMP	byte_9A7B5
+		DATA	$C0
+		ASTOP
 _apu_mus09_D:
-		.BYTE	$E0,$07	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE0	$07
+		CMDE9	$00
 byte_9A829:
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$01,$01,$23,$03,$21,$01 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$01,$01,$23,$01,$21,$20,$21,$20 ;	DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A829
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$03
+		DATA	$01,$01,$23,$03,$21,$01
+		DO_LOOP
+		DATA	$01,$01,$23,$01,$21,$20,$21,$20
+		AJMP	byte_9A829
+		DATA	$C0
+		ASTOP
 _apu_mus0A:
 		.BYTE	$0F
 		.WORD	_apu_mus0A_A
@@ -5868,242 +5673,236 @@ _apu_mus0A:
 		.WORD	_apu_mus0A_C
 		.WORD	_apu_mus0A_D
 _apu_mus0A_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$08	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$D9,$F2	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$08
+		CMDE9	$03
+		CMDD9	$F2
 byte_9A852:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A8D3
-		.BYTE	$D4	; CMDD4
-		.BYTE	$50,$70,$C0,$03,$C0 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$C0,$72,$C1	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9A8D3
-		.BYTE	$D4	; CMDD4
-		.BYTE	$50,$70,$C0,$03,$C0 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$74	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$E1,$01	; CMDE1
-		.BYTE	$D4	; CMDD4
-		.BYTE	$82	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$02,$31,$22	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A4,$B1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$51,$21,$34,$30,$20,$30,$09 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$80	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$30,$00,$31,$58 ; DATA
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$C0,$70,$C0,$50,$70,$50,$71 ; DATA
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$51,$30,$01,$50,$30,$01,$32,$80,$C0,$70,$C0,$51,$30,$01,$50,$30 ;	DATA
-		.BYTE	$01,$32
-		.BYTE	$D6	; CMDD6
-		.BYTE	$00	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$A0,$80,$70,$51,$30,$01,$50,$30,$01,$32,$A0,$C0,$80,$C0,$70,$50 ;	DATA
-		.BYTE	$30,$50,$30,$00,$32,$00,$30,$00,$20,$20,$C0,$50
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A852
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		AJSR	byte_9A8D3
+		CMDD4
+		DATA	$50,$70,$C0,$03,$C0
+		CMDD5
+		DATA	$00
+		CMDD4
+		DATA	$B0,$C0,$72,$C1
+		AJSR	byte_9A8D3
+		CMDD4
+		DATA	$50,$70,$C0,$03,$C0
+		CMDD5
+		DATA	$00
+		CMDD4
+		DATA	$B0
+		CMDD5
+		DATA	$00
+		CMDD4
+		DATA	$74
+		DO_LOOP
+		CMDE1	$01
+		CMDD4
+		DATA	$82
+		CMDD5
+		DATA	$02,$31,$22
+		CMDD4
+		DATA	$A4,$B1
+		CMDD5
+		DATA	$20,$51,$21,$34,$30,$20,$30,$09
+		CMDD4
+		DATA	$80
+		CMDD5
+		DATA	$00,$30,$00,$31,$58
+		CMDE1	$00
+		DATA	$C0,$70,$C0,$50,$70,$50,$71
+		CMDE1	$03
+		DATA	$51,$30,$01,$50,$30,$01,$32,$80,$C0,$70,$C0,$51,$30,$01,$50,$30
+		DATA	$01,$32
+		CMDD6
+		DATA	$00
+		CMDD5
+		DATA	$A0,$80,$70,$51,$30,$01,$50,$30,$01,$32,$A0,$C0,$80,$C0,$70,$50
+		DATA	$30,$50,$30,$00,$32,$00,$30,$00,$20,$20,$C0,$50
+		AJMP	byte_9A852
+		DATA	$C0
+		ASTOP
 byte_9A8D3:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$50,$40,$00,$C0 ; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C0,$30,$C0,$50,$C0,$30,$C0,$00,$C0 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$70,$50,$40,$00,$C0
+		CMDD3
+		DATA	$70
+		CMDD4
+		DATA	$00,$C0,$30,$C0,$50,$C0,$30,$C0,$00,$C0
+		ARET
 _apu_mus0A_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$08	; CMDE0
-		.BYTE	$E9,$06	; CMDE9
-		.BYTE	$D9,$F2	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$08
+		CMDE9	$06
+		CMDD9	$F2
 byte_9A8F1:
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$C1,$70,$C0,$70,$C1,$A0,$C1,$A0,$C0,$A0,$C1 ;	DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$90,$C1,$90,$C0,$90,$C1,$B0,$C1,$B0 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$C0,$70,$50,$C0,$70,$C0,$70,$50,$C0,$70,$50,$C0,$70,$C1,$70 ;	DATA
-		.BYTE	$C0,$70,$50,$C0,$70,$C0,$00,$30,$70
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$30,$70,$C1,$80,$C0,$80,$70,$C0,$80,$C0,$70,$80,$C0,$80,$70 ;	DATA
-		.BYTE	$C0,$80,$C1,$A0,$C0,$A0,$80,$C0,$A0,$C0
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$D5	; CMDD5
-		.BYTE	$30,$C0,$20,$30,$20,$31 ;	DATA
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51,$30,$01,$50,$30,$01,$32,$80,$C0,$70,$C0,$51,$30,$01,$50,$30 ;	DATA
-		.BYTE	$01,$32
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0,$80,$70,$51,$30,$01,$50,$30,$01,$32,$A0,$C0,$80,$C0,$70,$50 ;	DATA
-		.BYTE	$30,$50,$30,$00,$32,$00,$30,$00,$20,$20,$C0,$50
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A8F1
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$04
+		DATA	$C1
+		CMDD3
+		DATA	$70,$C1,$70,$C0,$70,$C1,$A0,$C1,$A0,$C0,$A0,$C1
+		CMDD3
+		DATA	$90,$C1,$90,$C0,$90,$C1,$B0,$C1,$B0
+		CMDD4
+		DATA	$00,$C0
+		DO_LOOP
+		DATA	$C1
+		CMDD4
+		DATA	$70,$C0,$70,$50,$C0,$70,$C0,$70,$50,$C0,$70,$50,$C0,$70,$C1,$70
+		DATA	$C0,$70,$50,$C0,$70,$C0,$00,$30,$70
+		CMDD5
+		DATA	$00
+		CMDD4
+		DATA	$70,$30,$70,$C1,$80,$C0,$80,$70,$C0,$80,$C0,$70,$80,$C0,$80,$70
+		DATA	$C0,$80,$C1,$A0,$C0,$A0,$80,$C0,$A0,$C0
+		CMDE1	$00
+		CMDD5
+		DATA	$30,$C0,$20,$30,$20,$31
+		CMDE1	$03
+		CMDD4
+		DATA	$51,$30,$01,$50,$30,$01,$32,$80,$C0,$70,$C0,$51,$30,$01,$50,$30
+		DATA	$01,$32
+		CMDD5
+		DATA	$00
+		CMDD4
+		DATA	$A0,$80,$70,$51,$30,$01,$50,$30,$01,$32,$A0,$C0,$80,$C0,$70,$50
+		DATA	$30,$50,$30,$00,$32,$00,$30,$00,$20,$20,$C0,$50
+		AJMP	byte_9A8F1
+		DATA	$C0
+		ASTOP
 _apu_mus0A_C:
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$08	; CMDE0
-		.BYTE	$E9,$01	; CMDE9
-		.BYTE	$D9,$FE	; CMDD9
+		CMDE2	$03
+		CMDE1	$03
+		CMDE0	$08
+		CMDE9	$01
+		CMDD9	$FE
 byte_9A993:
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$30	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$30	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$50	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$50	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$80	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$80	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$00	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0	; DATA
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$80	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$80	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A0,$C6	; DATA
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$80	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$80	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$80	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$80	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$80,$C0,$A0,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D4	; CMDD4
-		.BYTE	$02	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A2,$85,$A0,$A0,$C0,$A0 ;	DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9A993
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$04
+		LOOP_START	$04
+		CMDD3
+		DATA	$00
+		CMDD4
+		DATA	$00
+		DO_LOOP
+		LOOP_START	$04
+		CMDD3
+		DATA	$30
+		CMDD4
+		DATA	$30
+		DO_LOOP
+		LOOP_START	$04
+		CMDD3
+		DATA	$50
+		CMDD4
+		DATA	$50
+		DO_LOOP
+		LOOP_START	$04
+		CMDD3
+		DATA	$70
+		CMDD4
+		DATA	$70
+		DO_LOOP
+		DO_LOOP
+		LOOP_START	$04
+		CMDD3
+		DATA	$80
+		CMDD4
+		DATA	$80
+		DO_LOOP
+		LOOP_START	$04
+		CMDD3
+		DATA	$A0
+		CMDD4
+		DATA	$A0
+		DO_LOOP
+		LOOP_START	$04
+		CMDD3
+		DATA	$B0
+		CMDD4
+		DATA	$B0
+		DO_LOOP
+		DATA	$00
+		CMDD5
+		DATA	$00
+		CMDD4
+		DATA	$00
+		CMDD5
+		DATA	$00
+		CMDD3
+		DATA	$A0
+		CMDD4
+		DATA	$A0
+		CMDD3
+		DATA	$A0
+		CMDD4
+		DATA	$A0
+		LOOP_START	$08
+		CMDD3
+		DATA	$80
+		CMDD4
+		DATA	$80
+		DO_LOOP
+		LOOP_START	$04
+		CMDD3
+		DATA	$A0
+		CMDD4
+		DATA	$A0
+		DO_LOOP
+		CMDD3
+		DATA	$A0,$C6
+		LOOP_START	$03
+		CMDD4
+		DATA	$00
+		CMDD5
+		DATA	$00
+		CMDD4
+		DATA	$00
+		CMDD5
+		DATA	$00
+		CMDD3
+		DATA	$A0
+		CMDD4
+		DATA	$A0
+		CMDD3
+		DATA	$A0
+		CMDD4
+		DATA	$A0
+		CMDD3
+		DATA	$80
+		CMDD4
+		DATA	$80
+		CMDD3
+		DATA	$80
+		CMDD4
+		DATA	$80
+		CMDD3
+		DATA	$80,$C0,$A0,$C0
+		DO_LOOP
+		CMDD4
+		DATA	$02
+		CMDD3
+		DATA	$A2,$85,$A0,$A0,$C0,$A0
+		AJMP	byte_9A993
+		DATA	$C0
+		ASTOP
 _apu_mus0A_D:
-		.BYTE	$E0,$08	; CMDE0
-		.BYTE	$E9,$01	; CMDE9
+		CMDE0	$08
+		CMDE9	$01
 byte_9AA19:
-		.BYTE	$F0,$2C	; LOOP_START
-		.BYTE	$01,$21	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$01,$21,$01,$21,$00,$21,$20,$21,$20,$20 ;	DATA
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$01,$20,$00,$C1,$21,$01,$20,$00,$21,$21 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$22,$22,$22,$20,$20,$20,$20,$20,$00,$20 ;	DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9AA19
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$2C
+		DATA	$01,$21
+		DO_LOOP
+		DATA	$01,$21,$01,$21,$00,$21,$20,$21,$20,$20
+		LOOP_START	$03
+		DATA	$01,$20,$00,$C1,$21,$01,$20,$00,$21,$21
+		DO_LOOP
+		DATA	$22,$22,$22,$20,$20,$20,$20,$20,$00,$20
+		AJMP	byte_9AA19
+		DATA	$C0
+		ASTOP
 _apu_mus0B:
 		.BYTE	$0F
 		.WORD	_apu_mus0B_A
@@ -6111,522 +5910,478 @@ _apu_mus0B:
 		.WORD	_apu_mus0B_C
 		.WORD	_apu_mus0B_D
 _apu_mus0B_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$01	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$01
+		CMDE0	$05
+		CMDE9	$00
+		CMDD9	$F4
 byte_9AA57:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$C2,$A0,$C0,$50,$C2 ;	DATA
-		.BYTE	$D6	; CMDD6
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$70,$C0	; DATA
-		.BYTE	$EA,$03	; CMDEA
-		.BYTE	$A0,$C0	; DATA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$50,$C0	; DATA
-		.BYTE	$EA,$F9	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$30,$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0,$C2	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$10,$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$80,$C2	; DATA
-		.BYTE	$D6	; CMDD6
-		.BYTE	$30,$C0	; DATA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$A0,$C0	; DATA
-		.BYTE	$EA,$03	; CMDEA
-		.BYTE	$D6	; CMDD6
-		.BYTE	$10,$C0	; DATA
-		.BYTE	$EA,$02	; CMDEA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$80,$C0	; DATA
-		.BYTE	$EA,$F9	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AAF0
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AAFD
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AAF0
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$80,$C0,$80,$C0,$81,$71,$81,$C1,$71 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AAF0
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AAFD
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AAF0
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$80,$C0,$80,$C0,$80,$C0,$81,$71,$53 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$3F	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AB07
-		.BYTE	$D5	; CMDD5
-		.BYTE	$1F,$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$11	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$11	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$11,$61,$81,$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$31	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$D5	; CMDD5
-		.BYTE	$3F	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AB07
-		.BYTE	$D5	; CMDD5
-		.BYTE	$1F,$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$11	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$11	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$11,$21	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$21,$C1,$31	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9AA57
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		LOOP_START	$02
+		CMDD5
+		DATA	$00,$C0
+		CMDD4
+		DATA	$70,$C2,$A0,$C0,$50,$C2
+		CMDD6
+		DATA	$00,$C0
+		CMDEA	$02
+		CMDD5
+		DATA	$70,$C0
+		CMDEA	$03
+		DATA	$A0,$C0
+		CMDEA	$02
+		DATA	$50,$C0
+		CMDEA	$F9
+		DO_LOOP
+		LOOP_START	$02
+		CMDD5
+		DATA	$30,$C0
+		CMDD4
+		DATA	$A0,$C2
+		CMDD5
+		DATA	$10,$C0
+		CMDD4
+		DATA	$80,$C2
+		CMDD6
+		DATA	$30,$C0
+		CMDEA	$02
+		CMDD5
+		DATA	$A0,$C0
+		CMDEA	$03
+		CMDD6
+		DATA	$10,$C0
+		CMDEA	$02
+		CMDD5
+		DATA	$80,$C0
+		CMDEA	$F9
+		DO_LOOP
+		DO_LOOP
+		AJSR	byte_9AAF0
+		AJSR	byte_9AAFD
+		AJSR	byte_9AAF0
+		DATA	$C1
+		CMDD4
+		DATA	$80,$C0,$80,$C0,$81,$71,$81,$C1,$71
+		AJSR	byte_9AAF0
+		AJSR	byte_9AAFD
+		AJSR	byte_9AAF0
+		DATA	$C1
+		CMDD5
+		DATA	$80,$C0,$80,$C0,$80,$C0,$81,$71,$53
+		CMDD5
+		DATA	$3F
+		AJSR	byte_9AB07
+		CMDD5
+		DATA	$1F,$C1
+		CMDD4
+		DATA	$11
+		CMDD5
+		DATA	$11
+		CMDD4
+		DATA	$11,$61,$81,$C1
+		CMDD5
+		DATA	$31
+		CMDE8
+		CMDD5
+		DATA	$3F
+		AJSR	byte_9AB07
+		CMDD5
+		DATA	$1F,$C1
+		CMDD4
+		DATA	$11
+		CMDD5
+		DATA	$11
+		CMDD4
+		DATA	$11,$21
+		CMDD5
+		DATA	$21,$C1,$31
+		AJMP	byte_9AA57
+		DATA	$C0
+		ASTOP
 byte_9AAF0:
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0,$C0,$91,$50,$C0,$C1,$51,$71,$51 ; DATA
-		.BYTE	$F3	; RET
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$A0,$C0,$91,$50,$C0,$C1,$51,$71,$51
+		ARET
 byte_9AAFD:
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$31,$C1,$31,$21,$31,$C1,$21 ; DATA
-		.BYTE	$F3	; RET
+		DATA	$C1
+		CMDD5
+		DATA	$31,$C1,$31,$21,$31,$C1,$21
+		ARET
 byte_9AB07:
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$31	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$31	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$31,$71,$81,$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$11	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F3	; RET
+		DATA	$C1
+		CMDD4
+		DATA	$31
+		CMDD5
+		DATA	$31
+		CMDD4
+		DATA	$31,$71,$81,$C1
+		CMDD5
+		DATA	$11
+		CMDE8
+		ARET
 _apu_mus0B_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$01	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$08	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9AA57
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$01
+		CMDE0	$05
+		CMDE9	$08
+		CMDD9	$F4
+		DATA	$C1
+		AJMP	byte_9AA57
+		DATA	$C0
+		ASTOP
 _apu_mus0B_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE2	$04
+		CMDE1	$00
+		CMDE0	$05
+		CMDE9	$00
 byte_9AB2D:
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AB72
-		.BYTE	$C7	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AB72
-		.BYTE	$D3	; CMDD3
-		.BYTE	$81,$A1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$33	; DATA
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51,$C3,$53	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$31,$51,$C1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A1,$C3,$A5	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$C1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AB87
-		.BYTE	$D3	; CMDD3
-		.BYTE	$10,$C0,$11	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$11	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$11,$C1,$11	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$11	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$31	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AB87
-		.BYTE	$10,$C0,$11	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$11	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$11,$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$21	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$31	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$31	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9AB2D
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_9AB72
+		DATA	$C7
+		AJSR	byte_9AB72
+		CMDD3
+		DATA	$81,$A1
+		CMDD4
+		DATA	$33
+		LOOP_START	$04
+		CMDD3
+		DATA	$51,$C3,$53
+		CMDD4
+		DATA	$31,$51,$C1
+		CMDD3
+		DATA	$A1,$C3,$A5
+		CMDD4
+		DATA	$01,$C1
+		DO_LOOP
+		AJSR	byte_9AB87
+		CMDD3
+		DATA	$10,$C0,$11
+		CMDD4
+		DATA	$11
+		CMDD3
+		DATA	$11,$C1,$11
+		CMDD4
+		DATA	$11
+		CMDD3
+		DATA	$31
+		AJSR	byte_9AB87
+		DATA	$10,$C0,$11
+		CMDD4
+		DATA	$11
+		CMDD3
+		DATA	$11,$C1
+		CMDD4
+		DATA	$21
+		CMDD3
+		DATA	$31
+		CMDD4
+		DATA	$31
+		AJMP	byte_9AB2D
+		DATA	$C0
+		ASTOP
 byte_9AB72:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$0B	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$D3	; CMDD3
-		.BYTE	$07	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$C0,$01,$CF	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$3B	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$D3	; CMDD3
-		.BYTE	$37	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$30,$C0,$31,$C7	; DATA
-		.BYTE	$F3	; RET
+		CMDD3
+		DATA	$0B
+		CMDE8
+		CMDD3
+		DATA	$07
+		CMDD3
+		DATA	$00,$C0,$01,$CF
+		CMDD3
+		DATA	$3B
+		CMDE8
+		CMDD3
+		DATA	$37
+		CMDD3
+		DATA	$30,$C0,$31,$C7
+		ARET
 byte_9AB87:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$30,$C0,$31	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$31	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$80,$C0,$A2	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$03	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$30,$C0,$31	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$31	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$31,$C1,$31	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$31	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$11	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$10,$C0,$11	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$11	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$50,$60,$C0,$82,$A3 ; DATA
-		.BYTE	$F3	; RET
+		CMDD3
+		DATA	$30,$C0,$31
+		CMDD4
+		DATA	$31
+		CMDD3
+		DATA	$70,$80,$C0,$A2
+		CMDD4
+		DATA	$03
+		CMDD3
+		DATA	$30,$C0,$31
+		CMDD4
+		DATA	$31
+		CMDD3
+		DATA	$31,$C1,$31
+		CMDD4
+		DATA	$31
+		CMDD3
+		DATA	$11
+		CMDD3
+		DATA	$10,$C0,$11
+		CMDD4
+		DATA	$11
+		CMDD3
+		DATA	$50,$60,$C0,$82,$A3
+		ARET
 _apu_mus0B_D:
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE0	$05
+		CMDE9	$00
 byte_9ABB3:
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$00	; DATA
-		.BYTE	$E9,$07	; CMDE9
-		.BYTE	$30,$30,$30	; DATA
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$20,$30,$00	; DATA
-		.BYTE	$E9,$07	; CMDE9
-		.BYTE	$30,$30,$30,$30,$30 ; DATA
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$21	; DATA
-		.BYTE	$E9,$01	; CMDE9
-		.BYTE	$21	; DATA
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$21	; DATA
-		.BYTE	$E9,$04	; CMDE9
-		.BYTE	$21	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$20	; LOOP_START
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$00	; DATA
-		.BYTE	$E9,$07	; CMDE9
-		.BYTE	$30,$30,$30	; DATA
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$20	; DATA
-		.BYTE	$E9,$07	; CMDE9
-		.BYTE	$30,$30,$30	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F8	; JMP
-		.WORD	byte_9ABB3
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$08
+		CMDE9	$00
+		DATA	$00
+		CMDE9	$07
+		DATA	$30,$30,$30
+		CMDE9	$00
+		DATA	$20,$30,$00
+		CMDE9	$07
+		DATA	$30,$30,$30,$30,$30
+		CMDE9	$00
+		DATA	$21
+		CMDE9	$01
+		DATA	$21
+		CMDE9	$03
+		DATA	$21
+		CMDE9	$04
+		DATA	$21
+		DO_LOOP
+		LOOP_START	$20
+		CMDE9	$00
+		DATA	$00
+		CMDE9	$07
+		DATA	$30,$30,$30
+		CMDE9	$00
+		DATA	$20
+		CMDE9	$07
+		DATA	$30,$30,$30
+		DO_LOOP
+		AJMP	byte_9ABB3
+		DATA	$C0
+		ASTOP
 _apu_mus0C:
-		.BYTE	$0F	; DATA
+		DATA	$0F
 		.WORD	_apu_mus0C_A
 		.WORD	_apu_mus0C_B
 		.WORD	_apu_mus0C_C
 		.WORD	_apu_mus0C_D
 _apu_mus0C_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$07	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$EC	; CMDD9
+		CMDE2	$00
+		CMDE1	$00
+		CMDE0	$07
+		CMDE9	$00
+		CMDD9	$EC
 byte_9AC01:
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC5B
-		.BYTE	$D5	; CMDD5
-		.BYTE	$52,$32,$79	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC5B
-		.BYTE	$52,$32,$09	; DATA
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC6E
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC7F
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC6E
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC8B
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC95
-		.BYTE	$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$80,$A0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$20,$C0,$30,$C0,$50,$C0,$70,$50,$C0,$30,$C0 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC95
-		.BYTE	$C1,$70,$C0,$50,$C0,$30,$C0,$50,$70,$C0,$50,$C0,$30,$00,$C0 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC9F
-		.BYTE	$71,$50,$71,$50,$70,$50,$00,$C0,$00,$C0 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A2	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C7	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9AC01
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_9AC5B
+		CMDD5
+		DATA	$52,$32,$79
+		AJSR	byte_9AC5B
+		DATA	$52,$32,$09
+		LOOP_START	$02
+		AJSR	byte_9AC6E
+		AJSR	byte_9AC7F
+		AJSR	byte_9AC6E
+		AJSR	byte_9AC8B
+		DO_LOOP
+		AJSR	byte_9AC95
+		DATA	$C0
+		CMDD4
+		DATA	$70,$80,$A0
+		CMDD5
+		DATA	$00,$20,$C0,$30,$C0,$50,$C0,$70,$50,$C0,$30,$C0
+		AJSR	byte_9AC95
+		DATA	$C1,$70,$C0,$50,$C0,$30,$C0,$50,$70,$C0,$50,$C0,$30,$00,$C0
+		AJSR	byte_9AC9F
+		DATA	$71,$50,$71,$50,$70,$50,$00,$C0,$00,$C0
+		CMDD4
+		DATA	$A2
+		CMDD5
+		DATA	$00,$C7
+		AJMP	byte_9AC01
+		DATA	$C0
+		ASTOP
 byte_9AC5B:
-		.BYTE	$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50,$30,$C0,$50,$30,$C0,$50,$C0 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50,$C0,$30,$50,$C0,$70,$C0 ; DATA
-		.BYTE	$F3	; RET
+		DATA	$C0
+		CMDD5
+		DATA	$50,$30,$C0,$50,$30,$C0,$50,$C0
+		CMDD5
+		DATA	$50,$C0,$30,$50,$C0,$70,$C0
+		ARET
 byte_9AC6E:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C0,$30,$70,$C0 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C0,$20,$C0	; DATA
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+		CMDD5
+		DATA	$00
+		CMDD4
+		DATA	$00,$C0,$30,$70,$C0
+		DO_LOOP
+		CMDD5
+		DATA	$00,$C0,$20,$C0
+		ARET
 byte_9AC7F:
-		.BYTE	$D5	; CMDD5
-		.BYTE	$32,$22,$03	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0,$C0,$A0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C1	; DATA
-		.BYTE	$F3	; RET
+		CMDD5
+		DATA	$32,$22,$03
+		CMDD4
+		DATA	$A0,$C0,$A0
+		CMDD5
+		DATA	$00,$C1
+		ARET
 byte_9AC8B:
-		.BYTE	$D5	; CMDD5
-		.BYTE	$32,$52,$73,$50,$C0,$30,$20,$C1 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD5
+		DATA	$32,$52,$73,$50,$C0,$30,$20,$C1
+		ARET
 byte_9AC95:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$30,$C0,$72,$C1 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+		CMDD5
+		DATA	$00,$30,$C0,$72,$C1
+		DO_LOOP
+		ARET
 byte_9AC9F:
-		.BYTE	$81,$30,$81,$30,$80,$30,$A1,$50,$A1,$50,$A0,$50,$C1	; DATA
-		.BYTE	$D6	; CMDD6
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$A0,$C0,$70,$C0	; DATA
-		.BYTE	$D6	; CMDD6
-		.BYTE	$00	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$A0,$C0,$71,$A0,$C1,$51,$30,$51,$30,$50,$30 ; DATA
-		.BYTE	$F3	; RET
+		DATA	$81,$30,$81,$30,$80,$30,$A1,$50,$A1,$50,$A0,$50,$C1
+		CMDD6
+		DATA	$00,$C0
+		CMDD5
+		DATA	$A0,$C0,$70,$C0
+		CMDD6
+		DATA	$00
+		CMDD5
+		DATA	$A0,$C0,$71,$A0,$C1,$51,$30,$51,$30,$50,$30
+		ARET
 _apu_mus0C_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$07	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$EC	; CMDD9
+		CMDE2	$00
+		CMDE1	$00
+		CMDE0	$07
+		CMDE9	$00
+		CMDD9	$EC
 byte_9ACCD:
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AD45
-		.BYTE	$D5	; CMDD5
-		.BYTE	$22,$02,$39	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AD45
-		.BYTE	$22,$02	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$79	; DATA
-		.BYTE	$E9,$08	; CMDE9
-		.BYTE	$C1	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC6E
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC7F
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC6E
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AD58
-		.BYTE	$D5	; CMDD5
-		.BYTE	$71,$50,$C0,$30,$20,$C1 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC6E
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC7F
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC6E
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AD58
-		.BYTE	$71,$50,$C0,$30,$20 ; DATA
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AD5E
-		.BYTE	$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$30,$50,$70,$80,$A0,$C0 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C0,$20,$C0,$30,$20,$C0,$00,$C0 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AD5E
-		.BYTE	$C1,$30,$C0,$20,$C0,$00,$C0,$20,$30,$C0,$20,$C0,$00 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$C0	; DATA
-		.BYTE	$E9,$08	; CMDE9
-		.BYTE	$C1	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AC9F
-		.BYTE	$71,$50,$71,$50	; DATA
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$C0,$70,$C0,$52,$70,$C7 ; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9ACCD
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_9AD45
+		CMDD5
+		DATA	$22,$02,$39
+		AJSR	byte_9AD45
+		DATA	$22,$02
+		CMDD4
+		DATA	$79
+		CMDE9	$08
+		DATA	$C1
+		AJSR	byte_9AC6E
+		AJSR	byte_9AC7F
+		AJSR	byte_9AC6E
+		AJSR	byte_9AD58
+		CMDD5
+		DATA	$71,$50,$C0,$30,$20,$C1
+		AJSR	byte_9AC6E
+		AJSR	byte_9AC7F
+		AJSR	byte_9AC6E
+		AJSR	byte_9AD58
+		DATA	$71,$50,$C0,$30,$20
+		CMDE9	$00
+		AJSR	byte_9AD5E
+		DATA	$C0
+		CMDD4
+		DATA	$30,$50,$70,$80,$A0,$C0
+		CMDD5
+		DATA	$00,$C0,$20,$C0,$30,$20,$C0,$00,$C0
+		AJSR	byte_9AD5E
+		DATA	$C1,$30,$C0,$20,$C0,$00,$C0,$20,$30,$C0,$20,$C0,$00
+		CMDD4
+		DATA	$70,$C0
+		CMDE9	$08
+		DATA	$C1
+		AJSR	byte_9AC9F
+		DATA	$71,$50,$71,$50
+		CMDE9	$00
+		CMDD4
+		DATA	$70,$C0,$70,$C0,$52,$70,$C7
+		AJMP	byte_9ACCD
+		DATA	$C0
+		ASTOP
 byte_9AD45:
-		.BYTE	$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$00,$C0,$20,$00,$C0,$20,$C0 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$C0,$00,$20,$C0,$30,$C0 ; DATA
-		.BYTE	$F3	; RET
+		DATA	$C0
+		CMDD5
+		DATA	$20,$00,$C0,$20,$00,$C0,$20,$C0
+		CMDD5
+		DATA	$20,$C0,$00,$20,$C0,$30,$C0
+		ARET
 byte_9AD58:
-		.BYTE	$D5	; CMDD5
-		.BYTE	$32,$52,$71	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$F3	; RET
+		CMDD5
+		DATA	$32,$52,$71
+		CMDE8
+		ARET
 byte_9AD5E:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$80	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C0,$33,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+		CMDD4
+		DATA	$80
+		CMDD5
+		DATA	$00,$C0,$33,$C0
+		DO_LOOP
+		ARET
 _apu_mus0C_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$07	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$04	; CMDD9
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$07
+		CMDE9	$00
+		CMDD9	$04
 byte_9AD73:
-		.BYTE	$F0,$06	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$C0,$00,$C0,$30,$70,$C0 ; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A0,$C0	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A0,$C0,$A0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$20,$C0,$50,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$C0,$00,$C0,$30,$70,$C0,$50,$C0 ; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$50,$C0,$70	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A0,$C0,$B0,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9ADCC
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$C0,$00,$C0	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A0,$C0,$A0,$C0	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$20,$C0,$31,$20,$00,$C0 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9ADCC
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$C0,$00,$C0	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A2	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$C0,$02,$30,$C0,$70,$C0 ; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9AD73
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$06
+		CMDD3
+		DATA	$00,$C0,$00,$C0,$30,$70,$C0
+		CMDD2
+		DATA	$A0,$C0
+		CMDD2
+		DATA	$A0,$C0,$A0
+		CMDD3
+		DATA	$20,$C0,$50,$C0
+		CMDD3
+		DATA	$00,$C0,$00,$C0,$30,$70,$C0,$50,$C0
+		CMDD3
+		DATA	$50,$C0,$70
+		CMDD2
+		DATA	$A0,$C0,$B0,$C0
+		DO_LOOP
+		LOOP_START	$03
+		AJSR	byte_9ADCC
+		CMDD3
+		DATA	$00,$C0,$00,$C0
+		CMDD2
+		DATA	$A0,$C0,$A0,$C0
+		CMDD3
+		DATA	$00,$20,$C0,$31,$20,$00,$C0
+		DO_LOOP
+		AJSR	byte_9ADCC
+		CMDD3
+		DATA	$00,$C0,$00,$C0
+		CMDD2
+		DATA	$A2
+		CMDD3
+		DATA	$00,$C0,$02,$30,$C0,$70,$C0
+		AJMP	byte_9AD73
+		DATA	$C0
+		ASTOP
 byte_9ADCC:
-		.BYTE	$D2	; CMDD2
-		.BYTE	$80,$C1,$81	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$80	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$80,$C0	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A0,$C1,$A1	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A0	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A0,$C0	; DATA
-		.BYTE	$F3	; RET
+		CMDD2
+		DATA	$80,$C1,$81
+		CMDD3
+		DATA	$80
+		CMDD2
+		DATA	$80,$C0
+		CMDD2
+		DATA	$A0,$C1,$A1
+		CMDD3
+		DATA	$A0
+		CMDD2
+		DATA	$A0,$C0
+		ARET
 _apu_mus0C_D:
-		.BYTE	$E0,$07	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE0	$07
+		CMDE9	$00
 byte_9ADE3:
-		.BYTE	$F0,$0C	; LOOP_START
-		.BYTE	$01,$22,$01,$20,$01,$21,$01,$21 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$0E	; LOOP_START
-		.BYTE	$01,$21,$00,$00,$21 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$21,$21,$21,$00,$20,$00,$20,$20,$00,$20,$20,$00,$20 ; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9ADE3
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$0C
+		DATA	$01,$22,$01,$20,$01,$21,$01,$21
+		DO_LOOP
+		LOOP_START	$0E
+		DATA	$01,$21,$00,$00,$21
+		DO_LOOP
+		DATA	$21,$21,$21,$00,$20,$00,$20,$20,$00,$20,$20,$00,$20
+		AJMP	byte_9ADE3
+		DATA	$C0
+		ASTOP
 _apu_mus0D:
 		.BYTE	$0F
 		.WORD	_apu_mus0D_A
@@ -6634,47 +6389,47 @@ _apu_mus0D:
 		.WORD	_apu_mus0D_C
 		.WORD	_apu_mus0D_D
 _apu_mus0D_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$73,$60,$50,$40,$C0,$40,$C2,$51,$C1,$61,$C1,$71,$87,$C0 ;	DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$00
+		CMDD9	$F4
+		DATA	$C1
+		CMDD4
+		DATA	$73,$60,$50,$40,$C0,$40,$C2,$51,$C1,$61,$C1,$71,$87,$C0
+		ASTOP
 _apu_mus0D_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$13,$00	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B0,$A0,$C0,$A0,$C2,$B1,$C1 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$C1,$11,$27,$C0 ; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$00
+		CMDD9	$F4
+		DATA	$C1
+		CMDD4
+		DATA	$13,$00
+		CMDD3
+		DATA	$B0,$A0,$C0,$A0,$C2,$B1,$C1
+		CMDD4
+		DATA	$01,$C1,$11,$27,$C0
+		ASTOP
 _apu_mus0D_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$0C	; CMDD9
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A5,$90,$80,$70,$C0,$70,$C2,$81,$C1,$91,$C1,$A1,$B7,$C0 ;	DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$00
+		CMDD9	$0C
+		CMDD2
+		DATA	$A5,$90,$80,$70,$C0,$70,$C2,$81,$C1,$91,$C1,$A1,$B7,$C0
+		ASTOP
 _apu_mus0D_D:
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$01,$21,$01,$20,$20,$21,$21,$01,$21,$01,$21,$01,$21 ; DATA
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$20	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE0	$05
+		CMDE9	$00
+		DATA	$01,$21,$01,$20,$20,$21,$21,$01,$21,$01,$21,$01,$21
+		LOOP_START	$08
+		DATA	$20
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus0E:
 		.BYTE	$0F
 		.WORD	_apu_mus0E_A
@@ -6682,195 +6437,187 @@ _apu_mus0E:
 		.WORD	_apu_mus0E_C
 		.WORD	_apu_mus0E_D
 _apu_mus0E_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$08	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$EF	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$08
+		CMDE9	$00
+		CMDD9	$EF
 byte_9AE8D:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$10,$00,$10	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$A3,$C0,$A0,$C0,$A0,$C0,$A0,$C0,$A0 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$10,$20,$30,$40,$50,$10,$C0,$71 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$10,$20,$30,$40,$50,$C1 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AF05
-		.BYTE	$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$60,$60,$C0,$60,$60,$C0,$71,$70,$60,$C4 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AF05
-		.BYTE	$C0,$60,$60,$C0,$60,$60,$C0,$71,$70,$60,$C0,$A0,$90,$80,$70 ; DATA
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$A0,$90,$A0,$70	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$73,$C0,$70,$C0,$70,$C0,$70,$C0,$70 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D5	; CMDD5
-		.BYTE	$70,$60,$50,$40,$C0,$50,$40,$30,$C0,$20,$20,$C0,$20,$20,$C0,$20 ;	DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9AE8D
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		CMDE1	$03
+		LOOP_START	$02
+		CMDD5
+		DATA	$10,$00,$10
+		CMDD4
+		DATA	$A0
+		CMDE8
+		DATA	$A3,$C0,$A0,$C0,$A0,$C0,$A0,$C0,$A0
+		DO_LOOP
+		CMDE1	$00
+		LOOP_START	$02
+		CMDD4
+		DATA	$10,$20,$30,$40,$50,$10,$C0,$71
+		CMDD5
+		DATA	$10,$20,$30,$40,$50,$C1
+		DO_LOOP
+		DO_LOOP
+		CMDE1	$03
+		AJSR	byte_9AF05
+		DATA	$C0
+		CMDD5
+		DATA	$60,$60,$C0,$60,$60,$C0,$71,$70,$60,$C4
+		AJSR	byte_9AF05
+		DATA	$C0,$60,$60,$C0,$60,$60,$C0,$71,$70,$60,$C0,$A0,$90,$80,$70
+		LOOP_START	$02
+		CMDD5
+		DATA	$A0,$90,$A0,$70
+		CMDE8
+		DATA	$73,$C0,$70,$C0,$70,$C0,$70,$C0,$70
+		DO_LOOP
+		CMDD5
+		DATA	$70,$60,$50,$40,$C0,$50,$40,$30,$C0,$20,$20,$C0,$20,$20,$C0,$20
+		AJMP	byte_9AE8D
+		DATA	$C0
+		ASTOP
 byte_9AF05:
-		.BYTE	$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$60,$60,$C0,$60,$60,$C0,$51,$50,$60,$C4 ;	DATA
-		.BYTE	$F3	; RET
+		DATA	$C0
+		CMDD5
+		DATA	$60,$60,$C0,$60,$60,$C0,$51,$50,$60,$C4
+		ARET
 _apu_mus0E_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$08	; CMDE0
-		.BYTE	$E9,$01	; CMDE9
-		.BYTE	$D9,$EF	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$08
+		CMDE9	$01
+		CMDD9	$EF
 byte_9AF1C:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$72,$40	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$43,$C0,$40,$C0,$40,$C0,$40,$C0,$40 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$D6	; CMDD6
-		.BYTE	$E9,$0E	; CMDE9
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$10,$20	; DATA
-		.BYTE	$EA,$FF	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$10,$20	; DATA
-		.BYTE	$EA,$01	; CMDEA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$EA,$F8	; CMDEA
-		.BYTE	$E0,$08	; CMDE0
-		.BYTE	$E9,$01	; CMDE9
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AF6E
-		.BYTE	$F2	; JSR
-		.WORD	byte_9AF89
-		.BYTE	$D5	; CMDD5
-		.BYTE	$10,$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$A0,$C0,$B0,$A0,$90,$C0,$80,$80,$C0,$80,$80,$C0,$80 ;	DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9AF1C
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		CMDE1	$03
+		LOOP_START	$02
+		CMDD4
+		DATA	$72,$40
+		CMDE8
+		DATA	$43,$C0,$40,$C0,$40,$C0,$40,$C0,$40
+		DO_LOOP
+		LOOP_START	$02
+		CMDE1	$02
+		CMDE0	$04
+		CMDD6
+		CMDE9	$0E
+		LOOP_START	$08
+		DATA	$10,$20
+		CMDEA	$FF
+		DO_LOOP
+		LOOP_START	$08
+		DATA	$10,$20
+		CMDEA	$01
+		DO_LOOP
+		CMDEA	$F8
+		CMDE0	$08
+		CMDE9	$01
+		CMDE1	$03
+		DO_LOOP
+		DO_LOOP
+		AJSR	byte_9AF6E
+		AJSR	byte_9AF89
+		CMDD5
+		DATA	$10,$00
+		CMDD4
+		DATA	$B0,$A0,$C0,$B0,$A0,$90,$C0,$80,$80,$C0,$80,$80,$C0,$80
+		AJMP	byte_9AF1C
+		DATA	$C0
+		ASTOP
 byte_9AF6E:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$20,$C0,$20,$20,$C0,$11,$10,$20,$C5 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20,$20,$C0,$20,$20,$C0,$31,$30,$20,$C4 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+		DATA	$C0
+		CMDD5
+		DATA	$20,$20,$C0,$20,$20,$C0,$11,$10,$20,$C5
+		CMDD5
+		DATA	$20,$20,$C0,$20,$20,$C0,$31,$30,$20,$C4
+		DO_LOOP
+		ARET
 byte_9AF89:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$42,$10	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$13,$C0,$10,$C0,$10,$C0,$10,$C0,$10 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+		CMDD5
+		DATA	$42,$10
+		CMDE8
+		DATA	$13,$C0,$10,$C0,$10,$C0,$10,$C0,$10
+		DO_LOOP
+		ARET
 _apu_mus0E_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$08	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$07	; CMDD9
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$08
+		CMDE9	$00
+		CMDD9	$07
 byte_9AFA4:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A0,$C0,$50,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$D2	; CMDD2
-		.BYTE	$90,$C0,$40,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$C0	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A0,$A0,$C0,$A0,$A0,$C0,$91,$90,$A0,$C0,$A0 ; DATA
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0,$90	; DATA
-		.BYTE	$E0,$08	; CMDE0
-		.BYTE	$80,$C0,$C0	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A0,$A0,$C0,$A0,$A0,$C0,$B1,$B0,$A0,$C0,$A0 ; DATA
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A0,$90	; DATA
-		.BYTE	$E0,$08	; CMDE0
-		.BYTE	$80,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$C0,$10,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$60,$50,$40,$C0,$50,$40,$30,$C0,$20,$20,$C0,$20,$20,$C0,$20 ;	DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9AFA4
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		LOOP_START	$08
+		CMDD2
+		DATA	$A0,$C0,$50,$C0
+		DO_LOOP
+		LOOP_START	$08
+		CMDD2
+		DATA	$90,$C0,$40,$C0
+		DO_LOOP
+		DO_LOOP
+		LOOP_START	$02
+		DATA	$C0
+		CMDD2
+		DATA	$A0,$A0,$C0,$A0,$A0,$C0,$91,$90,$A0,$C0,$A0
+		CMDE0	$04
+		CMDD4
+		DATA	$A0,$90
+		CMDE0	$08
+		DATA	$80,$C0,$C0
+		CMDD2
+		DATA	$A0,$A0,$C0,$A0,$A0,$C0,$B1,$B0,$A0,$C0,$A0
+		CMDE0	$04
+		CMDD3
+		DATA	$A0,$90
+		CMDE0	$08
+		DATA	$80,$C0
+		DO_LOOP
+		LOOP_START	$08
+		CMDD3
+		DATA	$70,$C0,$10,$C0
+		DO_LOOP
+		CMDD3
+		DATA	$70,$60,$50,$40,$C0,$50,$40,$30,$C0,$20,$20,$C0,$20,$20,$C0,$20
+		AJMP	byte_9AFA4
+		DATA	$C0
+		ASTOP
 _apu_mus0E_D:
-		.BYTE	$E0,$08	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE0	$08
+		CMDE9	$00
 byte_9B008:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$01,$21,$01,$20,$20,$01,$21,$00,$00,$21 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$01,$21,$01,$21,$01,$21,$01,$21 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$00,$20,$20,$00,$20,$20,$00,$21,$00,$20,$C0,$03 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$01,$21,$01,$20,$20,$01,$21,$00,$00,$21 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$20,$20,$20,$20,$00,$20,$20,$20,$00,$20,$20,$00,$20,$20,$00,$20 ;	DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B008
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		LOOP_START	$02
+		DATA	$01,$21,$01,$20,$20,$01,$21,$00,$00,$21
+		DO_LOOP
+		LOOP_START	$02
+		DATA	$01,$21,$01,$21,$01,$21,$01,$21
+		DO_LOOP
+		DO_LOOP
+		LOOP_START	$04
+		DATA	$00,$20,$20,$00,$20,$20,$00,$21,$00,$20,$C0,$03
+		DO_LOOP
+		LOOP_START	$02
+		DATA	$01,$21,$01,$20,$20,$01,$21,$00,$00,$21
+		DO_LOOP
+		DATA	$20,$20,$20,$20,$00,$20,$20,$20,$00,$20,$20,$00,$20,$20,$00,$20
+		AJMP	byte_9B008
+		DATA	$C0
+		ASTOP
 _apu_mus0F:
 		.BYTE	$01
 		.WORD	_apu_mus0F_A
 _apu_mus0F_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$00	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$C0,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$00
+		CMDE0	$05
+		DATA	$C0,$C0
+		ASTOP
 _apu_mus10:
 		.BYTE	$0F
 		.WORD	_apu_mus10_A
@@ -6878,129 +6625,125 @@ _apu_mus10:
 		.WORD	_apu_mus10_C
 		.WORD	_apu_mus10_D
 _apu_mus10_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$73,$50,$C1,$40,$C1,$21,$C3 ; DATA
-		.BYTE	$D4	; CMDD4
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$00
+		CMDD9	$F4
+		DATA	$C1
+		CMDD5
+		DATA	$73,$50,$C1,$40,$C1,$21,$C3
+		CMDD4
 byte_9B07D:
 		.BYTE	$75,$41,$C0,$71,$C0,$91,$C3,$41,$71,$C0,$96,$C2,$41,$C0,$71,$C0
-		.BYTE	$91,$C0,$A1,$90,$C1,$A2,$92,$70,$91,$C0 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$C0,$23,$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$C0,$26,$C1,$32,$20,$31,$20,$31,$20,$31,$C0,$21,$C0,$01,$C0 ;	DATA
-		.BYTE	$21,$C0,$70,$C0,$71,$C0
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$70	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$79,$50,$40,$20,$00 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$90,$70	; DATA
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50,$C0,$51,$C0	; DATA
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$50	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$59,$30,$20,$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0,$90,$70,$50	; DATA
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$73,$91,$C0,$B1,$C0 ; DATA
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$73	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$70,$50,$40,$20,$00 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$90	; DATA
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$72	; DATA
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E8	; CMDE8
-		.BYTE	$73	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B07D+1
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		DATA	$91,$C0,$A1,$90,$C1,$A2,$92,$70,$91,$C0
+		CMDD5
+		DATA	$01,$C0,$23,$C1
+		CMDD4
+		DATA	$91
+		CMDD5
+		DATA	$01,$C0,$26,$C1,$32,$20,$31,$20,$31,$20,$31,$C0,$21,$C0,$01,$C0
+		DATA	$21,$C0,$70,$C0,$71,$C0
+		CMDE1	$02
+		CMDE0	$01
+		DATA	$70
+		CMDE8
+		CMDE0	$02
+		DATA	$79,$50,$40,$20,$00
+		CMDD4
+		DATA	$B0,$90,$70
+		CMDE0	$05
+		CMDE1	$03
+		CMDD5
+		DATA	$50,$C0,$51,$C0
+		CMDE1	$02
+		CMDE0	$01
+		DATA	$50
+		CMDE8
+		CMDE0	$02
+		DATA	$59,$30,$20,$00
+		CMDD4
+		DATA	$A0,$90,$70,$50
+		CMDE0	$05
+		CMDE1	$03
+		DATA	$C1
+		CMDD5
+		DATA	$73,$91,$C0,$B1,$C0
+		CMDE1	$02
+		DATA	$73
+		CMDE8
+		CMDE0	$02
+		DATA	$70,$50,$40,$20,$00
+		CMDD4
+		DATA	$B0,$90
+		CMDE1	$03
+		DATA	$72
+		CMDE0	$05
+		CMDE8
+		DATA	$73
+		AJMP	byte_9B07D+1
+		DATA	$C0
+		ASTOP
 _apu_mus10_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B3,$90,$C1,$70,$C1,$51,$C3 ; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$75	; DATA
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$00
+		CMDD9	$F4
+		DATA	$C1
+		CMDD4
+		DATA	$B3,$90,$C1,$70,$C1,$51,$C3
+		CMDD3
+		DATA	$75
 byte_9B11A:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$C0,$41,$C0,$41,$C3,$01,$41,$C0,$46,$C2,$01,$C0,$41,$C0,$41 ;	DATA
-		.BYTE	$C0,$41,$40,$C1,$42,$42,$40,$51,$C0,$91,$C0,$93,$C1,$51,$91,$C0
+		CMDD4
+		DATA	$01,$C0,$41,$C0,$41,$C3,$01,$41,$C0,$46,$C2,$01,$C0,$41,$C0,$41
+		DATA	$C0,$41,$40,$C1,$42,$42,$40,$51,$C0,$91,$C0,$93,$C1,$51,$91,$C0
 		.BYTE	$96,$C1,$92,$90,$91,$90,$91,$90,$91,$C0,$91,$C0,$91,$C0,$91,$C0
 		.BYTE	$B0,$C0,$B1,$C0,$B5,$C0,$90,$C0,$91,$C0,$95,$C0,$C1,$B3
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$C0,$21,$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B5,$C5	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B11A
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDD5
+		DATA	$01,$C0,$21,$C0
+		CMDD4
+		DATA	$B5,$C5
+		AJMP	byte_9B11A
+		DATA	$C0
+		ASTOP
 _apu_mus10_C:
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D2	; CMDD2
-		.BYTE	$74,$C0,$71,$C0,$71,$C0,$71,$C3,$75 ; DATA
+		CMDE2	$03
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$00
+		CMDD2
+		DATA	$74,$C0,$71,$C0,$71,$C0,$71,$C3,$75
 byte_9B178:
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01,$C0	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$B1,$C0,$91,$C0,$71,$C0 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51,$C0,$41,$C0,$21,$C0,$01,$C0 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$C0,$71,$C0,$75,$C0,$50,$C0,$51,$C0,$55,$C0,$75,$71,$C0,$71 ;	DATA
-		.BYTE	$C0,$71,$C3
-		.BYTE	$D2	; CMDD2
-		.BYTE	$75	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B178
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$04
+		CMDD3
+		DATA	$01,$C0
+		CMDD2
+		DATA	$B1,$C0,$91,$C0,$71,$C0
+		DO_LOOP
+		LOOP_START	$04
+		CMDD3
+		DATA	$51,$C0,$41,$C0,$21,$C0,$01,$C0
+		DO_LOOP
+		CMDD3
+		DATA	$70,$C0,$71,$C0,$75,$C0,$50,$C0,$51,$C0,$55,$C0,$75,$71,$C0,$71
+		DATA	$C0,$71,$C3
+		CMDD2
+		DATA	$75
+		AJMP	byte_9B178
+		DATA	$C0
+		ASTOP
 _apu_mus10_D:
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$01,$25,$20,$22,$25,$25 ;	DATA
+		CMDE0	$05
+		CMDE9	$00
+		DATA	$01,$25,$20,$22,$25,$25
 byte_9B1B6:
-		.BYTE	$E9,$05	; CMDE9
-		.BYTE	$12,$31,$30	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B1B6
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE9	$05
+		DATA	$12,$31,$30
+		AJMP	byte_9B1B6
+		DATA	$C0
+		ASTOP
 _apu_mus11:
 		.BYTE	$0F
 		.WORD	_apu_mus11_A
@@ -7008,126 +6751,118 @@ _apu_mus11:
 		.WORD	_apu_mus11_C
 		.WORD	_apu_mus11_D
 _apu_mus11_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$03
+		CMDD9	$F4
 byte_9B1D3:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B202
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B20A
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B202
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B20D
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$41,$81	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$41,$81,$C3	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$11,$51,$91	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$11,$51,$91,$C3	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B1D3
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		AJSR	byte_9B202
+		AJSR	byte_9B20A
+		AJSR	byte_9B202
+		AJSR	byte_9B20D
+		DO_LOOP
+		LOOP_START	$02
+		LOOP_START	$02
+		CMDD4
+		DATA	$01,$41,$81
+		CMDD5
+		DATA	$01,$41,$81,$C3
+		DO_LOOP
+		LOOP_START	$02
+		CMDD4
+		DATA	$11,$51,$91
+		CMDD5
+		DATA	$11,$51,$91,$C3
+		DO_LOOP
+		DO_LOOP
+		AJMP	byte_9B1D3
+		DATA	$C0
+		ASTOP
 byte_9B202:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$22,$40,$53,$22,$40,$53 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$22,$40,$53,$22,$40,$53
+		ARET
 byte_9B20A:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$8F	; DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$8F
+		ARET
 byte_9B20D:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$AF	; DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$AF
+		ARET
 _apu_mus11_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$0A	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B1D3
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$0A
+		CMDD9	$F4
+		DATA	$C1
+		AJMP	byte_9B1D3
+		DATA	$C0
+		ASTOP
 _apu_mus11_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$00
 byte_9B228:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$23	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$93	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$23	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$93	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$13	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$83	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$13	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$83	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$23	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$93	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$23	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$93	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$13	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$73	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$13	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$73	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D2	; CMDD2
-		.BYTE	$90,$C0,$93,$C3,$90,$C0,$91,$C1 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A0,$C0,$A3,$C3,$A0,$C0,$A1,$C1 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B228
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		CMDD3
+		DATA	$23
+		CMDD2
+		DATA	$93
+		CMDD3
+		DATA	$23
+		CMDD2
+		DATA	$93
+		CMDD3
+		DATA	$13
+		CMDD2
+		DATA	$83
+		CMDD3
+		DATA	$13
+		CMDD2
+		DATA	$83
+		CMDD3
+		DATA	$23
+		CMDD2
+		DATA	$93
+		CMDD3
+		DATA	$23
+		CMDD2
+		DATA	$93
+		CMDD3
+		DATA	$13
+		CMDD2
+		DATA	$73
+		CMDD3
+		DATA	$13
+		CMDD2
+		DATA	$73
+		DO_LOOP
+		LOOP_START	$02
+		LOOP_START	$02
+		CMDD2
+		DATA	$90,$C0,$93,$C3,$90,$C0,$91,$C1
+		DO_LOOP
+		LOOP_START	$02
+		CMDD2
+		DATA	$A0,$C0,$A3,$C3,$A0,$C0,$A1,$C1
+		DO_LOOP
+		DO_LOOP
+		AJMP	byte_9B228
+		DATA	$C0
+		ASTOP
 _apu_mus11_D:
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$06	; CMDE9
+		CMDE0	$05
+		CMDE9	$06
 byte_9B26F:
-		.BYTE	$01,$21	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B26F
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		DATA	$01,$21
+		AJMP	byte_9B26F
+		DATA	$C0
+		ASTOP
 _apu_mus12:
 		.BYTE	$0F
 		.WORD	_apu_mus12_A
@@ -7135,381 +6870,357 @@ _apu_mus12:
 		.WORD	_apu_mus12_C
 		.WORD	_apu_mus12_D
 _apu_mus12_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$D9,$EE	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$04
+		CMDE9	$03
+		CMDD9	$EE
 byte_9B289:
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B2A9
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B2C8
-		.BYTE	$D5	; CMDD5
-		.BYTE	$41,$41,$C1,$65,$73,$B5,$97,$C1 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B2C8
-		.BYTE	$41,$41,$C1,$65,$73,$B9,$91,$71,$61 ; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B289
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_9B2A9
+		AJSR	byte_9B2C8
+		CMDD5
+		DATA	$41,$41,$C1,$65,$73,$B5,$97,$C1
+		AJSR	byte_9B2C8
+		DATA	$41,$41,$C1,$65,$73,$B9,$91,$71,$61
+		AJMP	byte_9B289
+		DATA	$C0
+		ASTOP
 byte_9B2A9:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41,$61,$71,$41,$91,$A1,$91,$71,$B1,$C1,$B1,$99 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41,$61,$71,$41,$91,$A1,$91,$71 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$41,$C1,$41,$39	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+		CMDD4
+		DATA	$41,$61,$71,$41,$91,$A1,$91,$71,$B1,$C1,$B1,$99
+		CMDD4
+		DATA	$41,$61,$71,$41,$91,$A1,$91,$71
+		CMDD5
+		DATA	$41,$C1,$41,$39
+		DO_LOOP
+		ARET
 byte_9B2C8:
-		.BYTE	$D5	; CMDD5
-		.BYTE	$45,$65,$73,$65,$75,$93 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD5
+		DATA	$45,$65,$73,$65,$75,$93
+		ARET
 _apu_mus12_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$0A	; CMDE9
-		.BYTE	$D9,$EE	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B289
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$04
+		CMDE9	$0A
+		CMDD9	$EE
+		DATA	$C1
+		AJMP	byte_9B289
+		DATA	$C0
+		ASTOP
 _apu_mus12_C:
-		.BYTE	$E2,$05	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$01	; CMDE9
-		.BYTE	$D9,$06	; CMDD9
+		CMDE2	$05
+		CMDE1	$03
+		CMDE0	$04
+		CMDE9	$01
+		CMDD9	$06
 byte_9B2EA:
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B2F5
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B30C
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B2EA
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_9B2F5
+		AJSR	byte_9B30C
+		AJMP	byte_9B2EA
+		DATA	$C0
+		ASTOP
 byte_9B2F5:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$41	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$21	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$D2	; CMDD2
-		.BYTE	$B1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+		LOOP_START	$08
+		CMDD3
+		DATA	$41
+		DO_LOOP
+		LOOP_START	$08
+		DATA	$21
+		DO_LOOP
+		LOOP_START	$08
+		CMDD3
+		DATA	$01
+		DO_LOOP
+		LOOP_START	$08
+		CMDD2
+		DATA	$B1
+		DO_LOOP
+		DO_LOOP
+		ARET
 byte_9B30C:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$D2	; CMDD2
-		.BYTE	$91	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$B1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$21	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+		LOOP_START	$08
+		CMDD2
+		DATA	$91
+		DO_LOOP
+		LOOP_START	$08
+		DATA	$B1
+		DO_LOOP
+		LOOP_START	$08
+		CMDD3
+		DATA	$01
+		DO_LOOP
+		LOOP_START	$08
+		DATA	$21
+		DO_LOOP
+		DO_LOOP
+		ARET
 _apu_mus12_D:
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE0	$04
+		CMDE9	$00
 byte_9B326:
-		.BYTE	$03,$23	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B326
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		DATA	$03,$23
+		AJMP	byte_9B326
+		DATA	$C0
+		ASTOP
 _apu_mus13:
 		.BYTE	7
 		.WORD	_apu_mus13_A
 		.WORD	_apu_mus13_B
 		.WORD	_apu_mus13_C
 _apu_mus13_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$0A	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$D9,$F6	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$0A
+		CMDE9	$03
+		CMDD9	$F6
 byte_9B33E:
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B361
-		.BYTE	$D4	; CMDD4
-		.BYTE	$60,$C0,$20,$41,$00,$C0,$61,$60,$70,$90,$B0,$92 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B361
-		.BYTE	$B0,$C0,$90,$C0,$B1,$90,$B0,$C0,$B0 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$15	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B33E
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_9B361
+		CMDD4
+		DATA	$60,$C0,$20,$41,$00,$C0,$61,$60,$70,$90,$B0,$92
+		AJSR	byte_9B361
+		DATA	$B0,$C0,$90,$C0,$B1,$90,$B0,$C0,$B0
+		CMDD5
+		DATA	$15
+		AJMP	byte_9B33E
+		DATA	$C0
+		ASTOP
 byte_9B361:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$60,$C0,$20,$41,$00,$C0,$61,$60,$70,$90,$70,$60,$40,$20 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$60,$C0,$20,$41,$00,$C0,$61,$60,$70,$90,$70,$60,$40,$20
+		ARET
 _apu_mus13_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$0A	; CMDE0
-		.BYTE	$E9,$0A	; CMDE9
-		.BYTE	$D9,$F6	; CMDD9
-		.BYTE	$C0	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B33E
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$0A
+		CMDE9	$0A
+		CMDD9	$F6
+		DATA	$C0
+		AJMP	byte_9B33E
+		DATA	$C0
+		ASTOP
 _apu_mus13_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$0A	; CMDE0
-		.BYTE	$E9,$01	; CMDE9
-		.BYTE	$D9,$02	; CMDD9
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$0A
+		CMDE9	$01
+		CMDD9	$02
 byte_9B38B:
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B3A5
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$71,$70,$C0,$70,$70,$70,$90,$91,$91,$70,$60,$40 ; DATA
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B38B
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_9B3A5
+		CMDE2	$03
+		CMDD3
+		DATA	$70,$71,$70,$C0,$70,$70,$70,$90,$91,$91,$70,$60,$40
+		CMDE2	$04
+		AJMP	byte_9B38B
+		DATA	$C0
+		ASTOP
 byte_9B3A5:
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$20,$90,$C0,$01,$70,$C0,$20,$C0,$20,$91,$01,$70,$C0 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$03
+		CMDD3
+		DATA	$20,$90,$C0,$01,$70,$C0,$20,$C0,$20,$91,$01,$70,$C0
+		DO_LOOP
+		ARET
 _apu_mus14:
-		.BYTE	$0F,$C0,$B3,$57,$B4,$67,$B4,$CD,$B4	; DATA
+		DATA	$0F
+		.WORD	_apu_mus14_A
+		.WORD	_apu_mus14_B
+		.WORD	_apu_mus14_C
+		.WORD	_apu_mus14_D
 _apu_mus14_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$09	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F2	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$09
+		CMDE9	$00
+		CMDD9	$F2
 byte_9B3CA:
-		.BYTE	$EA,$05	; CMDEA
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D2	; CMDD2
-		.BYTE	$90	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$40,$90	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$40,$90,$80,$C0 ; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$40	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$41	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$40	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$EA,$FB	; CMDEA
-		.BYTE	$DA,$F4	; CMDDA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B449
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B44F
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B449
-		.BYTE	$D5	; CMDD5
-		.BYTE	$31,$40,$51,$40,$C5 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B449
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B44F
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B449
-		.BYTE	$31,$40,$51,$40,$C1,$40,$61,$80 ;	DATA
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$91	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$71	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D5	; CMDD5
-		.BYTE	$61,$20,$41	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90,$C1,$90,$B0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$10	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$30	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$90	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40,$C0,$40,$40,$C0,$44,$C1 ; DATA
-		.BYTE	$DA,$0C	; CMDDA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B3CA
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDEA	$05
+		LOOP_START	$04
+		CMDD2
+		DATA	$90
+		CMDD3
+		DATA	$40,$90
+		CMDD4
+		DATA	$00,$40,$90,$80,$C0
+		CMDD3
+		DATA	$40
+		CMDD2
+		DATA	$41
+		CMDD3
+		DATA	$40
+		DO_LOOP
+		CMDEA	$FB
+		CMDDA	$F4
+		AJSR	byte_9B449
+		AJSR	byte_9B44F
+		AJSR	byte_9B449
+		CMDD5
+		DATA	$31,$40,$51,$40,$C5
+		AJSR	byte_9B449
+		AJSR	byte_9B44F
+		AJSR	byte_9B449
+		DATA	$31,$40,$51,$40,$C1,$40,$61,$80
+		LOOP_START	$02
+		LOOP_START	$02
+		CMDD5
+		DATA	$91
+		CMDD4
+		DATA	$90
+		DO_LOOP
+		LOOP_START	$02
+		CMDD5
+		DATA	$71
+		CMDD4
+		DATA	$90
+		DO_LOOP
+		CMDD5
+		DATA	$61,$20,$41
+		CMDD4
+		DATA	$90,$C1,$90,$B0
+		CMDD5
+		DATA	$00
+		CMDD4
+		DATA	$90
+		DO_LOOP
+		CMDD5
+		DATA	$00
+		CMDD4
+		DATA	$90
+		CMDD5
+		DATA	$00
+		CMDD4
+		DATA	$90
+		CMDD5
+		DATA	$10
+		CMDD4
+		DATA	$90
+		CMDD5
+		DATA	$20
+		CMDD4
+		DATA	$90
+		CMDD5
+		DATA	$20
+		CMDD4
+		DATA	$90
+		CMDD5
+		DATA	$30
+		CMDD4
+		DATA	$90
+		CMDD5
+		DATA	$40,$C0,$40,$40,$C0,$44,$C1
+		CMDDA	$0C
+		AJMP	byte_9B3CA
+		DATA	$C0
+		ASTOP
 byte_9B449:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$94	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$40,$C5	; DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$94
+		CMDD5
+		DATA	$40,$C5
+		ARET
 byte_9B44F:
-		.BYTE	$D5	; CMDD5
-		.BYTE	$31,$40,$21	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$C5	; DATA
-		.BYTE	$F3	; RET
+		CMDD5
+		DATA	$31,$40,$21
+		CMDD4
+		DATA	$B0,$C5
+		ARET
 _apu_mus14_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$09	; CMDE0
-		.BYTE	$E9,$08	; CMDE9
-		.BYTE	$D9,$F2	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B3CA
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$09
+		CMDE9	$08
+		CMDD9	$F2
+		DATA	$C1
+		AJMP	byte_9B3CA
+		DATA	$C0
+		ASTOP
 _apu_mus14_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$09	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$0A	; CMDD9
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$09
+		CMDE9	$00
+		CMDD9	$0A
 byte_9B471:
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$90	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40,$90	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$40,$90,$80,$C0 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$41	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$DA,$F4	; CMDDA
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$90	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40,$90	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C3	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$41	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$80	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40,$B0,$C1,$42	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$40,$61,$80	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D2	; CMDD2
-		.BYTE	$90,$C0,$90,$90,$C0,$90 ;	DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$C0,$00,$01,$C0 ; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$24,$43,$C2	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$21,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$40,$C0,$40,$40,$C0,$42,$40,$61,$80 ; DATA
-		.BYTE	$DA,$0C	; CMDDA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B471
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$04
+		CMDD3
+		DATA	$90
+		CMDD4
+		DATA	$40,$90
+		CMDD5
+		DATA	$00,$40,$90,$80,$C0
+		CMDD4
+		DATA	$40
+		CMDD3
+		DATA	$41
+		CMDD4
+		DATA	$40
+		DO_LOOP
+		CMDDA	$F4
+		LOOP_START	$04
+		CMDD3
+		DATA	$90
+		CMDD4
+		DATA	$40,$90
+		CMDD5
+		DATA	$00,$C3
+		CMDD4
+		DATA	$40
+		CMDD3
+		DATA	$41
+		CMDD4
+		DATA	$40
+		CMDD3
+		DATA	$80
+		CMDD4
+		DATA	$40,$B0,$C1,$42
+		CMDD3
+		DATA	$40,$61,$80
+		DO_LOOP
+		LOOP_START	$02
+		CMDD2
+		DATA	$90,$C0,$90,$90,$C0,$90
+		CMDD3
+		DATA	$00,$C0,$00,$01,$C0
+		CMDD3
+		DATA	$24,$43,$C2
+		DO_LOOP
+		CMDD3
+		LOOP_START	$04
+		DATA	$21,$C0
+		DO_LOOP
+		DATA	$40,$C0,$40,$40,$C0,$42,$40,$61,$80
+		CMDDA	$0C
+		AJMP	byte_9B471
+		DATA	$C0
+		ASTOP
 _apu_mus14_D:
-		.BYTE	$E0,$09	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE0	$09
+		CMDE9	$00
 byte_9B4D1:
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$CB	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$07	; LOOP_START
-		.BYTE	$02,$22,$C1,$20,$01,$20 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$02,$22,$C1,$20,$21,$20 ;	DATA
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B4FD
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B502
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B4FD
-		.BYTE	$21,$20,$01,$20,$C1,$20,$21,$20 ;	DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B4D1
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$04
+		DATA	$CB
+		DO_LOOP
+		LOOP_START	$07
+		DATA	$02,$22,$C1,$20,$01,$20
+		DO_LOOP
+		DATA	$02,$22,$C1,$20,$21,$20
+		LOOP_START	$02
+		AJSR	byte_9B4FD
+		AJSR	byte_9B502
+		DO_LOOP
+		AJSR	byte_9B4FD
+		DATA	$21,$20,$01,$20,$C1,$20,$21,$20
+		AJMP	byte_9B4D1
+		DATA	$C0
+		ASTOP
 byte_9B4FD:
-		.BYTE	$02,$22,$02,$22	; DATA
-		.BYTE	$F3	; RET
+		DATA	$02,$22,$02,$22
+		ARET
 byte_9B502:
 		.BYTE	$02,$22,$02,$20,$20,$20
-		.BYTE	$F3	; RET
+		ARET
 _apu_mus15:
 		.BYTE	$0F
 		.WORD	_apu_mus15_A
@@ -7517,93 +7228,85 @@ _apu_mus15:
 		.WORD	_apu_mus15_C
 		.WORD	_apu_mus15_D
 _apu_mus15_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$09	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$09
+		CMDE9	$03
+		CMDD9	$F4
 byte_9B51C:
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$C0,$60,$C0,$50,$C0,$60 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B539
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B547
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B539
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B554
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B51C
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$04
+		DATA	$C0
+		CMDD4
+		DATA	$70,$C0,$60,$C0,$50,$C0,$60
+		DO_LOOP
+		AJSR	byte_9B539
+		AJSR	byte_9B547
+		AJSR	byte_9B539
+		AJSR	byte_9B554
+		AJMP	byte_9B51C
+		DATA	$C0
+		ASTOP
 byte_9B539:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$60,$70,$90,$C0,$A1,$71,$60,$70,$90,$C0,$A2 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$70,$60,$70,$90,$C0,$A1,$71,$60,$70,$90,$C0,$A2
+		ARET
 byte_9B547:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$10,$10,$C0,$10,$10,$C0,$10 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+		DATA	$C0
+		CMDD5
+		DATA	$10,$10,$C0,$10,$10,$C0,$10
+		DO_LOOP
+		ARET
 byte_9B554:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$60,$60,$C0,$60,$60,$C0,$60 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$02
+		DATA	$C0
+		CMDD5
+		DATA	$60,$60,$C0,$60,$60,$C0,$60
+		DO_LOOP
+		ARET
 _apu_mus15_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$09	; CMDE0
-		.BYTE	$E9,$0A	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B51C
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$09
+		CMDE9	$0A
+		CMDD9	$F4
+		DATA	$C1
+		AJMP	byte_9B51C
+		DATA	$C0
+		ASTOP
 _apu_mus15_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$09	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$09
+		CMDE9	$00
 byte_9B579:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$40	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$B0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$30	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$A0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$20	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$B0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$30	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B579
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDD3
+		DATA	$00
+		CMDD4
+		DATA	$40
+		CMDD2
+		DATA	$B0
+		CMDD4
+		DATA	$30
+		CMDD2
+		DATA	$A0
+		CMDD4
+		DATA	$20
+		CMDD2
+		DATA	$B0
+		CMDD4
+		DATA	$30
+		AJMP	byte_9B579
+		DATA	$C0
+		ASTOP
 _apu_mus15_D:
-		.BYTE	$E0,$09	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE0	$09
+		CMDE9	$00
 byte_9B592:
-		.BYTE	$01,$21	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B592
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		DATA	$01,$21
+		AJMP	byte_9B592
+		DATA	$C0
+		ASTOP
 _apu_mus16:
 		.BYTE	$0F
 		.WORD	_apu_mus16_A
@@ -7611,95 +7314,75 @@ _apu_mus16:
 		.WORD	_apu_mus16_C
 		.WORD	_apu_mus16_D
 _apu_mus16_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$03
+		CMDD9	$F4
 byte_9B5AC:
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5C9
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5DB
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5C9
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5ED
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5FF
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5ED
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5FF
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5DB
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B5AC
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_9B5C9
+		AJSR	byte_9B5DB
+		AJSR	byte_9B5C9
+		AJSR	byte_9B5ED
+		AJSR	byte_9B5FF
+		AJSR	byte_9B5ED
+		AJSR	byte_9B5FF
+		AJSR	byte_9B5DB
+		AJMP	byte_9B5AC
+		DATA	$C0
+		ASTOP
 byte_9B5C9:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71,$C1,$72,$60,$71,$C1,$72,$60,$71,$C1,$72,$60,$72,$60,$72,$80 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$71,$C1,$72,$60,$71,$C1,$72,$60,$71,$C1,$72,$60,$72,$60,$72,$80
+		ARET
 byte_9B5DB:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91,$C1,$92,$80,$91,$C1,$92,$80,$91,$C1,$92,$80,$92,$80,$92,$80 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$91,$C1,$92,$80,$91,$C1,$92,$80,$91,$C1,$92,$80,$92,$80,$92,$80
+		ARET
 byte_9B5ED:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91,$C1,$92,$80,$91,$C1,$92,$80,$91,$C1,$92,$80,$92,$80,$92,$A0 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$91,$C1,$92,$80,$91,$C1,$92,$80,$91,$C1,$92,$80,$92,$80,$92,$A0
+		ARET
 byte_9B5FF:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B1,$C1,$B2,$A0,$B1,$C1,$B2,$A0,$B1,$C1,$B2,$A0,$B2,$A0,$B2,$A0 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$B1,$C1,$B2,$A0,$B1,$C1,$B2,$A0,$B1,$C1,$B2,$A0,$B2,$A0,$B2,$A0
+		ARET
 _apu_mus16_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$09	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C0	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B5AC
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$09
+		CMDD9	$F4
+		DATA	$C0
+		AJMP	byte_9B5AC
+		DATA	$C0
+		ASTOP
 _apu_mus16_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$02	; CMDE9
-		.BYTE	$D9,$F1	; CMDD9
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$02
+		CMDD9	$F1
 byte_9B62B:
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5C9
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5DB
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5C9
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5ED
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5FF
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5ED
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5FF
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B5DB
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B62B
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_9B5C9
+		AJSR	byte_9B5DB
+		AJSR	byte_9B5C9
+		AJSR	byte_9B5ED
+		AJSR	byte_9B5FF
+		AJSR	byte_9B5ED
+		AJSR	byte_9B5FF
+		AJSR	byte_9B5DB
+		AJMP	byte_9B62B
+		DATA	$C0
+		ASTOP
 _apu_mus16_D:
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE0	$05
+		CMDE9	$00
 byte_9B64C:
-		.BYTE	$03,$23	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B64C
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		DATA	$03,$23
+		AJMP	byte_9B64C
+		DATA	$C0
+		ASTOP
 _apu_mus17:
 		.BYTE	$0F
 		.WORD	_apu_mus17_A
@@ -7707,70 +7390,66 @@ _apu_mus17:
 		.WORD	_apu_mus17_C
 		.WORD	_apu_mus17_D
 _apu_mus17_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$03
+		CMDD9	$F4
 byte_9B666:
-		.BYTE	$D5	; CMDD5
-		.BYTE	$21,$01,$31,$01,$C5,$01,$21,$01,$31,$01,$C5,$90,$B0,$B1,$01,$21 ;	DATA
-		.BYTE	$01,$C5,$01,$21,$01,$31,$01,$C1,$21,$31,$41,$51,$41,$71,$41,$C5
+		CMDD5
+		DATA	$21,$01,$31,$01,$C5,$01,$21,$01,$31,$01,$C5,$90,$B0,$B1,$01,$21
+		DATA	$01,$C5,$01,$21,$01,$31,$01,$C1,$21,$31,$41,$51,$41,$71,$41,$C5
 		.BYTE	$41,$51,$41,$71,$41,$C5
-		.BYTE	$D6	; CMDD6
-		.BYTE	$00,$10,$11	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$41,$71,$41,$C5,$41,$51,$41,$71,$41,$C1,$51,$41,$31 ; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B666
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDD6
+		DATA	$00,$10,$11
+		CMDD5
+		DATA	$41,$71,$41,$C5,$41,$51,$41,$71,$41,$C1,$51,$41,$31
+		AJMP	byte_9B666
+		DATA	$C0
+		ASTOP
 _apu_mus17_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$0A	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B666
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$0A
+		CMDD9	$F4
+		DATA	$C1
+		AJMP	byte_9B666
+		DATA	$C0
+		ASTOP
 _apu_mus17_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$01	; CMDE9
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$01
 byte_9B6BC:
-		.BYTE	$F0,$0C	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$91,$C1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$91,$C1,$91,$C1,$91,$A1,$B1 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$F0,$0C	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$11,$C1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D4	; CMDD4
-		.BYTE	$11,$C1,$11,$C1,$11,$01 ;	DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B1,$A1	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B6BC
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$0C
+		CMDD3
+		DATA	$91,$C1
+		DO_LOOP
+		CMDD3
+		DATA	$91,$C1,$91,$C1,$91,$A1,$B1
+		CMDD4
+		DATA	$01
+		LOOP_START	$0C
+		CMDD4
+		DATA	$11,$C1
+		DO_LOOP
+		CMDD4
+		DATA	$11,$C1,$11,$C1,$11,$01
+		CMDD3
+		DATA	$B1,$A1
+		AJMP	byte_9B6BC
+		DATA	$C0
+		ASTOP
 _apu_mus17_D:
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$05	; CMDE9
+		CMDE0	$06
+		CMDE9	$05
 byte_9B6E5:
-		.BYTE	$31	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B6E5
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		DATA	$31
+		AJMP	byte_9B6E5
+		DATA	$C0
+		ASTOP
 _apu_mus18:
 		.BYTE	$0F
 		.WORD	_apu_mus18_A
@@ -7778,84 +7457,80 @@ _apu_mus18:
 		.WORD	_apu_mus18_C
 		.WORD	_apu_mus18_D
 _apu_mus18_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$03
+		CMDD9	$F4
 byte_9B6FE:
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41,$51	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$71,$91	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$21,$41	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51,$71	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$91,$A1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$21	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$41,$51	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B6FE
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$04
+		CMDD4
+		DATA	$41,$51
+		DO_LOOP
+		LOOP_START	$04
+		DATA	$71,$91
+		DO_LOOP
+		LOOP_START	$04
+		CMDD4
+		DATA	$B1
+		CMDD5
+		DATA	$01
+		DO_LOOP
+		LOOP_START	$04
+		DATA	$21,$41
+		DO_LOOP
+		LOOP_START	$04
+		CMDD4
+		DATA	$51,$71
+		DO_LOOP
+		LOOP_START	$04
+		DATA	$91,$A1
+		DO_LOOP
+		LOOP_START	$04
+		CMDD5
+		DATA	$01,$21
+		DO_LOOP
+		LOOP_START	$04
+		DATA	$41,$51
+		DO_LOOP
+		AJMP	byte_9B6FE
+		DATA	$C0
+		ASTOP
 _apu_mus18_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$0A	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B6FE
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$0A
+		CMDD9	$F4
+		DATA	$C1
+		AJMP	byte_9B6FE
+		DATA	$C0
+		ASTOP
 _apu_mus18_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$01	; CMDE9
-		.BYTE	$D9,$0C	; CMDD9
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$01
+		CMDD9	$0C
 byte_9B74A:
-		.BYTE	$F0,$10	; LOOP_START
-		.BYTE	$D2	; CMDD2
-		.BYTE	$91,$C1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$10	; LOOP_START
-		.BYTE	$A1,$C1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B74A
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$10
+		CMDD2
+		DATA	$91,$C1
+		DO_LOOP
+		LOOP_START	$10
+		DATA	$A1,$C1
+		DO_LOOP
+		AJMP	byte_9B74A
+		DATA	$C0
+		ASTOP
 _apu_mus18_D:
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$06	; CMDE9
+		CMDE0	$05
+		CMDE9	$06
 byte_9B75E:
-		.BYTE	$30	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B75E
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		DATA	$30
+		AJMP	byte_9B75E
+		DATA	$C0
+		ASTOP
 _apu_mus19:
 		.BYTE	$0F
 		.WORD	_apu_mus19_A
@@ -7863,732 +7538,695 @@ _apu_mus19:
 		.WORD	_apu_mus19_C
 		.WORD	_apu_mus19_D
 _apu_mus19_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$D9,$F0	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$03
+		CMDD9	$F0
 byte_9B777:
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$21,$31,$41	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$03	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41,$C1,$53,$51,$91 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$41,$C1,$21,$C1 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$41,$41,$21,$C1,$41,$C1,$21,$41,$C1,$41,$21,$C1,$41,$C1,$21,$C1 ;	DATA
-		.BYTE	$DA,$0C	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$DA,$E8	; CMDDA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B777
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$03
+		CMDD4
+		DATA	$21,$31,$41
+		CMDD5
+		DATA	$03
+		CMDD4
+		DATA	$41,$C1,$53,$51,$91
+		CMDD5
+		DATA	$01,$41,$C1,$21,$C1
+		DO_LOOP
+		LOOP_START	$02
+		CMDD5
+		DATA	$41,$41,$21,$C1,$41,$C1,$21,$41,$C1,$41,$21,$C1,$41,$C1,$21,$C1
+		CMDDA	$0C
+		DO_LOOP
+		CMDDA	$E8
+		AJMP	byte_9B777
+		DATA	$C0
+		ASTOP
 _apu_mus19_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$0A	; CMDE9
-		.BYTE	$D9,$F0	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B777
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$0A
+		CMDD9	$F0
+		DATA	$C1
+		AJMP	byte_9B777
+		DATA	$C0
+		ASTOP
 _apu_mus19_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$01	; CMDE9
-		.BYTE	$D9,$08	; CMDD9
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$01
+		CMDD9	$08
 byte_9B7C3:
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01,$C3	; DATA
-		.BYTE	$D2	; CMDD2
-		.BYTE	$97	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21,$C5,$21,$71,$C1,$71,$C1 ; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$7F	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$D3	; CMDD3
-		.BYTE	$7F	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B7C3
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$03
+		CMDD3
+		DATA	$01,$C3
+		CMDD2
+		DATA	$97
+		CMDD3
+		DATA	$21,$C5,$21,$71,$C1,$71,$C1
+		DO_LOOP
+		LOOP_START	$02
+		CMDD3
+		DATA	$7F
+		CMDE8
+		CMDD3
+		DATA	$7F
+		DO_LOOP
+		AJMP	byte_9B7C3
+		DATA	$C0
+		ASTOP
 _apu_mus19_D:
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$02	; CMDE9
+		CMDE0	$05
+		CMDE9	$02
 byte_9B7E4:
-		.BYTE	$03,$23,$03,$21,$03,$01,$23,$23,$23	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B7E4
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		DATA	$03,$23,$03,$21,$03,$01,$23,$23,$23
+		AJMP	byte_9B7E4
+		DATA	$C0
+		ASTOP
 _apu_mus1A:
-		.BYTE	$0F	; DATA
+		.BYTE	$0F
 		.WORD	_apu_mus1A_A
 		.WORD	_apu_mus1A_B
 		.WORD	_apu_mus1A_C
 		.WORD	_apu_mus1A_D
 _apu_mus1A_A:
-		.BYTE	$E2,$01	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$07	; CMDE0
-		.BYTE	$E9,$03	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$01
+		CMDE1	$03
+		CMDE0	$07
+		CMDE9	$03
+		CMDD9	$F4
 byte_9B805:
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B88E
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B899
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B88E
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51,$91	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$21,$40,$21,$02,$21 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B88E
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B899
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B88E
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51,$91	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$21,$41,$50,$72,$40,$C0 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B8A3
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71,$51,$41,$50,$71,$92,$C1 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B8A3
-		.BYTE	$F0,$05	; LOOP_START
-		.BYTE	$70,$C0	; DATA
-		.BYTE	$DA,$01	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$DA,$FB	; CMDDA
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$72,$C0,$41,$50,$70,$C1,$40,$C0,$01 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$C0,$90,$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C0,$50,$40,$50,$01,$50,$40,$50,$03,$23,$41,$00 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$76,$71,$91	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$51,$20	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$96,$91,$B1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$21	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$0B	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$E0,$01	; CMDE0
-		.BYTE	$00	; DATA
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$00,$20,$40,$50,$70,$90,$B0 ; DATA
-		.BYTE	$D6	; CMDD6
-		.BYTE	$01	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$E0,$07	; CMDE0
-		.BYTE	$03	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$01,$00,$03,$C0 ; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$03
+		AJSR	byte_9B88E
+		AJSR	byte_9B899
+		AJSR	byte_9B88E
+		CMDD4
+		DATA	$51,$91
+		CMDD5
+		DATA	$01,$21,$40,$21,$02,$21
+		AJSR	byte_9B88E
+		AJSR	byte_9B899
+		AJSR	byte_9B88E
+		CMDD4
+		DATA	$51,$91
+		CMDD5
+		DATA	$01,$21,$41,$50,$72,$40,$C0
+		AJSR	byte_9B8A3
+		DATA	$C1
+		CMDD4
+		DATA	$71,$51,$41,$50,$71,$92,$C1
+		AJSR	byte_9B8A3
+		LOOP_START	$05
+		DATA	$70,$C0
+		CMDDA	$01
+		DO_LOOP
+		CMDDA	$FB
+		DATA	$C1
+		CMDD5
+		DATA	$72,$C0,$41,$50,$70,$C1,$40,$C0,$01
+		CMDD4
+		DATA	$70,$C0,$90,$C0
+		CMDD5
+		DATA	$00,$C0,$50,$40,$50,$01,$50,$40,$50,$03,$23,$41,$00
+		CMDD4
+		DATA	$76,$71,$91
+		CMDD5
+		DATA	$01,$51,$20
+		CMDD4
+		DATA	$96,$91,$B1
+		CMDD5
+		DATA	$21
+		DO_LOOP
+		DATA	$0B
+		CMDE8
+		CMDE0	$01
+		DATA	$00
+		CMDE0	$03
+		DATA	$00,$20,$40,$50,$70,$90,$B0
+		CMDD6
+		DATA	$01
+		CMDE8
+		CMDE0	$07
+		DATA	$03
+		CMDD5
+		DATA	$00,$01,$00,$03,$C0
+		ASTOP
 byte_9B88E:
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70,$C0,$50,$41,$72,$51,$41,$71 ;	DATA
-		.BYTE	$F3	; RET
+		DATA	$C1
+		CMDD4
+		DATA	$70,$C0,$50,$41,$72,$51,$41,$71
+		ARET
 byte_9B899:
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51,$91	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$21,$42,$20,$C3 ; DATA
-		.BYTE	$F3	; RET
+		CMDD4
+		DATA	$51,$91
+		CMDD5
+		DATA	$01,$21,$42,$20,$C3
+		ARET
 byte_9B8A3:
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$50,$C0,$40,$50,$C0,$02 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91,$51,$91	; DATA
-		.BYTE	$F3	; RET
+		DATA	$C1
+		CMDD5
+		DATA	$50,$C0,$40,$50,$C0,$02
+		CMDD4
+		DATA	$91,$51,$91
+		ARET
 _apu_mus1A_B:
-		.BYTE	$E2,$01	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$07	; CMDE0
-		.BYTE	$E9,$0A	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$E0,$02	; CMDE0
-		.BYTE	$C4	; DATA
-		.BYTE	$E0,$07	; CMDE0
-		.BYTE	$F8	; JMP
-		.WORD	byte_9B805
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$01
+		CMDE1	$03
+		CMDE0	$07
+		CMDE9	$0A
+		CMDD9	$F4
+		CMDE0	$02
+		DATA	$C4
+		CMDE0	$07
+		AJMP	byte_9B805
+		DATA	$C0
+		ASTOP
 _apu_mus1A_C:
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$07	; CMDE0
-		.BYTE	$E9,$02	; CMDE9
-		.BYTE	$F0,$03	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B945
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B94D
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B945
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71,$70,$90,$B0	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B945
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B94D
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B945
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71,$90,$B1	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B95F
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$70,$C3,$73,$51,$50,$50,$C1 ;	DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B95F
-		.BYTE	$F0,$05	; LOOP_START
-		.BYTE	$70,$C0	; DATA
-		.BYTE	$DA,$01	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$DA,$FB	; CMDDA
-		.BYTE	$C1,$72,$C0	; DATA
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A0,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$90,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$80,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B969
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B969
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B945
-		.BYTE	$D4	; CMDD4
-		.BYTE	$03	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$01,$00,$03,$C0 ; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$03
+		CMDE1	$03
+		CMDE0	$07
+		CMDE9	$02
+		LOOP_START	$03
+		AJSR	byte_9B945
+		AJSR	byte_9B94D
+		AJSR	byte_9B945
+		CMDD3
+		DATA	$51
+		CMDD4
+		DATA	$51
+		CMDD3
+		DATA	$51
+		CMDD4
+		DATA	$51
+		CMDD3
+		DATA	$71
+		CMDD4
+		DATA	$70
+		CMDD3
+		DATA	$71,$70,$90,$B0
+		AJSR	byte_9B945
+		AJSR	byte_9B94D
+		AJSR	byte_9B945
+		CMDD3
+		DATA	$51
+		CMDD4
+		DATA	$51
+		CMDD3
+		DATA	$51
+		CMDD4
+		DATA	$51
+		CMDD3
+		DATA	$71
+		CMDD4
+		DATA	$70
+		CMDD3
+		DATA	$71,$90,$B1
+		AJSR	byte_9B95F
+		CMDD3
+		DATA	$70,$70,$C3,$73,$51,$50,$50,$C1
+		AJSR	byte_9B95F
+		LOOP_START	$05
+		DATA	$70,$C0
+		CMDDA	$01
+		DO_LOOP
+		CMDDA	$FB
+		DATA	$C1,$72,$C0
+		LOOP_START	$04
+		CMDD4
+		DATA	$00,$C0
+		DO_LOOP
+		LOOP_START	$04
+		CMDD3
+		DATA	$A0,$C0
+		DO_LOOP
+		LOOP_START	$04
+		DATA	$90,$C0
+		DO_LOOP
+		LOOP_START	$04
+		DATA	$80,$C0
+		DO_LOOP
+		AJSR	byte_9B969
+		AJSR	byte_9B969
+		DO_LOOP
+		AJSR	byte_9B945
+		CMDD4
+		DATA	$03
+		CMDD3
+		DATA	$00,$01,$00,$03,$C0
+		ASTOP
 byte_9B945:
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$04
+		CMDD3
+		DATA	$01
+		CMDD4
+		DATA	$01
+		DO_LOOP
+		ARET
 byte_9B94D:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71,$70,$50,$40	; DATA
-		.BYTE	$F3	; RET
+		CMDD3
+		DATA	$51
+		CMDD4
+		DATA	$51
+		CMDD3
+		DATA	$51
+		CMDD4
+		DATA	$51
+		CMDD3
+		DATA	$71
+		CMDD4
+		DATA	$70
+		CMDD3
+		DATA	$71,$70,$50,$40
+		ARET
 byte_9B95F:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A0,$A0,$C3,$A3,$91,$90,$90,$C1 ;	DATA
-		.BYTE	$F3	; RET
+		CMDD3
+		DATA	$A0,$A0,$C3,$A3,$91,$90,$90,$C1
+		ARET
 byte_9B969:
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$04
+		CMDD3
+		DATA	$71
+		CMDD4
+		DATA	$71
+		DO_LOOP
+		ARET
 _apu_mus1A_D:
-		.BYTE	$E0,$07	; CMDE0
-		.BYTE	$E9,$02	; CMDE9
-		.BYTE	$F0,$30	; LOOP_START
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B986
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9B986
-		.BYTE	$D2	; CMDD2
-		.BYTE	$03,$20,$21,$20,$27,$C0 ;	DATA
-		.BYTE	$FF	; STOP
+		CMDE0	$07
+		CMDE9	$02
+		LOOP_START	$30
+		AJSR	byte_9B986
+		DO_LOOP
+		AJSR	byte_9B986
+		CMDD2
+		DATA	$03,$20,$21,$20,$27,$C0
+		ASTOP
 byte_9B986:
-		.BYTE	$D2	; CMDD2
-		.BYTE	$03,$23,$03,$23	; DATA
-		.BYTE	$F3	; RET
+		CMDD2
+		DATA	$03,$23,$03,$23
+		ARET
 _apu_mus1B:
-		.BYTE	7
+		.BYTE	$07
 		.WORD	_apu_mus1B_A
 		.WORD	_apu_mus1B_B
 		.WORD	_apu_mus1B_C
 _apu_mus1B_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$D3	; CMDD3
-		.BYTE	$00,$20,$40,$50,$70,$90,$B0 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$20,$40,$50,$73,$C9,$00,$20,$40,$50,$70,$90,$B0 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$20,$40,$50,$70,$90,$B0,$B1 ;	DATA
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$D6	; CMDD6
-		.BYTE	$01,$C0,$01,$C1,$00 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$A1,$C0,$A1,$C1,$A0,$91,$C0,$91,$C1,$90,$81,$C0,$81,$C1,$80,$C2 ;	DATA
-		.BYTE	$73,$C0,$51,$C1,$42,$08
-		.BYTE	$D6	; CMDD6
-		.BYTE	$01,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$04
+		CMDE9	$00
+		CMDD9	$F4
+		CMDE0	$03
+		CMDD3
+		DATA	$00,$20,$40,$50,$70,$90,$B0
+		CMDD4
+		DATA	$00,$20,$40,$50,$73,$C9,$00,$20,$40,$50,$70,$90,$B0
+		CMDD5
+		DATA	$00,$20,$40,$50,$70,$90,$B0,$B1
+		CMDE0	$04
+		CMDD6
+		DATA	$01,$C0,$01,$C1,$00
+		CMDD5
+		DATA	$A1,$C0,$A1,$C1,$A0,$91,$C0,$91,$C1,$90,$81,$C0,$81,$C1,$80,$C2
+		DATA	$73,$C0,$51,$C1,$42,$08
+		CMDD6
+		DATA	$01,$C0
+		ASTOP
 _apu_mus1B_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$CA	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$90,$B0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$20,$40,$50,$70,$90,$B0 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$20,$40,$50,$73,$CB ;	DATA
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$71,$C0,$71,$C1,$70,$71,$C0,$71,$C1,$70,$51,$C0,$51,$C1,$50,$51 ;	DATA
-		.BYTE	$C0,$51,$C1,$50,$C2,$43,$C0,$21,$C1
-		.BYTE	$D4	; CMDD4
-		.BYTE	$72,$78	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$41,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$04
+		CMDE9	$00
+		CMDD9	$F4
+		CMDE0	$03
+		DATA	$CA
+		CMDD3
+		DATA	$70,$90,$B0
+		CMDD4
+		DATA	$00,$20,$40,$50,$70,$90,$B0
+		CMDD5
+		DATA	$00,$20,$40,$50,$73,$CB
+		CMDE0	$04
+		DATA	$71,$C0,$71,$C1,$70,$71,$C0,$71,$C1,$70,$51,$C0,$51,$C1,$50,$51
+		DATA	$C0,$51,$C1,$50,$C2,$43,$C0,$21,$C1
+		CMDD4
+		DATA	$72,$78
+		CMDD5
+		DATA	$41,$C0
+		ASTOP
 _apu_mus1B_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$D3	; CMDD3
-		.BYTE	$7F	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$78	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$7F	; DATA
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$01,$C1,$01,$C1,$41,$C1,$41,$C1,$51,$C1,$51,$C1,$61,$C1,$61,$C1 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$73,$C2	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$91,$C1,$B2	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$07,$C0,$01,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$04
+		CMDE9	$00
+		CMDE0	$03
+		CMDD3
+		DATA	$7F
+		CMDE8
+		DATA	$78
+		CMDE8
+		DATA	$7F
+		CMDE0	$04
+		DATA	$01,$C1,$01,$C1,$41,$C1,$41,$C1,$51,$C1,$51,$C1,$61,$C1,$61,$C1
+		CMDD4
+		DATA	$73,$C2
+		CMDD3
+		DATA	$70,$91,$C1,$B2
+		CMDD4
+		DATA	$07,$C0,$01,$C0
+		ASTOP
 _apu_mus1C:
-		.BYTE	$0F,$5C,$BA	; DATA
-		.BYTE	$DD,$BA	; CMDDD
-		.BYTE	$55,$BB,$B1,$BB	; DATA
+		.BYTE	$0F
+		.WORD	_apu_mus1C_A
+		.WORD	_apu_mus1C_B
+		.WORD	_apu_mus1C_C
+		.WORD	_apu_mus1C_D
 _apu_mus1C_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$02
+		CMDE0	$05
+		CMDE9	$00
+		CMDD9	$F4
 byte_9BA66:
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BAD2
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$31,$23,$03,$20,$C0 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$9F,$C1,$90,$C0,$91,$C1,$91,$C1,$A0,$C0 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BAD2
-		.BYTE	$C1,$31,$23,$03,$20,$C0,$51 ; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$5F,$C1,$50,$C0,$51,$C1,$51,$C1,$50,$C0,$51,$C1,$70,$C0,$52,$C0 ;	DATA
-		.BYTE	$50,$C0,$73,$50,$C0,$82,$C0,$82,$C0,$72,$C0,$52,$C0,$C1,$01,$21
+		AJSR	byte_9BAD2
+		DATA	$C1
+		CMDD5
+		DATA	$31,$23,$03,$20,$C0
+		CMDD4
+		DATA	$91
+		CMDE8
+		DATA	$9F,$C1,$90,$C0,$91,$C1,$91,$C1,$A0,$C0
+		CMDD5
+		DATA	$01
+		AJSR	byte_9BAD2
+		DATA	$C1,$31,$23,$03,$20,$C0,$51
+		CMDE8
+		DATA	$5F,$C1,$50,$C0,$51,$C1,$51,$C1,$50,$C0,$51,$C1,$70,$C0,$52,$C0
+		DATA	$50,$C0,$73,$50,$C0,$82,$C0,$82,$C0,$72,$C0,$52,$C0,$C1,$01,$21
 		.BYTE	$01,$21,$31,$21,$01,$41,$C1,$41,$27,$C1,$C1,$21,$51,$21,$51,$91
 		.BYTE	$C1,$71,$C1,$51,$C1,$71,$51,$C1,$41,$C1,$51,$C1,$51,$C3,$51,$C1
 		.BYTE	$51,$51,$CD
-		.BYTE	$F8	; JMP
-		.WORD	byte_9BA66
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJMP	byte_9BA66
+		DATA	$C0
+		ASTOP
 byte_9BAD2:
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$30,$C0,$23,$02,$C0,$20,$C0,$31 ;	DATA
-		.BYTE	$F3	; RET
+		DATA	$C1
+		CMDD5
+		DATA	$30,$C0,$23,$02,$C0,$20,$C0,$31
+		ARET
 _apu_mus1C_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$02	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$01	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$02
+		CMDE0	$05
+		CMDE9	$01
+		CMDD9	$F4
 byte_9BAE7:
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BB48
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A3,$93,$90,$C0,$51 ; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$5F,$C1,$50,$C0,$51,$C1,$51,$C1,$70,$C0,$91 ; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BB48
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A3,$93,$A0,$C0	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$0F,$C1,$00,$C0,$01,$C1,$01,$C1,$00,$C0,$01,$C1,$20,$C0,$22,$C0 ;	DATA
-		.BYTE	$20,$C0,$23,$20,$C0
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$22,$C0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D4	; CMDD4
-		.BYTE	$9F	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$C1,$01,$07,$C1 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$7F,$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$C1,$01,$01,$C1,$01,$C1,$01,$C1,$01,$C3,$01,$C1,$01,$01,$CD ;	DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9BAE7
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_9BB48
+		DATA	$C1
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$A3,$93,$90,$C0,$51
+		CMDE8
+		DATA	$5F,$C1,$50,$C0,$51,$C1,$51,$C1,$70,$C0,$91
+		AJSR	byte_9BB48
+		DATA	$C1
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$A3,$93,$A0,$C0
+		CMDD5
+		DATA	$01
+		CMDE8
+		DATA	$0F,$C1,$00,$C0,$01,$C1,$01,$C1,$00,$C0,$01,$C1,$20,$C0,$22,$C0
+		DATA	$20,$C0,$23,$20,$C0
+		LOOP_START	$04
+		DATA	$22,$C0
+		DO_LOOP
+		CMDD4
+		DATA	$9F
+		CMDD5
+		DATA	$01,$C1,$01,$07,$C1
+		CMDD4
+		DATA	$7F,$C1
+		CMDD5
+		DATA	$01,$C1,$01,$01,$C1,$01,$C1,$01,$C1,$01,$C3,$01,$C1,$01,$01,$CD
+		AJMP	byte_9BAE7
+		DATA	$C0
+		ASTOP
 byte_9BB48:
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C0	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A3,$92,$C0,$A0,$C0 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$F3	; RET
+		DATA	$C1
+		CMDD5
+		DATA	$00,$C0
+		CMDD4
+		DATA	$A3,$92,$C0,$A0,$C0
+		CMDD5
+		DATA	$01
+		ARET
 _apu_mus1C_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$05
+		CMDE9	$00
 byte_9BB5D:
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$21	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$31	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$31	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$41	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$DA,$F4	; CMDDA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BBA9
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$B1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$91	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$21	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$21	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BBA9
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$DA,$0C	; CMDDA
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51,$C7	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$21,$41	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9BB5D
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$08
+		CMDD3
+		DATA	$51
+		CMDD4
+		DATA	$51
+		CMDD3
+		DATA	$21
+		CMDD4
+		DATA	$21
+		CMDD3
+		DATA	$31
+		CMDD4
+		DATA	$31
+		CMDD3
+		DATA	$41
+		CMDD4
+		DATA	$41
+		DO_LOOP
+		CMDDA	$F4
+		AJSR	byte_9BBA9
+		LOOP_START	$04
+		CMDD3
+		DATA	$B1
+		CMDD4
+		DATA	$B1
+		DO_LOOP
+		LOOP_START	$04
+		CMDD3
+		DATA	$91
+		CMDD4
+		DATA	$91
+		DO_LOOP
+		LOOP_START	$04
+		CMDD4
+		DATA	$21
+		CMDD5
+		DATA	$21
+		DO_LOOP
+		AJSR	byte_9BBA9
+		LOOP_START	$04
+		CMDD4
+		DATA	$01
+		CMDD5
+		DATA	$01
+		DO_LOOP
+		CMDDA	$0C
+		LOOP_START	$04
+		CMDD3
+		DATA	$51
+		CMDD4
+		DATA	$51
+		DO_LOOP
+		CMDD3
+		DATA	$51,$C7
+		CMDD4
+		DATA	$01,$21,$41
+		AJMP	byte_9BB5D
+		DATA	$C0
+		ASTOP
 byte_9BBA9:
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F3	; RET
+		LOOP_START	$04
+		CMDD3
+		DATA	$A1
+		CMDD4
+		DATA	$A1
+		DO_LOOP
+		ARET
 _apu_mus1C_D:
-		.BYTE	$E0,$05	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE0	$05
+		CMDE9	$00
 byte_9BBB5:
-		.BYTE	$03,$23	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9BBB5
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		DATA	$03,$23
+		AJMP	byte_9BBB5
+		DATA	$C0
+		ASTOP
 _apu_mus1D:
 		.BYTE	7
 		.WORD	_apu_mus1D_A
 		.WORD	_apu_mus1D_B
 		.WORD	_apu_mus1D_C
 _apu_mus1D_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$00
+		CMDD9	$F4
 byte_9BBCD:
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00	; DATA
-		.BYTE	$D6	; CMDD6
-		.BYTE	$00	; DATA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$DA,$08	; CMDDA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$41,$C0,$41,$C0,$41,$51,$C0 ; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$08
+		CMDD5
+		DATA	$00
+		CMDD6
+		DATA	$00
+		CMDDA	$FF
+		DO_LOOP
+		CMDDA	$08
+		CMDD5
+		DATA	$41,$C0,$41,$C0,$41,$51,$C0
+		ASTOP
 _apu_mus1D_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$08	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C0	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9BBCD
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$08
+		CMDD9	$F4
+		DATA	$C0
+		AJMP	byte_9BBCD
+		DATA	$C0
+		ASTOP
 _apu_mus1D_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$06	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D4	; CMDD4
-		.BYTE	$F0,$09	; LOOP_START
-		.BYTE	$01	; DATA
-		.BYTE	$DA,$FF	; CMDDA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$DA,$09	; CMDDA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$C0,$41,$C0,$41,$50,$C0 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$50	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$06
+		CMDE9	$00
+		CMDD4
+		LOOP_START	$09
+		DATA	$01
+		CMDDA	$FF
+		DO_LOOP
+		CMDDA	$09
+		CMDD3
+		DATA	$C0,$41,$C0,$41,$50,$C0
+		CMDD4
+		DATA	$50
+		CMDD3
+		DATA	$51,$C0
+		ASTOP
 _apu_mus1E:
-		.BYTE	$0F,$18,$BC,$58,$BC,$68,$BC	; DATA
-		.BYTE	$D1	; CMDD1
-		.BYTE	$BC	; DATA
+		BYTE	$0F
+		.WORD	_apu_mus1E_A
+		.WORD	_apu_mus1E_B
+		.WORD	_apu_mus1E_C
+		.WORD	_apu_mus1E_D
 _apu_mus1E_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$04
+		CMDE9	$00
+		CMDD9	$F4
 byte_9BC22:
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D4	; CMDD4
-		.BYTE	$91,$80,$70,$60,$C0,$51,$C1,$21,$C1,$21,$51,$21,$71,$21,$91,$81 ;	DATA
-		.BYTE	$71,$51
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$04	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$21,$10,$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0,$C0,$A1,$C1,$71,$C1,$71,$A1,$71 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$21,$11,$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A1	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F8	; JMP
-		.WORD	byte_9BC22
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$04
+		CMDD4
+		DATA	$91,$80,$70,$60,$C0,$51,$C1,$21,$C1,$21,$51,$21,$71,$21,$91,$81
+		DATA	$71,$51
+		DO_LOOP
+		LOOP_START	$04
+		CMDD5
+		DATA	$21,$10,$00
+		CMDD4
+		DATA	$B0,$C0,$A1,$C1,$71,$C1,$71,$A1,$71
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$71
+		CMDD5
+		DATA	$21,$11,$01
+		CMDD4
+		DATA	$A1
+		DO_LOOP
+		AJMP	byte_9BC22
+		DATA	$C0
+		ASTOP
 _apu_mus1E_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$08	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9BC22
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$04
+		CMDE9	$08
+		CMDD9	$F4
+		DATA	$C1
+		AJMP	byte_9BC22
+		DATA	$C0
+		ASTOP
 _apu_mus1E_C:
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE2	$03
+		CMDE1	$03
+		CMDE0	$04
+		CMDE9	$00
 byte_9BC70:
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21,$21,$51,$71,$21,$21,$51,$71,$21,$21,$71,$91,$51,$71,$51,$71 ;	DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$21,$21,$51,$71,$21,$21,$51,$71,$21,$21 ;	DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$21	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71,$91	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F0,$02	; LOOP_START
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71,$71,$A1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71,$71,$A1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71,$71	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01,$21	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71,$71,$A1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71,$71,$A1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$71,$71	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51,$71,$01,$21,$01,$21 ;	DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$F8	; JMP
-		.WORD	byte_9BC70
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		LOOP_START	$02
+		CMDD3
+		DATA	$21,$21,$51,$71,$21,$21,$51,$71,$21,$21,$71,$91,$51,$71,$51,$71
+		CMDD3
+		DATA	$21,$21,$51,$71,$21,$21,$51,$71,$21,$21
+		CMDD4
+		DATA	$01,$21
+		CMDD3
+		DATA	$A1
+		CMDD4
+		DATA	$01
+		CMDD3
+		DATA	$71,$91
+		DO_LOOP
+		LOOP_START	$02
+		CMDD3
+		DATA	$71,$71,$A1
+		CMDD4
+		DATA	$01
+		CMDD3
+		DATA	$71,$71,$A1
+		CMDD4
+		DATA	$01
+		CMDD3
+		DATA	$71,$71
+		CMDD4
+		DATA	$01,$21
+		CMDD3
+		DATA	$A1
+		CMDD4
+		DATA	$01
+		CMDD3
+		DATA	$A1
+		CMDD4
+		DATA	$01
+		CMDD3
+		DATA	$71,$71,$A1
+		CMDD4
+		DATA	$01
+		CMDD3
+		DATA	$71,$71,$A1
+		CMDD4
+		DATA	$01
+		CMDD3
+		DATA	$71,$71
+		CMDD4
+		DATA	$51,$71,$01,$21,$01,$21
+		DO_LOOP
+		AJMP	byte_9BC70
+		DATA	$C0
+		ASTOP
 _apu_mus1E_D:
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE0	$04
+		CMDE9	$00
 byte_9BCD5:
-		.BYTE	$03,$23,$03,$23,$03,$21,$23,$23,$21	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9BCD5
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		DATA	$03,$23,$03,$23,$03,$21,$23,$23,$21
+		AJMP	byte_9BCD5
+		DATA	$C0
+		ASTOP
 _apu_mus1F:
 		.BYTE	$0F
 		.WORD	_apu_mus1F_A
@@ -8596,142 +8234,116 @@ _apu_mus1F:
 		.WORD	_apu_mus1F_C
 		.WORD	_apu_mus1F_D
 _apu_mus1F_A:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$02	; CMDE9
-		.BYTE	$D9,$EA	; CMDD9
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$04
+		CMDE9	$02
+		CMDD9	$EA
 byte_9BCF6:
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BD35
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BD46
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BD35
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BD46
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BD55
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51,$81,$51,$A1,$B1,$A1,$81 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$57	; DATA
-		.BYTE	$E8	; CMDE8
-		.BYTE	$50,$30,$10,$00	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A0,$80,$60,$50	; DATA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BD55
-		.BYTE	$C1,$51,$81,$51,$A1,$B1,$A1,$81,$A1,$81,$51 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$A1,$81	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$31,$51	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9BCF6
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_9BD35
+		AJSR	byte_9BD46
+		AJSR	byte_9BD35
+		AJSR	byte_9BD46
+		AJSR	byte_9BD55
+		DATA	$C1
+		CMDD4
+		DATA	$51,$81,$51,$A1,$B1,$A1,$81
+		CMDD5
+		DATA	$57
+		CMDE8
+		DATA	$50,$30,$10,$00
+		CMDD4
+		DATA	$A0,$80,$60,$50
+		AJSR	byte_9BD55
+		DATA	$C1,$51,$81,$51,$A1,$B1,$A1,$81,$A1,$81,$51
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$A1,$81
+		CMDD5
+		DATA	$31,$51
+		AJMP	byte_9BCF6
+		DATA	$C0
+		ASTOP
 byte_9BD35:
-		.BYTE	$C3	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$C1,$00,$C0,$01,$C1,$01,$C1,$01,$C1,$01,$33,$21,$01 ;	DATA
-		.BYTE	$F3	; RET
+		DATA	$C3
+		CMDD5
+		DATA	$01,$C1,$00,$C0,$01,$C1,$01,$C1,$01,$C1,$01,$33,$21,$01
+		ARET
 byte_9BD46:
-		.BYTE	$C1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$00,$C0,$01,$C1,$00,$C0,$01,$C1,$01,$55,$35,$23 ;	DATA
-		.BYTE	$F3	; RET
+		DATA	$C1
+		CMDD5
+		DATA	$00,$C0,$01,$C1,$00,$C0,$01,$C1,$01,$55,$35,$23
+		ARET
 byte_9BD55:
-		.BYTE	$C1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$51,$81,$51,$81,$A1,$C1,$A1,$C1,$B5,$A1,$C1,$81,$C1 ; DATA
-		.BYTE	$F3	; RET
+		DATA	$C1
+		CMDD4
+		DATA	$51,$81,$51,$81,$A1,$C1,$A1,$C1,$B5,$A1,$C1,$81,$C1
+		ARET
 _apu_mus1F_B:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$09	; CMDE9
-		.BYTE	$D9,$EA	; CMDD9
-		.BYTE	$C1	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9BCF6
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$04
+		CMDE9	$09
+		CMDD9	$EA
+		DATA	$C1
+		AJMP	byte_9BCF6
+		DATA	$C0
+		ASTOP
 _apu_mus1F_C:
-		.BYTE	$E2,$03	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$02	; CMDD9
+		CMDE2	$03
+		CMDE1	$03
+		CMDE0	$04
+		CMDE9	$00
+		CMDD9	$02
 byte_9BD7F:
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDB8
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDB8
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDB8
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDB8
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDB8
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDB8
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDB8
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDB8
-		.BYTE	$DA,$F4	; CMDDA
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDC4
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDC4
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDC4
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDC4
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDC4
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDC4
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDC4
-		.BYTE	$F2	; JSR
-		.WORD	byte_9BDC4
-		.BYTE	$DA,$0C	; CMDDA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9BD7F
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		AJSR	byte_9BDB8
+		AJSR	byte_9BDB8
+		AJSR	byte_9BDB8
+		AJSR	byte_9BDB8
+		AJSR	byte_9BDB8
+		AJSR	byte_9BDB8
+		AJSR	byte_9BDB8
+		AJSR	byte_9BDB8
+		CMDDA	$F4
+		AJSR	byte_9BDC4
+		AJSR	byte_9BDC4
+		AJSR	byte_9BDC4
+		AJSR	byte_9BDC4
+		AJSR	byte_9BDC4
+		AJSR	byte_9BDC4
+		AJSR	byte_9BDC4
+		AJSR	byte_9BDC4
+		CMDDA	$0C
+		AJMP	byte_9BD7F
+		DATA	$C0
+		ASTOP
 byte_9BDB8:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$51,$51,$81,$51,$B1 ; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$01	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A1,$81	; DATA
-		.BYTE	$F3	; RET
+		CMDD3
+		DATA	$51,$51,$81,$51,$B1
+		CMDD4
+		DATA	$01
+		CMDD3
+		DATA	$A1,$81
+		ARET
 byte_9BDC4:
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A1,$A1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$11	; DATA
-		.BYTE	$D3	; CMDD3
-		.BYTE	$A1	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41,$51,$31,$11	; DATA
-		.BYTE	$F3	; RET
+		CMDD3
+		DATA	$A1,$A1
+		CMDD4
+		DATA	$11
+		CMDD3
+		DATA	$A1
+		CMDD4
+		DATA	$41,$51,$31,$11
+		ARET
 _apu_mus1F_D:
-		.BYTE	$E0,$04	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
+		CMDE0	$04
+		CMDE9	$00
 byte_9BDD5:
-		.BYTE	$03,$23	; DATA
-		.BYTE	$F8	; JMP
-		.WORD	byte_9BDD5
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		DATA	$03,$23
+		AJMP	byte_9BDD5
+		DATA	$C0
+		ASTOP
 _apu_mus20:
 		.BYTE	$0F
 		.WORD	_apu_mus20_A
@@ -8739,55 +8351,55 @@ _apu_mus20:
 		.WORD	_apu_mus20_C
 		.WORD	_apu_mus20_D
 _apu_mus20_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C3	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$41	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71,$51,$C1,$41,$91,$C1,$91,$C1,$B0,$C0,$B2,$C0 ;	DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$25,$01,$C3	; DATA
-		.BYTE	$D6	; CMDD6
-		.BYTE	$23,$01,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$03
+		CMDE9	$00
+		CMDD9	$F4
+		DATA	$C3
+		CMDD4
+		DATA	$41
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$B1
+		CMDD5
+		DATA	$01
+		CMDD4
+		DATA	$71,$51,$C1,$41,$91,$C1,$91,$C1,$B0,$C0,$B2,$C0
+		CMDD5
+		DATA	$25,$01,$C3
+		CMDD6
+		DATA	$23,$01,$C0
+		ASTOP
 _apu_mus20_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C3	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$00,$C0,$00,$C0,$00,$C0,$00,$C0,$01,$C1,$00,$C0,$01,$50,$C0,$50 ;	DATA
-		.BYTE	$C0,$50,$C0,$51,$70,$C0,$71,$C1,$74,$C0,$71,$C3
-		.BYTE	$D5	; CMDD5
-		.BYTE	$72,$C0,$71,$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$03
+		CMDE9	$00
+		CMDD9	$F4
+		DATA	$C3
+		CMDD4
+		DATA	$00,$C0,$00,$C0,$00,$C0,$00,$C0,$01,$C1,$00,$C0,$01,$50,$C0,$50
+		DATA	$C0,$50,$C0,$51,$70,$C0,$71,$C1,$74,$C0,$71,$C3
+		CMDD5
+		DATA	$72,$C0,$71,$C0
+		ASTOP
 _apu_mus20_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$50,$40,$20,$03,$C1,$01,$C3,$01,$C1,$51,$C1,$51,$C5,$77,$03 ;	DATA
-		.BYTE	$C1,$02,$C0,$01,$C0
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$03
+		CMDE9	$00
+		CMDD3
+		DATA	$70,$50,$40,$20,$03,$C1,$01,$C3,$01,$C1,$51,$C1,$51,$C5,$77,$03
+		DATA	$C1,$02,$C0,$01,$C0
+		ASTOP
 _apu_mus20_D:
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$C3,$03,$23,$01,$01,$21,$01,$23,$23,$01,$01,$21,$25,$25,$20,$20 ;	DATA
-		.BYTE	$20,$20,$23,$C0
-		.BYTE	$FF	; STOP
+		CMDE0	$03
+		CMDE9	$00
+		DATA	$C3,$03,$23,$01,$01,$21,$01,$23,$23,$01,$01,$21,$25,$25,$20,$20
+		DATA	$20,$20,$23,$C0
+		ASTOP
 _apu_mus21:
 		.BYTE	$0F
 		.WORD	_apu_mus21_A
@@ -8795,60 +8407,60 @@ _apu_mus21:
 		.WORD	_apu_mus21_C
 		.WORD	_apu_mus21_D
 _apu_mus21_A:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C3	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B1	; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$C1,$11,$C1,$21,$C1,$31,$C1,$41,$C1,$51 ; DATA
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$70	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$B0	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$03
+		CMDE9	$00
+		CMDD9	$F4
+		DATA	$C3
+		CMDD4
+		DATA	$B1
+		CMDD5
+		DATA	$01,$C1,$11,$C1,$21,$C1,$31,$C1,$41,$C1,$51
+		LOOP_START	$08
+		CMDD5
+		DATA	$70
+		CMDD4
+		DATA	$B0
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus21_B:
-		.BYTE	$E2,$00	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D9,$F4	; CMDD9
-		.BYTE	$C3	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$71,$81,$C1,$91,$C1,$A1,$C1,$B1,$C1 ; DATA
-		.BYTE	$D5	; CMDD5
-		.BYTE	$01,$C1,$11	; DATA
-		.BYTE	$F0,$08	; LOOP_START
-		.BYTE	$D5	; CMDD5
-		.BYTE	$20	; DATA
-		.BYTE	$D4	; CMDD4
-		.BYTE	$70	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE2	$00
+		CMDE1	$03
+		CMDE0	$03
+		CMDE9	$00
+		CMDD9	$F4
+		DATA	$C3
+		CMDD4
+		DATA	$71,$81,$C1,$91,$C1,$A1,$C1,$B1,$C1
+		CMDD5
+		DATA	$01,$C1,$11
+		LOOP_START	$08
+		CMDD5
+		DATA	$20
+		CMDD4
+		DATA	$70
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 _apu_mus21_C:
-		.BYTE	$E2,$04	; CMDE2
-		.BYTE	$E1,$03	; CMDE1
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$D3	; CMDD3
-		.BYTE	$70,$50,$40,$20,$01,$11,$C1,$21,$C1,$31,$C1,$41,$C1,$51,$C1,$61 ;	DATA
-		.BYTE	$7F,$C0
-		.BYTE	$FF	; STOP
+		CMDE2	$04
+		CMDE1	$03
+		CMDE0	$03
+		CMDE9	$00
+		CMDD3
+		DATA	$70,$50,$40,$20,$01,$11,$C1,$21,$C1,$31,$C1,$41,$C1,$51,$C1,$61
+		DATA	$7F,$C0
+		ASTOP
 _apu_mus21_D:
-		.BYTE	$E0,$03	; CMDE0
-		.BYTE	$E9,$00	; CMDE9
-		.BYTE	$C3,$21,$03,$03,$23,$03,$03,$21 ;	DATA
-		.BYTE	$F0,$10	; LOOP_START
-		.BYTE	$30	; DATA
-		.BYTE	$F1	; DO_LOOP
-		.BYTE	$C0	; DATA
-		.BYTE	$FF	; STOP
+		CMDE0	$03
+		CMDE9	$00
+		DATA	$C3,$21,$03,$03,$23,$03,$03,$21
+		LOOP_START	$10
+		DATA	$30
+		DO_LOOP
+		DATA	$C0
+		ASTOP
 
 		BANK_END 6,$C000

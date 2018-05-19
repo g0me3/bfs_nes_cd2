@@ -339,26 +339,26 @@ _apu_tmpF3:
 		.BYTE	0
 _apu_cur_pc:
 		.BYTE	0,0
-byte_F7:
+_apu_tmpF7:
 		.BYTE	0
 _apu_snd0_allow_flag:
 		.BYTE	0
 _apu_snd1_allow_flag:
 		.BYTE	0
-byte_FA:
+_apu_tmpFA:
 		.BYTE	0
-byte_FB:
+_apu_tmpFB:
 		.BYTE	0
 _apu_mus_allow_flag:
 		.BYTE	0
-byte_FD:
+_apu_tmpFD:
 		.BYTE	0
-_unref_8:
-		.BYTE	0,0
 
 		ECHO "-------------"
 		ECHO "zero ram free:",[$100-.]
 		ECHO "-------------"
+
+		ORG		$100
 
 byte_100:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -594,19 +594,17 @@ _apu_varsB:
 		.BYTE	0,0,0,0,0,0
 _apu_vars2:
 		.BYTE	0,0,0,0,0,0
-byte_7EA:
+_apu_ptr0:
+		.BYTE	0,0
+_apu_var10:
 		.BYTE	0
-byte_7EB:
+_apu_var11:
 		.BYTE	0
-byte_7EC:
+_apu_var12:
 		.BYTE	0
-byte_7ED:
+_apu_var13:
 		.BYTE	0
-byte_7EE:
-		.BYTE	0
-byte_7EF:
-		.BYTE	0
-byte_7F0:
+_apu_varsF:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 		.BYTE	0,0,0,0
 

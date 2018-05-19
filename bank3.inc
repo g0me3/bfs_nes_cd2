@@ -3,6 +3,8 @@
 
 		BANK_START $03
 
+		SECTION_START	06
+
 _tileset00:
 		.BYTE	$00,$94,$B6,$06,$08,$0C,$48,$4A,$4C,$4E,$6A,$6C,$6E,$3A,$3C,$3E
 		.BYTE	$40,$50,$66,$76,$7D,$77,$10,$A0,$00,$00,$8A,$8B,$7E,$00,$A1,$B3
@@ -486,6 +488,9 @@ _tileset05:
 		.BYTE	$12,$B0,$A3,$F2,$FF,$E8,$AA,$5C,$AA,$A8,$55,$55,$55,$95,$AA,$5A
 		.BYTE	$05,$FD,$40,$FD,$21,$00,$40,$00,$51,$44,$51,$54,$54,$15,$50,$14
 		.BYTE	$01,$14,$11,$50,$4E,$FE,$FF,$FF,$FF,$FA,$FF,$FF,$47,$0F,$3F,$04
+
+		SECTION_END		06, "TILESETS DATA"
+
 byte_51DC0:
 		.BYTE	$01,$4B,$28,$A0,$03,$49,$29,$82,$83,$84,$03,$49,$2A,$8A,$8B,$8C
 		.BYTE	$00
@@ -505,6 +510,9 @@ byte_51E1B:
 		.BYTE	$03,$64,$53,$45,$45,$45,$00,$03,$6C,$52,$2F,$00,$31,$03,$6C,$53
 		.BYTE	$30,$9E,$18,$00,$02,$75,$5A,$60,$00,$02,$75,$5B,$60,$9F,$02,$7A
 		.BYTE	$5C,$B7,$08,$00,$02,$6E,$4A,$55,$57,$02,$6E,$4B,$56,$9F,$00
+
+		SECTION_START	07
+
 _lvl0_layouts:
 		.BYTE	$00,$00,$00,$00,$00,$00,$01,$00
 		.BYTE	$00,$00,$00,$00,$02,$00,$03,$04
@@ -668,6 +676,8 @@ _lvl8_scrolls:
 		.BYTE	$00,$00,$00,$00,$80,$80,$00,$00
 		.BYTE	$80,$80,$80,$80,$10,$00,$00,$00
 
+		SECTION_END		07, "LAYOUTS AND SCROLLS TABLES"
+
 ; =============== S U B R O U T I N E =======================================
 _obj_scr_insert:
 		LDA		byte_97
@@ -809,6 +819,9 @@ _obj_lib:
 		.WORD	_obj_scr44
 		.WORD	_obj_scr45
 		.WORD	_obj_scr46
+
+		SECTION_START 08
+
 _room_objects00:
 		.BYTE	$18,$22,$27
 		.BYTE	$20,$2A,$25
@@ -2374,6 +2387,11 @@ _room_prize30:
 		.BYTE	$FF
 _room_prizes_dummy:
 		.BYTE	$FF
+
+		SECTION_END		08, "ROOM OBJECTS AND PRIZES LISTS"
+
+		SECTION_START	09
+
 _pal0:
 		.BYTE	$0F,$0F,$0F,$20,$0F,$0F,$0F,$20,$0F,$0F,$0F,$20,$0F,$0F,$0F,$20
 _pal1:
@@ -2536,6 +2554,8 @@ _room_spr_pal_lib:
 		.BYTE	$10,$0F,$37,$27,$0F,$00,$27
 		.BYTE	$10,$0F,$20,$21,$0F,$20,$29
 		.BYTE	$10,$0F,$07,$0F,$0F,$0F,$0F
+
+		SECTION_END		09, "PALETTES"
 
 ; =============== S U B R O U T I N E =======================================
 _pal_anim_handlers:
@@ -2840,6 +2860,9 @@ loc_536AC:
 		CPX		#$10
 		BCC		loc_5369F
 		RTS
+
+		SECTION_START	0A
+
 _rle_tlm_title:
 		.BYTE	$F0,$6F,$6E,$6F,$6E,$6F,$6E,$6F,$6E,$6F,$6E,$6F,$6E,$6F,$05,$06
 		.BYTE	$6E,$6F,$6E,$6F,$6E,$6F,$6E,$6F,$6E,$6F,$6E,$6F,$6E,$6F,$6E,$6F
@@ -3063,5 +3086,7 @@ _tlm_res_frame_attr_clear:
 		.BYTE	0
 _rect222:
 		.BYTE	$83,$84,$00
+
+		SECTION_END		0A, "MISC TILEMAPS AND RECTS"
 
 		BANK_END 3,$C000

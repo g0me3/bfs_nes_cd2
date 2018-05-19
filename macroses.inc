@@ -306,7 +306,7 @@ _PAD_LEFT	EQU	$40
 _PAD_RIGHT	EQU	$80
 _PAD_ANY	EQU	$FF
 
-	MAC	TEST_PADS
+	MAC	PADS_TEST
 	.BYTE	$11
 	.BYTE	{1},{2}
 	.WORD	{3}
@@ -331,7 +331,7 @@ _PAD_ANY	EQU	$FF
 	ENDM
 
 ; {1} chr bank idx, {2} value
-	MAC	CHR_BANK
+	MAC	CHR_SELECT
 	.BYTE	$14
 	.BYTE	{1},{2}
 	ENDM
@@ -422,59 +422,59 @@ _PAD_ANY	EQU	$FF
 	ENDM
 
 ; xpos is always 16-bit for clipping
-	MAC	OBJ_SET_X_POS
+	MAC	OBJ_X_POS_SET
 	.BYTE	$25
 	.BYTE	{1},{2}
 	ENDM
 
 ; same for Y
-	MAC	OBJ_SET_Y_POS
+	MAC	OBJ_Y_POS_SET
 	.BYTE	$26
 	.BYTE	{1},{2}
 	ENDM
 
 ; add value to object's X position
-	MAC	OBJ_MOVE_X_POS
+	MAC	OBJ_X_POS_MOVE
 	.BYTE	$27
 	.BYTE	{1}
 	ENDM
 
 ; same for Y
-	MAC	OBJ_MOVE_Y_POS
+	MAC	OBJ_Y_POS_MOVE
 	.BYTE	$28
 	.BYTE	{0}
 	ENDM
 
 ; set constant movement delta for X
-	MAC	OBJ_SET_X_DELTA
+	MAC	OBJ_X_DELTA_SET
 	.BYTE	$29
 	.BYTE	{0}
 	ENDM
 
 ; same for Y
-	MAC	OBJ_SET_Y_DELTA
+	MAC	OBJ_Y_DELTA_SET
 	.BYTE	$2A
 	.BYTE	{0}
 	ENDM
 
 ; does some kind of acceleration, low nibble of delta
 ; added to x position with carry
-	MAC	OBJ_INC_X_DELTA
+	MAC	OBJ_X_DELTA_INC
 	.BYTE	$2B
 	ENDM
 
 ; same for Y
-	MAC	OBJ_INC_Y_DELTA
+	MAC	OBJ_Y_DELTA_INC
 	.BYTE	$2C
 	ENDM
 
 ; same but with decrease
-	MAC	OBJ_DEX_X_DELTA
+	MAC	OBJ_X_DELTA_DEC
 	.BYTE	$2D
 	ENDM
 
 ; same for Y
-	MAC	OBJ_DEC_Y_DELTA
+	MAC	OBJ_Y_DELTA_DEC
 	.BYTE	$2E
 	ENDM
 
@@ -497,7 +497,7 @@ _PAD_ANY	EQU	$FF
 	ENDM
 
 ; set object dimensions for collision tests
-	MAC	OBJ_SET_SIZE
+	MAC	OBJ_SIZE_SET
 	.BYTE	$32
 	.BYTE	{1},{2}
 	ENDM
@@ -510,13 +510,13 @@ _PAD_ANY	EQU	$FF
 	ENDM
 
 ; define object's hitpoints
-	MAC	OBJ_SET_HP
+	MAC	OBJ_HP_SET
 	.BYTE	$34
 	.BYTE	{1}
 	ENDM
 
 ; set the vert/hor flips for object instantly
-	MAC	OBJ_SET_FLIP
+	MAC	OBJ_FLIP_SET
 	.BYTE	$35
 	.BYTE	{1}
 	ENDM
@@ -528,7 +528,7 @@ _PAD_ANY	EQU	$FF
 ;	ENDM
 
 ; they used MOV operands here for some reasons...
-	MAC	MAIN_SUB_IDX_SET
+	MAC	MAIN_SUB_SET
 	.BYTE	$37
 	.BYTE	{1}
 	ENDM
@@ -552,19 +552,19 @@ _PAD_ANY	EQU	$FF
 	ENDM
 
 ; yes, it is, parameter is an offset to menu data (options position and number)
-	MAC	DRAW_MENU_CURSOR
+	MAC	MENU_CURSOR_DRAW
 	.BYTE	$3B
 	.WORD	{1}
 	ENDM
 
 ; never used, all menus are vertically oriented
-	MAC	HOR_MENU_INPUT
+	MAC	MENU_HOR_INPUT
 	.BYTE	$3C
 	.BYTE	{1},{2}
 	ENDM
 
 ; same for vert menu, parameters are number of items in menu and default one
-	MAC	VERT_MENU_INPUT
+	MAC	MENU_VERT_INPUT
 	.BYTE	$3D
 	.BYTE	{1},{2}
 	ENDM

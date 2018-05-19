@@ -171,7 +171,7 @@ _stage4_frames_cnt:
 		.BYTE	0
 _rand_seed:
 		.BYTE	0
-_bonus_room_prizes_order_list:
+_box_bonus_prizes_order_list:
 		.BYTE	0,0,0,0
 byte_70:
 		.BYTE	0
@@ -471,7 +471,9 @@ _scr_vars20:
 _scr_vars21:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 byte_410:
-		.BYTE	0,0,0,0,0,0
+		.BYTE	0,0
+_unused_344:
+		.BYTE	0,0,0,0
 _dict80_ptr:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 _dict81_ptr:

@@ -843,433 +843,446 @@ loc_52300:
 		LDY		#$06
 loc_52360:
 		JMP		_scr_load
+
+		MAC	OBJ_IDX
+{1}_idx	SET	[[.-_obj_lib]>>1]
+		.WORD	{1}
+		ENDM
+
 _obj_lib:
-		.WORD	_obj_scr00
-		.WORD	_obj_scr01_bonus_room
-		.WORD	_obj_scr02
-		.WORD	_obj_scr03
-		.WORD	_obj_scr04
-		.WORD	_obj_scr05
-		.WORD	_obj_scr06
-		.WORD	_obj_scr07
-		.WORD	_obj_scr08
-		.WORD	_obj_scr09
-		.WORD	_obj_scr0A
-		.WORD	_obj_scr0B
-		.WORD	_obj_scr0C
-		.WORD	_obj_scr0D
-		.WORD	_obj_scr0E
-		.WORD	_obj_scr0F
-		.WORD	_obj_scr10
-		.WORD	_obj_scr11
-		.WORD	_obj_scr12
-		.WORD	_obj_scr13
-		.WORD	_obj_scr14
-		.WORD	_obj_scr15
-		.WORD	_obj_scr16
-		.WORD	_obj_scr17
-		.WORD	_obj_scr18
-		.WORD	0
-		.WORD	0
-		.WORD	_obj_scr1B
-		.WORD	_obj_scr1D
-		.WORD	_obj_scr1D
-		.WORD	_obj_scr1E
-		.WORD	_obj_scr1F
-		.WORD	_obj_scr20
-		.WORD	_obj_scr21
-		.WORD	_obj_scr22
-		.WORD	_obj_scr22
-		.WORD	_obj_scr24
-		.WORD	_obj_scr25
-		.WORD	_obj_scr26
-		.WORD	_obj_scr27
-		.WORD	_obj_scr28
-		.WORD	_obj_scr29
-		.WORD	_obj_scr2A
-		.WORD	_obj_scr2B
-		.WORD	_obj_scr2C
-		.WORD	_obj_scr2D
-		.WORD	_obj_scr2E
-		.WORD	_obj_scr2F
-		.WORD	_obj_scr30
-		.WORD	_obj_scr31
-		.WORD	_obj_scr32
-		.WORD	_obj_scr33
-		.WORD	_obj_scr34
-		.WORD	_obj_scr35
-		.WORD	_obj_scr36
-		.WORD	_obj_scr37
-		.WORD	_obj_scr38
-		.WORD	_obj_scr39
-		.WORD	_obj_scr3A
-		.WORD	_obj_scr3B
-		.WORD	_obj_scr3C
-		.WORD	_obj_scr3D
-		.WORD	_obj_scr3E
-		.WORD	_obj_scr3F
-		.WORD	_obj_scr40
-		.WORD	_obj_scr41
-		.WORD	_obj_scr42
-		.WORD	_obj_scr43
-		.WORD	_obj_scr44
-		.WORD	_obj_scr45
-		.WORD	_obj_scr46
+		OBJ_IDX	_obj_scr00_lives_bonus			; end of level bonus room
+		OBJ_IDX	_obj_scr01_box_bonus			; box shuffle bonus room
+		OBJ_IDX	_obj_scr02
+		OBJ_IDX	_obj_scr03_basket_bonus
+		OBJ_IDX	_obj_scr04_cave_pendulum
+		OBJ_IDX	_obj_scr05_door_knob
+		OBJ_IDX	_obj_scr06_light_toggle
+		OBJ_IDX	_obj_scr07_concrete_brick
+		OBJ_IDX	_obj_scr08_cdv_bottle_cork
+		OBJ_IDX	_obj_scr09_sink_valve
+		OBJ_IDX	_obj_scr0A_lvl1_bonus_button
+		OBJ_IDX	_obj_scr0B_basket_bonus_entry
+		OBJ_IDX	_obj_scr0C_lvl3_bonus_button
+		OBJ_IDX	_obj_scr0D_big_fan
+		OBJ_IDX	_obj_scr0E
+		OBJ_IDX	_obj_scr0F_clock_trolleyA
+		OBJ_IDX	_obj_scr10_clock_trolleyB
+		OBJ_IDX	_obj_scr11_clock_trolleyC
+		OBJ_IDX	_obj_scr12_cave_trolley
+		OBJ_IDX	_obj_scr13_cave_rock
+		OBJ_IDX	_obj_scr14_press_hammer
+		OBJ_IDX	_obj_scr15_floor_doors
+		OBJ_IDX	_obj_scr16_floor_switch
+		OBJ_IDX	_obj_scr17_ceiling_magnet
+		OBJ_IDX	_obj_scr18_ceiling_cannon
+_obj_scr19_idx	SET	[[.-_obj_lib]>>1]
+		.WORD	0								; two special cases
+_obj_scr1A_idx	SET	[[.-_obj_lib]>>1]
+		.WORD	0								; objects with no script assigned
+		OBJ_IDX	_obj_scr1B_rokfor_refill
+		OBJ_IDX	_obj_scr1D_big_ball_box			; _obj_scr1C unused
+		OBJ_IDX	_obj_scr1D_big_ball_box
+		OBJ_IDX	_obj_scr1E_big_zipper_box
+		OBJ_IDX	_obj_scr1F_star_prize
+		OBJ_IDX	_obj_scr20_lvl_exit_left
+		OBJ_IDX	_obj_scr21_lvl_exit_right
+		OBJ_IDX	_obj_scr22_box_bonus_entry		; both refers the same handler
+		OBJ_IDX	_obj_scr23_box_bonus_entry		; but different indexes
+		OBJ_IDX	_obj_scr24_spoon_rat
+		OBJ_IDX	_obj_scr25_fork_rat
+		OBJ_IDX	_obj_scr26_fake_boxA
+		OBJ_IDX	_obj_scr27_honey_bee
+		OBJ_IDX	_obj_scr28_green_ceiling_bat
+		OBJ_IDX	_obj_scr29_green_floor_bat
+		OBJ_IDX	_obj_scr2A_pink_fish
+		OBJ_IDX	_obj_scr2B_fake_boxB
+		OBJ_IDX	_obj_scr2C_sailor_monkey
+		OBJ_IDX	_obj_scr2D_candle_dancing
+		OBJ_IDX	_obj_scr2E_ghost_dogA
+		OBJ_IDX	_obj_scr2F_ghost_dogB
+		OBJ_IDX	_obj_scr30_penguin
+		OBJ_IDX	_obj_scr31_ski_rat
+		OBJ_IDX	_obj_scr32						; fan projectile?
+		OBJ_IDX	_obj_scr33_hammer_mole
+		OBJ_IDX	_obj_scr34_mecha_dog
+		OBJ_IDX	_obj_scr35_red_bird_with_egg
+		OBJ_IDX	_obj_scr36_red_bird
+		OBJ_IDX	_obj_scr37_javelin_rat
+		OBJ_IDX	_obj_scr38_electric_rat
+		OBJ_IDX	_obj_scr39_hedgehog
+		OBJ_IDX	_obj_scr3A_running_cock
+		OBJ_IDX	_obj_scr3B_ceiling_lazer
+		OBJ_IDX	_obj_scr3C_violet_bug_fall
+		OBJ_IDX	_obj_scr3D_violet_bug_float
+		OBJ_IDX	_obj_scr3E_ghost_painting
+		OBJ_IDX	_obj_scr3F_lvl1_boss_water_rabbit
+		OBJ_IDX	_obj_scr40_lvl2_boss_flying_panther
+		OBJ_IDX	_obj_scr41_lvl3_boss_sea_rat
+		OBJ_IDX	_obj_scr42_lvl4_boss_ghost
+		OBJ_IDX	_obj_scr43_lvl5B_cat_with_cards
+		OBJ_IDX	_obj_scr44_lvl5B_boss_ostrich
+		OBJ_IDX	_obj_scr45_lvl5C_wrecking_lizard
+		OBJ_IDX	_obj_scr46_lvl6_final_boss
 
 		SECTION_END		07A, "PRG7 OBJ INSERT ROUTINE AND TABLE"
 
 		SECTION_START	08
 
+		MAC	OBJ_ENTRY
+		.BYTE	{1},{2},{3}_idx
+		ENDM
+
 _room_objects00:
-		.BYTE	$18,$22,$27
-		.BYTE	$20,$2A,$25
-		.BYTE	$28,$24,$27
-		.BYTE	$33,$2C,$25
-		.BYTE	$44,$22,$27
-		.BYTE	$4E,$25,$25
-		.BYTE	$56,$26,$27
-		.BYTE	$62,$24,$27
-		.BYTE	$6C,$25,$25
-		.BYTE	$77,$22,$27
-		.BYTE	$79,$2C,$25
-		.BYTE	$7E,$2A,$21
+		OBJ_ENTRY	$18,$22,_obj_scr27_honey_bee
+		OBJ_ENTRY	$20,$2A,_obj_scr25_fork_rat
+		OBJ_ENTRY	$28,$24,_obj_scr27_honey_bee
+		OBJ_ENTRY	$33,$2C,_obj_scr25_fork_rat
+		OBJ_ENTRY	$44,$22,_obj_scr27_honey_bee
+		OBJ_ENTRY	$4E,$25,_obj_scr25_fork_rat
+		OBJ_ENTRY	$56,$26,_obj_scr27_honey_bee
+		OBJ_ENTRY	$62,$24,_obj_scr27_honey_bee
+		OBJ_ENTRY	$6C,$25,_obj_scr25_fork_rat
+		OBJ_ENTRY	$77,$22,_obj_scr27_honey_bee
+		OBJ_ENTRY	$79,$2C,_obj_scr25_fork_rat
+		OBJ_ENTRY	$7E,$2A,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects01:
-		.BYTE	$0F,$79,$26
-		.BYTE	$1B,$7C,$24
-		.BYTE	$2B,$7A,$26
-		.BYTE	$3A,$76,$24
-		.BYTE	$4E,$7C,$24
-		.BYTE	$59,$7C,$26
-		.BYTE	$5E,$78,$24
-		.BYTE	$DB,$65,$26
-		.BYTE	$63,$66,$08
-		.BYTE	$68,$6C,$24
-		.BYTE	$6B,$66,$08
-		.BYTE	$73,$66,$08
-		.BYTE	$7A,$6C,$26
-		.BYTE	$7D,$64,$1F
-		.BYTE	$7E,$6C,$21
+		OBJ_ENTRY	$0F,$79,_obj_scr26_fake_boxA
+		OBJ_ENTRY	$1B,$7C,_obj_scr24_spoon_rat
+		OBJ_ENTRY	$2B,$7A,_obj_scr26_fake_boxA
+		OBJ_ENTRY	$3A,$76,_obj_scr24_spoon_rat
+		OBJ_ENTRY	$4E,$7C,_obj_scr24_spoon_rat
+		OBJ_ENTRY	$59,$7C,_obj_scr26_fake_boxA
+		OBJ_ENTRY	$5E,$78,_obj_scr24_spoon_rat
+		OBJ_ENTRY	$DB,$65,_obj_scr26_fake_boxA
+		OBJ_ENTRY	$63,$66,_obj_scr08_cdv_bottle_cork
+		OBJ_ENTRY	$68,$6C,_obj_scr24_spoon_rat
+		OBJ_ENTRY	$6B,$66,_obj_scr08_cdv_bottle_cork
+		OBJ_ENTRY	$73,$66,_obj_scr08_cdv_bottle_cork
+		OBJ_ENTRY	$7A,$6C,_obj_scr26_fake_boxA
+		OBJ_ENTRY	$7D,$64,_obj_scr1F_star_prize
+		OBJ_ENTRY	$7E,$6C,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects02:
-		.BYTE	$1C,$5C,$25
-		.BYTE	$2C,$56,$27
-		.BYTE	$3C,$5C,$25
-		.BYTE	$4E,$52,$27
-		.BYTE	$52,$5C,$25
-		.BYTE	$63,$53,$09
-		.BYTE	$6C,$5D,$1E
-		.BYTE	$6F,$5A,$21
+		OBJ_ENTRY	$1C,$5C,_obj_scr25_fork_rat
+		OBJ_ENTRY	$2C,$56,_obj_scr27_honey_bee
+		OBJ_ENTRY	$3C,$5C,_obj_scr25_fork_rat
+		OBJ_ENTRY	$4E,$52,_obj_scr27_honey_bee
+		OBJ_ENTRY	$52,$5C,_obj_scr25_fork_rat
+		OBJ_ENTRY	$63,$53,_obj_scr09_sink_valve
+		OBJ_ENTRY	$6C,$5D,_obj_scr1E_big_zipper_box
+		OBJ_ENTRY	$6F,$5A,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects03:
-		.BYTE	$08,$49,$1B
+		OBJ_ENTRY	$08,$49,_obj_scr1B_rokfor_refill
 		.BYTE	$FF
 _room_objects05:
-		.BYTE	$4F,$18,$3F
+		OBJ_ENTRY	$4F,$18,_obj_scr3F_lvl1_boss_water_rabbit
 		.BYTE	$FF
 _room_objects06:
-		.BYTE	$12,$7D,$2A
-		.BYTE	$22,$7D,$2A
-		.BYTE	$2E,$7D,$2A
-		.BYTE	$34,$78,$28
-		.BYTE	$3E,$7D,$2A
-		.BYTE	$4C,$7C,$29
-		.BYTE	$52,$7D,$2A
-		.BYTE	$69,$75,$0A
-		.BYTE	$6B,$74,$0B
-		.BYTE	$7E,$7C,$21
+		OBJ_ENTRY	$12,$7D,_obj_scr2A_pink_fish
+		OBJ_ENTRY	$22,$7D,_obj_scr2A_pink_fish
+		OBJ_ENTRY	$2E,$7D,_obj_scr2A_pink_fish
+		OBJ_ENTRY	$34,$78,_obj_scr28_green_ceiling_bat
+		OBJ_ENTRY	$3E,$7D,_obj_scr2A_pink_fish
+		OBJ_ENTRY	$4C,$7C,_obj_scr29_green_floor_bat
+		OBJ_ENTRY	$52,$7D,_obj_scr2A_pink_fish
+		OBJ_ENTRY	$69,$75,_obj_scr0A_lvl1_bonus_button
+		OBJ_ENTRY	$6B,$74,_obj_scr0B_basket_bonus_entry
+		OBJ_ENTRY	$7E,$7C,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects07:
-		.BYTE	$14,$48,$29
-		.BYTE	$1A,$4C,$2B
-		.BYTE	$22,$4D,$2A
-		.BYTE	$32,$4D,$2A
-		.BYTE	$36,$49,$28
-		.BYTE	$41,$4D,$2A
-		.BYTE	$4E,$47,$28
-		.BYTE	$C2,$3C,$28
-		.BYTE	$52,$34,$2B
-		.BYTE	$5C,$3C,$29
-		.BYTE	$6A,$37,$28
-		.BYTE	$6D,$3C,$29
-		.BYTE	$6F,$3C,$21
+		OBJ_ENTRY	$14,$48,_obj_scr29_green_floor_bat
+		OBJ_ENTRY	$1A,$4C,_obj_scr2B_fake_boxB
+		OBJ_ENTRY	$22,$4D,_obj_scr2A_pink_fish
+		OBJ_ENTRY	$32,$4D,_obj_scr2A_pink_fish
+		OBJ_ENTRY	$36,$49,_obj_scr28_green_ceiling_bat
+		OBJ_ENTRY	$41,$4D,_obj_scr2A_pink_fish
+		OBJ_ENTRY	$4E,$47,_obj_scr28_green_ceiling_bat
+		OBJ_ENTRY	$C2,$3C,_obj_scr28_green_ceiling_bat
+		OBJ_ENTRY	$52,$34,_obj_scr2B_fake_boxB
+		OBJ_ENTRY	$5C,$3C,_obj_scr29_green_floor_bat
+		OBJ_ENTRY	$6A,$37,_obj_scr28_green_ceiling_bat
+		OBJ_ENTRY	$6D,$3C,_obj_scr29_green_floor_bat
+		OBJ_ENTRY	$6F,$3C,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects08:
-		.BYTE	$7F,$24,$40
+		OBJ_ENTRY	$7F,$24,_obj_scr40_lvl2_boss_flying_panther
 		.BYTE	$FF
 _room_objects0D:
-		.BYTE	$14,$7C,$39
-		.BYTE	$1E,$70,$3C
-		.BYTE	$22,$7C,$39
-		.BYTE	$2A,$76,$39
-		.BYTE	$2F,$78,$07
-		.BYTE	$36,$70,$3C
-		.BYTE	$3C,$7C,$39
-		.BYTE	$B8,$6D,$39
-		.BYTE	$44,$58,$39
-		.BYTE	$4E,$5C,$39
-		.BYTE	$56,$55,$3D
-		.BYTE	$5C,$5C,$39
-		.BYTE	$68,$58,$39
-		.BYTE	$6F,$5C,$1D
-		.BYTE	$7F,$5C,$0C
+		OBJ_ENTRY	$14,$7C,_obj_scr39_hedgehog
+		OBJ_ENTRY	$1E,$70,_obj_scr3C_violet_bug_fall
+		OBJ_ENTRY	$22,$7C,_obj_scr39_hedgehog
+		OBJ_ENTRY	$2A,$76,_obj_scr39_hedgehog
+		OBJ_ENTRY	$2F,$78,_obj_scr07_concrete_brick
+		OBJ_ENTRY	$36,$70,_obj_scr3C_violet_bug_fall
+		OBJ_ENTRY	$3C,$7C,_obj_scr39_hedgehog
+		OBJ_ENTRY	$B8,$6D,_obj_scr39_hedgehog
+		OBJ_ENTRY	$44,$58,_obj_scr39_hedgehog
+		OBJ_ENTRY	$4E,$5C,_obj_scr39_hedgehog
+		OBJ_ENTRY	$56,$55,_obj_scr3D_violet_bug_float
+		OBJ_ENTRY	$5C,$5C,_obj_scr39_hedgehog
+		OBJ_ENTRY	$68,$58,_obj_scr39_hedgehog
+		OBJ_ENTRY	$6F,$5C,_obj_scr1D_big_ball_box
+		OBJ_ENTRY	$7F,$5C,_obj_scr0C_lvl3_bonus_button
 _room_objects10:
-		.BYTE	$6E,$1C,$1A
-		.BYTE	$66,$40,$3C
-		.BYTE	$62,$46,$2C
-		.BYTE	$58,$40,$3C
-		.BYTE	$52,$46,$2C
-		.BYTE	$42,$46,$2C
-		.BYTE	$3A,$44,$3D
-		.BYTE	$32,$46,$2C
-		.BYTE	$22,$46,$2C
-		.BYTE	$18,$40,$3C
-		.BYTE	$12,$46,$2C
-		.BYTE	$08,$44,$3D
-		.BYTE	$01,$4C,$20
+		OBJ_ENTRY	$6E,$1C,_obj_scr1A
+		OBJ_ENTRY	$66,$40,_obj_scr3C_violet_bug_fall
+		OBJ_ENTRY	$62,$46,_obj_scr2C_sailor_monkey
+		OBJ_ENTRY	$58,$40,_obj_scr3C_violet_bug_fall
+		OBJ_ENTRY	$52,$46,_obj_scr2C_sailor_monkey
+		OBJ_ENTRY	$42,$46,_obj_scr2C_sailor_monkey
+		OBJ_ENTRY	$3A,$44,_obj_scr3D_violet_bug_float
+		OBJ_ENTRY	$32,$46,_obj_scr2C_sailor_monkey
+		OBJ_ENTRY	$22,$46,_obj_scr2C_sailor_monkey
+		OBJ_ENTRY	$18,$40,_obj_scr3C_violet_bug_fall
+		OBJ_ENTRY	$12,$46,_obj_scr2C_sailor_monkey
+		OBJ_ENTRY	$08,$44,_obj_scr3D_violet_bug_float
+		OBJ_ENTRY	$01,$4C,_obj_scr20_lvl_exit_left
 		.BYTE	$FF
 _room_objects0E:
-		.BYTE	$7F,$78,$41
+		OBJ_ENTRY	$7F,$78,_obj_scr41_lvl3_boss_sea_rat
 		.BYTE	$FF
 _room_objects1F:
-		.BYTE	$10,$76,$33
-		.BYTE	$16,$79,$0F
-		.BYTE	$1E,$7C,$38
-		.BYTE	$2E,$74,$33
-		.BYTE	$AD,$6B,$10
-		.BYTE	$A2,$65,$33
-		.BYTE	$AE,$61,$38
-		.BYTE	$A7,$57,$11
-		.BYTE	$AE,$4C,$33
-		.BYTE	$AB,$41,$10
-		.BYTE	$A8,$37,$38
-		.BYTE	$38,$39,$0F
-		.BYTE	$3C,$39,$0F
-		.BYTE	$CC,$2C,$33
-		.BYTE	$C7,$29,$11
-		.BYTE	$C2,$15,$33
-		.BYTE	$C2,$09,$33
-		.BYTE	$52,$0B,$0F
-		.BYTE	$56,$0C,$0F
-		.BYTE	$5A,$0B,$0F
-		.BYTE	$5F,$06,$21
+		OBJ_ENTRY	$10,$76,_obj_scr33_hammer_mole
+		OBJ_ENTRY	$16,$79,_obj_scr0F_clock_trolleyA
+		OBJ_ENTRY	$1E,$7C,_obj_scr38_electric_rat
+		OBJ_ENTRY	$2E,$74,_obj_scr33_hammer_mole
+		OBJ_ENTRY	$AD,$6B,_obj_scr10_clock_trolleyB
+		OBJ_ENTRY	$A2,$65,_obj_scr33_hammer_mole
+		OBJ_ENTRY	$AE,$61,_obj_scr38_electric_rat
+		OBJ_ENTRY	$A7,$57,_obj_scr11_clock_trolleyC
+		OBJ_ENTRY	$AE,$4C,_obj_scr33_hammer_mole
+		OBJ_ENTRY	$AB,$41,_obj_scr10_clock_trolleyB
+		OBJ_ENTRY	$A8,$37,_obj_scr38_electric_rat
+		OBJ_ENTRY	$38,$39,_obj_scr0F_clock_trolleyA
+		OBJ_ENTRY	$3C,$39,_obj_scr0F_clock_trolleyA
+		OBJ_ENTRY	$CC,$2C,_obj_scr33_hammer_mole
+		OBJ_ENTRY	$C7,$29,_obj_scr11_clock_trolleyC
+		OBJ_ENTRY	$C2,$15,_obj_scr33_hammer_mole
+		OBJ_ENTRY	$C2,$09,_obj_scr33_hammer_mole
+		OBJ_ENTRY	$52,$0B,_obj_scr0F_clock_trolleyA
+		OBJ_ENTRY	$56,$0C,_obj_scr0F_clock_trolleyA
+		OBJ_ENTRY	$5A,$0B,_obj_scr0F_clock_trolleyA
+		OBJ_ENTRY	$5F,$06,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects20:
-		.BYTE	$7E,$0C,$44
+		OBJ_ENTRY	$7E,$0C,_obj_scr44_lvl5B_boss_ostrich
 		.BYTE	$FF
 _room_objects14:
-		.BYTE	$15,$7C,$2D
-		.BYTE	$20,$74,$2E
-		.BYTE	$28,$7C,$2D
-		.BYTE	$3C,$7A,$2D
-		.BYTE	$3D,$76,$2F
-		.BYTE	$4D,$75,$2F
-		.BYTE	$CC,$65,$2D
-		.BYTE	$58,$6E,$05
-		.BYTE	$5E,$64,$2F
-		.BYTE	$68,$6E,$05
-		.BYTE	$6E,$66,$2F
-		.BYTE	$78,$6E,$05
-		.BYTE	$7C,$68,$2E
-		.BYTE	$7E,$66,$21
+		OBJ_ENTRY	$15,$7C,_obj_scr2D_candle_dancing
+		OBJ_ENTRY	$20,$74,_obj_scr2E_ghost_dogA
+		OBJ_ENTRY	$28,$7C,_obj_scr2D_candle_dancing
+		OBJ_ENTRY	$3C,$7A,_obj_scr2D_candle_dancing
+		OBJ_ENTRY	$3D,$76,_obj_scr2F_ghost_dogB
+		OBJ_ENTRY	$4D,$75,_obj_scr2F_ghost_dogB
+		OBJ_ENTRY	$CC,$65,_obj_scr2D_candle_dancing
+		OBJ_ENTRY	$58,$6E,_obj_scr05_door_knob
+		OBJ_ENTRY	$5E,$64,_obj_scr2F_ghost_dogB
+		OBJ_ENTRY	$68,$6E,_obj_scr05_door_knob
+		OBJ_ENTRY	$6E,$66,_obj_scr2F_ghost_dogB
+		OBJ_ENTRY	$78,$6E,_obj_scr05_door_knob
+		OBJ_ENTRY	$7C,$68,_obj_scr2E_ghost_dogA
+		OBJ_ENTRY	$7E,$66,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects15:
-		.BYTE	$00,$50,$06
-		.BYTE	$01,$56,$3E
-		.BYTE	$11,$56,$2D
-		.BYTE	$19,$56,$3E
-		.BYTE	$1E,$54,$2E
-		.BYTE	$2D,$56,$3E
-		.BYTE	$38,$54,$2D
-		.BYTE	$41,$56,$3E
-		.BYTE	$50,$56,$2D
-		.BYTE	$59,$56,$3E
-		.BYTE	$64,$5C,$2D
-		.BYTE	$7E,$5C,$23
+		OBJ_ENTRY	$00,$50,_obj_scr06_light_toggle
+		OBJ_ENTRY	$01,$56,_obj_scr3E_ghost_painting
+		OBJ_ENTRY	$11,$56,_obj_scr2D_candle_dancing
+		OBJ_ENTRY	$19,$56,_obj_scr3E_ghost_painting
+		OBJ_ENTRY	$1E,$54,_obj_scr2E_ghost_dogA
+		OBJ_ENTRY	$2D,$56,_obj_scr3E_ghost_painting
+		OBJ_ENTRY	$38,$54,_obj_scr2D_candle_dancing
+		OBJ_ENTRY	$41,$56,_obj_scr3E_ghost_painting
+		OBJ_ENTRY	$50,$56,_obj_scr2D_candle_dancing
+		OBJ_ENTRY	$59,$56,_obj_scr3E_ghost_painting
+		OBJ_ENTRY	$64,$5C,_obj_scr2D_candle_dancing
+		OBJ_ENTRY	$7E,$5C,_obj_scr23_box_bonus_entry
 _room_objects1A:
-		.BYTE	$F4,$46,$2F
-		.BYTE	$FE,$44,$21
+		OBJ_ENTRY	$F4,$46,_obj_scr2F_ghost_dogB
+		OBJ_ENTRY	$FE,$44,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects17:
-		.BYTE	$60,$40,$0E
+		OBJ_ENTRY	$60,$40,_obj_scr0E
 		.BYTE	$FF
 _room_objects16:
-		.BYTE	$6A,$26,$42
+		OBJ_ENTRY	$6A,$26,_obj_scr42_lvl4_boss_ghost
 		.BYTE	$FF
 _room_objects13:
-		.BYTE	$14,$78,$31
-		.BYTE	$1E,$7C,$30
-		.BYTE	$28,$78,$31
-		.BYTE	$35,$7C,$30
-		.BYTE	$3C,$76,$31
-		.BYTE	$B6,$68,$32
-		.BYTE	$B4,$67,$31
-		.BYTE	$BE,$64,$32
-		.BYTE	$2A,$5A,$0D
-		.BYTE	$25,$57,$32
-		.BYTE	$22,$5A,$0D
-		.BYTE	$1D,$57,$32
-		.BYTE	$1A,$5A,$0D
-		.BYTE	$0A,$5A,$30
-		.BYTE	$82,$47,$0D
-		.BYTE	$86,$47,$0D
-		.BYTE	$88,$42,$32
-		.BYTE	$8E,$40,$31
-		.BYTE	$16,$3A,$0D
-		.BYTE	$1E,$3C,$30
-		.BYTE	$1F,$33,$32
-		.BYTE	$2A,$3A,$0D
-		.BYTE	$A4,$2D,$31
-		.BYTE	$A8,$26,$32
-		.BYTE	$AF,$25,$21
+		OBJ_ENTRY	$14,$78,_obj_scr31_ski_rat
+		OBJ_ENTRY	$1E,$7C,_obj_scr30_penguin
+		OBJ_ENTRY	$28,$78,_obj_scr31_ski_rat
+		OBJ_ENTRY	$35,$7C,_obj_scr30_penguin
+		OBJ_ENTRY	$3C,$76,_obj_scr31_ski_rat
+		OBJ_ENTRY	$B6,$68,_obj_scr32
+		OBJ_ENTRY	$B4,$67,_obj_scr31_ski_rat
+		OBJ_ENTRY	$BE,$64,_obj_scr32
+		OBJ_ENTRY	$2A,$5A,_obj_scr0D_big_fan
+		OBJ_ENTRY	$25,$57,_obj_scr32
+		OBJ_ENTRY	$22,$5A,_obj_scr0D_big_fan
+		OBJ_ENTRY	$1D,$57,_obj_scr32
+		OBJ_ENTRY	$1A,$5A,_obj_scr0D_big_fan
+		OBJ_ENTRY	$0A,$5A,_obj_scr30_penguin
+		OBJ_ENTRY	$82,$47,_obj_scr0D_big_fan
+		OBJ_ENTRY	$86,$47,_obj_scr0D_big_fan
+		OBJ_ENTRY	$88,$42,_obj_scr32
+		OBJ_ENTRY	$8E,$40,_obj_scr31_ski_rat
+		OBJ_ENTRY	$16,$3A,_obj_scr0D_big_fan
+		OBJ_ENTRY	$1E,$3C,_obj_scr30_penguin
+		OBJ_ENTRY	$1F,$33,_obj_scr32
+		OBJ_ENTRY	$2A,$3A,_obj_scr0D_big_fan
+		OBJ_ENTRY	$A4,$2D,_obj_scr31_ski_rat
+		OBJ_ENTRY	$A8,$26,_obj_scr32
+		OBJ_ENTRY	$AF,$25,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects12:
-		.BYTE	$18,$70,$3C
-		.BYTE	$18,$7C,$39
-		.BYTE	$1C,$74,$39
-		.BYTE	$96,$6A,$3D
-		.BYTE	$9C,$65,$39
-		.BYTE	$27,$6C,$39
-		.BYTE	$2A,$64,$3D
-		.BYTE	$2F,$66,$21
+		OBJ_ENTRY	$18,$70,_obj_scr3C_violet_bug_fall
+		OBJ_ENTRY	$18,$7C,_obj_scr39_hedgehog
+		OBJ_ENTRY	$1C,$74,_obj_scr39_hedgehog
+		OBJ_ENTRY	$96,$6A,_obj_scr3D_violet_bug_float
+		OBJ_ENTRY	$9C,$65,_obj_scr39_hedgehog
+		OBJ_ENTRY	$27,$6C,_obj_scr39_hedgehog
+		OBJ_ENTRY	$2A,$64,_obj_scr3D_violet_bug_float
+		OBJ_ENTRY	$2F,$66,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects22:
-		.BYTE	$02,$0C,$12
-		.BYTE	$29,$06,$13
-		.BYTE	$39,$08,$13
-		.BYTE	$49,$06,$13
-		.BYTE	$57,$08,$13
-		.BYTE	$67,$08,$13
-		.BYTE	$7E,$0C,$21
+		OBJ_ENTRY	$02,$0C,_obj_scr12_cave_trolley
+		OBJ_ENTRY	$29,$06,_obj_scr13_cave_rock
+		OBJ_ENTRY	$39,$08,_obj_scr13_cave_rock
+		OBJ_ENTRY	$49,$06,_obj_scr13_cave_rock
+		OBJ_ENTRY	$57,$08,_obj_scr13_cave_rock
+		OBJ_ENTRY	$67,$08,_obj_scr13_cave_rock
+		OBJ_ENTRY	$7E,$0C,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects23:
-		.BYTE	$02,$1A,$12
-		.BYTE	$11,$16,$13
-		.BYTE	$29,$14,$04
-		.BYTE	$47,$16,$04
-		.BYTE	$57,$16,$13
-		.BYTE	$6C,$16,$04
-		.BYTE	$7E,$1C,$21
+		OBJ_ENTRY	$02,$1A,_obj_scr12_cave_trolley
+		OBJ_ENTRY	$11,$16,_obj_scr13_cave_rock
+		OBJ_ENTRY	$29,$14,_obj_scr04_cave_pendulum
+		OBJ_ENTRY	$47,$16,_obj_scr04_cave_pendulum
+		OBJ_ENTRY	$57,$16,_obj_scr13_cave_rock
+		OBJ_ENTRY	$6C,$16,_obj_scr04_cave_pendulum
+		OBJ_ENTRY	$7E,$1C,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects24:
-		.BYTE	$02,$2A,$12
-		.BYTE	$16,$24,$04
-		.BYTE	$27,$26,$13
-		.BYTE	$34,$26,$04
-		.BYTE	$47,$26,$13
-		.BYTE	$5D,$27,$04
-		.BYTE	$6E,$02,$19
-		.BYTE	$6F,$24,$28
-		.BYTE	$72,$27,$2B
-		.BYTE	$7E,$24,$28
-		.BYTE	$7E,$2C,$21
+		OBJ_ENTRY	$02,$2A,_obj_scr12_cave_trolley
+		OBJ_ENTRY	$16,$24,_obj_scr04_cave_pendulum
+		OBJ_ENTRY	$27,$26,_obj_scr13_cave_rock
+		OBJ_ENTRY	$34,$26,_obj_scr04_cave_pendulum
+		OBJ_ENTRY	$47,$26,_obj_scr13_cave_rock
+		OBJ_ENTRY	$5D,$27,_obj_scr04_cave_pendulum
+		OBJ_ENTRY	$6E,$02,_obj_scr19
+		OBJ_ENTRY	$6F,$24,_obj_scr28_green_ceiling_bat
+		OBJ_ENTRY	$72,$27,_obj_scr2B_fake_boxB
+		OBJ_ENTRY	$7E,$24,_obj_scr28_green_ceiling_bat
+		OBJ_ENTRY	$7E,$2C,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects25:
-		.BYTE	$0E,$58,$43
+		OBJ_ENTRY	$0E,$58,_obj_scr43_lvl5B_cat_with_cards
 		.BYTE	$FF
 _room_objects26:
-		.BYTE	$2F,$2A,$1A
-		.BYTE	$2F,$06,$19
-		.BYTE	$A2,$67,$33
-		.BYTE	$AE,$63,$33
-		.BYTE	$AA,$57,$38
-		.BYTE	$35,$5C,$14
-		.BYTE	$3F,$59,$14
-		.BYTE	$49,$5C,$14
-		.BYTE	$4F,$5C,$21
+		OBJ_ENTRY	$2F,$2A,_obj_scr1A
+		OBJ_ENTRY	$2F,$06,_obj_scr19
+		OBJ_ENTRY	$A2,$67,_obj_scr33_hammer_mole
+		OBJ_ENTRY	$AE,$63,_obj_scr33_hammer_mole
+		OBJ_ENTRY	$AA,$57,_obj_scr38_electric_rat
+		OBJ_ENTRY	$35,$5C,_obj_scr14_press_hammer
+		OBJ_ENTRY	$3F,$59,_obj_scr14_press_hammer
+		OBJ_ENTRY	$49,$5C,_obj_scr14_press_hammer
+		OBJ_ENTRY	$4F,$5C,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects27:
-		.BYTE	$12,$4A,$37
-		.BYTE	$1E,$4C,$37
-		.BYTE	$34,$46,$37
-		.BYTE	$43,$4D,$15
-		.BYTE	$47,$4C,$15
-		.BYTE	$4B,$4B,$15
-		.BYTE	$4F,$4A,$15
-		.BYTE	$55,$48,$37
-		.BYTE	$57,$49,$15
-		.BYTE	$5F,$46,$22
-		.BYTE	$6F,$4C,$21
+		OBJ_ENTRY	$12,$4A,_obj_scr37_javelin_rat
+		OBJ_ENTRY	$1E,$4C,_obj_scr37_javelin_rat
+		OBJ_ENTRY	$34,$46,_obj_scr37_javelin_rat
+		OBJ_ENTRY	$43,$4D,_obj_scr15_floor_doors
+		OBJ_ENTRY	$47,$4C,_obj_scr15_floor_doors
+		OBJ_ENTRY	$4B,$4B,_obj_scr15_floor_doors
+		OBJ_ENTRY	$4F,$4A,_obj_scr15_floor_doors
+		OBJ_ENTRY	$55,$48,_obj_scr37_javelin_rat
+		OBJ_ENTRY	$57,$49,_obj_scr15_floor_doors
+		OBJ_ENTRY	$5F,$46,_obj_scr22_box_bonus_entry
+		OBJ_ENTRY	$6F,$4C,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects28:
-		.BYTE	$12,$3C,$34
-		.BYTE	$28,$36,$34
-		.BYTE	$2D,$3A,$07
-		.BYTE	$36,$37,$17
-		.BYTE	$3B,$36,$1F
-		.BYTE	$44,$3C,$34
-		.BYTE	$4C,$38,$34
-		.BYTE	$5C,$36,$34
-		.BYTE	$5F,$3A,$21
+		OBJ_ENTRY	$12,$3C,_obj_scr34_mecha_dog
+		OBJ_ENTRY	$28,$36,_obj_scr34_mecha_dog
+		OBJ_ENTRY	$2D,$3A,_obj_scr07_concrete_brick
+		OBJ_ENTRY	$36,$37,_obj_scr17_ceiling_magnet
+		OBJ_ENTRY	$3B,$36,_obj_scr1F_star_prize
+		OBJ_ENTRY	$44,$3C,_obj_scr34_mecha_dog
+		OBJ_ENTRY	$4C,$38,_obj_scr34_mecha_dog
+		OBJ_ENTRY	$5C,$36,_obj_scr34_mecha_dog
+		OBJ_ENTRY	$5F,$3A,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects2A:
-		.BYTE	$6C,$18,$45
+		OBJ_ENTRY	$6C,$18,_obj_scr45_lvl5C_wrecking_lizard
 		.BYTE	$FF
 _room_objects2B:
-		.BYTE	$1C,$78,$37
-		.BYTE	$22,$7A,$16
-		.BYTE	$30,$7A,$37
-		.BYTE	$32,$7A,$16
-		.BYTE	$4E,$78,$37
-		.BYTE	$51,$69,$1A
-		.BYTE	$51,$01,$19
-		.BYTE	$54,$6C,$3A
-		.BYTE	$5C,$66,$3A
-		.BYTE	$6F,$66,$21
+		OBJ_ENTRY	$1C,$78,_obj_scr37_javelin_rat
+		OBJ_ENTRY	$22,$7A,_obj_scr16_floor_switch
+		OBJ_ENTRY	$30,$7A,_obj_scr37_javelin_rat
+		OBJ_ENTRY	$32,$7A,_obj_scr16_floor_switch
+		OBJ_ENTRY	$4E,$78,_obj_scr37_javelin_rat
+		OBJ_ENTRY	$51,$69,_obj_scr1A
+		OBJ_ENTRY	$51,$01,_obj_scr19
+		OBJ_ENTRY	$54,$6C,_obj_scr3A_running_cock
+		OBJ_ENTRY	$5C,$66,_obj_scr3A_running_cock
+		OBJ_ENTRY	$6F,$66,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects2C:
-		.BYTE	$1E,$54,$36
-		.BYTE	$2E,$56,$36
-		.BYTE	$3E,$54,$36
-		.BYTE	$4E,$56,$36
-		.BYTE	$5E,$54,$35
-		.BYTE	$6E,$54,$36
-		.BYTE	$6F,$5C,$21
+		OBJ_ENTRY	$1E,$54,_obj_scr36_red_bird
+		OBJ_ENTRY	$2E,$56,_obj_scr36_red_bird
+		OBJ_ENTRY	$3E,$54,_obj_scr36_red_bird
+		OBJ_ENTRY	$4E,$56,_obj_scr36_red_bird
+		OBJ_ENTRY	$5E,$54,_obj_scr35_red_bird_with_egg
+		OBJ_ENTRY	$6E,$54,_obj_scr36_red_bird
+		OBJ_ENTRY	$6F,$5C,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects2E:
-		.BYTE	$13,$4C,$16
-		.BYTE	$15,$4C,$3B
-		.BYTE	$19,$4C,$3B
-		.BYTE	$1D,$4C,$3B
-		.BYTE	$23,$4C,$16
-		.BYTE	$25,$4C,$3B
-		.BYTE	$29,$4C,$3B
-		.BYTE	$2D,$4C,$3B
-		.BYTE	$4C,$4C,$34
-		.BYTE	$5A,$46,$34
-		.BYTE	$68,$4C,$34
-		.BYTE	$6F,$48,$21
+		OBJ_ENTRY	$13,$4C,_obj_scr16_floor_switch
+		OBJ_ENTRY	$15,$4C,_obj_scr3B_ceiling_lazer
+		OBJ_ENTRY	$19,$4C,_obj_scr3B_ceiling_lazer
+		OBJ_ENTRY	$1D,$4C,_obj_scr3B_ceiling_lazer
+		OBJ_ENTRY	$23,$4C,_obj_scr16_floor_switch
+		OBJ_ENTRY	$25,$4C,_obj_scr3B_ceiling_lazer
+		OBJ_ENTRY	$29,$4C,_obj_scr3B_ceiling_lazer
+		OBJ_ENTRY	$2D,$4C,_obj_scr3B_ceiling_lazer
+		OBJ_ENTRY	$4C,$4C,_obj_scr34_mecha_dog
+		OBJ_ENTRY	$5A,$46,_obj_scr34_mecha_dog
+		OBJ_ENTRY	$68,$4C,_obj_scr34_mecha_dog
+		OBJ_ENTRY	$6F,$48,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects2F:
-		.BYTE	$12,$34,$18
-		.BYTE	$22,$34,$18
-		.BYTE	$32,$34,$18
-		.BYTE	$42,$34,$18
-		.BYTE	$4F,$3A,$21
+		OBJ_ENTRY	$12,$34,_obj_scr18_ceiling_cannon
+		OBJ_ENTRY	$22,$34,_obj_scr18_ceiling_cannon
+		OBJ_ENTRY	$32,$34,_obj_scr18_ceiling_cannon
+		OBJ_ENTRY	$42,$34,_obj_scr18_ceiling_cannon
+		OBJ_ENTRY	$4F,$3A,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects30:
-		.BYTE	$16,$2C,$24
-		.BYTE	$26,$2C,$24
-		.BYTE	$36,$2C,$24
-		.BYTE	$3F,$2C,$21
+		OBJ_ENTRY	$16,$2C,_obj_scr24_spoon_rat
+		OBJ_ENTRY	$26,$2C,_obj_scr24_spoon_rat
+		OBJ_ENTRY	$36,$2C,_obj_scr24_spoon_rat
+		OBJ_ENTRY	$3F,$2C,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects33:
-		.BYTE	$50,$20,$46
+		OBJ_ENTRY	$50,$20,_obj_scr46_lvl6_final_boss
 		.BYTE	$FF
 _room_objects18:
-		.BYTE	$08,$10,$02
+		OBJ_ENTRY	$08,$10,_obj_scr02
 		.BYTE	$FF
 _room_objects09:
-		.BYTE	$08,$20,$03
+		OBJ_ENTRY	$08,$20,_obj_scr03_basket_bonus
 		.BYTE	$FF
 _room_objects0B:
-		.BYTE	$08,$00,$00
+		OBJ_ENTRY	$08,$00,_obj_scr00_lives_bonus
 		.BYTE	$FF
 _room_objects0A:
-		.BYTE	$08,$30,$01
+		OBJ_ENTRY	$08,$30,_obj_scr01_box_bonus
 		.BYTE	$FF
 _room_objects_dummy:
 		.BYTE	$FF
+
 _room_prize00:
 		.BYTE	$0A,$54
 		.BYTE	$0B,$54

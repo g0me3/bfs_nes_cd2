@@ -614,8 +614,8 @@ _dictionary:
 		.BYTE	_c,_o,_m,_e,__,_EOL
 ; unused entry, same as __some!
 		DICT_DATA	_dictB4
-;
 		.BYTE	__,_s,_o,_m,_e,_EOL
+;
 		DICT_DATA	_that_
 		.BYTE	_t,_h,_a,_t,__,_EOL
 		DICT_DATA	__your
@@ -672,8 +672,8 @@ _dictionary:
 		.BYTE	_a,_r,_e,__,_EOL
 ; copy of _can entry, unused
 		DICT_DATA	_dictD0
-;
 		.BYTE	__,_c,_a,_n,_EOL
+;
 		DICT_DATA	__cut
 		.BYTE	__,_c,_u,_t,_EOL
 		DICT_DATA	_exc__
@@ -2982,11 +2982,12 @@ _players_animB_sub0129_E_sub1_sub1_A:
 		JSR		_apu_se_req
 locret_3B21D:
 		RTS
+
 off_3B21E:
 		.WORD	0
 		.WORD	0
 		.WORD	_script41
-		.WORD	_obj_scr1F
+		.WORD	_obj_scr1F_star_prize
 		.WORD	0
 		.WORD	0
 		.WORD	0
@@ -3004,7 +3005,7 @@ off_3B23E:
 		.WORD	_script46
 		.WORD	_script46
 		.WORD	_script46
-		.WORD	_obj_scr07
+		.WORD	_obj_scr07_concrete_brick
 		.WORD	0
 		.WORD	_script47
 		.WORD	_script47

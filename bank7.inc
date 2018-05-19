@@ -4025,6 +4025,7 @@ loc_B5A32:
 		DEX
 		BPL		loc_B5A32
 		RTS
+
 _room_spr_pal_ofs_list:
 		.BYTE	$17,$19,$1A,$1B,$1D,$1E,$1F
 _room_cfg_lib:
@@ -4125,6 +4126,7 @@ _scr_flags_update:
 		LDX		_scr_idx
 		STA		_scr_flags,X
 		RTS
+
 _scr_cmd_lib:
 		.WORD	_scr_cmd00_stop-1
 		.WORD	_scr_cmd01_flush-1
@@ -4180,15 +4182,15 @@ _scr_cmd_lib:
 		.WORD	_scr_cmd33_var1C_set-1
 		.WORD	_scr_cmd34_obj_set_hp-1
 		.WORD	_scr_cmd35_obj_set_flip-1
-		.WORD	_scr_cmd36-1
+		.WORD	_scr_cmd36-1					; unused
 		.WORD	_scr_cmd37_main_sub_idx_set-1
 		.WORD	_scr_cmd38_pal_fade_in-1
 		.WORD	_scr_cmd39_pal_fade_out-1
-		.WORD	_scr_cmd3A_tlm_res_queue-1
+		.WORD	_scr_cmd3A_tlm_res_queue-1		; unused
 		.WORD	_scr_cmd3B_draw_menu_cursor-1
-		.WORD	_scr_cmd3C_hor_menu_input-1
+		.WORD	_scr_cmd3C_hor_menu_input-1		; unused
 		.WORD	_scr_cmd3D_vert_menu_input-1
-		.WORD	_scr_cmd3E_msg_area_set-1
+		.WORD	_scr_cmd3E_msg_area_set-1		; unused
 		.WORD	_scr_cmd3F_msg_display-1
 		.WORD	_scr_cmd40_msg_wait-1
 		.WORD	_scr_cmd41_break-1
@@ -4255,6 +4257,7 @@ _scr_getc:
 loc_B5BCF:
 		TYA
 		RTS
+
 _stack_slots_lib_lo:
 		.BYTE	<[_stack_slot0]
 		.BYTE	<[_stack_slot1]
@@ -4740,6 +4743,7 @@ loc_B5E42:
 		STA		_obj_y_hi_poss,X
 locret_B5E6E:
 		RTS
+
 byte_B5E6F:
 		.BYTE	$00,$00
 		.BYTE	$19,$FF
@@ -5553,21 +5557,21 @@ _native_get_rand_clamp3:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_bonus_room_3prizes_shuffle:
+_native_box_bonus_3prizes_shuffle:
 		LDA		#$03
-		BNE		_native_bonus_room_prizes_shuffle
+		BNE		_native_box_bonus_prizes_shuffle
 
 ; =============== S U B R O U T I N E =======================================
-_native_bonus_room_4prizes_shuffle:
+_native_box_bonus_4prizes_shuffle:
 		LDA		#$04
 
 ; =============== S U B R O U T I N E =======================================
-_native_bonus_room_prizes_shuffle:
+_native_box_bonus_prizes_shuffle:
 		STA		_tmp_ptr0						; store number of shiffled objects
 		LDY		#$00
 loc_B63CF:
 		TYA										; write initial list 0 1 2 (3)
-		STA		_bonus_room_prizes_order_list,Y
+		STA		_box_bonus_prizes_order_list,Y
 		INY
 		CPY		_tmp_ptr0
 		BNE		loc_B63CF
@@ -5579,14 +5583,14 @@ loc_B63E0:
 		PHA
 		LDX		#$00
 loc_B63E3:
-		LDA		_bonus_room_prizes_order_list,X	; fetch list one by one from 0 to 2(3)
+		LDA		_box_bonus_prizes_order_list,X	; fetch list one by one from 0 to 2(3)
 		PHA
 		LDY		_tmp_ptr0						; scale random by number of elements 0-2(3)
 		JSR		_rand_scale
-		LDA		_bonus_room_prizes_order_list,Y	; swap current with randomly selected element
-		STA		_bonus_room_prizes_order_list,X
+		LDA		_box_bonus_prizes_order_list,Y	; swap current with randomly selected element
+		STA		_box_bonus_prizes_order_list,X
 		PLA
-		STA		_bonus_room_prizes_order_list,Y
+		STA		_box_bonus_prizes_order_list,Y
 		INX
 		CPX		_tmp_ptr0						; repeat for all elements
 		BNE		loc_B63E3
@@ -5597,13 +5601,13 @@ loc_B63E3:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_get_bonus_room_prize_from_list:
-		LDA		_bonus_room_prizes_order_list
+_native_get_box_bonus_prize_from_list:
+		LDA		_box_bonus_prizes_order_list
 		STA		_tmp_ptrE+1
 		LDY		#$00
 loc_B6406:
-		LDA		_bonus_room_prizes_order_list+1,Y
-		STA		_bonus_room_prizes_order_list,Y
+		LDA		_box_bonus_prizes_order_list+1,Y
+		STA		_box_bonus_prizes_order_list,Y
 		INY
 		CPY		#$03
 		BCC		loc_B6406
@@ -5682,28 +5686,28 @@ locret_B647E:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub154:
+_native_idxBs_20_set:
 		LDA		_scr_idxBs,X
 		ORA		#$20
 		STA		_scr_idxBs,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub16A:
+_native_idxBs_10_clear:
 		LDA		_scr_idxBs,X
 		AND		#$EF
 		STA		_scr_idxBs,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub139:
+_native_idxBs_10_set:
 		LDA		_scr_idxBs,X
 		ORA		#$10
 		STA		_scr_idxBs,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub14E:
+_native_idxBs_10_test:
 		LDA		_scr_idxBs,X
 		AND		#$10
 		STA		_scr_idxBs,X
@@ -6606,6 +6610,8 @@ _native_sub15E_ex:
 _script201:
 		PARAM_80_CLEAR
 
+; !FALLTHROUGH!
+
 ; =============== S C R I P T ===============================================
 _script202:
 		NJMP				_native_sub17D
@@ -6879,7 +6885,9 @@ byte_B6AE8:
 		OBJ_SET_Y_DELTA		$00
 byte_B6AF0:
 		SRET
-byte_B6AF1:
+
+; =============== S C R I P T ===============================================
+_obj_scr_common_small_boss_destr:
 		APU_LOAD			$70
 		OBJ_SET_X_DELTA		$F0
 		OBJ_SET_Y_DELTA		$C0
@@ -6888,14 +6896,14 @@ byte_B6AF1:
 byte_B6AFD:
 		JMP_OBJ_ANIMATE
 		NJSR				_native_sub109
-		NJSR				_native_sub179
+		NJSR				_native_obj_cmp160_y_pos
 		SBPL				byte_B6AFD
 byte_B6B07:
 		STORE				$80,_stage_flags
 		SJMP				_script_idle
 
 ; =============== S U B R O U T I N E =======================================
-_native_sub179:
+_native_obj_cmp160_y_pos:
 		SEC
 		LDA		_obj_y_lo_poss,X
 		SBC		#$60
@@ -8367,13 +8375,13 @@ byte_B74F3:
 		SBNE				_script_idle
 		OBJ_SET_Y_POS		$A0,$00
 		OBJ_SET_SIZE		$06,$16
-		NJSR				_native_sub139
+		NJSR				_native_idxBs_10_set
 		NJSR				_players_animB_sub0129_sub0E_A
 		OBJ_SET_FLIP		$60
 		SPR_IDX_SELECT		$0D
 		PARAM_80_CLEAR
 byte_B750A:
-		NJMP				_native_sub14E
+		NJMP				_native_idxBs_10_test
 		SBEQ				byte_B750A
 		NJSR				_players_animB_sub0129_sub06_A
 		SSWITCH				_tmp49
@@ -9321,13 +9329,13 @@ _scr_cutscene0E:
 
 ; =============== S C R I P T ===============================================
 _script193:
-		NJSR				_native_sub139
+		NJSR				_native_idxBs_10_set
 byte_B7C2E:
 		STORE				$00,_ppu_scroll_nt_hor+1
 		SYNC
 		STORE				$01,_ppu_scroll_nt_hor+1
 		SYNC
-		NJSR				_native_sub14E
+		NJSR				_native_idxBs_10_test
 		SBEQ				byte_B7C2E
 		KILL
 

@@ -179,29 +179,26 @@ _STOP	EQU	$FF
 	MAC	SBRANCH
 #if OPTIMIZATION=1
 TMP_CMD_PC	SET	.
-	#if {1}>=TMP_CMD_PC
-		#if [{1}-TMP_CMD_PC-2]<=$7F
-;			ECHO	"short BRANCH at",TMP_CMD_PC,"jumps forward",{1},"distance",{1}-TMP_CMD_PC-2
-;			.BYTE	[$44+{2}]
-;			.BYTE	[{1}-TMP_CMD_PC-2]
+	#if {3}=0
+		#if {1}>=TMP_CMD_PC
+			#if [{1}-TMP_CMD_PC-2]<=$7F
+				.BYTE	[$44+{2}]
+				.BYTE	[{1}-TMP_CMD_PC-2]
+			#else
+				ECHO	"long BRANCH at",TMP_CMD_PC,"jumps forward",{1},"distance",{1}-TMP_CMD_PC-2
+			#endif
 		#else
-;			ECHO	"long BRANCH at",TMP_CMD_PC,"jumps forward",{1},"distance",{1}-TMP_CMD_PC-2
-;			.BYTE	[$0B+{2}]
-;			.WORD	{1}
+			#if [TMP_CMD_PC-{1}+2]<=$7F
+				.BYTE	[$44+{2}]
+				.BYTE	[-[TMP_CMD_PC-{1}+2]]&$FF
+			#else
+				ECHO	"long BRANCH at",TMP_CMD_PC,"jumps back",{1},"distance",[TMP_CMD_PC-{1}+2]
+			#endif
 		#endif
 	#else
-		#if [TMP_CMD_PC-{1}+2]<=$7F
-;			ECHO	"short BRANCH at",TMP_CMD_PC,"jumps back",{1},"distance",[TMP_CMD_PC-{1}+2]
-;			.BYTE	[$44+{2}]
-;			.BYTE	[-[TMP_CMD_PC-{1}+2]]&$FF
-		#else
-;			ECHO	"long BRANCH at",TMP_CMD_PC,"jumps back",{1},"distance",[TMP_CMD_PC-{1}+2]
-;			.BYTE	[$0B+{2}]
-;			.WORD	{1}
-		#endif
+		.BYTE	[$0B+{2}]
+		.WORD	{1}
 	#endif
-	.BYTE	[$0B+{2}]
-	.WORD	{1}
 #else
 	.BYTE	[$0B+{2}]
 	.WORD	{1}
@@ -211,33 +208,84 @@ TMP_CMD_PC	SET	.
 ; set of branches equivalent of 6502 set
 ; script if EQUAL branch
 	MAC	SBEQ
-		SBRANCH	{1},0
+		SBRANCH	{1},0,1
 	ENDM
 
 ; script if CARRY=1 branch
 	MAC	SBCS
-		SBRANCH	{1},1
+		SBRANCH	{1},1,1
 	ENDM
 
 ; script if NEG=1 branch
 	MAC	SBMI
-		SBRANCH	{1},2
+		SBRANCH	{1},2,1
 	ENDM
 
 ; script if NO EQUAL branch
 	MAC	SBNE
-		SBRANCH	{1},3
+		SBRANCH	{1},3,1
 	ENDM
 
 ; script if CARRY=0 branch
 	MAC	SBCC
-		SBRANCH	{1},4
+		SBRANCH	{1},4,1
 	ENDM
 
 ; script if NEG=0 branch
 	MAC	SBPL
-		SBRANCH	{1},5
+		SBRANCH	{1},5,1
 	ENDM
+
+; set of 8-bit ofs branches
+#if OPTIMIZATION=1
+	MAC	SBEQS
+		SBRANCH	{1},0,0
+	ENDM
+
+	MAC	SBCSS
+		SBRANCH	{1},1,0
+	ENDM
+
+	MAC	SBMIS
+		SBRANCH	{1},2,0
+	ENDM
+
+	MAC	SBNES
+		SBRANCH	{1},3,0
+	ENDM
+
+	MAC	SBCCS
+		SBRANCH	{1},4,0
+	ENDM
+
+	MAC	SBPLS
+		SBRANCH	{1},5,0
+	ENDM
+#else
+	MAC	SBEQS
+		SBRANCH	{1},0,1
+	ENDM
+
+	MAC	SBCSS
+		SBRANCH	{1},1,1
+	ENDM
+
+	MAC	SBMIS
+		SBRANCH	{1},2,1
+	ENDM
+
+	MAC	SBNES
+		SBRANCH	{1},3,1
+	ENDM
+
+	MAC	SBCCS
+		SBRANCH	{1},4,1
+	ENDM
+
+	MAC	SBPLS
+		SBRANCH	{1},5,1
+	ENDM
+#endif
 
 ; test pads pad offset {1}, mask {2}, default branch if zero - {3}
 

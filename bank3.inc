@@ -3198,20 +3198,30 @@ _rect18:
 		.BYTE	$00,$00,$97,$9A,$D1
 ;_unref_2:
 ;		.BYTE	$01,$0F
-_tlm00:
+_tlm_wrecking_lizard_chain0:
 		.BYTE	$C6,$C7
-_tlm02:
+_tlm_wrecking_lizard_chain2:
 		.BYTE	$C6,$C7
-_tlm04:
-		.BYTE	$C6,$C7,$C6,$C7,$C6,$C7,$C6,$C7,$C6,$C7,$00
+_tlm_wrecking_lizard_chain4:
+		.BYTE	$C6,$C7
+		.BYTE	$C6,$C7
+		.BYTE	$C6,$C7
+		.BYTE	$C6,$C7
+		.BYTE	$C6,$C7
+		.BYTE	$00
 ;_unref_9:
 ;		.BYTE	$01,$0F,$D6
-_tlm01:
+_tlm_wrecking_lizard_chain1:
 		.BYTE	$D7,$D6
-_tlm03:
+_tlm_wrecking_lizard_chain3:
 		.BYTE	$D7,$D6
-_tlm05:
-		.BYTE	$D7,$D6,$D7,$D6,$D7,$D6,$D7,$D6,$D7,$00
+_tlm_wrecking_lizard_chain5:
+		.BYTE	$D7,$D6
+		.BYTE	$D7,$D6
+		.BYTE	$D7,$D6
+		.BYTE	$D7,$D6
+		.BYTE	$D7
+		.BYTE	$00
 _cat_boss_bg_patch0:
 		.BYTE	$08,$08
 		.BYTE	$00,$00,$00,$00,$00,$00,$00,$00
@@ -3248,7 +3258,7 @@ _tlm_res_license:
 _tlm15:
 		.BYTE	$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D
 _tlm16:
-		.BYTE	1
+		.BYTE	$01
 _rect_frame_nt_clear:
 		.BYTE	$A0,$8A,$40
 _tlm_res_frame_attr_clear:

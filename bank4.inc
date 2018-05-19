@@ -9,10 +9,10 @@
 
 ; =============== S C R I P T   R O U T I N E ===============================
 ;_ssub_unref:
-;		NJSR				_obj_move_hor_animate
+;		NJSR				_obj_hor_move
 ;		NJSR				_nsub_obj_to_tile_collision_test_hor
 ;		SBCSS				byte_6800C
-;		NJSR				_j_nsub_complement_x_deltas
+;		NJSR				_nsub_complement_x_deltas
 ;byte_6800C:
 ;		SJSRS				_ssub_obj_jump_calcs
 ;		SBCSS				byte_6801F
@@ -21,7 +21,7 @@
 ;		NJSR				_nsub_obj_to_obj_thrown_test_concat_up
 ;		SRET
 ;byte_6801C:
-;		NJSR				_scr_cmd_clear_carry
+;		NJSR				_nsub_clear_scr_carry
 ;byte_6801F:
 ;		SRET
 
@@ -52,7 +52,7 @@ _ssub_obj_jump_sync:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_obj_jump:
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_obj_to_tile_collision_test_hor
 
 ; !FALLTHROUGH!
@@ -62,15 +62,15 @@ _ssub_obj_jump_calcs:
 		NJSR				_nsub_obj_jump_up_anim
 		NJSR				_nsub_get_obj_y_delta
 		SBPLS				byte_6805C
-		NJSR				_obj_vert_anim
+		NJSR				_obj_vert_move
 		NJSR				_nsub_obj_to_tile_collision_test_up
 		SBCSS				byte_68058
 		DELTA_Y_SET			$01
 byte_68058:
-		NJSR				_scr_cmd_clear_carry
+		NJSR				_nsub_clear_scr_carry
 		SRET
 byte_6805C:
-		NJSR				_obj_to_tile_grid_collision_test_down
+		NJSR				_nsub_obj_to_tile_grid_collision_test_down
 		SBCCS				byte_68064
 		DELTA_Y_SET			$00
 byte_68064:
@@ -122,10 +122,10 @@ _ssub_y_parabolic_delta_infinite_anim_sync:
 _ssub_common_stun_mode:
 		SJSRS				_ssub_common_stun_init	; so init stun and jump off animation
 		DELTA_X_SET			$00
-		NJSR				_scr_flips_04_clear		; stop movement
+		NJSR				_scr_flips_04_clear		; disable object
 byte_680A5:
 		SJSRS				_ssub_common_stun_obj_ai; wait for grab by player
-		LOOP_A				$3C,byte_680A5			; about 8 seconds (8x60 frames)
+		LOOP_A				$3C,byte_680A5			;
 		LOOP_B				$08,byte_680A5
 		NJSR				_nsub_obj_blink_set		; if no grab, start blinking and
 byte_680B3:
@@ -215,7 +215,7 @@ _ssub_spoon_rat_ai:
 		SYNC
 		NJSR				_nsub_obj_to_throw_collision_test_range40	; player's box watch
 		SBCCS				byte_6816A
-		NJSR				_obj_move_hor_animate	; if no player, just walk
+		NJSR				_obj_hor_move			; if no player, just walk
 		NJSR				_nsub_obj_to_tile_collision_test_hor
 		SBCSS				byte_6815F				; auto detect obstacles
 		BREAK				byte_68146				; turn back if reached any solid object
@@ -319,7 +319,7 @@ byte_68205:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_fork_rat_active_ai:
 		SYNC
-		NJSR				_obj_move_hor_animate	; move horizontally
+		NJSR				_obj_hor_move			; move horizontally
 		NJSR				_nsub_obj_to_tile_collision_test_hor; when tile obstacles
 		SBCCS				byte_68231				; jump up on them
 		NJSR				_nsub_obj_to_tile_collision_test_down	; or hop off
@@ -402,7 +402,7 @@ byte_682A5:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_fake_boxA_anim_sync:
 		SYNC
-		NJSR				_obj_move_hor_animate	; move object horizontally
+		NJSR				_obj_hor_move			; move object horizontally
 		NJSR				_nsub_obj_to_tile_collision_test_hor; keep tracking of obstacles
 		SBCCS				byte_682D1
 		NJSR				_nsub_obj_to_tile_collision_test_down	; also floor tiles
@@ -531,7 +531,7 @@ byte_683A5:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_green_gloor_bat_ai:
 		SYNC										; while moving horizontally
-		NJSR				_obj_move_hor_animate	; wait for player get in range
+		NJSR				_obj_hor_move	; wait for player get in range
 		NJSR				_nsub_obj_x_range60_test_from_players_macro_overlap_test_idx
 		SBCCS				byte_683CE
 		LOOP_A				$08,_ssub_green_gloor_bat_ai
@@ -602,7 +602,7 @@ byte_68434:
 		SPR_IDX_SET			_spr_lib7_1E
 		SUSPEND				$04
 		NJSR				_nsub_obj_y_lo_maskF0	; trim y pos by macro-tile grid
-		NJSR				_scr_flips_04_clear		; enable movement
+		NJSR				_scr_flips_04_clear		; disable object
 		DELTA_Y_SET			$B7						; set jump up
 		SJSRS				_ssub_pink_fish_anim
 		DELTA_Y_SET			$00
@@ -637,7 +637,7 @@ _ssub_pink_fish_move_sync:
 		SYNC										; each cycle 9 frames long
 		DELTA_Y_INC									; vertical move with acceleration
 		DELTA_Y_INC
-		NJSR				_obj_vert_anim
+		NJSR				_obj_vert_move
 		LOOP_B				$09,_ssub_pink_fish_move_sync
 		SRET
 
@@ -834,7 +834,7 @@ byte_685F5:
 		SYNC
 		NJSR				_nsub_get_obj_y_delta	; then not jumping, go horizontal
 		SBNES				_sloc_68613				; or else do vertical anim
-		NJSR				_obj_move_hor_animate	; animate unless see any obstacle
+		NJSR				_obj_hor_move			; animate unless see any obstacle
 		NJSR				_nsub_obj_to_tile_collision_test_hor
 		SBCSS				byte_6860A				; then start to jump up
 		DELTA_Y_SET			$CF
@@ -844,17 +844,17 @@ byte_6860A:
 		SBCCS				byte_68636				; if yes, fall down
 		SJMPS				byte_68638				; otherwise continue moving
 _sloc_68613:
-		NJSR				_obj_move_hor_animate	; hor move while jump up
+		NJSR				_obj_hor_move			; hor move while jump up
 		NJSR				_nsub_obj_to_tile_collision_test_hor	; also test hor collisions to jum more if any
 		NJSR				_nsub_obj_jump_up_anim
 		NJSR				_nsub_get_obj_y_delta	; if sump up in progress, just animate
 		SBMIS				byte_6862D				; or else start to test ground collisions
-		NJSR				_obj_to_tile_grid_collision_test_down
+		NJSR				_nsub_obj_to_tile_grid_collision_test_down
 		SBCCS				byte_68638				; stop if ground detected
 		DELTA_Y_SET			$00
 		SJMPS				byte_68638
 byte_6862D:
-		NJSR				_obj_vert_anim			; can't also jump up inside obstacles
+		NJSR				_obj_vert_move			; can't also jump up inside obstacles
 		NJSR				_nsub_obj_to_tile_collision_test_up
 		SBCSS				byte_68638
 byte_68636:
@@ -1011,7 +1011,7 @@ _ssub_68751:
 byte_68763:
 		NJSR				_nsub_dex_timerBs
 byte_68766:
-		NJSR				_obj_vert_anim
+		NJSR				_obj_vert_move
 		ANIMATE_HV_SYNC
 		NJSR				_nsub_obj_x_range40_test_from_players_macro_overlap_test_idx
 		SBCSS				byte_68773
@@ -1060,7 +1060,7 @@ _obj_scr2C_sailor_monkey:
 byte_687BE:
 		APU_SE_SET			_apu_mus68
 byte_687C0:
-		NJSR_SYNC			_obj_vert_anim
+		NJSR_SYNC			_obj_vert_move
 		LOOP_A				$08,byte_687C0
 		LOOP_B				$04,byte_687BE
 		NJSR				_nsub_complement_y_deltas
@@ -1156,7 +1156,7 @@ _ssub_68867:
 		NJSR				_nsub_obj_hor_delta_toggle
 byte_6886D:
 		SYNC
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_obj_to_tile_collision_test_hor
 		SBCSS				byte_6887A
 		BREAK				byte_6885D
@@ -1174,7 +1174,7 @@ byte_6888B:
 		NJSR				_nsub_obj_hor_delta_toggle
 byte_68895:
 		SYNC
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_obj_to_tile_collision_test_hor
 		SBCCS				byte_688A9
 		NJSR				_nsub_obj_to_tile_collision_test_down
@@ -1223,7 +1223,7 @@ byte_688E8:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_688F8:
 		SYNC
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_obj_to_tile_collision_test_hor
 		SBCSS				byte_68905
 		NJSR				_nsub_obj_hor_move_reverse
@@ -1235,7 +1235,7 @@ byte_6890C:
 		DELTA_Y_SET			$C0
 		SJSR				_ssub_obj_wait_for_jump
 byte_68911:
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_obj_to_tile_collision_test_hor
 		NJSR				_nsub_obj_hor_slowdown
 		NJSR_SYNC			_nsub_get_obj_x_delta
@@ -1425,7 +1425,7 @@ _ssub_68A69:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_68A77:
 		SYNC
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_obj_to_tile_collision_test_hor
 		SBCSS				byte_68A86
 		LOOP_A_STOP
@@ -1558,7 +1558,7 @@ _obj_scr_10B:
 byte_68B53:
 		SYNC
 		NJSR				_nsub_obj_jump_up_anim
-		NJSR				_obj_to_tile_grid_collision_test_down
+		NJSR				_nsub_obj_to_tile_grid_collision_test_down
 		SBCCS				byte_68B53
 		DELTA_Y_SET			$00
 		APU_SE_SET			_apu_mus3B
@@ -1587,7 +1587,7 @@ byte_68B79:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_68B90:
 		SYNC
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_obj_to_tile_collision_test_hor
 		SBCCS				byte_68BA5
 		NJSR				_nsub_obj_to_tile_collision_test_down
@@ -1657,7 +1657,7 @@ _ssub_68C0D:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_68C22:
 		SYNC
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_obj_to_tile_collision_test_hor
 		SBCCS				byte_68C37
 		NJSR				_nsub_obj_to_tile_collision_test_down
@@ -1808,7 +1808,7 @@ _ssub_hedgehog_ai:
 		SBCSS				byte_68D3F
 		BREAK				_ssub_hedgehog_defend
 byte_68D3F:
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_obj_to_tile_collision_test_hor
 		SBCSS				byte_68D4B
 		BREAK				_obj_scr_hedgehog_turn_around
@@ -1864,7 +1864,7 @@ _ssub_68DA5:
 		DELTA_Y_SET			$E0
 byte_68DA7:
 		SYNC
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_obj_to_tile_collision_test_hor
 		SBCSS				byte_68DB4
 		NJSR				_nsub_obj_hor_move_reverse
@@ -2031,7 +2031,7 @@ _ssub_68EC8:
 _ssub_68ECF:
 		SYNC
 		SJSR				_obj_scr_20A_anim
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_sub135
 		SBCCS				byte_68EDF
 		NJSR				_nsub_obj_hor_move_reverse
@@ -2162,7 +2162,7 @@ byte_68FC0:
 byte_68FCB:
 		SYNC
 		NJSR				_nsub_obj_jump_up_anim	; animate falling down and test
-		NJSR				_obj_to_tile_grid_collision_test_down
+		NJSR				_nsub_obj_to_tile_grid_collision_test_down
 		SBCSS				byte_68FDE				; for screen tiles collisions
 		NJSR				_nsub_get_obj_hp		; test if already hit someone
 		SBNES				byte_68FCB
@@ -2177,7 +2177,7 @@ byte_68FEB:
 		SYNC
 		NJSR				_nsub_get_obj_idxBs		; animate floating untill the tile edge
 		SBMI				_obj_scr_box			; test if taken, then execute regular box script
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_obj_to_obj_thrown_test_hor_concat
 		NJSR				_nsub_obj_to_tile_collision_test_down
 		SBCSS				byte_68FEB
@@ -2341,7 +2341,7 @@ _obj_scr_boss_flying_panther_stone:
 		NJSR_SYNC			_nsub_obj_x_poss_select_from_flips
 byte_69120:
 		NJSR				_nsub_obj_jump_up_anim
-		NJSR_SYNC			_obj_vert_anim
+		NJSR_SYNC			_obj_vert_move
 		LOOP_A				$20,byte_69120
 		TARGET_LOCK			$40
 		NJSR				_nsub_obj_to_player_set_tangent
@@ -2521,7 +2521,7 @@ byte_69269:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_boss_sea_rat_move_ai:
 		SJSR				_obj_scr_20A_anim
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_get_obj_y_delta
 		SBNES				byte_69290
 		NJSR				_nsub_obj_to_tile_collision_test_down
@@ -2533,10 +2533,10 @@ byte_69290:
 		SPR_IDX_SET			_spr_lib8_26
 		NJSR				_nsub_obj_jump_up_anim
 		SBPLS				byte_6929C
-		NJSR				_obj_vert_anim
+		NJSR				_obj_vert_move
 		SRET
 byte_6929C:
-		NJSR				_obj_to_tile_grid_collision_test_down
+		NJSR				_nsub_obj_to_tile_grid_collision_test_down
 		SBCCS				byte_692A4
 		DELTA_Y_SET			$00
 byte_692A4:
@@ -3031,7 +3031,7 @@ byte_695C6:
 _ssub_boss_cat_with_cards_ai:
 		SYNC
 		SJSR				_obj_scr_20A_anim
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_sub135
 		SBCSS				byte_695F5
 		NJSR				_nsub_obj_to_tile_collision_test_down
@@ -3048,13 +3048,13 @@ byte_695FC:
 byte_69600:
 		SYNC
 		SJSR				_obj_scr_20A_anim
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_obj_jump_up_anim
 		SBPLS				byte_69613
-		NJSR				_obj_vert_anim
+		NJSR				_obj_vert_move
 		SJMPS				byte_69600
 byte_69613:
-		NJSR				_obj_to_tile_grid_collision_test_down
+		NJSR				_nsub_obj_to_tile_grid_collision_test_down
 		SBCCS				byte_69600
 		DELTA_Y_SET			$00
 		LOOP_A_STOP
@@ -3297,7 +3297,7 @@ _ssub_697EF:
 _ssub_69813:
 		SYNC
 		SJSR				_obj_scr_20A_anim
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_sub149
 		SBNES				byte_69840
 		NJSR				_nsub_get_obj_y_delta
@@ -3307,10 +3307,10 @@ _ssub_69813:
 byte_6982C:
 		NJSR				_nsub_obj_jump_up_anim
 		SBPLS				byte_69838
-		NJSR				_obj_vert_anim
+		NJSR				_obj_vert_move
 		SJMPS				byte_69840
 byte_69838:
-		NJSR				_obj_to_tile_grid_collision_test_down
+		NJSR				_nsub_obj_to_tile_grid_collision_test_down
 		SBCCS				byte_69840
 		DELTA_Y_SET			$00
 byte_69840:
@@ -3413,8 +3413,8 @@ _obj_scr45_lvl5C_wrecking_lizard:
 		DAMAGE_SET			_OBJ_DMG_KILL
 		POS_X_SET			$88,$01
 		POS_Y_SET			$78,$00
-		SRUN				_OBJ_TYPE_EBULLET,_obj_scr_11F
-		SRUN				_OBJ_TYPE_ENEMY,_obj_scr_120
+		SRUN				_OBJ_TYPE_EBULLET,_obj_scr_wrecking_lizard_tracks
+		SRUN				_OBJ_TYPE_ENEMY,_obj_scr_wrecking_lizard_ball
 		NJSR				_nsub_last_slot_idx_to_idxCs_store
 		NJSR				_nsub_obj_idxCs_C0_clear
 		SPR_LIB_SET			_spr_lib8
@@ -3560,26 +3560,26 @@ _nsub_pal_patch01_load:
 		JMP		_far_prg3_pal_patch_load
 
 ; =============== S C R I P T ===============================================
-_obj_scr_11F:
-		NJSR				_nsub_obj_idxCs_C0_clear
-		POS_Y_MOVE			$3F
-		SIZE_SET			$24,$40
+_obj_scr_wrecking_lizard_tracks:
+		NJSR				_nsub_obj_idxCs_C0_clear	; solid non destructible
+		POS_Y_MOVE			$3F							; object of crane caterbillars
+		SIZE_SET			$24,$40						; 48x40 in size
 		HP_SET				$01
-		DAMAGE_SET			_OBJ_DMG_KILL
+		DAMAGE_SET			_OBJ_DMG_KILL				; deadly
 byte_69A07:
 		SYNC
-		SJSRS				_ssub_69A12
+		SJSRS				_ssub_disable_if_obj3_no_hp	; deadly unless main object has hp
 		SJMPS				byte_69A07
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_ssub_69A0E:
+_ssub_disable_if_obj3_no_hp_active:
 		SYNC
 		NJSR				_scr_flips_04_clear
 
 ; !FALLTHROUGH!
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_ssub_69A12:
+_ssub_disable_if_obj3_no_hp:
 		NJSR				_nsub_get_obj3_hp
 		SBNES				byte_69A1B
 		SIZE_SET			$00,$00
@@ -3587,58 +3587,58 @@ byte_69A1B:
 		SRET
 
 ; =============== S C R I P T ===============================================
-_obj_scr_120:
-		NJSR				_nsub_obj_idxCs_C0_clear
+_obj_scr_wrecking_lizard_ball:
+		NJSR				_nsub_obj_idxCs_C0_clear	; wrecking ball object
 		POS_X_MOVE			$94
 		POS_Y_MOVE			$48
 		SPR_LIB_SET			_spr_lib8
 		SPR_IDX_SET			_spr_lib8_08
 		SIZE_SET			$08,$20
-		HP_SET				$FF
+		HP_SET				$FF							; deadly non destructible
 		DAMAGE_SET			$FF
 		SPRITE_ON
-		SJSRS				_ssub_69A5B
+		SJSRS				_nsub_wercking_lizard_chain_up
 byte_69A32:
 		NJSR				_nsub_idxBs_10_set
 byte_69A35:
-		SJSRS				_ssub_69A0E
+		SJSRS				_ssub_disable_if_obj3_no_hp_active
 		NJSR				_nsub_idxBs_10_test
 		SBNES				byte_69A35
-		SJSRS				_ssub_69A6E
+		SJSRS				_nsub_wercking_lizard_chain_down
 		APU_SE_SET			_apu_mus63
-		SRUN				_OBJ_TYPE_EBULLET,_obj_scr_122
-		SJSRS				_ssub_69A0E
-		SRUN				_OBJ_TYPE_EBULLET,_obj_scr_123
+		SRUN				_OBJ_TYPE_EBULLET,_obj_scr_wrecking_lizard_brick_left
+		SJSRS				_ssub_disable_if_obj3_no_hp_active
+		SRUN				_OBJ_TYPE_EBULLET,_obj_scr_wrecking_lizard_brick_right
 byte_69A4E:
-		SJSRS				_ssub_69A0E
+		SJSRS				_ssub_disable_if_obj3_no_hp_active
 		LOOP_B				$3C,byte_69A4E
-		SJSRS				_ssub_69A5B
+		SJSRS				_nsub_wercking_lizard_chain_up
 		SJMPS				byte_69A32
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_ssub_69A5B:
+_nsub_wercking_lizard_chain_up:
 		DELTA_Y_SET			$E0
 byte_69A5D:
-		SJSRS				_ssub_69A0E
-		NJSR				_obj_vert_anim
-		NJSR				_nsub_sub013
-		NJSR				_nsub_sub014
+		SJSRS				_ssub_disable_if_obj3_no_hp_active
+		NJSR				_obj_vert_move
+		NJSR				_nsub_wrecking_lizard_chain_draw
+		NJSR				_nsub_loopB_inc
 		LOOP_A				$18,byte_69A5D
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_ssub_69A6E:
+_nsub_wercking_lizard_chain_down:
 		DELTA_Y_SET			$40
 byte_69A70:
-		SJSRS				_ssub_69A0E
-		NJSR				_obj_vert_anim
-		NJSR				_nsub_sub015
-		NJSR				_nsub_sub013
+		SJSRS				_ssub_disable_if_obj3_no_hp_active
+		NJSR				_obj_vert_move
+		NJSR				_nsub_loopB_dec_dec
+		NJSR				_nsub_wrecking_lizard_chain_draw
 		LOOP_A				$0C,byte_69A70
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub013:
+_nsub_wrecking_lizard_chain_draw:
 		SEC
 		LDA		_obj_y_lo_poss,X
 		SBC		#$30
@@ -3655,44 +3655,44 @@ loc_69A92:
 		LDA		_scr_loopsB,X
 		AND		#$1C
 		TAX
-		LDA		off_69AB9+2,X
+		LDA		_wrecking_lizard_chain_tlm_lib+2,X
 		STA		_tmp_ptr2
-		LDA		off_69AB9,X
-		LDY		off_69AB9+1,X
+		LDA		_wrecking_lizard_chain_tlm_lib,X
+		LDY		_wrecking_lizard_chain_tlm_lib+1,X
 		JMP		_far_prg3_tlm_queue
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub014:
+_nsub_loopB_inc:
 		INC		_scr_loopsB,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub015:
+_nsub_loopB_dec_dec:
 		DEC		_scr_loopsB,X
 		DEC		_scr_loopsB,X
 		RTS
 
-off_69AB9:
-		.WORD	_tlm00
+_wrecking_lizard_chain_tlm_lib:
+		.WORD	_tlm_wrecking_lizard_chain0
 		.WORD	$4F
-		.WORD	_tlm01
+		.WORD	_tlm_wrecking_lizard_chain1
 		.WORD	$4E
-		.WORD	_tlm02
+		.WORD	_tlm_wrecking_lizard_chain2
 		.WORD	$4D
-		.WORD	_tlm03
+		.WORD	_tlm_wrecking_lizard_chain3
 		.WORD	$4C
-		.WORD	_tlm04
+		.WORD	_tlm_wrecking_lizard_chain4
 		.WORD	$4B
-		.WORD	_tlm05
+		.WORD	_tlm_wrecking_lizard_chain5
 		.WORD	$4A
 
 ; =============== S C R I P T ===============================================
-_obj_scr_122:
+_obj_scr_wrecking_lizard_brick_left:
 		DELTA_X_SET			$F0
 		SJMPS				byte_69AD8
 
 ; =============== S C R I P T ===============================================
-_obj_scr_123:
+_obj_scr_wrecking_lizard_brick_right:
 		DELTA_X_SET			$10
 byte_69AD8:
 		GRABABLE_ON
@@ -4034,7 +4034,7 @@ _nsub_sub01A:
 		JSR		_rand
 		LSR
 		BCS		locret_69D97
-		JMP		_j_nsub_complement_x_deltas
+		JMP		_nsub_complement_x_deltas
 locret_69D97:
 		RTS
 
@@ -4140,7 +4140,7 @@ _pal_patch02_load:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_69E42:
 		SJSR				_obj_scr_20A_anim_anim_sync
-		SJMP				_ssub_69A12
+		SJMP				_ssub_disable_if_obj3_no_hp
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_69E48:
@@ -4171,7 +4171,7 @@ byte_69E6F:
 		NJSR				_nsub_sub153
 		FLIP_H_OFF
 		SJSRS				_ssub_69E87
-		NJSR				_j_nsub_complement_x_deltas
+		NJSR				_nsub_complement_x_deltas
 		NJSR				_nsub_complement_y_deltas
 		SJSRS				_ssub_69E87
 		SJMPS				byte_69E6F
@@ -5203,7 +5203,7 @@ byte_6A54A:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_6A557:
 		NJSR				_nsub_idxBs_20_set
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_obj_to_obj_thrown_test_hor_concat
 		SBCSS				byte_6A569
 		NJSR				_nsub_obj_to_tile_collision_test_hor
@@ -5214,7 +5214,7 @@ byte_6A56B:
 		NJSR				_nsub_obj_jump_up_anim
 		NJSR				_nsub_get_obj_y_delta
 		SBPLS				_ssub_ballistic_throw_anim
-		NJSR				_obj_vert_anim
+		NJSR				_obj_vert_move
 		NJSR				_nsub_obj_to_obj_thrown_test_concat_down
 		SBCCS				byte_6A583
 		NJSR				_nsub_obj_to_tile_collision_test_up
@@ -5222,12 +5222,12 @@ byte_6A56B:
 byte_6A583:
 		DELTA_Y_SET			$01
 byte_6A585:
-		NJSR				_scr_cmd_clear_carry
+		NJSR				_nsub_clear_scr_carry
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_ballistic_throw_anim:
-		NJSR				_obj_vert_anim
+		NJSR				_obj_vert_move
 		NJSR				_nsub_obj_to_obj_thrown_test_concat_up
 		SBCSS				byte_6A598
 		NJSR				_nsub_obj_to_tile_collision_test_down
@@ -5272,8 +5272,8 @@ loc_6A5CE:
 		DEC		_obj_y_deltas,X
 		DEC		_obj_y_deltas,X
 loc_6A5D7:
-		JSR		_obj_vert_anim
-		JSR		_obj_thrown_to_obj_collision_test
+		JSR		_obj_vert_move
+		JSR		_obj_to_obj_thrown_collision_test
 		BCC		loc_6A5E3
 		JSR		_nsub_obj_to_obj_y_concat_down
 		SEC
@@ -5341,7 +5341,7 @@ byte_6A65A:										; player pos and buttons pressed
 		ANIMATE_HV_SYNC							; common one-frame sync anim
 		NJSR				_nsub_get_obj_hp	; test for special flag in hp
 		SBPLS				byte_6A666			; indicated our projectile reflected
-		NJSR				_j_nsub_complement_x_deltas	; if yes, change X direction
+		NJSR				_nsub_complement_x_deltas	; if yes, change X direction
 		HP_SET				$01					; reload hps
 byte_6A666:
 		SBNES				byte_6A65A			; and continue, or just destroy
@@ -6401,7 +6401,7 @@ loc_6AD72:
 loc_6AD8C:
 		DEY
 		BPL		loc_6AD72
-		JMP		_scr_cmd_clear_carry
+		JMP		_nsub_clear_scr_carry
 loc_6AD92:
 		LDA		_obj_damages,Y
 		CMP		#_OBJ_DMG_STUN
@@ -6409,7 +6409,7 @@ loc_6AD92:
 		LDA		#$00
 		STA		_obj_hps,Y
 loc_6AD9E:
-		JMP		_scr_cmd_set_carry
+		JMP		_nsub_set_scr_carry
 
 ; =============== O B J E C T   S C R I P T =================================
 _obj_scr14_press_hammer:
@@ -6428,12 +6428,12 @@ byte_6ADB7:
 		SJSRS				_ssub_6ADDD
 		LOOP_A				$16,byte_6ADB7
 byte_6ADBE:
-		NJSR_SYNC			_obj_vert_anim
+		NJSR_SYNC			_obj_vert_move
 		LOOP_A				$0A,byte_6ADBE
 		SUSPEND				$78
 		DELTA_Y_SET			$40
-		NJSR_SYNC			_obj_vert_anim
-		NJSR_SYNC			_obj_vert_anim
+		NJSR_SYNC			_obj_vert_move
+		NJSR_SYNC			_obj_vert_move
 byte_6ADCF:
 		SJSRS				_ssub_6ADDD
 		LOOP_A				$06,byte_6ADCF
@@ -6444,7 +6444,7 @@ byte_6ADCF:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_6ADDD:
 		SYNC
-		NJSR				_obj_vert_anim
+		NJSR				_obj_vert_move
 		NJSR				_nsub_obj_x_range_width_test_from_players_macro_overlap_test_idx
 		SBCSS				byte_6ADEA
 		NJSR				_nsub_sub042
@@ -6598,7 +6598,7 @@ byte_6AEE3:
 		SRUN				_OBJ_TYPE_EBULLET,_obj_scr_ceiling_cannon_ball_left
 byte_6AEED:
 		SJSR				_ssub_anim_sync_frames32
-		NJSR				_j_nsub_complement_x_deltas
+		NJSR				_nsub_complement_x_deltas
 		NJSR				_nsub_sub16F
 		SBCSS				byte_6AEE3
 		SPR_IDX_SET			_spr_lib5_30
@@ -6611,7 +6611,7 @@ byte_6AF01:
 		SRUN				_OBJ_TYPE_EBULLET,_obj_scr_ceiling_cannon_ball_right
 byte_6AF0B:
 		SJSR				_ssub_anim_sync_frames32
-		NJSR				_j_nsub_complement_x_deltas
+		NJSR				_nsub_complement_x_deltas
 		NJSR				_nsub_sub16F
 		SBCCS				byte_6AF01
 		SJMPS				byte_6AEDB
@@ -6645,21 +6645,21 @@ byte_6AF39:
 		SYNC
 		NJSR				_nsub_get_obj_y_delta
 		SBPLS				byte_6AF4C
-		NJSR				_obj_vert_anim
+		NJSR				_obj_vert_move
 		NJSR				_nsub_obj_to_tile_collision_test_up
 		SBCCS				byte_6AF52
 		SJMPS				byte_6AF57
 byte_6AF4C:
-		NJSR				_obj_to_tile_grid_collision_test_down
+		NJSR				_nsub_obj_to_tile_grid_collision_test_down
 		SBCCS				byte_6AF57
 byte_6AF52:
 		NJSR				_nsub_complement_y_deltas
 		APU_SE_SET			_apu_mus54
 byte_6AF57:
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_obj_to_tile_collision_test_hor
 		SBCSS				byte_6AF39
-		NJSR				_j_nsub_complement_x_deltas
+		NJSR				_nsub_complement_x_deltas
 		APU_SE_SET			_apu_mus54
 		SJMPS				byte_6AF39
 
@@ -6694,11 +6694,6 @@ _ssub_delay_before_stage_complete:
 byte_6AF9A:
 		NJSR_SYNC			_nsub_obj_timer_spr_insert_test
 		LOOP_A				$F0,byte_6AF9A
-
-; !FALLTHROUGH!
-
-; =============== S C R I P T   R O U T I N E ===============================
-_j_ssub_stage_complete_flag_set:
 		SJMP				_ssub_stage_complete_flag_set
 
 ; =============== S U B R O U T I N E =======================================
@@ -6731,7 +6726,7 @@ _obj_scr_game_result_display:
 		NJSR				_nsub_get_bonus_game_winner
 		SUSPEND				$B4
 		NJSR				_nsub_sub047
-		SJMPS				_j_ssub_stage_complete_flag_set
+		SJMP				_ssub_stage_complete_flag_set
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_sub045:
@@ -6830,7 +6825,7 @@ _ssub_lives_bonus_floater_init:
 		SJMPS				byte_6B09B
 byte_6B095:
 		POS_X_SET			$F8,$FF
-		NJSR				_j_nsub_complement_x_deltas
+		NJSR				_nsub_complement_x_deltas
 byte_6B09B:
 		SRET
 
@@ -6843,7 +6838,7 @@ _ssub_lives_bonus_floater_anim:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_lives_bonus_floater_bounce:
 		SUSPEND				$1E						; wait before reappear, then
-		NJSR_SYNC			_j_nsub_complement_x_deltas	; invert x delta
+		NJSR_SYNC			_nsub_complement_x_deltas	; invert x delta
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
@@ -6971,14 +6966,14 @@ _nsub_get_player2_lives:
 ; =============== S C R I P T ===============================================
 _obj_scr_lives_bonus_player1_red_ball:
 		NJSR				_nsub_get_player1_lives
-		SBEQS				_ssub_j_kill
+		SBEQS				_ssub_kill
 		POS_X_SET			$10,$00
 		SJMPS				_obj_scr_lives_bonus_red_ball_common
 
 ; =============== S C R I P T ===============================================
 _obj_scr_lives_bonus_player2_red_ball:
 		NJSR				_nsub_get_player2_lives
-		SBEQS				_ssub_j_kill
+		SBEQS				_ssub_kill
 		POS_X_SET			$F0,$00
 
 ; !FALLTHROUGH!
@@ -7006,7 +7001,7 @@ _obj_lives_bonus_red_ball_destr:
 		SJMP				_ssub_infinite_anim_sync
 
 ; =============== S C R I P T ===============================================
-_ssub_j_kill:
+_ssub_kill:
 		KILL
 
 ; =============== O B J E C T   S C R I P T =================================
@@ -7085,7 +7080,7 @@ _ssub_coins_game_coin_ai:
 		SYNC
 		NJSR				_nsub_coins_game_coin_goal_test
 		SBEQS				byte_6B21A
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_get_obj_hp
 		SBNES				byte_6B21A
 		NJSR				_nsub_coins_game_coin_bounce_test
@@ -7096,7 +7091,7 @@ byte_6B21A:
 ; =============== S U B R O U T I N E =======================================
 _nsub_coins_game_coin_bounce_test:
 		JSR		_scr_flips_04_clear
-		JSR		_j_nsub_complement_x_deltas
+		JSR		_nsub_complement_x_deltas
 		INC		_obj_hps,X
 		LDA		_obj_x_deltas,X
 		BMI		loc_6B238
@@ -8110,9 +8105,7 @@ _nsub_sub065:
 		CLC
 		ADC		_ppu_scroll_shadow_lo,X
 		STA		_ppu_scroll_shadow_lo,X
-		LDA		_ppu_scroll_nt_hor,X
-		ADC		#$00
-		STA		_ppu_scroll_nt_hor,X
+		ADCH	_ppu_scroll_nt_hor,X
 		RTS
 
 ; =============== S C R I P T ===============================================

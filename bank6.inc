@@ -446,9 +446,7 @@ loc_982BD:
 		LDA		_apu_tmpF2
 		SBC		#$01
 		STA		_apu_tmpF2
-		LDA		_apu_tmpF3
-		SBC		#$00
-		STA		_apu_tmpF3
+		SBCH	_apu_tmpF3
 		ORA		_apu_tmpF2
 		BNE		loc_982B4
 		LDA		#<[byte_992B5]

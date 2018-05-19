@@ -3622,9 +3622,7 @@ loc_3B59C:
 		LDA		byte_B0
 		SBC		#$10
 		STA		byte_B0
-		LDA		_lvl_start_scroll_vert
-		SBC		#$00
-		STA		_lvl_start_scroll_vert
+		SBCH	_lvl_start_scroll_vert
 		RTS
 loc_3B5D2:
 		LDA		#$00
@@ -4017,14 +4015,14 @@ loc_3B831:
 		CMP		#$1E
 		BCC		loc_3B853
 loc_3B843:
-		JSR		_obj_vert_anim
+		JSR		_obj_vert_move
 		LDA		_obj_y_hi_poss,X
 		BNE		loc_3B853
 		JSR		_obj_to_tile_collision_test_up
 		BCC		loc_3B853
 		JSR		_players_state12_A_A_A
 loc_3B853:
-		JSR		_obj_thrown_to_obj_collision_test
+		JSR		_obj_to_obj_thrown_collision_test
 		LDA		byte_95
 		STA		_obj_heights,X
 		BCC		loc_3B872
@@ -4057,7 +4055,8 @@ _players_state12_A_A:
 		ADC		byte_B0
 		STA		_tmp_ptrE
 		JSR		_players_state05_A_A
-		JSR		_obj_vert_anim
+		JSR		_obj_vert_move
+		LDA		_obj_y_hi_poss,X			; FIX to support my optimizations
 		BNE		_players_state05_A_B
 		LDA		_obj_y_deltas,X
 		BEQ		loc_3B8AE
@@ -4076,7 +4075,7 @@ loc_3B8AE:
 ; =============== S U B R O U T I N E =======================================
 _players_state05_A_B:
 		INC		_obj_y_lo_poss,X
-		JSR		_obj_thrown_to_obj_collision_test
+		JSR		_obj_to_obj_thrown_collision_test
 		PHP
 		DEC		_obj_y_lo_poss,X
 		PLP
@@ -4093,7 +4092,7 @@ loc_3B8CF:
 _players_default_state_select_F_A:
 		LDX		_scr_idx
 		JSR		_players_state05_A_A
-		JSR		_obj_move_hor_animate
+		JSR		_obj_hor_move
 		LDA		_scr_params,X
 		AND		#_OBJ_TYPE_MASK
 		CMP		#_OBJ_TYPE_PLAYER
@@ -4115,7 +4114,7 @@ loc_3B8FD:
 		BCC		loc_3B905
 		JSR		_players_state12_A_A_A
 loc_3B905:
-		JSR		_obj_thrown_to_obj_collision_test
+		JSR		_obj_to_obj_thrown_collision_test
 		BCC		loc_3B910
 		JSR		_nsub_obj_to_obj_x_concat_left
 		JSR		_players_default_state_select_F_A_B
@@ -4126,7 +4125,7 @@ loc_3B910:
 _players_default_state_select_E_A:
 		LDX		_scr_idx
 		JSR		_players_state05_A_A
-		JSR		_obj_move_hor_animate
+		JSR		_obj_hor_move
 		LDA		_scr_params,X
 		AND		#_OBJ_TYPE_MASK
 		CMP		#_OBJ_TYPE_PLAYER
@@ -4148,7 +4147,7 @@ loc_3B93E:
 		BCC		loc_3B946
 		JSR		_players_state12_A_A_A
 loc_3B946:
-		JSR		_obj_thrown_to_obj_collision_test
+		JSR		_obj_to_obj_thrown_collision_test
 		BCC		_players_state12_A_B_D
 		JSR		_nsub_obj_to_obj_x_concat_right
 		JSR		_players_default_state_select_F_A_B

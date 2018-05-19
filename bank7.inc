@@ -760,9 +760,7 @@ loc_B44A9:
 		SEC
 		SBC		byte_8
 		STA		_tmp_ptr0
-		LDA		_tmp_ptr0+1
-		SBC		#$00
-		STA		_tmp_ptr0+1
+		SBCH	_tmp_ptr0+1
 loc_B44B8:
 		DEC		byte_7
 		LDA		byte_7
@@ -1160,17 +1158,13 @@ _obj_to_tile_collision_test_down:
 		LDY		byte_9E
 		JSR		_sub_minus16
 		PHA
-		LDA		_obj_y_hi_poss,X
-		SBC		#$00
-		STA		_obj_y_hi_poss,X
+		SBCH	_obj_y_hi_poss,X
 		PLA
 		AND		#$F0
 		LDY		byte_9E
 		JSR		_add_plus16
 		STA		_obj_y_lo_poss,X
-		LDA		_obj_y_hi_poss,X
-		ADC		#$00
-		STA		_obj_y_hi_poss,X
+		ADCH	_obj_y_hi_poss,X
 		SEC
 		RTS
 loc_B4778:
@@ -1350,9 +1344,7 @@ loc_B4888:
 		LDA		byte_8
 		JSR		_add_plus16
 		STA		byte_8
-		LDA		byte_9
-		ADC		#$00
-		STA		byte_9
+		ADCH	byte_9
 		LDA		_tmp_ptr4
 		CMP		byte_8
 		BNE		loc_B487B
@@ -1898,8 +1890,9 @@ loc_B4BA7:
 		ADDWB	#$02,_room_prizes_ptr
 		JMP		loc_B4BA7
 loc_B4BD0:
-		LDA		#$03
-		JSR		_mmc1_prg_set
+; REDUNDANT, what?
+;		LDA		#$03
+;		JSR		_mmc1_prg_set
 loc_B4BD5:
 		LDY		#$00
 		LDA		(_room_enemies_ptr),Y
@@ -1916,8 +1909,9 @@ loc_B4BD5:
 		ADDWB	#$03,_room_enemies_ptr
 		JMP		loc_B4BD5
 loc_B4BFC:
-		LDA		#$03
-		JSR		_mmc1_prg_set
+; REDUNDANT, WHAT?!?
+;		LDA		#$03
+;		JSR		_mmc1_prg_set
 		LDX		#$00
 loc_B4C03:
 		TXA
@@ -2054,8 +2048,9 @@ loc_B4CB3:
 		ADDWB	#$02,_room_prizes_ptr
 		JMP		loc_B4CB3
 loc_B4CEA:
-		LDA		#$03
-		JSR		_mmc1_prg_set
+; REDUNDANT, same shit
+;		LDA		#$03
+;		JSR		_mmc1_prg_set
 loc_B4CEF:
 		LDY		#$00
 		LDA		(_room_enemies_ptr),Y
@@ -2078,8 +2073,9 @@ loc_B4CEF:
 		ADDWB	#$03,_room_enemies_ptr
 		JMP		loc_B4CEF
 loc_B4D20:
-		LDA		#$03
-		JSR		_mmc1_prg_set
+; REDUNDANT, again...
+;		LDA		#$03
+;		JSR		_mmc1_prg_set
 		LDX		byte_8A+4
 loc_B4D27:
 		TXA
@@ -2644,7 +2640,7 @@ _MAIN_START:
 		STX		_stage_flags
 		STX		_pal_anim_mode_idx
 		STX		byte_7F
-		JSR		_clear_stack
+		JSR		_clear_bufs
 		JSR		_spr_reset
 		JSR		_mmc1_init
 		DEC		_ppu_queue0_done_flag
@@ -4247,7 +4243,7 @@ _scr_cmd_lib:
 		_CMD_IDX	_scr_cmd34_obj_set_hp
 		_CMD_IDX	_scr_cmd35_obj_flips_set
 ;		_CMD_IDX	_scr_cmd36_idxCs_set			; unused
-		_CMD_IDX	_scr_cmd37_main_sub_idx_set
+;		_CMD_IDX	_scr_cmd37_main_sub_idx_set		; unused
 		_CMD_IDX	_scr_cmd38_pal_fade_in
 		_CMD_IDX	_scr_cmd39_pal_fade_out
 ;		_CMD_IDX	_scr_cmd3A_tlm_res_queue		; unused
@@ -4306,7 +4302,7 @@ _scr_cmd_fetch:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_scr_pc_flush:
+_scr_cmd01_sync:
 		LDX		_scr_idx
 		LDA		_scr_pc
 		STA		_scr_lo_pcs,X
@@ -4363,43 +4359,74 @@ _stack_slots_lib_lo:
 		.BYTE	<[_stack_slot9]
 		.BYTE	<[_stack_slotA]
 		.BYTE	<[_stack_slotB]
-_stack_slots_lib_hi:
-		.BYTE	>[_stack_slot0]
-		.BYTE	>[_stack_slot1]
-		.BYTE	>[_stack_slot2]
-		.BYTE	>[_stack_slot3]
-		.BYTE	>[_stack_slot4]
-		.BYTE	>[_stack_slot5]
-		.BYTE	>[_stack_slot6]
-		.BYTE	>[_stack_slot7]
-		.BYTE	>[_stack_slot8]
-		.BYTE	>[_stack_slot9]
-		.BYTE	>[_stack_slotA]
-		.BYTE	>[_stack_slotB]
+;_stack_slots_lib_hi:
+;		.BYTE	>[_stack_slot0]				; REDUNDANT, assumig all slots in the same
+;		.BYTE	>[_stack_slot1]				; page!
+;		.BYTE	>[_stack_slot2]
+;		.BYTE	>[_stack_slot3]
+;		.BYTE	>[_stack_slot4]
+;		.BYTE	>[_stack_slot5]
+;		.BYTE	>[_stack_slot6]
+;		.BYTE	>[_stack_slot7]
+;		.BYTE	>[_stack_slot8]
+;		.BYTE	>[_stack_slot9]
+;		.BYTE	>[_stack_slotA]
+;		.BYTE	>[_stack_slotB]
 
 ; =============== S U B R O U T I N E =======================================
-_scr_get_sp:
-		LDX		_scr_idx
-		LDA		_stack_slots_lib_lo,X
-		STA		_tmp_ptr0
-		LDA		_stack_slots_lib_hi,X
-		STA		_tmp_ptr0+1
+;_scr_get_sp:
+;;		LDX		_scr_idx					; REDUNDANT, already loaded!
+;		LDA		_stack_slots_lib_lo,X
+;		STA		_tmp_ptr2
+;;		LDA		_stack_slots_lib_hi,X		; REDUNDANT, constant used
+;		LDA		#>[_stack_slot0]
+;		STA		_tmp_ptr2+1
+;		LDY		_scr_sps,X
+;		RTS
+
+; =============== S U B R O U T I N E =======================================
+_scr_push_pc:
+;		JSR		_scr_get_sp
 		LDY		_scr_sps,X
-		RTS
-
-; =============== S U B R O U T I N E =======================================
-_scr_push:
-		STA		(_tmp_ptr0),Y
+		LDA		_scr_pc+1
+;		STA		(_tmp_ptr2),Y
+		STA		_stack,Y
 		INY
-		INC		_scr_sps,X
+		LDA		_scr_pc
+;		STA		(_tmp_ptr2),Y
+		STA		_stack,Y
+		INY
+		STY		_scr_sps,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_scr_pop:
-		DEC		_scr_sps,X
-		DEY
-		LDA		(_tmp_ptr0),Y
-		RTS
+;_scr_pop_pc:
+;		JSR		_scr_get_sp
+;		LDY		_scr_sps,X
+;		DEY
+;		LDA		(_tmp_ptr2),Y
+;		LDA		_stack,Y
+;		STA		_scr_pc
+;		DEY
+;		LDA		(_tmp_ptr2),Y
+;		LDA		_stack,Y
+;		STA		_scr_pc+1
+;		STY		_scr_sps,X
+;		RTS
+
+; =============== S U B R O U T I N E =======================================
+;_scr_push:
+;		STA		(_tmp_ptr2),Y
+;		INY
+;		INC		_scr_sps,X
+;		RTS
+
+; =============== S U B R O U T I N E =======================================
+;_scr_pop:
+;		DEC		_scr_sps,X
+;		DEY
+;		LDA		(_tmp_ptr2),Y
+;		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd00_stop:
@@ -4409,14 +4436,10 @@ _scr_cmd00_stop:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_scr_cmd01_sync:
-		JMP		_scr_pc_flush
-
-; =============== S U B R O U T I N E =======================================
 _scr_cmd02_suspend:
 		JSR		_scr_getc
 		STA		_scr_delays,X
-		JMP		_scr_pc_flush
+		JMP		_scr_cmd01_sync
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd04_run:
@@ -4457,7 +4480,7 @@ _scr_cmd03_ejsr_sync:
 		JSR		_scr_getc
 		STA		_tmp_ptr0+1
 #endif
-		JSR		_scr_pc_flush
+		JSR		_scr_cmd01_sync
 		JMP		(_tmp_ptr0)
 
 ; =============== S U B R O U T I N E =======================================
@@ -4477,46 +4500,46 @@ _scr_cmd05_ejsr:
 		JMP		(_tmp_ptr0)
 
 ; =============== S U B R O U T I N E =======================================
-_scr_cmd37_main_sub_idx_set:
-		JSR		_scr_getc
-		STA		_main_sub_idx
-		JMP		_MAIN_RESTART
+;_scr_cmd37_main_sub_idx_set:
+;		JSR		_scr_getc
+;		STA		_main_sub_idx
+;		JMP		_MAIN_RESTART
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd06_jmp:
-; TODO: optimize me, put directly into PC, then jump to fetch instead of exec
-		JSR		_scr_getc
-		STA		_scr_lo_pcs,X
-		JSR		_scr_getc
-		STA		_scr_hi_pcs,X
-		JMP		_scr_cmd_exec
-; -
-
-; =============== S U B R O U T I N E =======================================
-_scr_cmd07_jsr:
-		JSR		_scr_getc
-		STA		_scr_lo_pcs,X
-		JSR		_scr_getc
-		STA		_scr_hi_pcs,X
-		JSR		_scr_get_sp
-		LDA		_scr_pc+1
-		JSR		_scr_push
-		LDA		_scr_pc
-		JSR		_scr_push
-		JMP		_scr_cmd_exec
-
-; =============== S U B R O U T I N E =======================================
-_scr_cmd08_ret:
-		JSR		_scr_get_sp
-		JSR		_scr_pop
+		JSR		_scr_getw
+		LDA		_tmp_ptr0
 		STA		_scr_pc
-		JSR		_scr_pop
+		LDA		_tmp_ptr0+1
 		STA		_scr_pc+1
 		JMP		_scr_cmd_fetch
 
 ; =============== S U B R O U T I N E =======================================
+_scr_cmd07_jsr:
+		JSR		_scr_getw
+		JSR		_scr_push_pc			; NOTE: we push PC after arguments read
+		LDA		_tmp_ptr0				; so we point to the next opcode
+		STA		_scr_pc
+		LDA		_tmp_ptr0+1
+		STA		_scr_pc+1
+		JMP		_scr_cmd_fetch
+
+; =============== S U B R O U T I N E =======================================
+_scr_cmd08_ret:
+;		JSR		_scr_pop_pc
+		LDY		_scr_sps,X
+		DEY
+		LDA		_stack,Y
+		STA		_scr_pc
+		DEY
+		LDA		_stack,Y
+		STA		_scr_pc+1
+		STY		_scr_sps,X
+		JMP		_scr_cmd_fetch
+
+; =============== S U B R O U T I N E =======================================
 _scr_cmd41_break:
-		JSR		_scr_get_sp
+;		JSR		_scr_get_sp					; REDUNDANT, no need here!
 		DEC		_scr_sps,X
 		DEC		_scr_sps,X
 		JMP		_scr_cmd06_jmp
@@ -4719,14 +4742,8 @@ _scr_short_ofs:
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd4B_jsr_short:
 		JSR		_scr_short_ofs
-		JSR		_scr_get_sp
-		LDA		_scr_pc+1
-		JSR		_scr_push
-		LDA		_scr_pc
-		JSR		_scr_push
+		JSR		_scr_push_pc
 		JMP		_scr_cmd_exec
-
-; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd4A_jmp_short:
@@ -4806,18 +4823,18 @@ loc_B5DB1:
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd19_obj_animate:
-		JSR		_obj_move_hor_animate
-		JSR		_obj_vert_anim
+		JSR		_obj_hor_move
+		JSR		_obj_vert_move
 		JMP		_scr_cmd_fetch
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd18_obj_animate_sync:
-		JSR		_obj_move_hor_animate
-		JSR		_obj_vert_anim
-		JMP		_scr_pc_flush
+		JSR		_obj_hor_move
+		JSR		_obj_vert_move
+		JMP		_scr_cmd01_sync
 
 ; =============== S U B R O U T I N E =======================================
-_obj_move_hor_animate:
+_obj_hor_move:
 		LDA		_obj_x_deltas,X
 		BEQ		locret_B5E1B
 		BMI		loc_B5DEF
@@ -4831,9 +4848,7 @@ _obj_move_hor_animate:
 		AND		#$07
 		ADC		_obj_x_lo_poss,X
 		STA		_obj_x_lo_poss,X
-		LDA		_obj_x_hi_poss,X
-		ADC		#$00
-		STA		_obj_x_hi_poss,X
+		ADCH	_obj_x_hi_poss,X
 		RTS
 loc_B5DEF:
 		SEC
@@ -4853,14 +4868,12 @@ loc_B5DEF:
 		LDA		_obj_x_lo_poss,X
 		SBC		_tmp_ptr0+1
 		STA		_obj_x_lo_poss,X
-		LDA		_obj_x_hi_poss,X
-		SBC		#$00
-		STA		_obj_x_hi_poss,X
+		SBCH	_obj_x_hi_poss,X
 locret_B5E1B:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_obj_vert_anim:
+_obj_vert_move:
 		LDA		_obj_y_deltas,X
 		BEQ		locret_B5E6E
 		BMI		loc_B5E42
@@ -4874,9 +4887,7 @@ _obj_vert_anim:
 		AND		#$07
 		ADC		_obj_y_lo_poss,X
 		STA		_obj_y_lo_poss,X
-		LDA		_obj_y_hi_poss,X
-		ADC		#$00
-		STA		_obj_y_hi_poss,X
+		ADCH	_obj_y_hi_poss,X
 		RTS
 loc_B5E42:
 		SEC
@@ -4896,9 +4907,7 @@ loc_B5E42:
 		LDA		_obj_y_lo_poss,X
 		SBC		_tmp_ptr0+1
 		STA		_obj_y_lo_poss,X
-		LDA		_obj_y_hi_poss,X
-		SBC		#$00
-		STA		_obj_y_hi_poss,X
+		SBCH	_obj_y_hi_poss,X
 locret_B5E6E:
 		RTS
 
@@ -5310,9 +5319,7 @@ _scr_getw:
 		CLC
 		ADC		#2
 		STA		_scr_pc
-		BCC		.getwf
-		INC		_scr_pc+1
-.getwf
+		ADCH	_scr_pc+1
 		RTS
 #else
 ; =============== S U B R O U T I N E =======================================
@@ -5375,7 +5382,7 @@ _scr_cmd3F_msg_display:
 		STA		_wnd_msg_sub_idx
 		LDA		#$04
 		STA		_wnd_msg_delay_default
-		JMP		_scr_pc_flush
+		JMP		_scr_cmd01_sync
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd40_msg_wait:
@@ -5387,7 +5394,7 @@ _scr_cmd40_msg_wait:
 		BNE		loc_B6140
 		DEC		_scr_pc+1
 loc_B6140:
-		JMP		_scr_pc_flush
+		JMP		_scr_cmd01_sync
 
 ; =============== S U B R O U T I N E =======================================
 _far_prg3_pal_bg_reload:
@@ -5621,8 +5628,8 @@ _nsub_obj_hor_move_with_wave_patternt:
 		TAY
 		LDA		_vert_delta_wave_pattern_list,Y
 		STA		_obj_y_deltas,X
-		JSR		_obj_move_hor_animate
-		JMP		_obj_vert_anim
+		JSR		_obj_hor_move
+		JMP		_obj_vert_move
 
 _vert_delta_wave_pattern_list:
 		.BYTE	$E0,$E0,$E0,$E8,$E8,$E8,$F0,$F0,$F8,$F8,$F8,$F8,$F8,$F8,$F8,$00
@@ -5660,7 +5667,7 @@ _left_to_left_step:
 ; =============== S U B R O U T I N E =======================================
 _right_to_left_step:
 		JSR		_right_to_right_step
-		JMP		_j_nsub_complement_x_deltas
+		JMP		_nsub_complement_x_deltas
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_circular_y_step:
@@ -5761,6 +5768,8 @@ _nsub_box_bonus_3prizes_shuffle:
 ; =============== S U B R O U T I N E =======================================
 _nsub_box_bonus_4prizes_shuffle:
 		LDA		#$04
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_box_bonus_prizes_shuffle:
@@ -6112,18 +6121,18 @@ loc_B655E:
 ;		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_scr_cmd_neg_carry:
-		BCC		_scr_cmd_set_carry
+_nsub_neg_scr_carry:
+		BCC		_nsub_set_scr_carry
 
 ; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_scr_cmd_clear_carry:
+_nsub_clear_scr_carry:
 		CLC
 		JMP		_scr_flags_update
 
 ; =============== S U B R O U T I N E =======================================
-_scr_cmd_set_carry:
+_nsub_set_scr_carry:
 		SEC
 		JMP		_scr_flags_update
 
@@ -6134,25 +6143,25 @@ _scr_cmd_set_carry:
 ; of the macro-tiles grid... not sure why the rest of the same animations
 ; not using the same method...
 ;
-_obj_to_tile_grid_collision_test_down:
+_nsub_obj_to_tile_grid_collision_test_down:
 		CLC
 		LDA		_obj_y_lo_poss,X
 		ADC		byte_B0
 		STA		_tmp_ptrE
-		JSR		_obj_vert_anim
+		JSR		_obj_vert_move
 		CLC
 		LDA		_obj_y_lo_poss,X
 		ADC		byte_B0
 		EOR		_tmp_ptrE
 		AND		#$F0
-		BEQ		_scr_cmd_clear_carry
+		BEQ		_nsub_clear_scr_carry
 
 ; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_to_tile_collision_test_down:
 		LDA		_obj_hps,X
-		BEQ		_scr_cmd_clear_carry
+		BEQ		_nsub_clear_scr_carry
 		LDY		#$A0
 		JSR		_obj_to_tile_collision_test_down
 		JMP		_scr_flags_update
@@ -6160,28 +6169,28 @@ _nsub_obj_to_tile_collision_test_down:
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_to_tile_collision_test_up:
 		LDA		_obj_hps,X
-		BEQ		_scr_cmd_set_carry
+		BEQ		_nsub_set_scr_carry
 		JSR		_obj_to_tile_collision_test_up
-		JMP		_scr_cmd_neg_carry
+		JMP		_nsub_neg_scr_carry
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_to_tile_collision_test_hor:
 		LDA		_obj_hps,X
-		BEQ		_scr_cmd_set_carry
+		BEQ		_nsub_set_scr_carry
 		LDA		_obj_x_deltas,X
-		BEQ		_scr_cmd_set_carry
+		BEQ		_nsub_set_scr_carry
 		SEC
 		LDA		_obj_x_deltas,X
-; TODO: we only may get here if _obj_x_deltas=0 so this branch never taken
-		BEQ		loc_B65CB
+; REDUNDANT, we only may get here if _obj_x_deltas=0 so this branch never taken
+;		BEQ		loc_B65CB
 ; -
 		BMI		loc_B65CE
 		JSR		_obj_to_tile_collision_test_right
 loc_B65CB:
-		JMP		_scr_cmd_neg_carry
+		JMP		_nsub_neg_scr_carry
 loc_B65CE:
 		JSR		_obj_to_tile_collision_test_left
-		JMP		_scr_cmd_neg_carry
+		JMP		_nsub_neg_scr_carry
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_vars21_80_load:
@@ -6192,31 +6201,31 @@ _nsub_vars21_80_load:
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_to_obj_thrown_test_hor_concat:
 		LDA		_obj_x_deltas,X
-		BEQ		_scr_cmd_clear_carry
-		JSR		_obj_thrown_to_obj_collision_test
-		BCC		_scr_cmd_clear_carry
+		BEQ		_nsub_clear_scr_carry
+		JSR		_obj_to_obj_thrown_collision_test
+		BCC		_nsub_clear_scr_carry
 		LDA		_obj_x_deltas,X
 		BPL		loc_B65EF
 		JSR		_nsub_obj_to_obj_x_concat_right
-		JMP		_scr_cmd_set_carry
+		JMP		_nsub_set_scr_carry
 loc_B65EF:
 		JSR		_nsub_obj_to_obj_x_concat_left
-		JMP		_scr_cmd_set_carry
+		JMP		_nsub_set_scr_carry
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_to_obj_thrown_test_concat_down:
-		JSR		_obj_thrown_to_obj_collision_test
+		JSR		_obj_to_obj_thrown_collision_test
 		BCC		loc_B65FE
 		JSR		_nsub_obj_to_obj_y_concat_down
 		SEC
 loc_B65FE:
-		JMP		_scr_cmd_neg_carry
+		JMP		_nsub_neg_scr_carry
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_to_obj_thrown_test_concat_up:
 		JSR		_nsub_vars21_80_load
 		INC		_obj_y_lo_poss,X
-		JSR		_obj_thrown_to_obj_collision_test
+		JSR		_obj_to_obj_thrown_collision_test
 		PHP
 		DEC		_obj_y_lo_poss,X
 		PLP
@@ -6287,11 +6296,11 @@ loc_B6677:
 loc_B667C:
 		DEY
 		BPL		loc_B6626
-		JMP		_scr_cmd_set_carry
+		JMP		_nsub_set_scr_carry
 loc_B6682:
 		TYA
 		STA		_scr_idxAs,X
-		JMP		_scr_cmd_clear_carry
+		JMP		_nsub_clear_scr_carry
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_stun_from_idxAs_test:
@@ -6369,12 +6378,12 @@ _nsub_obj_to_obj_y_collision_test:
 		BEQ		loc_B66F5
 		CMP		#$FF
 		BEQ		loc_B66EC
-		JMP		_scr_cmd_set_carry
+		JMP		_nsub_set_scr_carry
 loc_B66EC:
 		CLC
 		LDA		_tmp_ptr0
 		ADC		_obj_heights,Y
-		JMP		_scr_cmd_neg_carry
+		JMP		_nsub_neg_scr_carry
 loc_B66F5:
 		LDA		_tmp_ptr0
 		CMP		_obj_heights,X
@@ -6449,13 +6458,6 @@ _nsub_obj_under_bg_set:
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_hor_move_reverse:
 		JSR		_nsub_obj_hflip_toggle
-
-; !FALLTHROUGH!
-
-; TODO, optimize me, redundant JMP
-
-; =============== S U B R O U T I N E =======================================
-_j_nsub_complement_x_deltas:
 		JMP		_nsub_complement_x_deltas
 
 ; =============== S U B R O U T I N E =======================================
@@ -6558,18 +6560,14 @@ _nsub_obj_hor_bounce_ex:
 		LDA		_obj_x_lo_poss,X
 		SBC		_tmp_ptr0
 		STA		_obj_x_lo_poss,X
-		LDA		_obj_x_hi_poss,X
-		SBC		#$00
-		STA		_obj_x_hi_poss,X
+		SBCH	_obj_x_hi_poss,X
 		JMP		loc_B67E3
 loc_B67D2:
 		CLC
 		LDA		_obj_x_lo_poss,X
 		ADC		_tmp_ptr0
 		STA		_obj_x_lo_poss,X
-		LDA		_obj_x_hi_poss,X
-		ADC		#$00
-		STA		_obj_x_hi_poss,X
+		ADCH	_obj_x_hi_poss,X
 loc_B67E3:
 		JSR		_nsub_obj_hor_delta_toggle
 		JMP		_nsub_obj_idxCs_80_set
@@ -6657,7 +6655,7 @@ _nsub_sub135:
 		BPL		loc_B6836
 		LDA		_obj_x_lo_poss,X
 		CMP		#$20
-		JMP		_scr_cmd_neg_carry
+		JMP		_nsub_neg_scr_carry
 loc_B6836:
 		LDA		_obj_x_lo_poss,X
 		CMP		#$E0
@@ -6908,9 +6906,7 @@ _nsub_sub146:
 		AND		#$07
 		ADC		_ppu_scroll_shadow_lo
 		STA		_ppu_scroll_shadow_lo
-		LDA		_ppu_scroll_nt_hor
-		ADC		#$00
-		STA		_ppu_scroll_nt_hor
+		ADCH	_ppu_scroll_nt_hor
 		JMP		loc_B69C9
 loc_B69A7:
 		JSR		_swap_4bit_nibbles
@@ -6927,9 +6923,7 @@ loc_B69A7:
 		LDA		_ppu_scroll_shadow_lo
 		SBC		_tmp_ptr0+1
 		STA		_ppu_scroll_shadow_lo
-		LDA		_ppu_scroll_nt_hor
-		SBC		#$00
-		STA		_ppu_scroll_nt_hor
+		SBCH	_ppu_scroll_nt_hor
 loc_B69C9:
 		SEC
 		LDA		_ppu_scroll_shadow_lo
@@ -6969,9 +6963,7 @@ loc_B6A02:
 		LDA		_ppu_scroll_shadow_hi
 		JSR		_sub_minus16
 		STA		_ppu_scroll_shadow_hi
-		LDA		_ppu_scroll_nt_vert
-		SBC		#$00
-		STA		_ppu_scroll_nt_vert
+		SBCH	_ppu_scroll_nt_vert
 		JMP		loc_B6A38
 loc_B6A12:
 		SEC
@@ -6992,9 +6984,7 @@ loc_B6A2B:
 		LDA		_ppu_scroll_shadow_hi
 		JSR		_add_plus16
 		STA		_ppu_scroll_shadow_hi
-		LDA		_ppu_scroll_nt_vert
-		ADC		#$00
-		STA		_ppu_scroll_nt_vert
+		ADCH	_ppu_scroll_nt_vert
 loc_B6A38:
 		SEC
 		LDA		_ppu_scroll_shadow_hi
@@ -7122,15 +7112,15 @@ _obj_scr_20B:
 _ssub_B6AD1:
 		SYNC
 		SJSRS				_obj_scr_20A_anim
-		NJSR				_obj_move_hor_animate
+		NJSR				_obj_hor_move
 		NJSR				_nsub_obj_jump_up_anim
 		NJSR				_nsub_get_obj_y_delta
 		SBPLS				byte_B6AE8
-		NJSR				_obj_vert_anim
-		NJSR				_scr_cmd_clear_carry
+		NJSR				_obj_vert_move
+		NJSR				_nsub_clear_scr_carry
 		SRET
 byte_B6AE8:
-		NJSR				_obj_to_tile_grid_collision_test_down
+		NJSR				_nsub_obj_to_tile_grid_collision_test_down
 		SBCCS				byte_B6AF0
 		DELTA_Y_SET			$00
 byte_B6AF0:
@@ -7595,11 +7585,11 @@ _obj_scr_s_manager_loop:
 		JSR		_switch_param_ret
 		.WORD	0
 		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_TYPE_AUTO
-		.WORD	_far_prg2_players_manager		;	_OBJ_TYPE_PLAYER
+		.WORD	_far_prg2_players_manager	;	_OBJ_TYPE_PLAYER
 		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_TYPE_PBULLET
 		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_TYPE_STUNA
 		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_TYPE_BALL
-		.WORD	_far_prg4_enemy_manager				;	_OBJ_TYPE_ENEMY
+		.WORD	_far_prg4_enemy_manager		;	_OBJ_TYPE_ENEMY
 		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_TYPE_EBULLET
 		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_TYPE_STUNB
 		.WORD	_far_prg4_scr_exec_priority	;	_OBJ_TYPE_SOLID
@@ -7743,9 +7733,11 @@ _scr_destr_jump:
 _scr_reset_slot:
 		LDA		#$00
 		STA		_scr_delays,X
-		STA		_scr_sps,X
 		STA		_scr_loopsA,X
 		STA		_scr_loopsB,X
+; OPTIMIZED
+		LDA		_stack_slots_lib_lo,X
+		STA		_scr_sps,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
@@ -7802,7 +7794,7 @@ loc_B6F07:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_obj_thrown_to_obj_collision_test:
+_obj_to_obj_thrown_collision_test:
 		LDX		_scr_idx
 		LDA		_obj_hps,X
 		BEQ		loc_B6F86
@@ -7907,7 +7899,7 @@ _obj_global_shift:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_clear_stack:
+_clear_bufs:
 		LDA		#<[_stack_slot0]
 		STA		_tmp_ptr0
 		LDA		#>[_stack_slot0]
@@ -7988,7 +7980,6 @@ _scr_load_ex:
 		STA		_scr_destr_hi_pcs,X
 		STA		_scr_loopsA,X
 		STA		_scr_loopsB,X
-		STA		_scr_sps,X
 		STA		_scr_idxBs,X
 		STA		_obj_spr_libs,X
 		STA		_obj_x_deltas,X
@@ -8000,6 +7991,9 @@ _scr_load_ex:
 		STA		_obj_hps,X
 		STA		_obj_damages,X
 		STA		_scr_vars20,X
+; OPTIMIZED
+		LDA		_stack_slots_lib_lo,X
+		STA		_scr_sps,X
 		LDA		#$40
 		STA		_scr_idxCs,X
 		LDA		_scr_idx
@@ -8208,9 +8202,7 @@ _obj_spr_lib_insert:
 		LDA		_tmpC
 		SBC		_obj_heights,X
 		STA		_tmpC
-		LDA		_tmpC+1
-		SBC		#$00
-		STA		_tmpC+1
+		SBCH	_tmpC+1
 loc_B71DE:
 		LDX		_spr_buf_pos
 		LDY		#$00
@@ -8698,7 +8690,7 @@ _ssub_B7547:
 		SPR_IDX_SET			_spr_lib1_05
 byte_B754B:
 		NJSR				_nsub_obj_jump_up_anim
-		NJSR_SYNC			_obj_vert_anim
+		NJSR_SYNC			_obj_vert_move
 		LOOP_A				$15,byte_B754B
 
 ; !FALLTHROUGH!

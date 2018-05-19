@@ -97,6 +97,9 @@ _scr_idx:
 		.BYTE	0
 _scr_pc:
 		.BYTE	0,0
+; NOTE: moved from $200 page here to be able to optimize more
+_scr_sps:
+		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _pads_tmp:
 		.BYTE	0,0
 _pads:
@@ -384,6 +387,15 @@ _pal_backup:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+		ORG		$200
+
+; WARNING! if you decide to move these arrays somewhere
+; make sure you fix pointer tables in sys bank or make
+; sure all these arrays reside in the same RAM page!
+; currently only low nibble of offsets used here!
+
+_stack:
 _stack_slot0:
 		.BYTE	0,0,0,0,0,0,0,0,0,0
 _stack_slot1:
@@ -408,8 +420,10 @@ _stack_slotA:
 		.BYTE	0,0,0,0,0,0,0,0,0,0
 _stack_slotB:
 		.BYTE	0,0,0,0,0,0,0,0,0,0
-_scr_sps:
-		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
+; MOVED to ZERO page! keep gap here unless we find
+; the problem with moving variables below...
+;_scr_sps:
+;		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _scr_lo_pcs:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _scr_hi_pcs:
@@ -419,9 +433,9 @@ _scr_delays:
 _scr_flags:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _scr_destr_lo_pcs:
-		.BYTE	$00,0,0,0,0,0,0,0,0,0,0,0
+		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _scr_destr_hi_pcs:
-		.BYTE	$00,0,0,0,0,0,0,0,0,0,0,0
+		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _scr_loopsA:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _scr_loopsB:
@@ -554,6 +568,9 @@ _spr_lib0_12:
 _ram_buf2:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+		ORG		$600
+
 _spr_buf:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -571,6 +588,7 @@ _spr_buf:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
 _apu_chnl_sp:
 		.BYTE	0,0,0,0,0,0
 _apu_chnl_stack:

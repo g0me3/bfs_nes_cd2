@@ -1,6 +1,6 @@
 ;-------------C-O-N-S-T-A-N-T-S-----------------
 
-DEBUG			EQU		0
+DEBUG			EQU		1
 OPTIMIZATION	EQU		1
 BUGFIXES		EQU		1
 
@@ -1389,6 +1389,23 @@ _{1}_end	SET .
 
 ;---------------A-R-I-T-H-M---------------------
 
+	; \t\tLDA\t\t(.*)\n\t\tADC\t\t\#\$00\n\t\tSTA\t\t\1\n
+	; \t\tADCH\t\1\n
+	;
+	; adjust high hibble of 16-bit value when 8bit argument added
+	;
+	MAC	ADCH
+#if OPTIMIZATION=1
+		BCC		.1
+		INC		{0}
+.1:
+#else
+		LDA		{0}
+		ADC		#$00
+		STA		{0}
+#endif
+	ENDM
+
 	; \t\tCLC\n\t\tLDA\t\t(.*)\n\t\tADC\t\t(.*)\n\t\tSTA\t\t\1\n\t\tLDA\t\t\1\+1\n\t\tADC\t\t\#\$00\n\t\tSTA\t\t\1\+1\n
 	; \t\tADDWB\t\1,\2\n\3:
 	;
@@ -1409,6 +1426,23 @@ _{1}_end	SET .
 		LDA		{2}+1
 		ADC		#$00
 		STA		{2}+1
+#endif
+	ENDM
+
+	; \t\tLDA\t\t(.*)\n\t\tSBC\t\t\#\$00\n\t\tSTA\t\t\1\n
+	; \t\tSBCH\t\1\n
+	;
+	; adjust high hibble of 16-bit value when 8bit argument added
+	;
+	MAC	SBCH
+#if OPTIMIZATION=1
+		BCS		.1
+		DEC		{0}
+.1:
+#else
+		LDA		{0}
+		SBC		#$00
+		STA		{0}
 #endif
 	ENDM
 

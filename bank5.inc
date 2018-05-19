@@ -39,9 +39,9 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib0_11		; located at _ram_buf1
 		SPR_IDX	_spr_lib0_12		; located at _ram_buf2
 		SPR_IDX	_ptr_dummy
-		SPR_IDX	_spr_lib0_14_hud_C_letter
-		SPR_IDX	_spr_lib0_15_hud_D_letter
-		SPR_IDX	_spr_lib0_16
+		SPR_IDX	_spr_lib0_14
+		SPR_IDX	_spr_lib0_15_hud_C_letter
+		SPR_IDX	_spr_lib0_16_hud_D_letter
 		SPR_IDX	_spr_lib0_17
 		SPR_IDX	_spr_lib0_18
 		SPR_IDX	_spr_lib0_19
@@ -209,7 +209,7 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib5_06
 		SPR_IDX	_spr_lib5_07
 		SPR_IDX	_spr_lib5_08
-		SPR_IDX	_spr_lib5_09
+		SPR_IDX	_spr_lib5_09_sink_valve
 		SPR_IDX	_spr_lib5_0A
 		SPR_IDX	_spr_lib5_0B
 		SPR_IDX	_spr_lib5_0C
@@ -737,9 +737,9 @@ _spr_lib0_0D:
 		.BYTE	$43,$00,$4C,$00,$45,$00,$41,$00,$52,$00,$00
 _spr_lib0_0E:
 		.BYTE	$81,$00,$00,$50,$00,$00
-_spr_lib0_15_hud_D_letter:
+_spr_lib0_15_hud_C_letter:
 		.BYTE	$81,$00,$F8,$87,$00,$00
-_spr_lib0_16:
+_spr_lib0_16_hud_D_letter:
 		.BYTE	$81,$00,$F8,$89,$00,$00
 _spr_lib7_00:
 		.BYTE	$82,$F3,$DF,$A8,$02,$AE,$02,$81,$F6,$E6,$AA,$03,$81,$FB,$E7,$B0
@@ -1837,12 +1837,12 @@ _spr_lib2_1F:
 		.BYTE	$81,$F8,$E7,$4C,$00,$83,$00,$E7,$7E,$00,$2B,$00,$58,$00,$81,$F1
 		.BYTE	$EE,$44,$00,$81,$F9,$EF,$7B,$00,$81,$FA,$EF,$35,$01,$81,$F8,$F7
 		.BYTE	$79,$00,$00
-_spr_lib0_14_hud_C_letter:
+_spr_lib0_14:
 		.BYTE	$08,$E0,$F8,$A0,$02,$A2,$02,$A4,$02,$A6,$02,$FA,$02,$F5,$02,$F7
 		.BYTE	$02,$F9,$02,$02,$E2,$00,$9D,$02,$9F,$02,$81,$E3,$00,$9E,$02,$81
 		.BYTE	$F6,$00,$9E,$02,$81,$04,$00,$9D,$02,$81,$07,$00,$9E,$02,$81,$10
 		.BYTE	$00,$9F,$02,$81,$17,$00,$9E,$02,$00
-_spr_lib5_09:
+_spr_lib5_09_sink_valve:
 		.BYTE	$82,$FC,$FD,$DC,$01,$DE,$01,$00
 _spr_lib5_0A:
 		.BYTE	$82,$FC,$FD,$BE,$81,$BC,$81,$00

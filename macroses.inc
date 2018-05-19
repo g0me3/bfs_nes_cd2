@@ -226,6 +226,7 @@ TMP_CMD_PC	SET	.
 				.BYTE	[{1}-TMP_CMD_PC-2]
 			#else
 				ECHO	"long BRANCH at",TMP_CMD_PC,"jumps forward",{1},"distance",{1}-TMP_CMD_PC-2
+				.BYTE	$00,$00
 			#endif
 		#else
 			#if [TMP_CMD_PC-{1}+2]<=$7F
@@ -233,6 +234,7 @@ TMP_CMD_PC	SET	.
 				.BYTE	[-[TMP_CMD_PC-{1}+2]]&$FF
 			#else
 				ECHO	"long BRANCH at",TMP_CMD_PC,"jumps back",{1},"distance",[TMP_CMD_PC-{1}+2]
+				.BYTE	$00,$00
 			#endif
 		#endif
 	#else
@@ -424,13 +426,14 @@ _PAD_ANY	EQU	$FF
 	.BYTE	{1}_idx
 	ENDM
 
-; select current sprite idx
-	MAC	SPR_IDX_SELECT
+; select current sprite idx as integer value
+	MAC	SPR_IDX_INT
 	.BYTE	$1E
 	.BYTE	{1}
 	ENDM
 
-	MAC	SPR_IDX_SELECTL
+; the same using the mnemonic
+	MAC	SPR_IDX_SELECT
 	.BYTE	$1E
 	.BYTE	{1}_idx
 	ENDM

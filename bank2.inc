@@ -1391,7 +1391,7 @@ _players_obj_insert:
 		STA		_scr_idxCs,X
 		STA		_scr_vars20,X
 		STA		_obj_flips,X
-		STA		_players_x_shifs,X
+		STA		_players_x_deltas,X
 		STA		_players_vars0A,X
 		STA		_players_vars0F,X
 		STA		_players_vars0D,X
@@ -1504,7 +1504,7 @@ _j_players_animB_sub0129:
 
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub3:
-		JSR		_players_animB_sub0129_F_sub2_A_A
+		JSR		_get_box_bonus_special_pickup
 		BMI		_j_players_animB_sub0129
 		LDX		_scr_idx
 		LDA		_scr_idxCs,X
@@ -1540,7 +1540,7 @@ _players_animB_sub3:
 		JSR		_scr_destr_jump
 		LDX		_tmp_ptrE
 		LDY		_tmp_ptrE+1
-		JSR		_players_animB_sub0129_F_sub2_B
+		JSR		_players_pickup_obj_flags_update
 		JMP		_players_animB_sub0129
 
 ; =============== S U B R O U T I N E =======================================
@@ -1667,7 +1667,7 @@ loc_3A958:
 		LDA		_obj_x_deltas,X
 		PHA
 		CLC
-		ADC		_players_x_shifs,X
+		ADC		_players_x_deltas,X
 		STA		_obj_x_deltas,X
 		BEQ		loc_3A973
 		BPL		loc_3A970
@@ -1685,7 +1685,7 @@ loc_3A973:
 		STA		_players_x_speeds,X
 loc_3A980:
 		LDA		#$00
-		STA		_players_x_shifs,X
+		STA		_players_x_deltas,X
 		LDA		_obj_heights,X
 		PHA
 		LDX		_scr_idx
@@ -1934,7 +1934,7 @@ _players_animB_sub0129_sub06:
 		STA		_obj_flips,X
 		JSR		_players_animB_sub0129_sub04_A
 		INC		_players_states,X
-		JSR		_players_animB_sub0129_sub06_A
+		JSR		_native_obj_disable_from_idxCs_40_flag
 
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub07:
@@ -2168,7 +2168,7 @@ loc_3ACAA:
 		RTS
 loc_3ACAF:
 		JSR		_players_animB_sub0129_sub0A_B
-		JSR		_players_animB_sub0129_sub06_A
+		JSR		_native_obj_disable_from_idxCs_40_flag
 		JMP		_players_animB_sub0129_sub02_D
 
 ; =============== S U B R O U T I N E =======================================
@@ -2448,7 +2448,7 @@ _players_animB_sub0129_B:
 		BCC		locret_3AECA
 loc_3AEB0:
 		JSR		_players_animB_sub0129_sub11_B
-		JSR		_players_animB_sub0129_sub06_A
+		JSR		_native_obj_disable_from_idxCs_40_flag
 		LDA		#$3C
 		STA		_players_vars0B,X
 		LDA		_obj_hps,X
@@ -2624,7 +2624,7 @@ loc_3AFCA:
 		AND		#$C0
 		BNE		loc_3AFD4
 		LDA		_players_vars10,X
-		STA		_players_x_shifs,X
+		STA		_players_x_deltas,X
 loc_3AFD4:
 		JMP		_players_animB_sub0129_sub05_A_sub0
 
@@ -2678,14 +2678,14 @@ loc_3B00A:
 		BMI		_players_animB_sub0129_sub05_A_sub0
 loc_3B013:
 		LDA		_tmp_ptr2
-		STA		_players_x_shifs,X
+		STA		_players_x_deltas,X
 		TYA
 		LSR
 		BCS		_players_animB_sub0129_sub05_A_sub0
 		SEC
 		LDA		#$00
 		SBC		_tmp_ptr2
-		STA		_players_x_shifs,X
+		STA		_players_x_deltas,X
 
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub05_A_sub0:
@@ -2751,7 +2751,7 @@ _players_animB_sub0129_A:
 		JSR		_players_animB_sub0129_A_A
 		LDA		#$00
 		STA		_players_vars0D,X
-		LDA		_debug_invulnerability_flag
+		LDA		_debug_invulnerability_flag	; NOTE, original debug leftovers
 		BNE		loc_3B0AA
 		LDA		_obj_hps,X
 		BEQ		loc_3B0AA
@@ -2762,7 +2762,7 @@ loc_3B0AA:
 		LDA		_players_vars07,X
 		AND		#$7F
 		STA		_players_vars07,X
-		JMP		_players_animB_sub0129_sub06_A
+		JMP		_native_obj_disable_from_idxCs_40_flag
 
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_A_A:
@@ -2800,7 +2800,7 @@ _players_animB_sub0129_E:
 		STY		_tmp_ptr4
 		JSR		_switch
 		.WORD	nullsub7
-		.WORD	_players_animB_sub0129_E_sub1
+		.WORD	_players_tile_pickup_handlers
 		.WORD	_players_animB_sub0129_E_sub2
 		.WORD	_players_animB_sub0129_E_sub2
 
@@ -2831,7 +2831,7 @@ _players_animB_sub0129_F:
 		STY		_tmp_ptr4
 		JSR		_switch
 		.WORD	nullsub7
-		.WORD	_players_animB_sub0129_E_sub1
+		.WORD	_players_tile_pickup_handlers
 		.WORD	_players_animB_sub0129_F_sub2
 		.WORD	_players_animB_sub0129_F_sub2
 
@@ -2853,7 +2853,7 @@ _players_animB_sub0129_F_sub2:
 		PLA
 		STA		_scr_idx
 loc_3B146:
-		JSR		_players_animB_sub0129_F_sub2_A
+		JSR		_players_tile_pickup_test
 		BEQ		nullsub7
 		LDA		_scr_idxBs,Y
 		BMI		nullsub7
@@ -2869,7 +2869,7 @@ loc_3B146:
 		LDA		#$06
 		STA		_players_states,Y
 loc_3B169:
-		JSR		_players_animB_sub0129_F_sub2_B
+		JSR		_players_pickup_obj_flags_update
 		LDA		#$52
 		JSR		_apu_se_req
 
@@ -2878,48 +2878,46 @@ nullsub7:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_E_sub1:
-		JSR		_players_animB_sub0129_F_sub2_A
+_players_tile_pickup_handlers:
+		JSR		_players_tile_pickup_test
 		BEQ		nullsub8
-		LDY		_tmp_ptr4+1
-		LDA		byte_43A,Y
+		LDY		_tmp_ptr4+1						; we have already meta buf pos here
+		LDA		_screen_meta_buf,Y				; read the tile we interact
 		CMP		#$FC
-		BCS		nullsub8
+		BCS		nullsub8						; all above FB not used here
 		SEC
 		SBC		#$F4
-		BCC		nullsub8
-		STA		_tmp_ptr4
-		LDA		_room_flags
+		BCC		nullsub8						; all less than F4 the same
+		STA		_tmp_ptr4						; store F4-FB -> 0-7 range converted idx
+		LDA		_room_flags						; special box prize room test
 		AND		#$08
-		BNE		_players_animB_sub0129_E_sub1_sub0023467
+		BNE		_players_pickup_prize_replace	; always replace with prize only
 		LDA		_tmp_ptr4
 		JSR		_switch
-		.WORD	_players_animB_sub0129_E_sub1_sub0023467
-		.WORD	_players_animB_sub0129_E_sub1_sub1
-		.WORD	_players_animB_sub0129_E_sub1_sub0023467
-		.WORD	_players_animB_sub0129_E_sub1_sub0023467
-		.WORD	_players_animB_sub0129_E_sub1_sub0023467
-		.WORD	_sys_room_draw_sub00
-		.WORD	_players_animB_sub0129_E_sub1_sub0023467
-		.WORD	_players_animB_sub0129_E_sub1_sub0023467
-
-; =============== S U B R O U T I N E =======================================
+		.WORD	_players_pickup_prize_replace	; empty box, default handler, if no objects, do nothing
+		.WORD	_players_pickup_rr_replace		; box with rr, replace meta with RR meta F9
+		.WORD	_players_pickup_prize_replace	; acorn
+		.WORD	_players_pickup_prize_replace	; star
+		.WORD	_players_pickup_prize_replace	; concrete
+		.WORD	_sys_screen_cur_meta_update		; rr itself, only clears the meta
+		.WORD	_players_pickup_prize_replace	; red ballA
+		.WORD	_players_pickup_prize_replace	; red ballB
 nullsub8:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_E_sub1_sub1:
-		JSR		_sys_room_draw_sub03
-		JMP		_players_animB_sub0129_E_sub1_sub1_A
+_players_pickup_rr_replace:
+		JSR		_sys_screen_rr_meta_draw
+		JMP		_players_pickup_obj_load
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_E_sub1_sub0023467:
-		JSR		_sys_room_draw_sub00
+_players_pickup_prize_replace:
+		JSR		_sys_screen_cur_meta_update
 		LDA		_tmp_ptr4
 		PHA
 		ASL
 		TAY
-		LDA		_room_flags
+		LDA		_room_flags			; box bonus room flags, different set of prizes
 		AND		#$08
 		BEQ		loc_3B1BC
 		TYA
@@ -2927,10 +2925,10 @@ _players_animB_sub0129_E_sub1_sub0023467:
 		ADC		#$10
 		TAY
 loc_3B1BC:
-		LDA		off_3B21E+1,Y
-		BEQ		_players_animB_sub0129_E_sub1_sub0023467_A
+		LDA		_obj_prizes_list+1,Y
+		BEQ		loc_3B1BD
 		STA		_tmp_ptr0+1
-		LDA		off_3B21E,Y
+		LDA		_obj_prizes_list,Y
 		STA		_tmp_ptr0
 		SEC
 		LDA		byte_6
@@ -2950,21 +2948,21 @@ loc_3B1BC:
 		STA		byte_6
 		LDY		#_OBJ_SCR_GRAB
 		JSR		_scr_load
-
-; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_E_sub1_sub0023467_A:
+loc_3B1BD:
 		PLA
 		STA		_tmp_ptr4
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_E_sub1_sub1_A:
+_players_pickup_obj_load:
 		LDA		_tmp_ptr4
 		ASL
 		TAY
-		LDA		off_3B23E+1,Y
+		LDA		_obj_pickups_list+1,Y
 		BEQ		locret_3B21D
 		STA		_tmp_ptr0+1
-		LDA		off_3B23E,Y
+		LDA		_obj_pickups_list,Y
 		STA		_tmp_ptr0
 		LDA		#$00
 		STA		_tmp_ptr2
@@ -2977,13 +2975,13 @@ _players_animB_sub0129_E_sub1_sub1_A:
 		BCS		locret_3B21D
 		TXA
 		TAY
-		JSR		_players_animB_sub0129_F_sub2_B
+		JSR		_players_pickup_obj_flags_update
 		LDA		#$52
 		JSR		_apu_se_req
 locret_3B21D:
 		RTS
 
-off_3B21E:
+_obj_prizes_list:
 		.WORD	0
 		.WORD	0
 		.WORD	_obj_scr_acorn_prize
@@ -2992,6 +2990,7 @@ off_3B21E:
 		.WORD	0
 		.WORD	0
 		.WORD	0
+_obj_prizes_listB:
 		.WORD	_obj_scr_box_bonus_prize_continue
 		.WORD	_obj_scr_box_bonus_prize_1up
 		.WORD	_obj_scr_box_bonus_prize_30rrs
@@ -3000,33 +2999,33 @@ off_3B21E:
 		.WORD	0
 		.WORD	0
 		.WORD	0
-off_3B23E:
-		.WORD	_script46
-		.WORD	_script46
-		.WORD	_script46
-		.WORD	_script46
+_obj_pickups_list:
+		.WORD	_obj_scr_box
+		.WORD	_obj_scr_box
+		.WORD	_obj_scr_box
+		.WORD	_obj_scr_box
 		.WORD	_obj_scr07_concrete_brick
 		.WORD	0
-		.WORD	_script47
-		.WORD	_script47
+		.WORD	_obj_scr_red_ball
+		.WORD	_obj_scr_red_ball
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_F_sub2_A:
-		LDX		_scr_idx
-		LDA		_pads+4,X
+_players_tile_pickup_test:
+		LDX		_scr_idx						; fetch cur player idx
+		LDA		_pads+4,X						; test if B pressed
 		AND		#$02
 		BEQ		loc_3B272
-		LDA		_scr_idxBs,X
+		LDA		_scr_idxBs,X					; while colliding with tile object
 		AND		#$40
 		BNE		loc_3B272
-		LDA		_players_vars0D,X
+		LDA		_players_vars0D,X				; extra checks...
 		BNE		loc_3B272
-		JSR		_players_animB_sub0129_F_sub2_A_A
+		JSR		_get_box_bonus_special_pickup	; if ok, then pickup object
 		BMI		loc_3B272
-		LDA		_pads+4,X
+		LDA		_pads+4,X						; clear B press
 		AND		#$FD
 		STA		_pads+4,X
-		LDA		_obj_heights,X
+		LDA		_obj_heights,X					; also test if we not crouching
 		CMP		#$10
 		RTS
 loc_3B272:
@@ -3034,7 +3033,7 @@ loc_3B272:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_F_sub2_A_A:
+_get_box_bonus_special_pickup:
 		LDA		_room_flags
 		AND		#$08
 		BEQ		locret_3B27D
@@ -3043,7 +3042,7 @@ locret_3B27D:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_F_sub2_B:
+_players_pickup_obj_flags_update:
 		LDX		_scr_idx
 		TYA
 		ORA		#$40
@@ -3067,7 +3066,7 @@ _players_animB_sub0129_sub11_B:
 		BNE		loc_3B2A6
 		RTS
 loc_3B2A6:
-		JSR		_players_animB_sub0129_sub06_A
+		JSR		_native_obj_disable_from_idxCs_40_flag
 		LDA		#$12
 		STA		_pads,X
 		STA		_pads+4,X
@@ -3240,13 +3239,87 @@ loc_3B3E9:
 locret_3B3EE:
 		RTS
 
+; WARNING, both players has the same spr idxes, to switch them only lib idx
+; change is used, so this and some others subs uses the same common
+; idxes, but since we macrosify them here, if you change one of the libs
+; other will be broken. do not change indexes or do it syncronously!
+;
 byte_3B3EF:
-		.BYTE	$00,$16,$17,$16,$01,$06,$02,$07,$03,$08,$02,$07,$01,$06,$10,$07
-		.BYTE	$03,$08,$10,$07,$05,$0B,$05,$0B,$0D,$0D,$0C,$0C,$22,$22,$04,$04
+		.BYTE	_spr_lib1_00_idx
+		.BYTE	_spr_lib1_16_idx
+		.BYTE	_spr_lib1_17_idx
+		.BYTE	_spr_lib1_16_idx
+		.BYTE	_spr_lib1_01_idx
+		.BYTE	_spr_lib1_06_idx
+		.BYTE	_spr_lib1_02_idx
+		.BYTE	_spr_lib1_07_idx
+		.BYTE	_spr_lib1_03_idx
+		.BYTE	_spr_lib1_08_idx
+		.BYTE	_spr_lib1_02_idx
+		.BYTE	_spr_lib1_07_idx
+		.BYTE	_spr_lib1_01_idx
+		.BYTE	_spr_lib1_06_idx
+		.BYTE	_spr_lib1_10_idx
+		.BYTE	_spr_lib1_07_idx
+		.BYTE	_spr_lib1_03_idx
+		.BYTE	_spr_lib1_08_idx
+		.BYTE	_spr_lib1_10_idx
+		.BYTE	_spr_lib1_07_idx
+		.BYTE	_spr_lib1_05_idx
+		.BYTE	_spr_lib1_0B_idx
+		.BYTE	_spr_lib1_05_idx
+		.BYTE	_spr_lib1_0B_idx
+		.BYTE	_spr_lib1_0D_idx
+		.BYTE	_spr_lib1_0D_idx
+		.BYTE	_spr_lib1_0C_idx
+		.BYTE	_spr_lib1_0C_idx
+		.BYTE	_spr_lib1_22_idx
+		.BYTE	_spr_lib1_22_idx
+		.BYTE	_spr_lib1_04_idx
+		.BYTE	_spr_lib1_04_idx
 byte_3B40F:
-		.BYTE	$09,$0A,$0A,$0A,$0E,$0E,$11,$11,$0F,$0F,$18,$0B,$0E,$0B,$19,$0B
-		.BYTE	$1A,$0B,$04,$04,$00,$8C,$00,$88,$00,$84,$00,$80,$00,$81,$00,$82
-		.BYTE	$00,$84,$00,$82,$00,$80,$00,$80,$96,$96
+		.BYTE	_spr_lib1_09_idx
+		.BYTE	_spr_lib1_0A_idx
+		.BYTE	_spr_lib1_0A_idx
+		.BYTE	_spr_lib1_0A_idx
+		.BYTE	_spr_lib1_0E_idx
+		.BYTE	_spr_lib1_0E_idx
+		.BYTE	_spr_lib1_11_idx
+		.BYTE	_spr_lib1_11_idx
+		.BYTE	_spr_lib1_0F_idx
+		.BYTE	_spr_lib1_0F_idx
+		.BYTE	_spr_lib1_18_idx
+		.BYTE	_spr_lib1_0B_idx
+		.BYTE	_spr_lib1_0E_idx
+		.BYTE	_spr_lib1_0B_idx
+		.BYTE	_spr_lib1_19_idx
+		.BYTE	_spr_lib1_0B_idx
+		.BYTE	_spr_lib1_1A_idx
+		.BYTE	_spr_lib1_0B_idx
+		.BYTE	_spr_lib1_04_idx
+		.BYTE	_spr_lib1_04_idx
+		.BYTE	$00
+		.BYTE	$8C
+		.BYTE	$00
+		.BYTE	$88
+		.BYTE	$00
+		.BYTE	$84
+		.BYTE	$00
+		.BYTE	$80
+		.BYTE	$00
+		.BYTE	$81
+		.BYTE	$00
+		.BYTE	$82
+		.BYTE	$00
+		.BYTE	$84
+		.BYTE	$00
+		.BYTE	$82
+		.BYTE	$00
+		.BYTE	$80
+		.BYTE	$00
+		.BYTE	$80
+		.BYTE	$96
+		.BYTE	$96
 
 ; =============== S U B R O U T I N E =======================================
 _players_animC:
@@ -3715,7 +3788,7 @@ loc_3B721:
 		LDA		_obj_y_hi_poss,X
 		ADC		_lvl_start_scroll_vert
 		STA		byte_9
-		JSR		_sys_room_draw_sub00
+		JSR		_sys_screen_cur_meta_update
 		LDA		#$22
 		JSR		_apu_se_req
 		RTS
@@ -3773,7 +3846,7 @@ loc_3B7BB:
 		PHA
 		LDX		_tmp_ptr4+1
 loc_3B7C2:
-		LDA		byte_43A,Y
+		LDA		_screen_meta_buf,Y
 		STA		byte_6,X
 		INX
 		TYA

@@ -280,8 +280,8 @@ _apu_load_idx_req:
 _players_states:
 		.BYTE	0,0
 _players_x_speeds:
-		.BYTE	$00,0
-_players_x_shifs:
+		.BYTE	0,0
+_players_x_deltas:
 		.BYTE	0,0
 _players_y_shifs_unused:
 		.BYTE	0,0
@@ -315,10 +315,8 @@ _players_vars10:
 		.BYTE	0,0
 _players_max_hps:
 		.BYTE	0,0
-byte_DE:
-		.BYTE	0
-byte_DF:
-		.BYTE	0
+_tmp_bonus_games_scores:
+		.BYTE	0,0
 byte_E0:
 		.BYTE	0
 byte_E1:
@@ -495,7 +493,7 @@ byte_438:
 		.BYTE	0
 byte_439:
 		.BYTE	0
-byte_43A:
+_screen_meta_buf:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -511,7 +509,7 @@ byte_43A:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-_room_tiles_tmp_buf:
+_screen_meta_row:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 _ppu_queue0_flag:
 		.BYTE	0

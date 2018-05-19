@@ -1295,10 +1295,20 @@ _room_objects_dummy:
 _BOX		EQU	$40
 _BOX_RR		EQU	$50
 _BOX_ACORN	EQU	$60
-_BOX_STAR	EQU	$70			; never used
-_CONCRETE	EQU	$80			; glitch
+_BOX_STAR	EQU	$70		; unused
+_CONCRETE	EQU	$80
 _RR			EQU	$90
-_BALL		EQU	$A0			; glitch
+_RED_BALLA	EQU	$A0
+_RED_BALLB	EQU	$B0
+
+; NOTE, box with star not present in any rooms here, star prize is always
+; displayed as a sprite object
+; NOTE, also, there are two same _RED_BALLA and _RED_BALLB. the only reason
+; they have two same objects is coing bonus room, balls are part of the
+; room meta-tiles, so they can't be removed. the lower two balls are drawn
+; on the different backgrounds, so they just add another meta for this case
+; and added another pickable object to the list. this kind of metas never
+; used the same way for any other part of the game.
 
 _room_prize00:
 		.BYTE	$0A,$04|_BOX_RR
@@ -3209,8 +3219,7 @@ _tlm_res_license:
 		.BYTE	$45,$4E,$44,$4F
 		.BYTE	0
 _tlm15:
-		.BYTE	$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D
-		.BYTE	$6D,$7D
+		.BYTE	$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D,$6D,$7D
 _tlm16:
 		.BYTE	1
 _rect_frame_nt_clear:

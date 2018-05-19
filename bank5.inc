@@ -35,10 +35,10 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib0_0D
 		SPR_IDX	_spr_lib0_0E
 		SPR_IDX	_spr_lib0_0F
-		SPR_IDX	_spr_lib0_10		; located at _ram_buf0
-		SPR_IDX	_spr_lib0_11		; located at _ram_buf1
-		SPR_IDX	_spr_lib0_12		; located at _ram_buf2
-		SPR_IDX	_ptr_dummy						; unused
+		SPR_IDX	_spr_lib0_10	; located at _ram_buf0
+		SPR_IDX	_spr_lib0_11	; located at _ram_buf1
+		SPR_IDX	_spr_lib0_12	; located at _ram_buf2
+		SPR_IDX	_ptr_dummy		; unused
 		SPR_IDX	_spr_lib0_14
 		SPR_IDX	_spr_lib0_15_hud_C_letter
 		SPR_IDX	_spr_lib0_16_hud_D_letter
@@ -50,31 +50,31 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib0_1C
 		SPR_IDX	_spr_lib0_1D
 		SPR_IDX	_spr_lib0_1E
-		SPR_IDX	_spr_lib0_1F
+		SPR_IDX	_spr_lib0_1F	; unused
 		SPR_IDX	_spr_lib0_20
 		SPR_IDX	_spr_lib0_21
 		SPR_IDX	_spr_lib0_22
 		SPR_IDX	_spr_lib0_23
 		SPR_IDX	_spr_lib0_24
 		SPR_IDX	_spr_lib0_25
-		SPR_IDX	_spr_lib0_26
-		SPR_IDX	_spr_lib0_27
+		SPR_IDX	_spr_lib0_26	; unused
+		SPR_IDX	_spr_lib0_27	; unused
 		SPR_IDX	_spr_lib0_28
 		SPR_IDX	_spr_lib0_29
 		SPR_IDX	_spr_lib0_2A
 		SPR_IDX	_spr_lib0_2B
-		SPR_IDX	_spr_lib0_2C
+		SPR_IDX	_spr_lib0_2C	; unused
 		SPR_IDX	_spr_lib0_2D
 		SPR_IDX	_spr_lib0_2E
 		SPR_IDX	_spr_lib0_2F
-		SPR_IDX	_spr_lib0_30
-		SPR_IDX	_spr_lib0_31
+		SPR_IDX	_spr_lib0_30	; unused
+		SPR_IDX	_spr_lib0_31	; unused
 		SPR_IDX	_spr_lib0_32
 		SPR_IDX	_spr_lib0_33
 		SPR_IDX	_spr_lib0_34
 		SPR_IDX	_spr_lib0_35
-		SPR_IDX	_spr_lib0_36
-		SPR_IDX	_spr_lib0_37
+		SPR_IDX	_spr_lib0_36	; unused
+		SPR_IDX	_spr_lib0_37	; unused
 		SPR_IDX	_spr_lib0_38
 		SPR_IDX	_spr_lib0_39
 		SPR_IDX	_spr_lib0_3A
@@ -84,7 +84,7 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib0_3E
 		SPR_IDX	_spr_lib0_3F
 		SPR_IDX	_spr_lib0_40
-		SPR_IDX	_spr_lib0_41
+		SPR_IDX	_spr_lib0_41	; unused
 		SPR_IDX	_spr_lib0_42
 		SPR_IDX	_spr_lib0_43
 
@@ -119,11 +119,11 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib1_1A
 		SPR_IDX	_spr_lib1_1B
 		SPR_IDX	_spr_lib1_1C
-		SPR_IDX	_spr_lib1_1D
+		SPR_IDX	_spr_lib1_1D	; unused
 		SPR_IDX	_spr_lib1_1E
 		SPR_IDX	_spr_lib1_1F
 		SPR_IDX	_spr_lib1_20
-		SPR_IDX	_spr_lib1_21
+		SPR_IDX	_spr_lib1_21	; unused
 		SPR_IDX	_spr_lib1_22
 
 		SPR_LIB_START	_spr_lib2
@@ -146,7 +146,7 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib2_0F
 		SPR_IDX	_spr_lib2_10
 		SPR_IDX	_spr_lib2_11
-		SPR_IDX	_ptr_dummy			; WARNING, DO NOT REMOVE indexes for lib1 and lib2 must be identical!
+		SPR_IDX	_ptr_dummy		; WARNING, DO NOT REMOVE indexes for lib1 and lib2 must be identical!
 		SPR_IDX	_spr_lib2_13
 		SPR_IDX	_spr_lib2_14
 		SPR_IDX	_spr_lib2_15
@@ -157,16 +157,16 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib2_1A
 		SPR_IDX	_spr_lib2_1B
 		SPR_IDX	_spr_lib2_1C
-		SPR_IDX	_spr_lib2_1D
+		SPR_IDX	_spr_lib2_1D	; unused
 		SPR_IDX	_spr_lib2_1E
 		SPR_IDX	_spr_lib2_1F
-		SPR_IDX	_spr_lib2_20		; copy of _spr_lib1_20
-		SPR_IDX	_spr_lib2_21		; copy of _spr_lib1_21
+		SPR_IDX	_spr_lib2_20	; copy of _spr_lib1_20
+		SPR_IDX	_spr_lib2_21	; unused copy of _spr_lib1_21
 		SPR_IDX	_spr_lib2_22
 
 		SPR_LIB_START	_spr_lib3
 
-		SPR_IDX	_spr_lib3_00		; copy of _spr_lib7_4C
+		SPR_IDX	_spr_lib3_00	; copy of _spr_lib7_4C
 		SPR_IDX	_spr_lib3_01
 		SPR_IDX	_spr_lib3_02
 		SPR_IDX	_spr_lib3_03
@@ -190,7 +190,7 @@ _spr_lib_list:
 
 		SPR_IDX	_spr_lib6_00
 		SPR_IDX	_spr_lib6_01
-		SPR_IDX	_ptr_dummy						; unused
+		SPR_IDX	_ptr_dummy		; unused
 		SPR_IDX	_spr_lib6_03
 		SPR_IDX	_spr_lib6_04
 		SPR_IDX	_spr_lib6_05
@@ -232,8 +232,8 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib5_1D
 		SPR_IDX	_spr_lib5_1E
 		SPR_IDX	_spr_lib5_1F
-		SPR_IDX	_ptr_dummy						; unused
-		SPR_IDX	_ptr_dummy						; unused
+		SPR_IDX	_ptr_dummy		; unused
+		SPR_IDX	_ptr_dummy		; unused
 		SPR_IDX	_spr_lib5_22
 		SPR_IDX	_spr_lib5_23
 		SPR_IDX	_spr_lib5_24
@@ -286,7 +286,7 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib7_08
 		SPR_IDX	_spr_lib7_09
 		SPR_IDX	_spr_lib7_0A
-		SPR_IDX	_ptr_dummy						; unused
+		SPR_IDX	_ptr_dummy		; unused
 		SPR_IDX	_spr_lib7_0C
 		SPR_IDX	_spr_lib7_0D
 		SPR_IDX	_spr_lib7_0E
@@ -308,8 +308,8 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib7_1E
 		SPR_IDX	_spr_lib7_1F
 		SPR_IDX	_spr_lib7_20
-		SPR_IDX	_ptr_dummy						; unused
-		SPR_IDX	_ptr_dummy						; unused
+		SPR_IDX	_ptr_dummy		; unused
+		SPR_IDX	_ptr_dummy		; unused
 		SPR_IDX	_spr_lib7_23
 		SPR_IDX	_spr_lib7_24
 		SPR_IDX	_spr_lib7_25
@@ -335,9 +335,9 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib7_39
 		SPR_IDX	_spr_lib7_3A
 		SPR_IDX	_spr_lib7_3B
-		SPR_IDX	_spr_lib7_3C
-		SPR_IDX	_spr_lib7_3D
-		SPR_IDX	_spr_lib7_3E
+		SPR_IDX	_spr_lib7_3C	; unused
+		SPR_IDX	_spr_lib7_3D	; unused
+		SPR_IDX	_spr_lib7_3E	; unused
 		SPR_IDX	_spr_lib7_3F
 		SPR_IDX	_spr_lib7_40
 		SPR_IDX	_spr_lib7_41
@@ -368,11 +368,11 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib7_5A
 		SPR_IDX	_spr_lib7_5B
 		SPR_IDX	_spr_lib7_5C
-		SPR_IDX	_ptr_dummy						; unused
+		SPR_IDX	_ptr_dummy		; unused
 		SPR_IDX	_spr_lib7_5E
 		SPR_IDX	_spr_lib7_5F
 		SPR_IDX	_spr_lib7_60
-		SPR_IDX	_spr_lib7_61
+		SPR_IDX	_spr_lib7_61	; unused
 		SPR_IDX	_spr_lib7_62
 		SPR_IDX	_spr_lib7_63
 		SPR_IDX	_spr_lib7_64
@@ -495,12 +495,12 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib8_4B
 		SPR_IDX	_spr_lib8_4C
 		SPR_IDX	_spr_lib8_4D
-		SPR_IDX	_spr_lib8_4E
+		SPR_IDX	_spr_lib8_4E	; unused
 		SPR_IDX	_spr_lib8_4F
-		SPR_IDX	_spr_lib8_50
+		SPR_IDX	_spr_lib8_50	; unused
 		SPR_IDX	_spr_lib8_51
 		SPR_IDX	_spr_lib8_52
-		SPR_IDX	_spr_lib8_53
+		SPR_IDX	_spr_lib8_53	; unused
 		SPR_IDX	_spr_lib8_54
 
 _spr_lib1_22:

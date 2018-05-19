@@ -1411,7 +1411,7 @@ loc_3A780:
 		STA		_scr_params,X
 		LDA		_players_lives,X
 		BNE		loc_3A78C
-		JMP		_players_insert_A
+		JMP		_players_state_dead_set
 loc_3A78C:
 		LDA		_players_max_hps,X
 		STA		_obj_hps,X
@@ -1431,38 +1431,38 @@ loc_3A7A5:
 
 ; =============== S U B R O U T I N E =======================================
 _players_manager:
-		LDX		_scr_idx
-		BNE		locret_3A7DC
-		LDA		_nmi_frames_counter
-		AND		#$01
-		TAY
-		LDA		_players_lives,Y
-		BNE		loc_3A7BB
-		LDA		byte_3A72C,Y
+		LDX		_scr_idx				; manager called only for _scr_idx=0
+		BNE		locret_3A7DC			; first part of the handling is
+		LDA		_nmi_frames_counter		; _players_macro_overlap_test called only for
+		AND		#$01					; one player, for 1 on odd frames,
+		TAY								; for 2 on even frames. if selected player
+		LDA		_players_lives,Y		; is dead, other player is handled instead
+		BNE		loc_3A7BB				; here we toggle 0 to 1 with this table
+		LDA		byte_3A72C,Y			; TODO: optimize me, XOR is kjist enough!
 		TAY
 loc_3A7BB:
-		STY		byte_AB
-		JSR		_players_animA
+		STY		_players_macro_overlap_test_idx		; currently selected player for this frame
+		JSR		_players_macro_overlap_test
 loc_3A7C0:
 		LDX		_scr_idx
-		LDA		_players_states,X
+		LDA		_players_states,X		; skip inactive player
 		CMP		#$18
 		BCS		loc_3A7CB
-		JSR		_select_players_state
+		JSR		_players_select_state	; do main state machine work
 loc_3A7CB:
-		INC		_scr_idx
+		INC		_scr_idx				; repeat for both players at once
 		LDA		_scr_idx
 		CMP		#$02
 		BCC		loc_3A7C0
-		JSR		_players_animC
-		LDX		#$00
+		JSR		_players_scroll_control
+		LDX		#$00					; return _scr_idx bacl=k
 		STX		_scr_idx
 		STX		byte_E3
 locret_3A7DC:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_select_players_state:
+_players_select_state:
 		LDA		_obj_heights,X
 		BEQ		_j_players_default_state_select
 		LDA		_players_vars07,X
@@ -1489,7 +1489,7 @@ loc_3A7F1:
 		.WORD	_players_default_state_select	; for disabled collided objects
 		.WORD	_players_default_state_select	; for auto
 		.WORD	_players_default_state_select	; for player
-		.WORD	_players_loaded_state_select	; for pbullet
+		.WORD	_players_obj_carry_state_select	; for pbullet
 		.WORD	_players_stun_state_select		; for stuna
 		.WORD	_players_stun_state_select		; for ball
 		.WORD	_players_damaged_state_select	; for enemy
@@ -1503,7 +1503,7 @@ _j_players_default_state_select:
 		JMP		_players_default_state_select
 
 ; =============== S U B R O U T I N E =======================================
-_players_loaded_state_select:
+_players_obj_carry_state_select:
 		JSR		_box_bonus_special_timer_test
 		BMI		_j_players_default_state_select
 		LDX		_scr_idx
@@ -1527,12 +1527,12 @@ _players_loaded_state_select:
 		AND		#$20
 		BNE		_plyer_stun_state_force
 		LDA		#$04
-		STA		_players_vars0B,X
+		STA		_players_anim_delays,X
 		LDA		#$10
 		STA		_players_states,X
 		LDA		#$00
 		STA		_players_anim_idxs,X
-		JSR		_players_loaded_state_select_B
+		JSR		_players_obj_carry_state_select_B
 		STX		_tmp_ptrE
 		STY		_tmp_ptrE+1
 		TYA
@@ -1554,7 +1554,7 @@ _players_stun_state_select:
 
 ; =============== S U B R O U T I N E =======================================
 _plyer_stun_state_force:
-		JSR		_players_loaded_state_select_B
+		JSR		_players_obj_carry_state_select_B
 		LDA		#$00
 		STA		_obj_y_deltas,X
 		LDA		#$0E
@@ -1646,7 +1646,9 @@ loc_3A8FA:
 		.WORD	_players_state15
 		.WORD	_players_state16
 		.WORD	_players_state17
+; TODO: remove me, never used here, because state18 skipped earlier in handler
 		.WORD	nullsub10
+; -
 loc_3A935:
 		LDX		_scr_idx
 		LDA		_players_states,X
@@ -1654,7 +1656,7 @@ loc_3A935:
 		BCS		loc_3A940
 		JSR		_players_default_state_select_B
 loc_3A940:
-		JSR		_players_default_state_select_C
+		JSR		_players_obj_carried_deploy_control
 		LDA		#$00
 		STA		_players_vars0E,X
 		LDA		_players_vars0D,X
@@ -1774,7 +1776,7 @@ loc_3AA1C:
 		BEQ		loc_3AA36
 		DEC		_players_vars0F,X
 		BNE		loc_3AA36
-		JSR		_native_obj_blink_clear
+		JSR		_nsub_obj_blink_clear
 		LDA		_obj_hps,X
 		BEQ		loc_3AA36
 		LDA		_scr_idxBs,X
@@ -1832,7 +1834,7 @@ _players_state01_B:
 		LDA		#_apu_mus72_idx
 		JSR		_apu_se_req
 		LDA		#$00
-		STA		_players_vars0B,X
+		STA		_players_anim_delays,X
 		LDA		#$02
 		STA		_players_states,X
 		LDA		#$1E
@@ -1851,8 +1853,8 @@ loc_3AA88:
 		LDA		_pads,X
 		AND		#_PAD_LEFT|_PAD_RIGHT
 		BNE		loc_3AA97
-		INC		_players_vars0B,X
-		LDA		_players_vars0B,X
+		INC		_players_anim_delays,X
+		LDA		_players_anim_delays,X
 		CMP		#$05
 		BCS		loc_3AA97
 		RTS
@@ -1868,7 +1870,7 @@ _players_state02_C:
 		LDA		#$03
 		STA		_players_states,X
 		LDA		#$00
-		STA		_players_vars0B,X
+		STA		_players_anim_delays,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
@@ -1903,7 +1905,7 @@ _players_state02_D:
 		LDA		#$00
 		STA		_players_anim_idxs,X
 		LDA		#$00
-		STA		_players_vars0B,X
+		STA		_players_anim_delays,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
@@ -1947,7 +1949,7 @@ _players_state06:
 		STA		_obj_flips,X
 		JSR		_players_varsA_03_set
 		INC		_players_states,X
-		JSR		_native_obj_disable_from_idxCs_40_flag
+		JSR		_nsub_obj_disable_from_idxCs_40_flag
 
 ; =============== S U B R O U T I N E =======================================
 _players_state07:
@@ -1988,8 +1990,8 @@ loc_3AB70:
 		LDA		#$04
 loc_3AB72:
 		STA		_tmp_ptr0
-		LDA		_players_vars0B,X
-		INC		_players_vars0B,X
+		LDA		_players_anim_delays,X
+		INC		_players_anim_delays,X
 		LSR
 		LSR
 		AND		#$06
@@ -2085,7 +2087,7 @@ loc_3AC00:
 		LDA		#$0B
 		STA		_players_states,X
 		LDA		#$18
-		STA		_players_vars0B,X
+		STA		_players_anim_delays,X
 		LDA		_obj_flips,X
 		AND		#[~_OBJ_VFLIP&$FF]
 		STA		_obj_flips,X
@@ -2095,9 +2097,9 @@ _players_state0B:
 		LDX		_scr_idx
 		LDA		_players_vars0E,X
 		BNE		loc_3AC38
-		DEC		_players_vars0B,X
+		DEC		_players_anim_delays,X
 		BEQ		loc_3AC2D
-		LDA		_players_vars0B,X
+		LDA		_players_anim_delays,X
 		LSR
 		LSR
 		AND		#$02
@@ -2120,13 +2122,13 @@ loc_3AC38:
 		LDA		#$28
 		STA		_players_anim_idxs,X
 		LDA		#$01
-		STA		_players_vars0B,X
+		STA		_players_anim_delays,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _players_state0C:
 		LDX		_scr_idx
-		DEC		_players_vars0B,X
+		DEC		_players_anim_delays,X
 		BEQ		loc_3AC57
 		RTS
 loc_3AC57:
@@ -2158,7 +2160,7 @@ _players_state0E_stun_start:
 		LDA		#$0F
 		STA		_players_states,X
 		LDA		#$78
-		STA		_players_vars0B,X
+		STA		_players_anim_delays,X
 		LDA		#$18
 		STA		_players_anim_idxs,X
 		JSR		_players_state0E_stun_start_A
@@ -2184,19 +2186,19 @@ loc_3ACA2:
 		STA		_obj_x_deltas,X
 		STA		_obj_y_deltas,X
 loc_3ACAA:
-		DEC		_players_vars0B,X
+		DEC		_players_anim_delays,X
 		BEQ		loc_3ACAF
 		RTS
 loc_3ACAF:
 		JSR		_players_varsA_00_set
-		JSR		_native_obj_disable_from_idxCs_40_flag
+		JSR		_nsub_obj_disable_from_idxCs_40_flag
 		JMP		_players_state02_D
 
 ; =============== S U B R O U T I N E =======================================
-_players_loaded_state_select_B:
+_players_obj_carry_state_select_B:
 		LDA		#$F8
 		STA		_obj_x_deltas,X
-		JSR		_players_loaded_state_select_B_A
+		JSR		_players_obj_carry_state_select_B_A
 		JSR		_players_varsA_04_set
 		LDA		_obj_flips,X
 		AND		#[~_OBJ_VFLIP&$FF]
@@ -2209,7 +2211,7 @@ _players_state10:
 		LDA		_pads,X
 		AND		#[~[_PAD_LEFT|_PAD_RIGHT]&$FF]
 		STA		_pads,X
-		DEC		_players_vars0B,X
+		DEC		_players_anim_delays,X
 		BEQ		loc_3ACDB
 		RTS
 loc_3ACDB:
@@ -2219,7 +2221,7 @@ loc_3ACDB:
 ; =============== S U B R O U T I N E =======================================
 _players_state11:
 		JSR		_players_state11_A
-		JSR		_players_state11_B
+		JSR		_players_obj_carried_force_deploy
 		LDA		_players_vars07,X
 		AND		#$20
 		BNE		loc_3AD13
@@ -2353,9 +2355,9 @@ loc_3ADB7:
 		LDA		#$EE
 		STA		_obj_x_lo_poss,X
 loc_3ADCF:
-		CPX		byte_AB
+		CPX		_players_macro_overlap_test_idx
 		BNE		locret_3ADE8
-		DEC		_players_vars0B,X
+		DEC		_players_anim_delays,X
 		BEQ		loc_3ADDD
 		LDA		_pads,X
 		AND		#_PAD_A
@@ -2366,7 +2368,7 @@ loc_3ADDD:
 		JSR		_players_state16_E
 		BCC		loc_3ADE9
 loc_3ADE6:
-		INC		_players_vars0B,X
+		INC		_players_anim_delays,X
 locret_3ADE8:
 		RTS
 loc_3ADE9:
@@ -2379,14 +2381,14 @@ loc_3ADE9:
 ; =============== S U B R O U T I N E =======================================
 _players_state17:
 		LDX		_scr_idx
-		DEC		_players_vars0B,X
+		DEC		_players_anim_delays,X
 		BNE		locret_3AE0C
 		LDY		byte_3A72C,X
 		LDA		_obj_hps,Y
 		BNE		loc_3AE0D
 		LDA		_obj_y_hi_poss,Y
 		BNE		loc_3AE0D
-		INC		_players_vars0B,X
+		INC		_players_anim_delays,X
 locret_3AE0C:
 		RTS
 loc_3AE0D:
@@ -2407,7 +2409,7 @@ loc_3AE0D:
 		STA		_obj_y_lo_poss,X
 		JSR		_players_insert
 		LDA		#$F0
-		STA		_players_vars0B,X
+		STA		_players_anim_delays,X
 		LDA		_obj_flips,X
 		ORA		#_OBJ_FLIPS08|_OBJ_FLIPS04
 		STA		_obj_flips,X
@@ -2423,7 +2425,7 @@ loc_3AE4F:
 		STA		_players_rr_ptss,X
 		LDY		byte_3A72C,X
 		LDA		_players_lives,Y
-		BNE		_players_insert_A
+		BNE		_players_state_dead_set
 		LDA		#$07
 		STA		_main_sub_idx
 loc_3AE5F:
@@ -2453,7 +2455,7 @@ loc_3AE87:
 loc_3AE90:
 		JSR		_players_insert
 		JSR		_scr_flips_04_set
-		JSR		_native_obj_blink_set
+		JSR		_nsub_obj_blink_set
 		LDA		#$3C
 		STA		_players_vars0F,X
 		JMP		_players_state02_D
@@ -2468,27 +2470,29 @@ _players_default_state_select_B:
 		CMP		#$E8
 		BCC		locret_3AECA
 loc_3AEB0:
-		JSR		_players_state11_B
-		JSR		_native_obj_disable_from_idxCs_40_flag
+		JSR		_players_obj_carried_force_deploy		; deploy any carried objects
+		JSR		_nsub_obj_disable_from_idxCs_40_flag	; disable player
 		LDA		#$3C
-		STA		_players_vars0B,X
+		STA		_players_anim_delays,X
 		LDA		_obj_hps,X
-		BEQ		loc_3AEC6
+		BEQ		.players_state_killed_set
 		LDA		#$00
 		STA		_obj_hps,X
 		DEC		_players_lives,X
-loc_3AEC6:
+.players_state_killed_set:
 		LDA		#$17
-		BNE		_players_insert_ex
+		BNE		_players_disable_and_hide
 locret_3AECA:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_insert_A:
-		LDA		#$18
+_players_state_dead_set:
+		LDA		#$18							; dummy handler, does nothing
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_players_insert_ex:
+_players_disable_and_hide:
 		STA		_players_states,X
 		LDA		#$02
 		STA		_obj_y_hi_poss,X
@@ -2549,7 +2553,7 @@ _players_state03_A:
 		LDY		#$00
 		AND		#$10
 		BEQ		loc_3AF64
-		LDA		_players_vars0B,X
+		LDA		_players_anim_delays,X
 		CMP		#$0B
 		BCC		loc_3AF49
 		CMP		#$70
@@ -2560,7 +2564,7 @@ _players_state03_A:
 		BEQ		loc_3AF49
 		INC		_players_vars09,X
 loc_3AF49:
-		LDA		_players_vars0B,X
+		LDA		_players_anim_delays,X
 		CMP		#$0B
 		BCC		loc_3AF51
 		LDA		#$0A
@@ -2569,12 +2573,12 @@ loc_3AF51:
 		CLC
 		ADC		#$32
 		TAY
-		INC		_players_vars0B,X
-		LDA		_players_vars0B,X
+		INC		_players_anim_delays,X
+		LDA		_players_anim_delays,X
 		CMP		#$80
 		BCC		loc_3AF62
 		LDA		#$0B
-		STA		_players_vars0B,X
+		STA		_players_anim_delays,X
 loc_3AF62:
 		CMP		#$05
 loc_3AF64:
@@ -2777,7 +2781,7 @@ _players_default_state_select_A:
 		JSR		_players_default_state_select_A_A
 		LDA		#$00
 		STA		_players_vars0D,X
-		LDA		_debug_invulnerability_flag	; NOTE, original debug leftovers
+		LDA		_debug_infinite_hp_flag			; NOTE, original debug leftover
 		BNE		loc_3B0AA
 		LDA		_obj_hps,X
 		BEQ		loc_3B0AA
@@ -2788,14 +2792,14 @@ loc_3B0AA:
 		LDA		_players_vars07,X
 		AND		#$7F
 		STA		_players_vars07,X
-		JMP		_native_obj_disable_from_idxCs_40_flag
+		JMP		_nsub_obj_disable_from_idxCs_40_flag
 
 ; =============== S U B R O U T I N E =======================================
 _players_default_state_select_A_A:
 		LDA		#$40
 		STA		_players_vars0F,X
 		JSR		_scr_obj_show
-		JSR		_native_obj_blink_set
+		JSR		_nsub_obj_blink_set
 		JMP		_scr_flips_04_set
 
 ; =============== S U B R O U T I N E =======================================
@@ -3086,19 +3090,21 @@ _players_pickup_obj_flags_update:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_state11_B:
-		LDA		_scr_idxBs,X
+_players_obj_carried_force_deploy:
+		LDA		_scr_idxBs,X					; if carry any objects
 		AND		#$40
-		BNE		loc_3B2A6
+		BNE		loc_3B2A6						; then force to throw it up
 		RTS
 loc_3B2A6:
-		JSR		_native_obj_disable_from_idxCs_40_flag
+		JSR		_nsub_obj_disable_from_idxCs_40_flag
 		LDA		#_PAD_UP|_PAD_B
 		STA		_pads,X
 		STA		_pads+4,X
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
-_players_default_state_select_C:
+_players_obj_carried_deploy_control:
 		LDA		_players_states,X
 		CMP		#$05
 		BNE		loc_3B2D0
@@ -3168,8 +3174,8 @@ loc_3B31A:
 		BEQ		loc_3B346
 		STY		byte_96
 		LDX		byte_96
-		JSR		_players_default_state_select_C_A
-		JSR		_players_default_state_select_C_B
+		JSR		_get_players_overlap_macro_tiles
+		JSR		_is_players_overlap_any_obstacle
 		BCS		loc_3B3A7
 		LDX		byte_96
 		JSR		_players_state16_E
@@ -3349,7 +3355,7 @@ byte_3B40F:
 		.BYTE	$96
 
 ; =============== S U B R O U T I N E =======================================
-_players_animC:
+_players_scroll_control:
 		LDA		_room_flags
 		AND		#$03
 		BEQ		loc_3B464
@@ -3373,7 +3379,7 @@ _players_animC:
 locret_3B463:
 		RTS
 loc_3B464:
-		JSR		_players_animC_A
+		JSR		_players_scroll_control_A
 		SEC
 		LDA		byte_AD
 		SBC		byte_AC
@@ -3459,7 +3465,7 @@ loc_3B4EF:
 		JMP		_sys_scroll_sub00
 
 ; =============== S U B R O U T I N E =======================================
-_players_animC_A:
+_players_scroll_control_A:
 		JSR		_get_cur_room_scroll_flag
 		LDA		byte_B0
 		BEQ		loc_3B510
@@ -3473,11 +3479,11 @@ loc_3B510:
 		BEQ		loc_3B54D
 		LDX		#$00
 		LDY		#$01
-		JSR		_players_animC_A_C
+		JSR		_players_scroll_control_A_C
 		BCS		loc_3B52B
 		INX
 		DEY
-		JSR		_players_animC_A_C
+		JSR		_players_scroll_control_A_C
 		BCC		loc_3B581
 loc_3B52B:
 		SEC
@@ -3503,11 +3509,11 @@ locret_3B54C:
 loc_3B54D:
 		LDX		#$00
 		LDY		#$01
-		JSR		_players_animC_A_A
+		JSR		_players_scroll_control_A_A
 		BCS		loc_3B55D
 		INX
 		DEY
-		JSR		_players_animC_A_A
+		JSR		_players_scroll_control_A_A
 		BCC		loc_3B581
 loc_3B55D:
 		SEC
@@ -3541,11 +3547,11 @@ loc_3B585:
 		BEQ		locret_3B5FB
 		LDX		#$00
 		LDY		#$01
-		JSR		_players_animC_A_B
+		JSR		_players_scroll_control_A_B
 		BCS		loc_3B59C
 		INX
 		DEY
-		JSR		_players_animC_A_B
+		JSR		_players_scroll_control_A_B
 		BCS		loc_3B59C
 		RTS
 loc_3B59C:
@@ -3608,7 +3614,7 @@ locret_3B5FB:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animC_A_C:
+_players_scroll_control_A_C:
 		LDA		_players_lives,X
 		BEQ		loc_3B622
 		LDA		_obj_x_lo_poss,X
@@ -3634,7 +3640,7 @@ loc_3B622:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animC_A_A:
+_players_scroll_control_A_A:
 		LDA		_players_lives,X
 		BEQ		loc_3B644
 		LDA		_obj_x_lo_poss,X
@@ -3657,7 +3663,7 @@ loc_3B644:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animC_A_B:
+_players_scroll_control_A_B:
 		LDA		_players_lives,X
 		BEQ		loc_3B669
 		LDA		_obj_flips,X
@@ -3681,8 +3687,8 @@ loc_3B669:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animA:
-		LDX		byte_AB
+_players_macro_overlap_test:
+		LDX		_players_macro_overlap_test_idx
 		LDA		#$FF
 		STA		_players_vars08,X
 		LDA		_players_vars07,X
@@ -3696,25 +3702,25 @@ _players_animA:
 locret_3B684:
 		RTS
 loc_3B685:
-		JSR		_players_default_state_select_C_A
-		LDX		byte_AB
+		JSR		_get_players_overlap_macro_tiles		; read surrounding macro tiles
+		LDX		_players_macro_overlap_test_idx
 		LDY		#$05
 loc_3B68C:
-		LDA		byte_6,Y
+		LDA		byte_6,Y								; look for special tiles $9E/$9F
 		CMP		#$9E
-		BEQ		loc_3B6AB
+		BEQ		.go_under_bg							; if match, go under bg
 		CMP		#$9F
-		BEQ		loc_3B6AB
+		BEQ		.go_under_bg
 		DEY
 		BPL		loc_3B68C
 		LDA		_players_vars07,X
 		AND		#$40
 		BNE		loc_3B6B3
-		LDA		_obj_flips,X
+		LDA		_obj_flips,X							; set normal sprite state
 		AND		#[~_OBJ_UNDER_BG&$FF]
 		STA		_obj_flips,X
 		JMP		loc_3B6B3
-loc_3B6AB:
+.go_under_bg:
 		LDA		_obj_flips,X
 		ORA		#_OBJ_UNDER_BG
 		STA		_obj_flips,X
@@ -3722,7 +3728,7 @@ loc_3B6B3:
 		LDA		_obj_flips,X
 		AND		#_OBJ_FLIPS08
 		BEQ		loc_3B6C3
-		JSR		_players_default_state_select_C_B
+		JSR		_is_players_overlap_any_obstacle
 		BCS		loc_3B6C3
 		LDA		#$00
 		STA		_players_vars08,X
@@ -3732,8 +3738,8 @@ loc_3B6C3:
 		BNE		loc_3B6DD
 		LDY		#$05
 loc_3B6CB:
-		LDA		byte_6,Y
-		CMP		#$9A
+		LDA		byte_6,Y								; special nearest macro tiles test
+		CMP		#$9A									; for stage4, look for tile $9A
 		BEQ		loc_3B6D7
 		DEY
 		BPL		loc_3B6CB
@@ -3747,17 +3753,17 @@ loc_3B6DD:
 		BMI		locret_3B6F2
 		LDY		#$05
 loc_3B6E4:
-		LDA		byte_6,Y
-		CMP		#$F9
-		BEQ		loc_3B717
+		LDA		byte_6,Y								; common test for special obstacles
+		CMP		#$F9									; collect if any F9 RR tiles near
+		BEQ		.collect_rr_macro
 		CMP		#$FC
-		BCS		loc_3B6F3
-		DEY
+		BCS		.get_damage								; or lose hp if any deadly macros
+		DEY												; $FC,$FD,$FE,$FF
 		BPL		loc_3B6E4
 locret_3B6F2:
 		RTS
-loc_3B6F3:
-		LDX		byte_AB
+.get_damage:
+		LDX		_players_macro_overlap_test_idx
 		LDA		_obj_hps,X
 		BEQ		locret_3B716
 		LDA		_players_vars0F,X
@@ -3776,8 +3782,8 @@ loc_3B709:
 		STA		_players_vars07,X
 locret_3B716:
 		RTS
-loc_3B717:
-		LDX		byte_AB
+.collect_rr_macro:
+		LDX		_players_macro_overlap_test_idx
 		LDA		_players_rr_ptss,X
 		CMP		#$63
 		BCS		loc_3B721
@@ -3821,19 +3827,30 @@ loc_3B721:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_default_state_select_C_A:
+; reads the 6 macro tiles at the current player's position, covering it's sprite
+; including surrounding macro tiles:
+;     0   1
+;   +---+---+     * - center of player's object (size 12x24)
+;   |   |   | C   A0 - tmp RAM $06
+;   +---+---+     A1 - tmp RAM $07
+;   |   *   | B   B0 - tmp RAM $08
+;   +---+---+     B1 - tmp RAM $09
+;   |   |   | A   C0 - tmp RAM $0A
+;   +---+---+     C1 - tmp RAM $0B
+;
+_get_players_overlap_macro_tiles:
 		LDY		#$05
 		LDA		#$00
 loc_3B768:
 		STA		byte_6,Y
 		DEY
 		BPL		loc_3B768
-		LDA		_obj_y_lo_poss,X
+		LDA		_obj_y_lo_poss,X				; A row tmp2 Y = posY & $F0
 		LDY		byte_9E
 		JSR		_sub_minus16
 		AND		#$F0
 		STA		_tmp_ptr2
-		LDA		_obj_y_lo_poss,X
+		LDA		_obj_y_lo_poss,X				; C row tmp3 Y = posY-height-$10
 		LDY		_obj_heights,X
 		JSR		_sub_minus16
 		LDY		byte_9E
@@ -3843,7 +3860,7 @@ loc_3B768:
 		AND		#$F0
 		STA		_tmp_ptr2+1
 		CLC
-		LDA		_obj_x_lo_poss,X
+		LDA		_obj_x_lo_poss,X				; 1 col tmp1 X = posX+width+$0F
 		ADC		_obj_widths,X
 		CLC
 		ADC		byte_AC
@@ -3852,7 +3869,7 @@ loc_3B768:
 		AND		#$F0
 		STA		_tmp_ptr0+1
 		SEC
-		LDA		_obj_x_lo_poss,X
+		LDA		_obj_x_lo_poss,X				; 0 col tmp0 X = (posX-width)>>4
 		SBC		_obj_widths,X
 		CLC
 		ADC		byte_AC
@@ -3917,7 +3934,14 @@ locret_3B808:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_default_state_select_C_B:
+; look for any macro-tile in surrounding area calculated before that has
+; index more than D0 except F9. all those macro-tiles are non-penetrable
+; obstacles they can be only jumped up or avoiding, no walk through in
+; any direction. F9 is a special macro tile for RR bonus object
+; return C=1 is any non-penetrable obj is in player's area
+;        C=0 otherwize
+;
+_is_players_overlap_any_obstacle:
 		LDY		#$05
 loc_3B80B:
 		LDA		byte_6,Y
@@ -3953,7 +3977,7 @@ loc_3B831:
 		CMP		#$1E
 		BCC		loc_3B853
 loc_3B843:
-		JSR		_obj_vert_animate
+		JSR		_obj_vert_anim
 		LDA		_obj_y_hi_poss,X
 		BNE		loc_3B853
 		JSR		_obj_to_tile_collision_test_up
@@ -3993,7 +4017,7 @@ _players_state12_A_A:
 		ADC		byte_B0
 		STA		_tmp_ptrE
 		JSR		_players_state05_A_A
-		JSR		_obj_vert_animate
+		JSR		_obj_vert_anim
 		BNE		_players_state05_A_B
 		LDA		_obj_y_deltas,X
 		BEQ		loc_3B8AE

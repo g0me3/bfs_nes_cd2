@@ -888,9 +888,9 @@ _obj_lib:
 		OBJ_IDX	_obj_scr19						; two special cases, objects with no
 		OBJ_IDX	_obj_scr1A						; scripts, pointer is $0000 here
 		OBJ_IDX	_obj_scr1B_monterey_refill
-		OBJ_IDX	_obj_scr1D_big_ball_box			; TODO, REMOVE ME. _obj_scr1C unused
-		OBJ_IDX	_obj_scr1D_big_ball_box
-		OBJ_IDX	_obj_scr1E_big_zipper_box
+		OBJ_IDX	_obj_scr1D_ball_in_box			; TODO, REMOVE ME. _obj_scr1C unused
+		OBJ_IDX	_obj_scr1D_ball_in_box
+		OBJ_IDX	_obj_scr1E_zipper_in_box
 		OBJ_IDX	_obj_scr1F_star_prize
 		OBJ_IDX	_obj_scr20_lvl_exit_left
 		OBJ_IDX	_obj_scr21_lvl_exit_right
@@ -979,7 +979,7 @@ _room_objects02:
 		OBJ_ENTRY	$4E,$52,_obj_scr27_honey_bee
 		OBJ_ENTRY	$52,$5C,_obj_scr25_fork_rat
 		OBJ_ENTRY	$63,$53,_obj_scr09_sink_valve
-		OBJ_ENTRY	$6C,$5D,_obj_scr1E_big_zipper_box
+		OBJ_ENTRY	$6C,$5D,_obj_scr1E_zipper_in_box
 		OBJ_ENTRY	$6F,$5A,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects03:
@@ -1032,7 +1032,7 @@ _room_objects0D:
 		OBJ_ENTRY	$56,$55,_obj_scr3D_violet_bug_float
 		OBJ_ENTRY	$5C,$5C,_obj_scr39_hedgehog
 		OBJ_ENTRY	$68,$58,_obj_scr39_hedgehog
-		OBJ_ENTRY	$6F,$5C,_obj_scr1D_big_ball_box
+		OBJ_ENTRY	$6F,$5C,_obj_scr1D_ball_in_box
 		OBJ_ENTRY	$7F,$5C,_obj_scr0C_lvl3_refill_entry
 _room_objects10:
 		OBJ_ENTRY	$6E,$1C,_obj_scr1A
@@ -1298,8 +1298,8 @@ _BOX_ACORN	EQU	$60
 _BOX_STAR	EQU	$70		; unused
 _CONCRETE	EQU	$80
 _RR			EQU	$90
-_RED_BALLA	EQU	$A0
-_RED_BALLB	EQU	$B0
+_RED_BALLA	EQU	$A0		; should be used in coin game only
+_RED_BALLB	EQU	$B0		; should be used in coin game only
 
 ; NOTE, box with star not present in any rooms here, star prize is always
 ; displayed as a sprite object

@@ -36,7 +36,7 @@ _tmp_ptrE:
 _ppu_scroll_shadow_lo:
 		.BYTE	0,0
 _scroll_lo_backup:
-		.BYTE	$00
+		.BYTE	0
 _ppu_scroll_nt_hor:
 		.BYTE	0,0
 _scroll_shadow_lo_backup:
@@ -44,7 +44,7 @@ _scroll_shadow_lo_backup:
 _ppu_scroll_shadow_hi:
 		.BYTE	0,0
 _scroll_hi_backup:
-		.BYTE	$00
+		.BYTE	0
 _ppu_scroll_nt_vert:
 		.BYTE	0,0
 _scroll_shadow_hi_backup:
@@ -169,7 +169,7 @@ _pal_fade_speed:
 		.BYTE	0
 _pal_fade_delay:
 		.BYTE	0
-_debug_invulnerability_flag:
+_debug_infinite_hp_flag:
 		.BYTE	0
 _timer_minutes_cnt:
 		.BYTE	0
@@ -257,7 +257,7 @@ _players_lives:
 		.BYTE	0,0
 _players_def_max_hps:
 		.BYTE	0,0
-byte_AB:
+_players_macro_overlap_test_idx:
 		.BYTE	0
 byte_AC:
 		.BYTE	0
@@ -301,7 +301,7 @@ _players_vars09:
 		.BYTE	0,0
 _players_vars0A:
 		.BYTE	0,0
-_players_vars0B:
+_players_anim_delays:
 		.BYTE	0,0
 _players_vars0C:
 		.BYTE	0,0

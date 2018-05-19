@@ -491,25 +491,115 @@ _tileset05:
 
 		SECTION_END		06, "TILESETS DATA"
 
-byte_51DC0:
-		.BYTE	$01,$4B,$28,$A0,$03,$49,$29,$82,$83,$84,$03,$49,$2A,$8A,$8B,$8C
+tlm_patch04:
+		.BYTE	$01
+		.WORD	$284B
+		.BYTE	$A0
+		.BYTE	$03
+		.WORD	$2949
+		.BYTE	$82,$83,$84
+		.BYTE	$03
+		.WORD	$2A49
+		.BYTE	$8A,$8B,$8C
 		.BYTE	$00
-byte_51DD1:
-		.BYTE	$01,$4B,$28,$9B,$03,$49,$29,$96,$B7,$A3,$03,$49,$2A,$A9,$AA,$AB
+tlm_patch05:
+		.BYTE	$01
+		.WORD	$284B
+		.BYTE	$9B
+		.BYTE	$03
+		.WORD	$2949
+		.BYTE	$96,$B7,$A3
+		.BYTE	$03
+		.WORD	$2A49
+		.BYTE	$A9,$AA,$AB
 		.BYTE	$00
-byte_51DE2:
-		.BYTE	$02,$49,$2C,$FC,$F1,$02,$49,$2D,$A1,$A2,$02,$49,$2E,$00,$00,$00
-byte_51DF2:
-		.BYTE	$02,$49,$2C,$B9,$BA,$02,$49,$2D,$C1,$C2,$02,$49,$2E,$C9,$CA,$00
-byte_51E02:
-		.BYTE	$01,$4E,$2B,$81,$03,$4C,$2C,$F2,$F3,$80,$04,$4C,$2D,$88,$89,$FD
-		.BYTE	$CF,$04,$4C,$2E,$00,$00,$00,$00,$00
-byte_51E1B:
-		.BYTE	$01,$4E,$2B,$B6,$03,$4C,$2C,$BC,$BD,$BE,$04,$4C,$2D,$C4,$C5,$C6
-		.BYTE	$00,$04,$4C,$2E,$CC,$CD,$CE,$CF,$00,$03,$64,$53,$46,$46,$46,$00
-		.BYTE	$03,$64,$53,$45,$45,$45,$00,$03,$6C,$52,$2F,$00,$31,$03,$6C,$53
-		.BYTE	$30,$9E,$18,$00,$02,$75,$5A,$60,$00,$02,$75,$5B,$60,$9F,$02,$7A
-		.BYTE	$5C,$B7,$08,$00,$02,$6E,$4A,$55,$57,$02,$6E,$4B,$56,$9F,$00
+tlm_patch00:
+		.BYTE	$02
+		.WORD	$2C49
+		.BYTE	$FC,$F1
+		.BYTE	$02
+		.WORD	$2D49
+		.BYTE	$A1,$A2
+		.BYTE	$02
+		.WORD	$2E49
+		.BYTE	$00,$00
+		.BYTE	$00
+tlm_patch02:
+		.BYTE	$02
+		.WORD	$2C49
+		.BYTE	$B9,$BA
+		.BYTE	$02
+		.WORD	$2D49
+		.BYTE	$C1,$C2
+		.BYTE	$02
+		.WORD	$2E49
+		.BYTE	$C9,$CA
+		.BYTE	$00
+tlm_patch01
+		.BYTE	$01
+		.WORD	$2B4E
+		.BYTE	$81
+		.BYTE	$03
+		.WORD	$2C4C
+		.BYTE	$F2,$F3,$80
+		.BYTE	$04
+		.WORD	$2D4C
+		.BYTE	$88,$89,$FD,$CF
+		.BYTE	$04
+		.WORD	$2E4C
+		.BYTE	$00,$00,$00,$00
+		.BYTE	$00
+tlm_patch03:
+		.BYTE	$01
+		.WORD	$2B4E
+		.BYTE	$B6
+		.BYTE	$03
+		.WORD	$2C4C
+		.BYTE	$BC,$BD,$BE
+		.BYTE	$04
+		.WORD	$2D4C
+		.BYTE	$C4,$C5,$C6,$00
+		.BYTE	$04
+		.WORD	$2E4C
+		.BYTE	$CC,$CD,$CE,$CF
+		.BYTE	$00
+tlm_patch06:
+		.BYTE	$03
+		.WORD	$5364
+		.BYTE	$46,$46,$46
+		.BYTE	$00
+_tlm_patch_06A_unused:
+		.BYTE	$03
+		.WORD	$5364
+		.BYTE	$45,$45,$45
+		.BYTE	$00
+tlm_patch07:
+		.BYTE	$03
+		.WORD	$526C
+		.BYTE	$2F,$00,$31
+		.BYTE	$03
+		.WORD	$536C
+		.BYTE	$30,$9E,$18
+		.BYTE	$00
+tlm_patch08:
+		.BYTE	$02
+		.WORD	$5A75
+		.BYTE	$60,$00
+		.BYTE	$02
+		.WORD	$5B75
+		.BYTE	$60,$9F
+		.BYTE	$02
+		.WORD	$5C7A
+		.BYTE	$B7,$08
+		.BYTE	$00
+tlm_patch09:
+		.BYTE	$02
+		.WORD	$4A6E
+		.BYTE	$55,$57
+		.BYTE	$02
+		.WORD	$4B6E
+		.BYTE	$56,$9F
+		.BYTE	$00
 
 		SECTION_START	07
 

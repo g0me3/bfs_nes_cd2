@@ -111,15 +111,15 @@ _tmp_ptr42:
 		.BYTE	0,0
 _tmp_ptr44:
 		.BYTE	0,0
-byte_46:
+_tmp46:
 		.BYTE	0
-_hor_menu_pos:
+_tmp47:
 		.BYTE	0
 _tmp48:
 		.BYTE	0
 _tmp49:
 		.BYTE	0
-_vert_menu_idx:
+_tmp4A:
 		.BYTE	0
 _tmp_ptr4B:
 		.BYTE	0,0

@@ -496,7 +496,7 @@ byte_68373:
 		NJSR				_nsub_sub10E						; animate prepare to follow target
 		SJSRS				_ssub_green_bat_flying_anim
 		LOOP_A				$03,byte_68373
-		NJSR				_nsub_sub111						; lock on target
+		NJSR				_nsub_obj_to_player_set_tangent; lock on target
 		TARGET_LOCK			$20
 byte_68382:
 		TIMER_B_SET			$FF									; now animate following target
@@ -941,7 +941,7 @@ _obj_scr_103:
 		SIZE_SET			$08,$14
 		DELTA_X_SET			$10
 		POS_X_SET			$80,$00
-		NJSR				_nsub_sub001
+		NJSR				_nsub_obj_to_player_h_flip_sync
 		NJSR				_nsub_obj_hor_bounce7E
 		NJSR				_nsub_obj_hor_move_reverse
 		NJSR				_nsub_obj_hor_delta_toggle
@@ -968,10 +968,10 @@ _ssub_6870C:
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub001:
+_nsub_obj_to_player_h_flip_sync:
 		LDY		_players_macro_overlap_test_idx
 		LDA		_obj_flips,Y
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		ORA		_obj_flips,X
 		STA		_obj_flips,X
 		RTS
@@ -1002,14 +1002,14 @@ byte_6873F:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_68751:
-		NJSR				_nsub_sub123
-		NJSR				_nsub_sub124
+		NJSR				_nsub_obj_circular_x_step
+		NJSR				_nsub_obj_circular_y_step
 		NJSR				_nsub_obj_hflip_test
 		SBNES				byte_68763
-		NJSR				_nsub_inc_vars19
+		NJSR				_nsub_inc_timerBs
 		SJMPS				byte_68766
 byte_68763:
-		NJSR				_nsub_dec_vars19
+		NJSR				_nsub_dex_timerBs
 byte_68766:
 		NJSR				_obj_vert_anim
 		ANIMATE_HV_SYNC
@@ -1022,7 +1022,7 @@ byte_68773:
 byte_68778:
 		TARGET_LOCK			$18
 		NJSR				_nsub_sub10E
-		NJSR				_nsub_sub111
+		NJSR				_nsub_obj_to_player_set_tangent
 		LOOP_A_STOP
 byte_68781:
 		SPR_IDX_SET			_spr_lib9_00
@@ -1237,7 +1237,7 @@ byte_6890C:
 byte_68911:
 		NJSR				_obj_move_hor_animate
 		NJSR				_nsub_obj_to_tile_collision_test_hor
-		NJSR				_nsub_sub12C
+		NJSR				_nsub_obj_hor_slowdown
 		NJSR_SYNC			_nsub_get_obj_x_delta
 		SBNES				byte_68911
 		SUSPEND				$0A
@@ -1468,7 +1468,7 @@ _ssub_68AB9:
 		SPRITE_ON
 		SIZE_SET			$10,$20
 		POS_X_SET			$80,$00
-		NJSR				_nsub_sub001
+		NJSR				_nsub_obj_to_player_h_flip_sync
 		NJSR				_nsub_obj_hor_bounce7E
 		NJSR				_nsub_obj_hor_move_reverse
 		NJSR				_nsub_obj_hor_delta_toggle
@@ -1731,14 +1731,14 @@ byte_68C9C:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_violet_bug_float_anim:
-		NJSR				_nsub_sub123
-		NJSR				_nsub_sub124
+		NJSR				_nsub_obj_circular_x_step
+		NJSR				_nsub_obj_circular_y_step
 		NJSR				_nsub_obj_hflip_test
 		SBNES				byte_68CC3
-		NJSR				_nsub_inc_vars19
+		NJSR				_nsub_inc_timerBs
 		SJMPS				byte_68CC6
 byte_68CC3:
-		NJSR				_nsub_dec_vars19
+		NJSR				_nsub_dex_timerBs
 byte_68CC6:
 		ANIMATE_HV_SYNC
 		LOOP_B				$08,_ssub_violet_bug_float_anim
@@ -2234,7 +2234,7 @@ _ssub_6905E:
 		NJSR				_nsub_obj_hor_delta_toggle
 byte_69065:
 		SJSRS				_ssub_690B0
-		NJSR				_nsub_sub004
+		NJSR				_nsub_obj_y_deltas_0A_sub
 		LOOP_A				$06,byte_69065
 		NJSR				_nsub_obj_hor_move_reverse
 		NJSR				_nsub_obj_y_lo_maskF0
@@ -2247,7 +2247,7 @@ _ssub_69076:
 		NJSR				_nsub_obj_hor_delta_toggle
 byte_6907D:
 		SJSRS				_ssub_690B0
-		NJSR				_nsub_sub004
+		NJSR				_nsub_obj_y_deltas_0A_sub
 		LOOP_A				$03,byte_6907D
 		NJSR				_nsub_obj_y_lo_maskF0
 		DELTA_Y_SET			$00
@@ -2270,27 +2270,27 @@ byte_6908E:
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_690B0:
 		APU_SE_SET			_apu_mus66
-		NJSR				_nsub_sub002
+		NJSR				_nsub_obj_y_deltas_10_add
 		SPR_IDX_SET			_spr_lib8_09
 		SJSRS				_ssub_690CF
-		NJSR				_nsub_sub003
+		NJSR				_nsub_obj_y_deltas_10_sub
 		SPR_IDX_SET			_spr_lib8_0A
 		SJSRS				_ssub_690CF
-		NJSR				_nsub_sub003
+		NJSR				_nsub_obj_y_deltas_10_sub
 		SPR_IDX_SET			_spr_lib8_0B
 		SJSRS				_ssub_690CF
-		NJSR				_nsub_sub002
+		NJSR				_nsub_obj_y_deltas_10_add
 		SPR_IDX_SET			_spr_lib8_0A
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_690CF:
 		SJSR				_obj_scr_20A_anim_anim_sync
-		NJSR				_nsub_sub005
+		NJSR				_nsub_obj_to_players_x_deltas_select
 		LOOP_B				$04,_ssub_690CF
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub002:
+_nsub_obj_y_deltas_10_add:
 		CLC
 		LDA		_obj_y_deltas,X
 		ADC		#$10
@@ -2298,7 +2298,7 @@ _nsub_sub002:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub003:
+_nsub_obj_y_deltas_10_sub:
 		SEC
 		LDA		_obj_y_deltas,X
 		SBC		#$10
@@ -2306,7 +2306,7 @@ _nsub_sub003:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub004:
+_nsub_obj_y_deltas_0A_sub:
 		SEC
 		LDA		_obj_y_deltas,X
 		SBC		#$0A
@@ -2314,12 +2314,12 @@ _nsub_sub004:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub005:
+_nsub_obj_to_players_x_deltas_select:
 		LDA		_obj_x_deltas,X
 		BNE		locret_6910C
 		LDY		#$18
 		LDA		_obj_flips,X
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		BNE		loc_69108
 		LDY		#$E8
 loc_69108:
@@ -2338,13 +2338,13 @@ _obj_scr_boss_flying_panther_stone:
 		DAMAGE_SET			_OBJ_DMG_KILL
 		SIZE_SET			$06,$10
 		SPRITE_ON
-		NJSR_SYNC			_nsub_sub006
+		NJSR_SYNC			_nsub_obj_x_poss_select_from_flips
 byte_69120:
 		NJSR				_nsub_obj_jump_up_anim
 		NJSR_SYNC			_obj_vert_anim
 		LOOP_A				$20,byte_69120
 		TARGET_LOCK			$40
-		NJSR				_nsub_sub111
+		NJSR				_nsub_obj_to_player_set_tangent
 		NJSR				_nsub_grabable_obj_num_02_cmp
 		SBCS				_ssub_target_follow_down_infinite
 		SJSR				_ssub_target_follow_down_to_ground
@@ -2353,14 +2353,14 @@ byte_69120:
 		NJSR				_nsub_obj_hor_delta_toggle
 byte_6913F:
 		SJSR				_ssub_anim_sync_frames10
-		NJSR				_nsub_sub007
+		NJSR				_nsub_obj_abs_x_poss_10_cmp
 		SBCCS				byte_6913F
 		NJSR				_nsub_obj_type_change_solid_no_damage
 byte_6914B:
 		SYNC
 		NJSR				_nsub_get_obj_idxBs
 		SBMIS				_obj_scr_boss_flying_panther_stone_destr
-		NJSR				_nsub_sub008
+		NJSR				_nsub_obj_to_obj3_collision_test
 		SBCSS				byte_6916B
 		SJMPS				byte_6914B
 
@@ -2381,10 +2381,10 @@ byte_6916B:
 		SJMP				_ssub_y_parabolic_delta_infinite_anim_sync
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub006:
+_nsub_obj_x_poss_select_from_flips:
 		LDY		#$40
 		LDA		_obj_flips,X
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		BNE		loc_69183
 		LDY		#$C0
 loc_69183:
@@ -2395,7 +2395,7 @@ loc_69183:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub007:
+_nsub_obj_abs_x_poss_10_cmp:
 		LDA		_obj_x_lo_poss,X
 		BPL		loc_69194
 		EOR		#$FF
@@ -2404,7 +2404,7 @@ loc_69194:
 		JMP		_scr_flags_update
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub008:
+_nsub_obj_to_obj3_collision_test:
 		LDA		#$03
 		STA		_scr_idxAs,X
 		TAY
@@ -2418,7 +2418,7 @@ _obj_scr41_lvl3_boss_sea_rat:
 		STORE				$10,byte_9D
 		DESTR_PC_SET		_obj_scr_common_small_boss_destr
 		NJSR				_nsub_obj_idxCs_C0_clear
-		SRUN				_OBJ_TYPE_AUTO,_obj_scr_lvl3_boss_sea_rat_bg
+		SRUN				_OBJ_TYPE_AUTO,_obj_scr_lvl3_boss_sea_rat_box_generator
 		POS_X_MOVE			$20
 		SPR_LIB_SET			_spr_lib8
 		SIZE_SET			$08,$20
@@ -2432,7 +2432,7 @@ _obj_scr41_lvl3_boss_sea_rat:
 		SPR_IDX_SET			_spr_lib8_26
 		SJSR				_obj_scr_20A_anim_anim10_sync
 		SJSRS				_ssub_boss_sea_rat_anim24
-		NJSR				_nsub_sub009
+		NJSR				_nsub_room_flags_02_set
 byte_691D7:
 		NJSR				_nsub_get_rand_scale3
 		SSWITCH				_tmp_ptrE+1
@@ -2543,23 +2543,23 @@ byte_692A4:
 		SRET
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub009:
+_nsub_room_flags_02_set:
 		LDA		_room_flags
 		ORA		#$02
 		STA		_room_flags
 		RTS
 
 ; =============== S C R I P T ===============================================
-_obj_scr_lvl3_boss_sea_rat_bg:
+_obj_scr_lvl3_boss_sea_rat_box_generator:
 		FLIPS_SET			_OBJ_FLIPS08
 byte_692AE:
-		NJSR_SYNC			_nsub_sub00A
+		NJSR_SYNC			_nsub_select_next_box_x_poss
 		SBCSS				byte_692AE
-		SRUN				_OBJ_TYPE_SOLID,_obj_scr_116
+		SRUN				_OBJ_TYPE_SOLID,_obj_scr_boss_sea_rat_box
 		SJMPS				byte_692AE
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub00A:
+_nsub_select_next_box_x_poss:
 		LDA		_obj_global_y_shift
 		BEQ		loc_692DC
 		LDY		_ppu_scroll_shadow_hi
@@ -2583,10 +2583,10 @@ loc_692DC:
 
 
 ; =============== S C R I P T ===============================================
-_obj_scr_116:
-		GRABABLE_ON
-		DESTR_PC_SET		_obj_scr_box
-		POS_Y_SET			$00,$00
+_obj_scr_boss_sea_rat_box:
+		GRABABLE_ON								; the only difference is that this object
+		DESTR_PC_SET		_obj_scr_box		; is countable grabable weapon for player
+		POS_Y_SET			$00,$00				; when taken, turns to regular throwable box
 		SPR_LIB_SET			_spr_lib3
 		SPR_IDX_SET			_spr_lib3_00
 		SIZE_SET			$06,$10
@@ -2594,6 +2594,8 @@ _obj_scr_116:
 		SPRITE_ON
 byte_692F1:
 		NJSR_SYNC			_nsub_get_obj_idxBs
+; TODO, optimize me, swap conditions, when no idxBs 80 flag set then loop. otherwise jump
+; to box mode. once less operation to perform
 		SBMI				_obj_scr_box
 		SJMPS				byte_692F1
 
@@ -2648,7 +2650,7 @@ byte_69350:
 		POS_Y_SET			$90,$00
 		SPR_LIB_SET			_spr_lib8
 		SPR_IDX_SET			_spr_lib8_0F
-		NJSR				_nsub_sub00C
+		NJSR				_nsub_room_scrolls_reload
 		CHR_SET				$00,$1B
 		PAL_FADE_IN			$04,$87
 		SUSPEND				$10
@@ -2800,7 +2802,7 @@ _obj_scr_119:
 		POS_Y_MOVE			$CA
 		SPR_LIB_SET			_spr_lib8
 		SPR_IDX_SET			_spr_lib8_13
-		NJSR_SYNC			_nsub_sub111
+		NJSR_SYNC			_nsub_obj_to_player_set_tangent
 		TARGET_LOCK			$30
 		SIZE_SET			$08,$10
 		HP_SET				$01
@@ -2857,15 +2859,15 @@ _obj_scr_boss_ghost_destr:
 		SJMP				_ssub_stage_complete_flag_set
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub00B:
+_nsub_boss_ghost_light_room_scroll_init:
 		LDA		#$40
 		LDY		#$00
 
 ; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub00B_ex:
-		STA		_hor_menu_pos
+_nsub_room_scrolls_init:
+		STA		_tmp47
 		STY		_tmp48
 		LDA		#$00
 		LDY		#$01
@@ -2873,15 +2875,25 @@ _nsub_sub00B_ex:
 		STY		_ppu_scroll_nt_vert
 		STA		_ppu_scroll_shadow_lo
 		STA		_ppu_scroll_nt_hor
+; NOTE, this is seems an odd redundant leftover from early dev stage, initialized
+; on two of three large tiles scroller bosses (ghost boss and final boss). by game's
+; logic when split screen is on and _wnd_split_ppu_ofs+1 non zero, enables additional
+; PPU reg loading to do an additional shift to the split screen. this usually
+; performed in games to display HUG grahics splitted from the main screen and
+; not scrolled with game field... there aren't something similar in this game, so
+; these vars does nothing. only place where split screen is used is to divide
+; cutscene screen with message window. but for this mode they don't use additional wnd
+; split.... remove me
 		LDA		#$00
 		STA		_wnd_split_ppu_ofs
 		LDA		#$2B
 		STA		_wnd_split_ppu_ofs+1
+; -
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub00C:
-		LDA		_hor_menu_pos
+_nsub_room_scrolls_reload:
+		LDA		_tmp47
 		STA		_ppu_scroll_shadow_hi
 		LDA		_tmp48
 		STA		_ppu_scroll_nt_vert
@@ -2908,6 +2920,7 @@ _nsub_sub00D:
 		JMP		_far_prg3_rect_draw
 locret_69520:
 		RTS
+
 word_69521:
 		.WORD	$2272
 off_69523:
@@ -2921,22 +2934,26 @@ off_69523:
 
 ; =============== S C R I P T   R O U T I N E ===============================
 _ssub_69531:
-		NJSR				_nsub_sub00B
+		NJSR				_nsub_boss_ghost_light_room_scroll_init
 		CHR_SET				$00,$13
-		SRUN				_OBJ_TYPE_AUTO,_obj_scr_11B
-		SRUN				_OBJ_TYPE_AUTO,_obj_scr_11C
+		SRUN				_OBJ_TYPE_AUTO,_obj_scr_boss_ghost_left_flare
+		SRUN				_OBJ_TYPE_AUTO,_obj_scr_boss_ghost_right_flare
 		SUSPEND				$80
 		SRET
 
 ; =============== S C R I P T ===============================================
-_obj_scr_11B:
+_obj_scr_boss_ghost_left_flare:
 		POS_X_SET			$48,$00
-		SJMPS				byte_6954B
+		SJMPS				_obj_scr_boss_ghost_common_flare
 
 ; =============== S C R I P T ===============================================
-_obj_scr_11C:
+_obj_scr_boss_ghost_right_flare:
 		POS_X_SET			$B8,$00
-byte_6954B:
+
+; !FALLTHROUGH!
+
+; =============== S C R I P T ===============================================
+_obj_scr_boss_ghost_common_flare:
 		POS_Y_SET			$6D,$00
 		SIZE_SET			$05,$0A
 byte_69551:
@@ -3085,7 +3102,7 @@ _obj_scr_boss_cat_with_cards_projectile:
 		NJSR				_nsub_obj_hor_delta_toggle
 byte_69671:
 		SJSR				_ssub_anim_sync_frames10
-		NJSR				_nsub_sub007
+		NJSR				_nsub_obj_abs_x_poss_10_cmp
 		SBCCS				byte_69671
 		DESTR_PC_SET		_obj_scr_118_destr
 		DELTA_X_SET			$00
@@ -3093,9 +3110,9 @@ byte_69671:
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_cat_with_cards_projectile_anim_select:
-		JSR		_nsub_sub111
+		JSR		_nsub_obj_to_player_set_tangent
 		LDA		_obj_flips,X
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		BEQ		loc_69693
 		LDA		#<[_cards_projectile_anim_posA_list]
 		LDY		#>[_cards_projectile_anim_posA_list]
@@ -3742,7 +3759,7 @@ byte_69B5D:
 		NJSR_SYNC			_nsub_sub14F
 		LOOP_A				$0F,byte_69B5D
 		LOOP_B				$10,byte_69B5D
-		NJSR				_pal_bg003_reload
+		NJSR				_nsub_pal_final_boss_reload
 		DESTR_PC_SET		_obj_scr46_lvl6_final_boss_destr
 		NJSR				_nsub_obj_idxCs_C0_clear
 		SPR_LIB_SET			_spr_lib8
@@ -3750,7 +3767,7 @@ byte_69B5D:
 		HP_SET				$0A
 		DAMAGE_SET			_OBJ_DMG_KILL
 		SIZE_SET			$00,$00
-		NJSR				_nsub_sub00C
+		NJSR				_nsub_room_scrolls_reload
 		PAL_FADE_IN			$04,$C3
 		SRUN				_OBJ_TYPE_ENEMY,_obj_scr_128
 		NJSR				_nsub_cur_obj_idx_to_idxCs_store
@@ -3956,13 +3973,13 @@ _nsub_lvl6_final_boss_init:
 		STA		_obj_y_lo_poss,X
 		LDA		#$2C
 		LDY		#$00
-		JMP		_nsub_sub00B_ex
+		JMP		_nsub_room_scrolls_init
 
 ; =============== S U B R O U T I N E =======================================
-_pal_bg003_reload:
+_nsub_pal_final_boss_reload:
 		LDX		#$77
-		LDA		#<[_pal_bg003]
-		LDY		#>[_pal_bg003]
+		LDA		#<[_nsub_pal_final_boos]
+		LDY		#>[_nsub_pal_final_boos]
 		JMP		_far_prg3_pal_bg_reload
 
 ; =============== O B J E C T   S C R I P T =================================
@@ -4873,7 +4890,7 @@ _nsub_sub023:
 		STA		_obj_spr_idxs,X
 		INY
 		LDA		_obj_flips,X
-		AND		#[~[_OBJ_VFLIP|_OBJ_HFLIP]&$FF]
+		AND		#[~[_OBJ_FLIP_V|_OBJ_FLIP_H]&$FF]
 		ORA		(_tmp_ptr0),Y
 		STA		_obj_flips,X
 		RTS
@@ -5275,7 +5292,7 @@ _nsub_sub029:
 		AND		#$0F
 		TAY
 		LDA		_obj_flips,Y
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		STA		_obj_flips,X
 		JSR		_nsub_obj_hor_delta_toggle
 		JMP		_nsub_obj_hflip_clear
@@ -5413,7 +5430,7 @@ loc_6A6D4:
 loc_6A6E5:
 		LDY		#$09
 		LDA		_obj_flips,X
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		BEQ		loc_6A6F1
 		INY
 		INY
@@ -5834,15 +5851,15 @@ _obj_scr0F_clock_trolleyA:
 		POS_X_MOVE			$FD
 		POS_Y_MOVE			$03
 		TIMER_B_SET			$20
-		SJSRS				_ssub_6AA22
+		SJSRS				_ssub_clock_trolley_common_init
 byte_6A9BA:
-		SJSRS				_ssub_6AA11
+		SJSRS				_ssub_clock_trolley_common_anim
 byte_6A9BD:
-		SJSRS				_ssub_6AA31
+		SJSRS				_ssub_clock_trolley_common_sync
 		LOOP_A				$84,byte_6A9BD
-		SJSRS				_ssub_6AA11
+		SJSRS				_ssub_clock_trolley_common_anim
 byte_6A9C7:
-		SJSRS				_ssub_6AA31
+		SJSRS				_ssub_clock_trolley_common_sync
 		LOOP_A				$84,byte_6A9C7
 		SJMPS				byte_6A9BA
 
@@ -5851,15 +5868,15 @@ _obj_scr10_clock_trolleyB:
 		POS_X_MOVE			$03
 		POS_Y_MOVE			$05
 		TIMER_B_SET			$00
-		SJSRS				_ssub_6AA22
+		SJSRS				_ssub_clock_trolley_common_init
 byte_6A9DA:
-		SJSRS				_ssub_6AA11
+		SJSRS				_ssub_clock_trolley_common_anim
 byte_6A9DD:
-		SJSRS				_ssub_6AA31
+		SJSRS				_ssub_clock_trolley_common_sync
 		LOOP_A				$84,byte_6A9DD
-		SJSRS				_ssub_6AA11
+		SJSRS				_ssub_clock_trolley_common_anim
 byte_6A9E7:
-		SJSRS				_ssub_6AA31
+		SJSRS				_ssub_clock_trolley_common_sync
 		LOOP_A				$84,byte_6A9E7
 		SJMPS				byte_6A9DA
 
@@ -5868,29 +5885,29 @@ _obj_scr11_clock_trolleyC:
 		POS_X_MOVE			$03
 		POS_Y_MOVE			$05
 		TIMER_B_SET			$00
-		SJSRS				_ssub_6AA22
+		SJSRS				_ssub_clock_trolley_common_init
 byte_6A9FA:
-		SJSRS				_ssub_6AA11
+		SJSRS				_ssub_clock_trolley_common_anim
 byte_6A9FD:
-		SJSRS				_ssub_6AA31
+		SJSRS				_ssub_clock_trolley_common_sync
 		LOOP_A				$58,byte_6A9FD
-		SJSRS				_ssub_6AA11
+		SJSRS				_ssub_clock_trolley_common_anim
 byte_6AA07:
-		SJSRS				_ssub_6AA31
+		SJSRS				_ssub_clock_trolley_common_sync
 		LOOP_A				$58,byte_6AA07
 		SJMPS				byte_6A9FA
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_ssub_6AA11:
-		NJSR				_nsub_sub123
-		NJSR				_nsub_sub124
-		NJSR				_nsub_inc_vars19
-		SJSRS				_ssub_6AA31
-		LOOP_A				$40,_ssub_6AA11
+_ssub_clock_trolley_common_anim:
+		NJSR				_nsub_obj_circular_x_step
+		NJSR				_nsub_obj_circular_y_step
+		NJSR				_nsub_inc_timerBs
+		SJSRS				_ssub_clock_trolley_common_sync
+		LOOP_A				$40,_ssub_clock_trolley_common_anim
 		SRET
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_ssub_6AA22:
+_ssub_clock_trolley_common_init:
 		NJSR				_nsub_idxBs_20_set
 		SPR_LIB_SET			_spr_lib5
 		SPR_IDX_SET			_spr_lib5_13
@@ -5899,7 +5916,7 @@ _ssub_6AA22:
 		SJMP				_ssub_obj_show_wait_for_idxCs_80_set
 
 ; =============== S C R I P T   R O U T I N E ===============================
-_ssub_6AA31:
+_ssub_clock_trolley_common_sync:
 		SYNC
 		ANIMATE_HV
 		NJSR				_nsub_players_obj_ride_x_delta_sync
@@ -5972,7 +5989,7 @@ byte_6AA97:
 		SJSRS				_ssub_6AAC1
 		LOOP_A				$14,byte_6AA97
 		NJSR				_nsub_sub10E
-		NJSR				_nsub_sub111
+		NJSR				_nsub_obj_to_player_set_tangent
 		APU_SE_SET			_apu_mus36
 byte_6AAAC:
 		TIMER_B_SET			$FF
@@ -6313,7 +6330,7 @@ _nsub_sub03F:
 		ADC		#$00
 		STA		_obj_y_hi_poss,X
 		LDA		_obj_flips,Y
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		BEQ		loc_6AD12
 		CLC
 		LDA		_obj_x_lo_poss,Y
@@ -8487,7 +8504,7 @@ byte_6BBBA:
 		MSG_DISPLAY			_msg1B,_apu_mus58
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		SJSR				_ssub_6BC7C
-		SSWITCH				_hor_menu_pos
+		SSWITCH				_tmp47
 		SCASE				byte_6BBE2
 		SCASE				byte_6BBD8
 byte_6BBD8:
@@ -8574,7 +8591,7 @@ byte_6BC93:
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_sub066:
-		LDA		_hor_menu_pos
+		LDA		_tmp47
 		STA		byte_E0
 		LDA		#$00
 		STA		byte_E1
@@ -8582,12 +8599,12 @@ _nsub_sub066:
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_sub067:
-		LDX		_hor_menu_pos
+		LDX		_tmp47
 		STX		_tmp48
 		INX
 		TXA
 		AND		#$01
-		STA		_hor_menu_pos
+		STA		_tmp47
 		RTS
 _menu_data01:
 		.BYTE	$02,$01

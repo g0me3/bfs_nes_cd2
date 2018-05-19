@@ -2622,7 +2622,7 @@ _pal_bg001:
 		.BYTE	$0F,$0F,$01,$04,$0F,$02,$07,$1B,$0F,$0F,$01,$1C,$0F,$0F,$08,$00
 _pal_bg002:
 		.BYTE	$0F,$0F,$0F,$0F,$0F,$0F,$0F,$0F,$0F,$0F,$0F,$0F,$0F,$0F,$0F,$0F
-_pal_bg003:
+_nsub_pal_final_boos:
 		.BYTE	$0F,$20,$2C,$1C,$0F,$2C,$1C,$0C,$0F,$0F,$0F,$0F,$0F,$0F,$0F,$0F
 _pal_patch02:
 		.BYTE	$00,$20,$37,$26

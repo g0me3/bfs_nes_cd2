@@ -329,12 +329,16 @@ loc_B4206:
 loc_B420D:
 		DEX
 		BNE		loc_B420D
+; NOTE, redundant leftover, althought initialized at some points in the game,
+; never actually used because initialized there where no split screen mode
+; enabled... remove it
 		LDY		_wnd_split_ppu_ofs+1
 		BEQ		loc_B421C
 		LDA		_wnd_split_ppu_ofs
 		STY		_PPU_ADDR
 		STA		_PPU_ADDR
 loc_B421C:
+; -
 		LDX		#$01
 		JSR		_ppu_scroll_reload
 		LDX		_wnd_split_chr0_bank
@@ -910,7 +914,7 @@ _get_param2:
 ; =============== S U B R O U T I N E =======================================
 _menu_init:
 		LDA		#$00
-		STA		_hor_menu_pos
+		STA		_tmp47
 		STA		_tmp49
 		STA		_tmp_ptr4B
 		STA		_tmp_ptr4B+1
@@ -948,35 +952,35 @@ _menu_idx_unchanged:
 ; =============== S U B R O U T I N E =======================================
 _get_hor_menu_input:
 		TAY
-		LDA		_hor_menu_pos
+		LDA		_tmp47
 		STA		_tmp48
 		LDA		_pads+4,X
 		AND		#$40
 		BEQ		loc_B45E4
-		LDA		_hor_menu_pos
+		LDA		_tmp47
 		BNE		loc_B45DF
-		STY		_hor_menu_pos
+		STY		_tmp47
 loc_B45DF:
-		DEC		_hor_menu_pos
+		DEC		_tmp47
 		JMP		_menu_idx_changed
 loc_B45E4:
 		LDA		_pads+4,X
 		AND		#$80
 		BEQ		_menu_idx_unchanged
-		INC		_hor_menu_pos
-		CPY		_hor_menu_pos
+		INC		_tmp47
+		CPY		_tmp47
 		BEQ		loc_B45F2
 		BCS		_menu_idx_changed
 loc_B45F2:
 		LDA		#$00
-		STA		_hor_menu_pos
+		STA		_tmp47
 		BEQ		_menu_idx_changed
 
 ; =============== S U B R O U T I N E =======================================
 _get_vert_menu_input:
 		TAY
 		LDA		_tmp49
-		STA		_vert_menu_idx
+		STA		_tmp4A
 		LDA		_pads+4,X
 		AND		#$10
 		BEQ		loc_B460E
@@ -1048,7 +1052,7 @@ loc_B465D:
 		DEX
 		BNE		loc_B465D
 loc_B4666:
-		LDA		_hor_menu_pos
+		LDA		_tmp47
 		ASL
 		CLC
 		ADC		_tmp_ptr2
@@ -3557,7 +3561,7 @@ loc_B5691:
 		PLA
 		TAY
 		LDA		(_tmp_ptr42),Y
-		STA		byte_46
+		STA		_tmp46
 		INY
 		LDA		(_tmp_ptr42),Y
 		STA		_tmp_ptr0
@@ -3565,7 +3569,7 @@ loc_B5691:
 		TYA
 		PHA
 		LDA		(_tmp_ptr42),Y
-		LDX		byte_46
+		LDX		_tmp46
 		LDY		_tmp_ptr0
 		JSR		_nt_fill
 		LDA		#$20
@@ -3799,7 +3803,7 @@ _main_screen5_draw_stage_complete:
 loc_B584C:
 		STX		byte_E0
 		LDA		#$00
-		STA		_hor_menu_pos
+		STA		_tmp47
 		STA		_tmp48
 		RTS
 
@@ -4461,7 +4465,7 @@ _scr_cmd04_run:
 		LDA		_obj_x_hi_poss,X
 		STA		_tmp_ptr4+1
 		LDA		_obj_flips,X
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		STA		byte_6
 		PLA
 		TAY
@@ -5106,37 +5110,37 @@ _scr_cmd35_obj_flips_set:
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd1F_hflip_clear:
 		LDA		_obj_flips,X
-		AND		#[~_OBJ_HFLIP&$FF]
+		AND		#[~_OBJ_FLIP_H&$FF]
 		JMP		_scr_obj_flip_set
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd1F_hflip_set:
 		LDA		_obj_flips,X
-		ORA		#_OBJ_HFLIP
+		ORA		#_OBJ_FLIP_H
 		JMP		_scr_obj_flip_set
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd21_vflip_clear:
 		LDA		_obj_flips,X
-		AND		#[~_OBJ_VFLIP&$FF]
+		AND		#[~_OBJ_FLIP_V&$FF]
 		JMP		_scr_obj_flip_set
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd21_vflip_set:
 		LDA		_obj_flips,X
-		ORA		#_OBJ_VFLIP
+		ORA		#_OBJ_FLIP_V
 		JMP		_scr_obj_flip_set
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd23_hflip_toggle:
 		LDA		_obj_flips,X
-		EOR		#_OBJ_HFLIP
+		EOR		#_OBJ_FLIP_H
 		JMP		_scr_obj_flip_set
 
 ; =============== S U B R O U T I N E =======================================
 _scr_cmd23_vflip_toggle:
 		LDA		_obj_flips,X
-		EOR		#_OBJ_VFLIP
+		EOR		#_OBJ_FLIP_V
 
 ; !FALLTHROUGH!
 
@@ -5503,15 +5507,15 @@ loc_B61C5:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub111:
+_nsub_obj_to_player_set_tangent:
 		LDY		_players_macro_overlap_test_idx
-		JSR		_nsub_sub111_A
-		JSR		_nsub_sub111_B
+		JSR		_get_obj_to_obj_vector
+		JSR		_get_obj_to_obj_tangent
 		STA		_scr_timerAs,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub111_A:
+_get_obj_to_obj_vector:
 		LDA		#$00
 		STA		_tmp_ptr0+1
 		STA		_tmp_ptr2+1
@@ -5545,68 +5549,72 @@ loc_B61FD:
 locret_B6219:
 		RTS
 
-byte_B621A:
-		.BYTE	$00,$01,$02,$03,$04,$05,$06,$07,$0F,$0E,$0D,$0C,$0B,$0A,$09,$08
-		.BYTE	$10,$11,$12,$13,$14,$15,$16,$17,$1F,$1E,$1D,$1C,$1B,$1A,$19,$18
-		.BYTE	$20,$21,$22,$23,$24,$25,$26,$27,$2F,$2E,$2D,$2C,$2B,$2A,$29,$28
-		.BYTE	$30,$31,$32,$33,$34,$35,$36,$37,$3F,$3E,$3D,$3C,$3B,$3A,$39,$38
+_tangent_tbl:
+		.BYTE	$00,$01,$02,$03,$04,$05,$06,$07	; 00
+		.BYTE	$0F,$0E,$0D,$0C,$0B,$0A,$09,$08	; 08
+		.BYTE	$10,$11,$12,$13,$14,$15,$16,$17	; 10
+		.BYTE	$1F,$1E,$1D,$1C,$1B,$1A,$19,$18	; 18
+		.BYTE	$20,$21,$22,$23,$24,$25,$26,$27	; 20
+		.BYTE	$2F,$2E,$2D,$2C,$2B,$2A,$29,$28	; 28
+		.BYTE	$30,$31,$32,$33,$34,$35,$36,$37	; 30
+		.BYTE	$3F,$3E,$3D,$3C,$3B,$3A,$39,$38	; 38
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub111_B:
-		LDA		_tmp_ptr0
+_get_obj_to_obj_tangent:
+		LDA		_tmp_ptr0					; compare X to Y len
 		CMP		_tmp_ptr2
-		BEQ		loc_B6262
-		BCS		loc_B6287
-loc_B6262:
-		LDA		_tmp_ptr2
-		STA		byte_8
-		LDA		_tmp_ptr0
+		BEQ		.x_less_equal_y
+		BCS		.x_greater_y
+.x_less_equal_y:
+		LDA		_tmp_ptr2					; divide Y to X
+		STA		byte_8						; multyply to 8 if X<4, X=1
+		LDA		_tmp_ptr0					; if result > 7, clamp to 7
 		STA		_tmpA
-		JSR		_nsub_sub111_B_A
+		JSR		_y_div_x_mul_8
 		LDA		_tmp_ptr2+1
 		BMI		loc_B627C
-		LDA		_tmp_ptr0+1
-		ASL
+		LDA		_tmp_ptr0+1					; Y positive, X positive, idx = $00
+		ASL									;             X negative, idx = $38
 		LDA		#$00
 		BCC		loc_B62AA
 		LDA		#$38
 		BNE		loc_B62AA
 loc_B627C:
-		LDA		_tmp_ptr0+1
-		ASL
+		LDA		_tmp_ptr0+1					; Y negative, X positive, idx = $18
+		ASL									;             X negative, idx = $20
 		LDA		#$18
 		BCC		loc_B62AA
 		LDA		#$20
 		BNE		loc_B62AA
-loc_B6287:
-		LDA		_tmp_ptr0
-		STA		byte_8
-		LDA		_tmp_ptr2
+.x_greater_y:
+		LDA		_tmp_ptr0					; divide X to Y
+		STA		byte_8						; multiply to 8 if Y<4, Y=1
+		LDA		_tmp_ptr2					; if result > 7 clamp to 7
 		STA		_tmpA
-		JSR		_nsub_sub111_B_A
+		JSR		_y_div_x_mul_8
 		LDA		_tmp_ptr0+1
 		BMI		loc_B62A1
-		LDA		_tmp_ptr2+1
-		ASL
+		LDA		_tmp_ptr2+1					; Y positive, X positive, idx = $08
+		ASL									;             X negative, idx = $10
 		LDA		#$08
 		BCC		loc_B62AA
 		LDA		#$10
 		BNE		loc_B62AA
 loc_B62A1:
-		LDA		_tmp_ptr2+1
-		ASL
+		LDA		_tmp_ptr2+1					; Y positive, X positive, idx = $30
+		ASL									;             X negative, idx = $38
 		LDA		#$30
 		BCC		loc_B62AA
 		LDA		#$28
 loc_B62AA:
-		CLC
+		CLC									; calc idx
 		ADC		byte_6
 		TAY
-		LDA		byte_B621A,Y
+		LDA		_tangent_tbl,Y
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub111_B_A:
+_y_div_x_mul_8:
 		LDA		#$00
 		STA		byte_6
 		LSR		byte_8
@@ -5649,71 +5657,71 @@ _vert_delta_wave_pattern_list:
 		.BYTE	$00,$F8,$F8,$F8,$F8,$F8,$F8,$F8,$F0,$F0,$E8,$E8,$E8,$E0,$E0,$E0
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub123:
-		JSR		_nsub_sub123_ex
+_nsub_obj_circular_x_step:
+		JSR		_get_tmp_ptrE_and_idx_from_timerBs
 		JSR		_switch
-		.WORD	_nsub_sub123_sub0
-		.WORD	_nsub_sub123_sub1
-		.WORD	_nsub_sub123_sub2
-		.WORD	_nsub_sub123_sub3
+		.WORD	_left_to_right_step
+		.WORD	_right_to_left_step
+		.WORD	_left_to_left_step
+		.WORD	_right_to_right_step
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub123_sub0:
-		JSR		_complement_tmp_ptrE
+_left_to_right_step:
+		JSR		_neg_tmp_ptrE
 
 ; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub123_sub3:
-		JSR		_nsub_sub123_sub3_A
+_right_to_right_step:
+		JSR		_get_low_nibble_tmp_ptrE_tbl
 		STA		_obj_x_deltas,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub123_sub2:
-		JSR		_complement_tmp_ptrE
+_left_to_left_step:
+		JSR		_neg_tmp_ptrE
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub123_sub1:
-		JSR		_nsub_sub123_sub3
+_right_to_left_step:
+		JSR		_right_to_right_step
 		JMP		_j_nsub_complement_x_deltas
 
-; !FALLTHROUGH!
-
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub124:
-		JSR		_nsub_sub123_ex
+_nsub_obj_circular_y_step:
+		JSR		_get_tmp_ptrE_and_idx_from_timerBs
 		JSR		_switch
-		.WORD	_nsub_sub124_sub0
-		.WORD	_nsub_sub124_sub1
-		.WORD	_nsub_sub124_sub2
-		.WORD	_nsub_sub124_sub3
+		.WORD	_up_to_up_step
+		.WORD	_down_to_up_step
+		.WORD	_up_to_down_step
+		.WORD	_down_to_down_step
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub124_sub1:
-		JSR		_complement_tmp_ptrE
+_down_to_up_step:
+		JSR		_neg_tmp_ptrE
 
 ; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub124_sub0:
-		JSR		_nsub_sub123_sub3_A
+_up_to_up_step:
+		JSR		_get_low_nibble_tmp_ptrE_tbl
 		STA		_obj_y_deltas,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub124_sub3:
-		JSR		_complement_tmp_ptrE
+_down_to_down_step:
+		JSR		_neg_tmp_ptrE
 
 ; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub124_sub2:
-		JSR		_nsub_sub124_sub0
+_up_to_down_step:
+		JSR		_up_to_up_step
 		JMP		_nsub_complement_y_deltas
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub123_ex:
+_get_tmp_ptrE_and_idx_from_timerBs:
 		LDA		_obj_timerBs,X
 		STA		_tmp_ptrE
 		LSR
@@ -5725,7 +5733,7 @@ _nsub_sub123_ex:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_complement_tmp_ptrE:
+_neg_tmp_ptrE:
 		SEC
 		LDA		#$00
 		SBC		_tmp_ptrE
@@ -5733,24 +5741,24 @@ _complement_tmp_ptrE:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub123_sub3_A:
+_get_low_nibble_tmp_ptrE_tbl:
 		LDA		_tmp_ptrE
 		AND		#$1F
 		TAY
-		LDA		byte_B6392,Y
+		LDA		_sinus_tbl,Y
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_inc_vars19:
+_nsub_inc_timerBs:
 		INC		_obj_timerBs,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_dec_vars19:
+_nsub_dex_timerBs:
 		DEC		_obj_timerBs,X
 		RTS
 
-byte_B6392:
+_sinus_tbl:
 		.BYTE	$00,$00,$00,$01,$01,$02,$02,$03,$03,$04,$04,$05,$05,$06,$06,$07
 		.BYTE	$07,$07,$08,$08,$08,$09,$09,$09,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0C
 
@@ -6098,7 +6106,7 @@ locret_B6551:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_nsub_sub12C:
+_nsub_obj_hor_slowdown:
 		LDA		_obj_x_deltas,X
 		BMI		loc_B655E
 		SEC
@@ -6281,7 +6289,7 @@ loc_B6626:
 		CMP		#$FF
 		BNE		loc_B667C
 		LDA		_obj_flips,X
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		BEQ		loc_B667C
 		LDA		_obj_x_deltas,Y
 		BPL		loc_B667C
@@ -6292,7 +6300,7 @@ loc_B6626:
 		BCS		loc_B6677
 loc_B6665:
 		LDA		_obj_flips,X
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		BNE		loc_B667C
 		LDA		_obj_x_deltas,Y
 		BMI		loc_B667C
@@ -6433,28 +6441,28 @@ _nsub_obj_to_obj_hor_turn:
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_hflip_clear:
 		LDA		_obj_flips,X
-		AND		#[~_OBJ_HFLIP&$FF]
+		AND		#[~_OBJ_FLIP_H&$FF]
 		STA		_obj_flips,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_hflips_set:
 		LDA		_obj_flips,X
-		ORA		#_OBJ_HFLIP
+		ORA		#_OBJ_FLIP_H
 		STA		_obj_flips,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_hflip_toggle:
 		LDA		_obj_flips,X
-		EOR		#_OBJ_HFLIP
+		EOR		#_OBJ_FLIP_H
 		STA		_obj_flips,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_hflip_test:
 		LDA		_obj_flips,X
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		JMP		_scr_flags_update
 
 ; =============== S U B R O U T I N E =======================================
@@ -6502,7 +6510,7 @@ _nsub_obj_from_idxAs_hor_delta_toggle:
 ; =============== S U B R O U T I N E =======================================
 _nsub_sub11B:
 		LDA		_obj_flips,X
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		BNE		_nsub_obj_right_to_left_delta_toggle
 		BEQ		_nsub_obj_left_to_right_delta_toggle
 		LDY		_scr_idxAs,X
@@ -6514,7 +6522,7 @@ _nsub_sub11B:
 ; =============== S U B R O U T I N E =======================================
 _nsub_obj_hor_delta_toggle:
 		LDA		_obj_flips,X
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		BNE		_nsub_obj_left_to_right_delta_toggle
 
 ; !FALLTHROUGH!
@@ -6570,7 +6578,7 @@ _nsub_obj_hor_bounce0C:
 _nsub_obj_hor_bounce_ex:
 		STA		_tmp_ptr0
 		LDA		_obj_flips,X
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		BNE		loc_B67D2
 		SEC
 		LDA		_obj_x_lo_poss,X
@@ -6737,7 +6745,7 @@ _nsub_obj_linked_idxCs_follow:
 		LDA		_obj_x_hi_poss,Y
 		STA		_obj_x_hi_poss,X
 		LDA		_obj_flips,Y
-		AND		#_OBJ_VFLIP
+		AND		#_OBJ_FLIP_V
 		BEQ		loc_B6895
 		LDA		_obj_y_lo_poss,Y
 		STA		_obj_y_lo_poss,X
@@ -6758,7 +6766,7 @@ loc_B6895:
 _players_state06_C:
 		JSR		_nsub_get_idxBs_low_nibble
 		LDA		_obj_flips,X
-		AND		#[~[_OBJ_VFLIP|_OBJ_HFLIP|_OBJ_UNDER_BG]&$FF]
+		AND		#[~[_OBJ_FLIP_V|_OBJ_FLIP_H|_OBJ_UNDER_BG]&$FF]
 		STA		_obj_flips,X
 		LDA		_scr_params,X
 		AND		#_OBJ_TYPE_MASK
@@ -6768,8 +6776,8 @@ _players_state06_C:
 		BNE		loc_B68CA
 loc_B68C0:
 		LDA		_obj_flips,Y
-		EOR		#_OBJ_VFLIP|_OBJ_HFLIP
-		AND		#_OBJ_VFLIP|_OBJ_HFLIP|_OBJ_UNDER_BG
+		EOR		#_OBJ_FLIP_V|_OBJ_FLIP_H
+		AND		#_OBJ_FLIP_V|_OBJ_FLIP_H|_OBJ_UNDER_BG
 		JMP		loc_B68CF
 loc_B68CA:
 		LDA		_obj_flips,Y
@@ -7395,7 +7403,7 @@ _nsub_set_def_max_hps_from_idxAs:
 _nsub_player_exit_right_with_flip_set:
 		LDY		_scr_idxAs,X
 		LDA		_obj_flips,Y
-		ORA		#_OBJ_HFLIP|_OBJ_FLIPS08|_OBJ_FLIPS04
+		ORA		#_OBJ_FLIP_H|_OBJ_FLIPS08|_OBJ_FLIPS04
 		STA		_obj_flips,Y
 
 ; !FALLTHROUGH!
@@ -7409,7 +7417,7 @@ _nsub_player_exit_right_set:
 _nsub_player_exit_left_with_flip_set:
 		LDY		_scr_idxAs,X
 		LDA		_obj_flips,Y
-		AND		#[~_OBJ_HFLIP&$FF]
+		AND		#[~_OBJ_FLIP_H&$FF]
 		ORA		#_OBJ_FLIPS08|_OBJ_FLIPS04
 		STA		_obj_flips,Y
 		LDA		#$E0
@@ -8453,7 +8461,7 @@ _nsub_sub17A:
 		LDA		_obj_x_hi_poss,Y
 		STA		_obj_x_hi_poss,X
 		LDA		_obj_flips,X
-		AND		#_OBJ_VFLIP
+		AND		#_OBJ_FLIP_V
 		BNE		loc_B739F
 		LDA		_obj_y_lo_poss,Y
 		STA		_obj_y_lo_poss,X
@@ -8577,7 +8585,7 @@ loc_B745C:
 ; =============== S U B R O U T I N E =======================================
 _title_player_select_pal_toggle:
 		LDY		_tmp49
-		STY		_vert_menu_idx
+		STY		_tmp4A
 		INY
 		TYA
 		AND		#$01
@@ -8842,10 +8850,10 @@ loc_B760C:
 		LDA		_players_rr_ptss,X
 		BEQ		loc_B7641
 		DEC		_players_rr_ptss,X
-		INC		_hor_menu_pos,X
+		INC		_tmp47,X
 		LDA		#_apu_mus38_idx
 		JSR		_apu_se_req
-		LDA		_hor_menu_pos,X
+		LDA		_tmp47,X
 		CMP		byte_E0
 		BNE		loc_B7641
 		INC		_players_rr_lvls,X
@@ -9076,7 +9084,7 @@ byte_B77D9:
 		MSG_DISPLAY			_msg4B,_apu_mus59
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		SJSR				_ssub_6BC7C
-		SSWITCH				_hor_menu_pos
+		SSWITCH				_tmp47
 		SCASE				byte_B77FE
 		SCASE				byte_B77F4
 byte_B77F4:
@@ -9123,7 +9131,7 @@ byte_B7840:
 		MSG_DISPLAY			_msg1B,_apu_mus58
 		SJSR				_ssub_cut_char_idxBs_10_clear_set_test
 		SJSR				_ssub_6BC7C
-		SSWITCH				_hor_menu_pos
+		SSWITCH				_tmp47
 		SCASE				byte_B786F
 		SCASE				byte_B7865
 byte_B7865:

@@ -1404,7 +1404,7 @@ _players_insert:
 		STA		_obj_spr_libs,X
 		LDA		_obj_x_lo_poss,X
 		BMI		loc_3A780
-		LDA		#_OBJ_HFLIP
+		LDA		#_OBJ_FLIP_H
 		STA		_obj_flips,X
 loc_3A780:
 		LDA		#_OBJ_TYPE_PLAYER
@@ -1945,7 +1945,7 @@ loc_3AB08:
 _players_state06:
 		LDX		_scr_idx
 		LDA		_obj_flips,X
-		ORA		#_OBJ_VFLIP|_OBJ_FLIPS08|_OBJ_FLIPS04
+		ORA		#_OBJ_FLIP_V|_OBJ_FLIPS08|_OBJ_FLIPS04
 		STA		_obj_flips,X
 		JSR		_players_varsA_03_set
 		INC		_players_states,X
@@ -2044,7 +2044,7 @@ _players_state0A:
 		RTS
 loc_3ABB3:
 		LDA		_obj_flips,X
-		AND		#[~_OBJ_VFLIP&$FF]
+		AND		#[~_OBJ_FLIP_V&$FF]
 		STA		_obj_flips,X
 		LDA		_obj_hps,X
 		BNE		loc_3ABC3
@@ -2063,12 +2063,12 @@ _players_state06_B:
 		LDA		#$00
 		STA		_players_vars0F,X
 		LDA		_obj_flips,X
-		EOR		#_OBJ_HFLIP
+		EOR		#_OBJ_FLIP_H
 		STA		_obj_flips,X
 		LDA		#$40
 		STA		_obj_x_deltas,X
 		LDA		_obj_flips,X
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		BNE		loc_3ABEE
 		LDA		#$C0
 		STA		_obj_x_deltas,X
@@ -2089,7 +2089,7 @@ loc_3AC00:
 		LDA		#$18
 		STA		_players_anim_delays,X
 		LDA		_obj_flips,X
-		AND		#[~_OBJ_VFLIP&$FF]
+		AND		#[~_OBJ_FLIP_V&$FF]
 		STA		_obj_flips,X
 
 ; =============== S U B R O U T I N E =======================================
@@ -2201,7 +2201,7 @@ _players_obj_carry_state_select_B:
 		JSR		_nsub_obj_from_idxAs_hor_delta_toggle
 		JSR		_players_varsA_04_set
 		LDA		_obj_flips,X
-		AND		#[~_OBJ_VFLIP&$FF]
+		AND		#[~_OBJ_FLIP_V&$FF]
 		STA		_obj_flips,X
 		JMP		_scr_obj_show
 
@@ -2560,7 +2560,7 @@ _players_state03_A:
 		BCS		loc_3AF49
 		INC		_players_vars09,X
 		LDA		_obj_flips,X
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		BEQ		loc_3AF49
 		INC		_players_vars09,X
 loc_3AF49:
@@ -3238,7 +3238,7 @@ _player_hor_move_control:
 		AND		#_PAD_RIGHT
 		BEQ		loc_3B3BE
 		LDA		_obj_flips,X					; if right, hflip set
-		ORA		#_OBJ_HFLIP
+		ORA		#_OBJ_FLIP_H
 		STA		_obj_flips,X
 		LDA		#$20							; positive x delta load
 		BNE		loc_3B3CE
@@ -3247,7 +3247,7 @@ loc_3B3BE:
 		AND		#_PAD_LEFT
 		BEQ		loc_3B3DC
 		LDA		_obj_flips,X
-		AND		#[~_OBJ_HFLIP&$FF]
+		AND		#[~_OBJ_FLIP_H&$FF]
 		STA		_obj_flips,X
 		LDA		#$E0							; negative x delta load
 loc_3B3CE:
@@ -3770,7 +3770,7 @@ locret_3B6F2:
 		BNE		locret_3B716
 		LDY		#$20
 		LDA		_obj_flips,X
-		AND		#_OBJ_HFLIP
+		AND		#_OBJ_FLIP_H
 		BEQ		loc_3B709
 		LDY		#$E0
 loc_3B709:

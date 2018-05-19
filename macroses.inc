@@ -668,8 +668,8 @@ _CNT_SPR_IDX_SET	SET	_CNT_SPR_IDX_SET+1
 ; one of hor/vert sprite flipping flags
 ; flips flags:
 
-_OBJ_VFLIP		EQU	$80
-_OBJ_HFLIP		EQU	$40
+_OBJ_FLIP_V		EQU	$80
+_OBJ_FLIP_H		EQU	$40
 _OBJ_UNDER_BG	EQU	$20
 _OBJ_BLINK		EQU	$10
 _OBJ_FLIPS08	EQU	$08

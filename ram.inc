@@ -347,15 +347,15 @@ _apu_cur_pc:
 		.BYTE	0,0
 _apu_tmpF7:
 		.BYTE	0
-_apu_snd0_allow_flag:
+_apu_fade_in_flag:
 		.BYTE	0
-_apu_snd1_allow_flag:
+_apu_fade_out_flag:
 		.BYTE	0
-_apu_tmpFA:
+_apu_fade_counter:
 		.BYTE	0
-_apu_tmpFB:
+_apu_fade_value:
 		.BYTE	0
-_apu_mus_allow_flag:
+_apu_mus_mute_flag:
 		.BYTE	0
 _apu_tmpFD:
 		.BYTE	0

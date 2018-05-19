@@ -96,52 +96,74 @@ _WAIT	EQU	$FD
 _RET	EQU	$FE
 _STOP	EQU	$FF
 
-		MAC		DICT_REC
+	MAC		DICT_REC
 {1}		SET		[[.-_dictionary]>>1]|$80
-		.WORD	{1}_ptr
-		ENDM
+	.WORD	{1}_ptr
+	ENDM
 
-		MAC		DICT_DATA
+	MAC		DICT_DATA
 {1}_ptr	SET		.
-		ENDM
+	ENDM
 
-		MAC		SPR_LIB_IDX
+	MAC		SPR_LIB_IDX
 {1}_idx	SET		[[.-_spr_lib_list]>>1]
-		.WORD	{1}
-		ENDM
+	.WORD	{1}
+	ENDM
 
-		MAC		SPR_LIB_START
+	MAC		SPR_LIB_START
 {1}		SET		.
 SPR_LIB	SET		.
-		ENDM
+	ENDM
 
-		MAC		SPR_IDX
+	MAC		SPR_IDX
 {1}_idx	SET		[[.-SPR_LIB]>>1]
-		.WORD	{1}
-		ENDM
+	.WORD	{1}
+	ENDM
+
+	MAC		APU_IDX
+{1}_idx	SET		[[.-_apu_mus_lib]>>1]
+	.WORD	{1}
+	ENDM
 
 ;-----------G-A-M-E--S-P-E-C-I-F-I-C------------
 
+	MAC	_CMD_IDX
+{1}_idx	SET	[.-_scr_cmd_lib]>>1
+	.WORD	{1}-1
+	ENDM
+
 ; kill current script, stop execution
 	MAC	KILL
-	.BYTE	$00
+#if DEBUG=1
+_CNT_KILL	SET	_CNT_KILL+1
+#endif
+	.BYTE	_scr_cmd00_stop_idx
 	ENDM
 
 ; exit current script, return control to the engine
 ; return back on the next frame
 	MAC	SYNC
-	.BYTE	$01
+#if DEBUG=1
+_CNT_SYNC	SET	_CNT_SYNC+1
+#endif
+	.BYTE	_scr_cmd01_sync_idx
 	ENDM
 
 ; set script on hold for {1} frames
 	MAC	SUSPEND
-	.BYTE	$02
+#if DEBUG=1
+_CNT_SUSPEND	SET	_CNT_SUSPEND+1
+#endif
+	.BYTE	_scr_cmd02_suspend_idx
 	.BYTE	{1}
 	ENDM
 
 ; execute native code, then exit script, return control to the engine
 	MAC	NJSR_SYNC
-	.BYTE	$03
+#if DEBUG=1
+_CNT_NJSR_SYNC	SET	_CNT_NJSR_SYNC+1
+#endif
+	.BYTE	_scr_cmd03_ejsr_sync_idx
 	.WORD	{1}
 	ENDM
 
@@ -173,76 +195,154 @@ _OBJ_SCR_SOLID	EQU	$09
 _OBJ_SCR_GRAB	EQU	$0A
 
 	MAC	SRUN
-	.BYTE	$04
+#if DEBUG=1
+_CNT_SRUN	SET	_CNT_SRUN+1
+#endif
+	.BYTE	_scr_cmd04_run_idx
 	.BYTE	{1}
 	.WORD	{2}
 	ENDM
 
 ; execute native code, continue script operation
 	MAC	NJSR
-	.BYTE	$05
+#if DEBUG=1
+_CNT_NJSR	SET	_CNT_NJSR+1
+#endif
+	.BYTE	_scr_cmd05_ejsr_idx
 	.WORD	{1}
+	ENDM
+
+	MAC	ASSERT_SHORT_OFS
+#if DEBUG=1
+TMP_CMD_PC	SET	.
+TMP_OFS		SET	[{1}-TMP_CMD_PC-{2}]
+	#if TMP_OFS<-128
+		ECHO "long",{3},"at",TMP_CMD_PC,"jumps to",{1},"distance",TMP_OFS
+	#endif
+	#if TMP_OFS>127
+		ECHO "long",{3},"at",TMP_CMD_PC,"jumps to",{1},"distance",TMP_OFS
+	#endif
+#endif
+	ENDM
+
+	MAC	ALERT_SHORT_OFS
+#if DEBUG=1
+TMP_CMD_PC	SET	.
+TMP_OFS		SET	[{1}-TMP_CMD_PC-{2}]
+	#if TMP_OFS>=-128&&TMP_OFS<=127
+		ECHO "short",{3},"at",TMP_CMD_PC,"jumps to",{1},"distance",TMP_OFS
+	#endif
+#endif
 	ENDM
 
 ; unconditional script branch
 	MAC	SJMP
-	.BYTE	$06
+#if DEBUG=1
+_CNT_SJMP	SET	_CNT_SJMP+1
+#endif
+	ALERT_SHORT_OFS		{1},3,"SJMP"
+	.BYTE	_scr_cmd06_jmp_idx
 	.WORD	{1}
+	ENDM
+
+	MAC	SJMPS
+#if DEBUG=1
+_CNT_SJMPS	SET	_CNT_SJMPS+1
+#endif
+#if OPTIMIZATION=1
+	ASSERT_SHORT_OFS	{1},2,"SJMPS"
+TMP_CMD_PC	SET	.
+	.BYTE	_scr_cmd4A_jmp_short_idx
+	.BYTE	[{1}-TMP_CMD_PC-2]&$FF
+#else
+	.BYTE	_scr_cmd06_jmp_idx
+	.WORD	{1}
+#endif
 	ENDM
 
 ; call script subroutine (return with RET)
 	MAC	SJSR
-	.BYTE	$07
+#if DEBUG=1
+_CNT_SJSR	SET	_CNT_SJSR+1
+#endif
+#if OPTIMIZATION=1
+	ALERT_SHORT_OFS		{1},3,"SJSR"
+#endif
+	.BYTE	_scr_cmd07_jsr_idx
 	.WORD	{1}
+	ENDM
+
+	MAC	SJSRS
+#if DEBUG=1
+_CNT_SJSRS	SET	_CNT_SJSRS+1
+#endif
+#if OPTIMIZATION=1
+	ASSERT_SHORT_OFS	{1},2,"SJSRS"
+TMP_CMD_PC	SET	.
+	.BYTE	_scr_cmd4B_jsr_short_idx
+	.BYTE	[{1}-TMP_CMD_PC-2]&$FF
+#else
+	.BYTE	_scr_cmd07_jsr_idx
+	.WORD	{1}
+#endif
 	ENDM
 
 ; return from script subroutine
 	MAC	SRET
-	.BYTE	$08
+#if DEBUG=1
+_CNT_SRET	SET	_CNT_SRET+1
+#endif
+	.BYTE	_scr_cmd08_ret_idx
 	ENDM
 
 ; loop to script branch {1} times
 	MAC	LOOPA
-	.BYTE	$09
+#if DEBUG=1
+_CNT_LOOPA	SET	_CNT_LOOPA+1
+#endif
+#if OPTIMIZATION=1
+	ASSERT_SHORT_OFS	{2},3,"LOOPA"
+TMP_CMD_PC	SET	.
+	.BYTE	_scr_cmd09_loopA_idx
+	.BYTE	{1}
+	.BYTE	[{2}-TMP_CMD_PC-3]&$FF
+#else
+	.BYTE	_scr_cmd09_loopA_idx
 	.BYTE	{1}
 	.WORD	{2}
+#endif
 	ENDM
 
 ; second loop operand
 	MAC	LOOPB
-	.BYTE	$0A
+#if DEBUG=1
+_CNT_LOOPB	SET	_CNT_LOOPB+1
+#endif
+#if OPTIMIZATION=1
+	ASSERT_SHORT_OFS	{2},3,"LOOPB"
+TMP_CMD_PC	SET	.
+	.BYTE	_scr_cmd0A_loopB_idx
+	.BYTE	{1}
+	.BYTE	[{2}-TMP_CMD_PC-3]&$FF
+#else
+	.BYTE	_scr_cmd0A_loopB_idx
 	.BYTE	{1}
 	.WORD	{2}
+#endif
 	ENDM
 
 ; helper branch macros
 	MAC	SBRANCH
-#if OPTIMIZATION=1
+#if {3}=8
+	ASSERT_SHORT_OFS	{1},2,"BRANCH"
 TMP_CMD_PC	SET	.
-	#if {3}=0
-		#if {1}>=TMP_CMD_PC
-			#if [{1}-TMP_CMD_PC-2]<=$7F
-				.BYTE	[$44+{2}]
-				.BYTE	[{1}-TMP_CMD_PC-2]
-			#else
-				ECHO	"long BRANCH at",TMP_CMD_PC,"jumps forward",{1},"distance",{1}-TMP_CMD_PC-2
-				.BYTE	$00,$00
-			#endif
-		#else
-			#if [TMP_CMD_PC-{1}+2]<=$7F
-				.BYTE	[$44+{2}]
-				.BYTE	[-[TMP_CMD_PC-{1}+2]]&$FF
-			#else
-				ECHO	"long BRANCH at",TMP_CMD_PC,"jumps back",{1},"distance",[TMP_CMD_PC-{1}+2]
-				.BYTE	$00,$00
-			#endif
-		#endif
-	#else
-		.BYTE	[$0B+{2}]
-		.WORD	{1}
-	#endif
+	.BYTE	[_scr_cmd44_bne_short_idx+{2}]
+	.BYTE	[{1}-TMP_CMD_PC-2]&$FF
 #else
-	.BYTE	[$0B+{2}]
+#if OPTIMIZATION=1
+	ALERT_SHORT_OFS		{1},3,"BRANCH"
+#endif
+	.BYTE	[_scr_cmd0B_bne_idx+{2}]
 	.WORD	{1}
 #endif
 	ENDM
@@ -250,82 +350,136 @@ TMP_CMD_PC	SET	.
 ; set of branches equivalent of 6502 set
 ; script if EQUAL branch
 	MAC	SBNE
-		SBRANCH	{1},0,1
+#if DEBUG=1
+_CNT_SBNE	SET	_CNT_SBNE+1
+#endif
+		SBRANCH	{1},0,16
 	ENDM
 
 ; script if CARRY=1 branch
 	MAC	SBCC
-		SBRANCH	{1},1,1
+#if DEBUG=1
+_CNT_SBCC	SET	_CNT_SBCC+1
+#endif
+		SBRANCH	{1},1,16
 	ENDM
 
 ; script if NEG=1 branch
 	MAC	SBPL
-		SBRANCH	{1},2,1
+#if DEBUG=1
+_CNT_SBPL	SET	_CNT_SBPL+1
+#endif
+		SBRANCH	{1},2,16
 	ENDM
 
 ; script if NO EQUAL branch
 	MAC	SBEQ
-		SBRANCH	{1},3,1
+#if DEBUG=1
+_CNT_SBEQ	SET	_CNT_SBEQ+1
+#endif
+		SBRANCH	{1},3,16
 	ENDM
 
 ; script if CARRY=0 branch
 	MAC	SBCS
-		SBRANCH	{1},4,1
+#if DEBUG=1
+_CNT_SBCS	SET	_CNT_SBCS+1
+#endif
+		SBRANCH	{1},4,16
 	ENDM
 
 ; script if NEG=0 branch
 	MAC	SBMI
-		SBRANCH	{1},5,1
+#if DEBUG=1
+_CNT_SBMI	SET	_CNT_SBMI+1
+#endif
+		SBRANCH	{1},5,16
 	ENDM
 
 ; set of 8-bit ofs branches
 #if OPTIMIZATION=1
 	MAC	SBNES
-		SBRANCH	{1},0,0
+#if DEBUG=1
+_CNT_SBNES	SET	_CNT_SBNES+1
+#endif
+		SBRANCH	{1},0,8
 	ENDM
 
 	MAC	SBCCS
-		SBRANCH	{1},1,0
+#if DEBUG=1
+_CNT_SBCCS	SET	_CNT_SBCCS+1
+#endif
+		SBRANCH	{1},1,8
 	ENDM
 
 	MAC	SBPLS
-		SBRANCH	{1},2,0
+#if DEBUG=1
+_CNT_SBPLS	SET	_CNT_SBPLS+1
+#endif
+		SBRANCH	{1},2,8
 	ENDM
 
 	MAC	SBEQS
-		SBRANCH	{1},3,0
+#if DEBUG=1
+_CNT_SBEQS	SET	_CNT_SBEQS+1
+#endif
+		SBRANCH	{1},3,8
 	ENDM
 
 	MAC	SBCSS
-		SBRANCH	{1},4,0
+#if DEBUG=1
+_CNT_SBCSS	SET	_CNT_SBCSS+1
+#endif
+		SBRANCH	{1},4,8
 	ENDM
 
 	MAC	SBMIS
-		SBRANCH	{1},5,0
+#if DEBUG=1
+_CNT_SBMIS	SET	_CNT_SBMIS+1
+#endif
+		SBRANCH	{1},5,8
 	ENDM
 #else
 	MAC	SBNES
-		SBRANCH	{1},0,1
+#if DEBUG=1
+_CNT_SBNES	SET	_CNT_SBNES+1
+#endif
+		SBRANCH	{1},0,16
 	ENDM
 
 	MAC	SBCCS
-		SBRANCH	{1},1,1
+#if DEBUG=1
+_CNT_SBCCS	SET	_CNT_SBCCS+1
+#endif
+		SBRANCH	{1},1,16
 	ENDM
 
 	MAC	SBPLS
-		SBRANCH	{1},2,1
+#if DEBUG=1
+_CNT_SBPLS	SET	_CNT_SBPLS+1
+#endif
+		SBRANCH	{1},2,16
 	ENDM
 
 	MAC	SBEQS
-		SBRANCH	{1},3,1
+#if DEBUG=1
+_CNT_SBEQS	SET	_CNT_SBEQS+1
+#endif
+		SBRANCH	{1},3,16
 	ENDM
 
 	MAC	SBCSS
-		SBRANCH	{1},4,1
+#if DEBUG=1
+_CNT_SBCSS	SET	_CNT_SBCSS+1
+#endif
+		SBRANCH	{1},4,16
 	ENDM
 
 	MAC	SBMIS
-		SBRANCH	{1},5,1
+#if DEBUG=1
+_CNT_SBMIS	SET	_CNT_SBMIS+1
+#endif
+		SBRANCH	{1},5,16
 	ENDM
 #endif
 
@@ -348,14 +502,20 @@ _PAD_RIGHT	EQU	$80
 _PAD_ANY	EQU	$FF
 
 	MAC	PADS_TEST
-	.BYTE	$11
+#if DEBUG=1
+_CNT_PADS_TEST	SET	_CNT_PADS_TEST+1
+#endif
+	.BYTE	_scr_cmd11_pads_test_idx
 	.BYTE	{1},{2}
 	.WORD	{3}
 	ENDM
 
 ; switch case construction, {1} index ram variable, first branch default
 	MAC	SSWITCH
-	.BYTE	$12
+#if DEBUG=1
+_CNT_SSWITCH	SET	_CNT_SSWITCH+1
+#endif
+	.BYTE	_scr_cmd12_switch_idx
 	.WORD	{1}
 	ENDM
 
@@ -366,191 +526,295 @@ _PAD_ANY	EQU	$FF
 
 ; store operand, put {1} into {2} ram address
 	MAC	STORE
-	.BYTE	$13
+#if DEBUG=1
+_CNT_STORE	SET	_CNT_STORE+1
+#endif
+	.BYTE	_scr_cmd13_store_idx
 	.BYTE	{1}
 	.WORD	{2}
 	ENDM
 
 ; {1} chr bank idx, {2} value
 	MAC	CHR_SELECT
-	.BYTE	$14
+#if DEBUG=1
+_CNT_CHR_SELECT	SET	_CNT_CHR_SELECT+1
+#endif
+	.BYTE	_scr_cmd14_chr_set_idx
 	.BYTE	{1},{2}
 	ENDM
 
 ; reset loop counter for loop A
 	MAC	LOOPA_RESET
-	.BYTE	$15
+#if DEBUG=1
+_CNT_LOOPA_RESET	SET	_CNT_LOOPA_RESET+1
+#endif
+	.BYTE	_scr_cmd15_loopA_reset_idx
 	ENDM
 
 ; same for loop b
 	MAC	LOOPB_RESET
-	.BYTE	$16
+#if DEBUG=1
+_CNT_LOOPB_RESET	SET	_CNT_LOOPB_RESET+1
+#endif
+	.BYTE	_scr_cmd16_loopB_reset_idx
 	ENDM
 
-; play SE
+; play MUS/SE, 00 = mute, 01-21 - music, 22-78 - se (22-74 only exising)
+; 79-7F - are special codes
+
+_APU_UNMUTE_idx			EQU	$79
+_APU_MUTE_idx			EQU	$7A
+_APU_MUS_FADE_OUT_idx	EQU	$7B
+_APU_MUS_FADE_IN_idx	EQU	$7C		; never used, the fade-in routine unreferenced
+_APU_MUS_STOP_idx		EQU	$7D		; never used, the complete stop used instead
+_APU_SND_STOP_idx		EQU	$7E		; never used, the same as previous
+_APU_ALL_STOP_idx		EQU	$7F
+
 	MAC	APU_LOAD
-	.BYTE	$17
-	.BYTE	{1}
+#if DEBUG=1
+_CNT_APU_LOAD	SET	_CNT_APU_LOAD+1
+#endif
+	.BYTE	_scr_cmd17_apu_load_idx
+	.BYTE	{1}_idx
 	ENDM
 
 ; do animation and return to the engine
 ; sync to the next frame
 	MAC	OBJ_ANIMATE_SYNC
-	.BYTE	$18
+#if DEBUG=1
+_CNT_OBJ_ANIMATE_SYNC	SET	_CNT_OBJ_ANIMATE_SYNC+1
+#endif
+	.BYTE	_scr_cmd18_obj_animate_sync_idx
 	ENDM
 
 ; same as previous but continue with the script execution
 	MAC	OBJ_ANIMATE
-	.BYTE	$19
+#if DEBUG=1
+_CNT_OBJ_ANIMATE	SET	_CNT_OBJ_ANIMATE+1
+#endif
+	.BYTE	_scr_cmd19_obj_animate_idx
 	ENDM
 
 ; macro command for animating the flight objects locked on
 ; target (bats level 2, cards of cat boss, etc..)
 	MAC	TARGET_FOLLOW
-	.BYTE	$1A
+#if DEBUG=1
+_CNT_TARGET_FOLLOW	SET	_CNT_TARGET_FOLLOW+1
+#endif
+	.BYTE	_scr_cmd1A_target_follow_idx
 	ENDM
 
 ; usually set if object is deactivated
 	MAC	PARAM_80_CLEAR
-	.BYTE	$1B
+#if DEBUG=1
+_CNT_PARAM_80_CLEAR	SET	_CNT_PARAM_80_CLEAR+1
+#endif
+	.BYTE	_scr_cmd1B_param80_clear_idx
 	ENDM
 
 ; deactivate
 	MAC	PARAM_80_SET
-	.BYTE	$1C
+#if DEBUG=1
+_CNT_PARAM_80_SET	SET	_CNT_PARAM_80_SET+1
+#endif
+	.BYTE	_scr_cmd1C_param80_set_idx
 	ENDM
 
 ; select sprite library for object
 	MAC	SPR_LIB_SELECT
-	.BYTE	$1D
+#if DEBUG=1
+_CNT_SPR_LIB_SELECT	SET	_CNT_SPR_LIB_SELECT+1
+#endif
+	.BYTE	_scr_cmd1D_spr_lib_select_idx
 	.BYTE	{1}_idx
 	ENDM
 
 ; select current sprite idx as integer value
 	MAC	SPR_IDX_INT
-	.BYTE	$1E
+#if DEBUG=1
+_CNT_SPR_IDX_INT	SET	_CNT_SPR_IDX_INT+1
+#endif
+	.BYTE	_scr_cmd1E_spr_idx_select_idx
 	.BYTE	{1}
 	ENDM
 
 ; the same using the mnemonic
 	MAC	SPR_IDX_SELECT
-	.BYTE	$1E
-	.BYTE	{1}_idx
-	ENDM
-
-	MAC	SPR_IDX_SELECTS
-	.BYTE	$1E
+#if DEBUG=1
+_CNT_SPR_IDX_SELECT	SET	_CNT_SPR_IDX_SELECT+1
+#endif
+	.BYTE	_scr_cmd1E_spr_idx_select_idx
 	.BYTE	{1}_idx
 	ENDM
 
 ; one of hor/vert sprite flipping flags
 	MAC	FLIP_40_CLEAR
-	.BYTE	$1F
+#if DEBUG=1
+_CNT_FLIP_40_CLEAR	SET	_CNT_FLIP_40_CLEAR+1
+#endif
+	.BYTE	_scr_cmd1F_flip40_clear_idx
 	ENDM
 
 ; same
 	MAC	FLIP_40_SET
-	.BYTE	$20
+#if DEBUG=1
+_CNT_FLIP_40_SET	SET	_CNT_FLIP_40_SET+1
+#endif
+	.BYTE	_scr_cmd20_flip40_set_idx
 	ENDM
 
 ; same
 	MAC	FLIP_80_CLEAR
-	.BYTE	$21
+#if DEBUG=1
+_CNT_FLIP_80_CLEAR	SET	_CNT_FLIP_80_CLEAR+1
+#endif
+	.BYTE	_scr_cmd21_flip80_clear_idx
 	ENDM
 
 ; same
 	MAC	FLIP_80_SET
-	.BYTE	$22
+#if DEBUG=1
+_CNT_FLIP_80_SET	SET	_CNT_FLIP_80_SET+1
+#endif
+	.BYTE	_scr_cmd22_flip80_set_idx
 	ENDM
 
 ; similar but toggles
 	MAC	FLIP_40_TOGGLE
-	.BYTE	$23
+#if DEBUG=1
+_CNT_FLIP_40_TOGGLE	SET	_CNT_FLIP_40_TOGGLE+1
+#endif
+	.BYTE	_scr_cmd23_flip40_toggle_idx
 	ENDM
 
 ; same
 	MAC	FLIP_80_TOGGLE
-	.BYTE	$24
+#if DEBUG=1
+_CNT_FLIP_80_TOGGLE	SET	_CNT_FLIP_80_TOGGLE+1
+#endif
+	.BYTE	_scr_cmd24_flip80_toggle_idx
 	ENDM
 
 ; xpos is always 16-bit for clipping
 	MAC	OBJ_X_POS_SET
-	.BYTE	$25
+#if DEBUG=1
+_CNT_OBJ_X_POS_SET	SET	_CNT_OBJ_X_POS_SET+1
+#endif
+	.BYTE	_scr_cmd25_obj_set_x_pos_idx
 	.BYTE	{1},{2}
 	ENDM
 
 ; same for Y
 	MAC	OBJ_Y_POS_SET
-	.BYTE	$26
+#if DEBUG=1
+_CNT_OBJ_Y_POS_SET	SET	_CNT_OBJ_Y_POS_SET+1
+#endif
+	.BYTE	_scr_cmd26_obj_set_y_pos_idx
 	.BYTE	{1},{2}
 	ENDM
 
 ; add value to object's X position
 	MAC	OBJ_X_POS_MOVE
-	.BYTE	$27
+#if DEBUG=1
+_CNT_OBJ_X_POS_MOVE	SET	_CNT_OBJ_X_POS_MOVE+1
+#endif
+	.BYTE	_scr_cmd27_obj_move_x_pos_idx
 	.BYTE	{1}
 	ENDM
 
 ; same for Y
 	MAC	OBJ_Y_POS_MOVE
-	.BYTE	$28
+#if DEBUG=1
+_CNT_OBJ_Y_POS_MOVE	SET	_CNT_OBJ_Y_POS_MOVE+1
+#endif
+	.BYTE	_scr_cmd28_obj_move_y_pos_idx
 	.BYTE	{0}
 	ENDM
 
 ; set constant movement delta for X
 	MAC	OBJ_X_DELTA_SET
-	.BYTE	$29
+#if DEBUG=1
+_CNT_OBJ_X_DELTA_SET	SET	_CNT_OBJ_X_DELTA_SET+1
+#endif
+	.BYTE	_scr_cmd29_obj_set_x_delta_idx
 	.BYTE	{0}
 	ENDM
 
 ; same for Y
 	MAC	OBJ_Y_DELTA_SET
-	.BYTE	$2A
+#if DEBUG=1
+_CNT_OBJ_Y_DELTA_SET	SET	_CNT_OBJ_Y_DELTA_SET+1
+#endif
+	.BYTE	_scr_cmd2A_obj_set_y_delta_idx
 	.BYTE	{0}
 	ENDM
 
 ; does some kind of acceleration, low nibble of delta
 ; added to x position with carry
 	MAC	OBJ_X_DELTA_INC
-	.BYTE	$2B
+#if DEBUG=1
+_CNT_OBJ_X_DELTA_INC	SET	_CNT_OBJ_X_DELTA_INC+1
+#endif
+	.BYTE	_scr_cmd2B_obj_inc_x_delta_idx
 	ENDM
 
 ; same for Y
 	MAC	OBJ_Y_DELTA_INC
-	.BYTE	$2C
+#if DEBUG=1
+_CNT_OBJ_Y_DELTA_INC	SET	_CNT_OBJ_Y_DELTA_INC+1
+#endif
+	.BYTE	_scr_cmd2C_obj_inc_y_delta_idx
 	ENDM
 
 ; same but with decrease
 	MAC	OBJ_X_DELTA_DEC
-	.BYTE	$2D
+#if DEBUG=1
+_CNT_OBJ_X_DELTA_DEC	SET	_CNT_OBJ_X_DELTA_DEC+1
+#endif
+	.BYTE	_scr_cmd2D_obj_dec_x_delta_idx
 	ENDM
 
 ; same for Y
 	MAC	OBJ_Y_DELTA_DEC
-	.BYTE	$2E
+#if DEBUG=1
+_CNT_OBJ_Y_DELTA_DEC	SET	_CNT_OBJ_Y_DELTA_DEC+1
+#endif
+	.BYTE	_scr_cmd2E_dec_y_delta_idx
 	ENDM
 
 ; init object lock on target, {1} usually direction of target
 	MAC	TARGET_LOCK
-	.BYTE	$2F
+#if DEBUG=1
+_CNT_TARGET_LOCK	SET	_CNT_TARGET_LOCK+1
+#endif
+	.BYTE	_scr_cmd2F_target_lock_idx
 	.BYTE	{1}
 	ENDM
 
 ; set speed for traveling to target or some kind...
 	MAC	TARGET_SPD_SET
-	.BYTE	$30
+#if DEBUG=1
+_CNT_TARGET_SPD_SET	SET	_CNT_TARGET_SPD_SET+1
+#endif
+	.BYTE	_scr_cmd30_target_spd_set_idx
 	.BYTE	{1}
 	ENDM
 
 ; other direction value for target lock
 	MAC	TARGET_DIR_SET
-	.BYTE	$31
+#if DEBUG=1
+_CNT_TARGET_DIR_SET	SET	_CNT_TARGET_DIR_SET+1
+#endif
+	.BYTE	_scr_cmd31_target_dir_set_idx
 	.BYTE	{1}
 	ENDM
 
 ; set object dimensions for collision tests
 	MAC	OBJ_SIZE_SET
-	.BYTE	$32
+#if DEBUG=1
+_CNT_OBJ_SIZE_SET	SET	_CNT_OBJ_SIZE_SET+1
+#endif
+	.BYTE	_scr_cmd32_obj_set_size_idx
 	.BYTE	{1},{2}
 	ENDM
 
@@ -563,7 +827,10 @@ _OBJ_DMG_KILL	EQU	$01
 _OBJ_DMG_STUN	EQU	$02
 
 	MAC	OBJ_DAMAGE_SET
-	.BYTE	$33
+#if DEBUG=1
+_CNT_OBJ_DAMAGE_SET	SET	_CNT_OBJ_DAMAGE_SET+1
+#endif
+	.BYTE	_scr_cmd33_damage_set_idx
 	.BYTE	{1}
 	ENDM
 
@@ -572,67 +839,100 @@ _OBJ_DMG_STUN	EQU	$02
 ; rather than activeness state flag
 ; NOTE, this var also used differently for cutscenes
 	MAC	OBJ_HP_SET
-	.BYTE	$34
+#if DEBUG=1
+_CNT_OBJ_HP_SET	SET	_CNT_OBJ_HP_SET+1
+#endif
+	.BYTE	_scr_cmd34_obj_set_hp_idx
 	.BYTE	{1}
 	ENDM
 
 ; set the vert/hor flips for object instantly
 	MAC	OBJ_FLIP_SET
-	.BYTE	$35
+#if DEBUG=1
+_CNT_OBJ_FLIP_SET	SET	_CNT_OBJ_FLIP_SET+1
+#endif
+	.BYTE	_scr_cmd35_obj_set_flip_idx
 	.BYTE	{1}
 	ENDM
 
 ; unused flag settings
-;	MAC	VAR_1E_SET
-;	.BYTE	$36
-;	.BYTE	{1}
-;	ENDM
+	MAC	OBJ_IDXC_SET
+#if DEBUG=1
+_CNT_OBJ_IDXC_SET	SET	_CNT_OBJ_IDXC_SET+1
+#endif
+	.BYTE	_scr_cmd36_idxCs_set_idx
+	.BYTE	{1}
+	ENDM
 
 ; they used MOV operands here for some reasons...
 	MAC	MAIN_SUB_SET
-	.BYTE	$37
+#if DEBUG=1
+_CNT_MAIN_SUB_SET	SET	_CNT_MAIN_SUB_SET+1
+#endif
+	.BYTE	_scr_cmd37_main_sub_idx_set_idx
 	.BYTE	{1}
 	ENDM
 
 ; yes, it is parameters are speed and increment value
 	MAC	PAL_FADE_IN
-	.BYTE	$38
+#if DEBUG=1
+_CNT_PAL_FADE_IN	SET	_CNT_PAL_FADE_IN+1
+#endif
+	.BYTE	_scr_cmd38_pal_fade_in_idx
 	.BYTE	{1},{2}
 	ENDM
 
 ; same
 	MAC	PAL_FADE_OUT
-	.BYTE	$39
+#if DEBUG=1
+_CNT_PAL_FADE_OUT	SET	_CNT_PAL_FADE_OUT+1
+#endif
+	.BYTE	_scr_cmd39_pal_fade_out_idx
 	.BYTE	{1},{2}
 	ENDM
 
 ; never used, always used native handlers instead
 	MAC	TLM_RES_QUEUE
-	.BYTE	$3A
+#if DEBUG=1
+_CNT_TLM_RES_QUEUE	SET	_CNT_TLM_RES_QUEUE+1
+#endif
+	.BYTE	_scr_cmd3A_tlm_res_queue_idx
 	.WORD	{1}
 	ENDM
 
 ; yes, it is, parameter is an offset to menu data (options position and number)
 	MAC	MENU_CURSOR_DRAW
-	.BYTE	$3B
+#if DEBUG=1
+_CNT_MENU_CURSOR_DRAW	SET	_CNT_MENU_CURSOR_DRAW+1
+#endif
+	.BYTE	_scr_cmd3B_draw_menu_cursor_idx
 	.WORD	{1}
 	ENDM
 
 ; never used, all menus are vertically oriented
 	MAC	MENU_HOR_INPUT
-	.BYTE	$3C
+#if DEBUG=1
+_CNT_MENU_HOR_INPUT	SET	_CNT_MENU_HOR_INPUT+1
+#endif
+	.BYTE	_scr_cmd3C_hor_menu_input_idx
 	.BYTE	{1},{2}
 	ENDM
 
 ; same for vert menu, parameters are number of items in menu and default one
 	MAC	MENU_VERT_INPUT
-	.BYTE	$3D
+#if DEBUG=1
+_CNT_MENU_VERT_INPUT	SET	_CNT_MENU_VERT_INPUT+1
+#endif
+	.BYTE	_scr_cmd3D_vert_menu_input_idx
 	.BYTE	{1},{2}
 	ENDM
 
 ; never used, msg area always the same and hardcoded in msg init routine
 	MAC	MSG_AREA_SET
-	.BYTE	$3E
+#if DEBUG=1
+_CNT_MSG_AREA_SET	SET	_CNT_MSG_AREA_SET+1
+#endif
+	.BYTE	_scr_cmd3E_msg_area_set_idx
 	.WORD	{1}
 	.BYTE	{2}
 	ENDM
@@ -640,19 +940,28 @@ _OBJ_DMG_STUN	EQU	$02
 ; displays the message in already defined window, {1} ptr to msg resource
 ; {2} is the APU SE index to make typing sound for every character
 	MAC	MSG_DISPLAY
-	.BYTE	$3F
+#if DEBUG=1
+_CNT_MSG_DISPLAY	SET	_CNT_MSG_DISPLAY+1
+#endif
+	.BYTE	_scr_cmd3F_msg_display_idx
 	.WORD	{1}
-	.BYTE	{2}
+	.BYTE	{2}_idx
 	ENDM
 
 ; wait until message is displayed
 	MAC	MSG_WAIT
-	.BYTE	$40
+#if DEBUG=1
+_CNT_MSG_WAIT	SET	_CNT_MSG_WAIT+1
+#endif
+	.BYTE	_scr_cmd40_msg_wait_idx
 	ENDM
 
 ; break current subroutine and exit instantly, argument is return address
 	MAC	BREAK
-	.BYTE	$41
+#if DEBUG=1
+_CNT_BREAK	SET	_CNT_BREAK+1
+#endif
+	.BYTE	_scr_cmd41_break_idx
 	.WORD	{1}
 	ENDM
 
@@ -660,13 +969,19 @@ _OBJ_DMG_STUN	EQU	$02
 ; called from object manager instantly if collision test passed
 ;
 	MAC	DESTR_PC_SET
-	.BYTE	$42
+#if DEBUG=1
+_CNT_DESTR_PC_SET	SET	_CNT_DESTR_PC_SET+1
+#endif
+	.BYTE	_scr_cmd42_destr_pc_set_idx
 	.WORD	{1}
 	ENDM
 
 ; other flags set cmd
 	MAC	PARAM_40_SET
-	.BYTE	$43
+#if DEBUG=1
+_CNT_PARAM_40_SET	SET	_CNT_PARAM_40_SET+1
+#endif
+	.BYTE	_scr_cmd43_param_40_set_idx
 	ENDM
 
 ;--------------------A-P-U----------------------
@@ -797,7 +1112,7 @@ _OBJ_DMG_STUN	EQU	$02
 	MAC BANK_START
 CUR_PRG_BANK	SET {1}
 CUR_BANK_START	SET .
-		ECHO	"BANK",CUR_PRG_BANK," ORG ",[CUR_BANK_START>>12],"{"
+		ECHO "BANK",CUR_PRG_BANK," ORG ",[CUR_BANK_START>>12],"{"
 	ENDM
 
 	MAC	BANK_END
@@ -807,9 +1122,9 @@ _total_free	SET 0
 _bank{1}_free	SET	[{2}-.-32]
 _total_free	SET [_total_free+_bank{1}_free]
 	#if .>{2}-32
-		ECHO	"} s =",[.-CUR_BANK_START],"EXCEEDED =",[0-_bank{1}_free]
+		ECHO "} s =",[.-CUR_BANK_START],"EXCEEDED =",[0-_bank{1}_free]
 	#else
-		ECHO	"} s =",[.-CUR_BANK_START],"FREE =",_bank{1}_free
+		ECHO "} s =",[.-CUR_BANK_START],"FREE =",_bank{1}_free
 	#endif
 	#if .<{2}-32
 		ORG		{2}-33
@@ -840,13 +1155,13 @@ _total_free	SET [_total_free+_bank{1}_free]
 _bank{1}_free	SET	[{2}-.-32]
 _total_free	SET [_total_free+_bank{1}_free]
 	#if .>[{2}-32]
-		ECHO	"} s =",[.-CUR_BANK_START],"EXCEEDED =",[0-_bank{1}_free]
+		ECHO "} s =",[.-CUR_BANK_START],"EXCEEDED =",[0-_bank{1}_free]
 	#else
-		ECHO	"} s =",[.-CUR_BANK_START],"FREE =",_bank{1}_free
+		ECHO "} s =",[.-CUR_BANK_START],"FREE =",_bank{1}_free
 	#endif
-		ECHO	"-------------";
-		ECHO	"total free =",_total_free
-		ECHO	""
+		ECHO "-------------";
+		ECHO "total free =",_total_free
+		ECHO ""
 	#if .<{2}-32
 		ORG		{2}-33
 		.BYTE	$FF
@@ -879,7 +1194,7 @@ _{1}_start	SET	.
 
 	MAC SECTION_END
 _{1}_end	SET .
-		ECHO	" * block =",_{1}_end-_{1}_start,"[",{2},"]"
+		ECHO " * block =",_{1}_end-_{1}_start,"[",{2},"]"
 	ENDM
 
 	MAC	FAR_PTR

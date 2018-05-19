@@ -3,6 +3,8 @@
 
 		BANK_START $06
 
+		SECTION_START	0D
+
 ; =============== S U B R O U T I N E =======================================
 _apu_play:
 		LDA		_apu_load_idx
@@ -8462,5 +8464,7 @@ _apu_mus21_D:
 		DO_LOOP
 		DATA	$C0
 		ASTOP
+
+		SECTION_END		0D, "APU ENGINE AND MUSIC DATA"
 
 		BANK_END 6,$C000

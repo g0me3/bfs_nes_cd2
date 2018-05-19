@@ -3,6 +3,8 @@
 
 		BANK_START $05
 
+		SECTION_START	0C
+
 _spr_lib_list:
 		.WORD	_spr_lib0
 		.WORD	_spr_lib1
@@ -2068,5 +2070,7 @@ _spr_lib5_12:
 		.BYTE	$81,$FF,$F7,$F2,$81,$00
 _spr_lib5_1A:
 		.BYTE	$81,$FA,$FB,$F2,$41,$00
+
+		SECTION_END		0C, "SPRITES DATA"
 
 		BANK_END 5,$C000

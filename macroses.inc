@@ -2,6 +2,9 @@
 
 DEBUG			EQU		1
 
+; experimental, does not work by now
+OPTIMIZATION	EQU		0
+
 LANG_EN			EQU		0
 LANG_JP			EQU		1
 LANR_RU			EQU		2
@@ -30,9 +33,7 @@ _que	EQU	$0F
 __		EQU	$10
 
 _dot	EQU	$2C
-_ddt	EQU	$30
-_lqo	EQU	$31
-_rqo	EQU	$32
+_ddt	EQU	$31
 
 _dsh	EQU	$40
 
@@ -107,36 +108,37 @@ _STOP	EQU	$FF
 
 ;-----------G-A-M-E--S-P-E-C-I-F-I-C------------
 
-;	stop script
-	MAC	STOP
+; kill current script, stop execution
+	MAC	KILL
 	.BYTE	$00
 	ENDM
 
-; flush registers and flags
-	MAC	FLUSH
+; exit current script, return control to the engine
+; return back on the next frame
+	MAC	SYNC
 	.BYTE	$01
 	ENDM
 
-; delay frames
-	MAC	DELAY
+; set script on hold for {1} frames
+	MAC	SUSPEND
 	.BYTE	$02
 	.BYTE	{1}
 	ENDM
 
-; native code read operation, flags stored
+; execute native code, then exit script, return control to the engine
 	MAC	NJMP
 	.BYTE	$03
 	.WORD	{1}
 	ENDM
 
-; queue new script and run
-	MAC	RUN
+; queue new script and run it
+	MAC	SRUN
 	.BYTE	$04
 	.BYTE	{1}
 	.WORD	{2}
 	ENDM
 
-; native code execute, no flags returned
+; execute native code, continue script operation
 	MAC	NJSR
 	.BYTE	$05
 	.WORD	{1}
@@ -155,7 +157,7 @@ _STOP	EQU	$FF
 	ENDM
 
 ; return from script subroutine
-	MAC	RET
+	MAC	SRET
 	.BYTE	$08
 	ENDM
 
@@ -173,53 +175,87 @@ _STOP	EQU	$FF
 	.WORD	{2}
 	ENDM
 
+; helper branch macros
+	MAC	SBRANCH
+#if OPTIMIZATION=1
+TMP_CMD_PC	SET	.
+	#if {1}>=TMP_CMD_PC
+		#if [{1}-TMP_CMD_PC-2]<=$7F
+;			ECHO	"short BRANCH at",TMP_CMD_PC,"jumps forward",{1},"distance",{1}-TMP_CMD_PC-2
+;			.BYTE	[$44+{2}]
+;			.BYTE	[{1}-TMP_CMD_PC-2]
+		#else
+;			ECHO	"long BRANCH at",TMP_CMD_PC,"jumps forward",{1},"distance",{1}-TMP_CMD_PC-2
+;			.BYTE	[$0B+{2}]
+;			.WORD	{1}
+		#endif
+	#else
+		#if [TMP_CMD_PC-{1}+2]<=$7F
+;			ECHO	"short BRANCH at",TMP_CMD_PC,"jumps back",{1},"distance",[TMP_CMD_PC-{1}+2]
+;			.BYTE	[$44+{2}]
+;			.BYTE	[-[TMP_CMD_PC-{1}+2]]&$FF
+		#else
+;			ECHO	"long BRANCH at",TMP_CMD_PC,"jumps back",{1},"distance",[TMP_CMD_PC-{1}+2]
+;			.BYTE	[$0B+{2}]
+;			.WORD	{1}
+		#endif
+	#endif
+	.BYTE	[$0B+{2}]
+	.WORD	{1}
+#else
+	.BYTE	[$0B+{2}]
+	.WORD	{1}
+#endif
+	ENDM
+
 ; set of branches equivalent of 6502 set
 ; script if EQUAL branch
 	MAC	SBEQ
-	.BYTE	$0B
-	.WORD	{1}
+		SBRANCH	{1},0
 	ENDM
 
 ; script if CARRY=1 branch
 	MAC	SBCS
-	.BYTE	$0C
-	.WORD	{1}
+		SBRANCH	{1},1
 	ENDM
 
 ; script if NEG=1 branch
 	MAC	SBMI
-	.BYTE	$0D
-	.WORD	{1}
+		SBRANCH	{1},2
 	ENDM
 
 ; script if NO EQUAL branch
 	MAC	SBNE
-	.BYTE	$0E
-	.WORD	{1}
+		SBRANCH	{1},3
 	ENDM
 
 ; script if CARRY=0 branch
 	MAC	SBCC
-	.BYTE	$0F
-	.WORD	{1}
+		SBRANCH	{1},4
 	ENDM
 
 ; script if NEG=0 branch
 	MAC	SBPL
-	.BYTE	$10
-	.WORD	{1}
+		SBRANCH	{1},5
 	ENDM
 
-; test pads pad offset {1}, mask {2}, branch if non-zero {3}
-; $00 - pad1 held
-; $01 - pad2 held
-; $04 - pad1 press
-; $05 - pad2 press
+; test pads pad offset {1}, mask {2}, default branch if zero - {3}
 
 _PAD0_HELD	EQU	$00
 _PAD1_HELD	EQU	$01
+; only used option
 _PAD0_PRESS	EQU $04
 _PAD1_PRESS	EQU $05
+
+_PAD_A		EQU	$01
+_PAD_B		EQU	$02
+_PAD_SELECT	EQU	$04
+_PAD_START	EQU	$08
+_PAD_UP		EQU	$10
+_PAD_DOWN	EQU	$20
+_PAD_LEFT	EQU	$40
+_PAD_RIGHT	EQU	$80
+_PAD_ANY	EQU	$FF
 
 	MAC	TEST_PADS
 	.BYTE	$11
@@ -228,17 +264,18 @@ _PAD1_PRESS	EQU $05
 	ENDM
 
 ; switch case construction, {1} index ram variable, first branch default
-	MAC	SWITCH
+	MAC	SSWITCH
 	.BYTE	$12
 	.WORD	{1}
 	ENDM
+
 ; lets make it nice
-	MAC	CASE
+	MAC	SCASE
 	.WORD	{1}
 	ENDM
 
 ; store operand, put {1} into {2} ram address
-	MAC	MOV
+	MAC	STORE
 	.BYTE	$13
 	.BYTE	{1}
 	.WORD	{2}

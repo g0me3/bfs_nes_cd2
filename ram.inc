@@ -171,7 +171,7 @@ _stage4_frames_cnt:
 		.BYTE	0
 _rand_seed:
 		.BYTE	0
-byte_6C:
+_bonus_room_prizes_order_list:
 		.BYTE	0,0,0,0
 byte_70:
 		.BYTE	0
@@ -420,7 +420,7 @@ _scr_loopsA:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _scr_loopsB:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
-_obj_vars0D:
+_scr_idxBs:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _scr_params:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
@@ -462,7 +462,7 @@ _scr_vars1C:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _obj_hps:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
-_scr_vars1E:
+_scr_idxCs:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0
 _scr_idxAs:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0

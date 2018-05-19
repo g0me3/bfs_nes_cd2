@@ -491,6 +491,8 @@ _tileset05:
 
 		SECTION_END		06, "TILESETS DATA"
 
+		SECTION_START	06A
+
 tlm_patch04:
 		.BYTE	$01
 		.WORD	$284B
@@ -600,6 +602,8 @@ tlm_patch09:
 		.WORD	$4B6E
 		.BYTE	$56,$9F
 		.BYTE	$00
+
+		SECTION_END		06A, "PRG4 TLM PATCHES"
 
 		SECTION_START	07
 
@@ -768,6 +772,8 @@ _lvl8_scrolls:
 
 		SECTION_END		07, "LAYOUTS AND SCROLLS TABLES"
 
+		SECTION_START	07A
+
 ; =============== S U B R O U T I N E =======================================
 _obj_scr_insert:
 		LDA		byte_97
@@ -910,7 +916,9 @@ _obj_lib:
 		.WORD	_obj_scr45
 		.WORD	_obj_scr46
 
-		SECTION_START 08
+		SECTION_END		07A, "PRG7 OBJ INSERT ROUTINE AND TABLE"
+
+		SECTION_START	08
 
 _room_objects00:
 		.BYTE	$18,$22,$27
@@ -2647,6 +2655,8 @@ _room_spr_pal_lib:
 
 		SECTION_END		09, "PALETTES"
 
+		SECTION_START	09A
+
 ; =============== S U B R O U T I N E =======================================
 _pal_anim_handlers:
 		LDA		_ingame_mode_idx
@@ -2950,6 +2960,8 @@ loc_536AC:
 		CPX		#$10
 		BCC		loc_5369F
 		RTS
+
+		SECTION_END		09A, "PRG7 PALETTER ANIM HANDLERS"
 
 		SECTION_START	0A
 

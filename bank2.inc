@@ -3,6 +3,8 @@
 
 		BANK_START $02
 
+		SECTION_START 02
+
 		FAR_PTR	_room86
 		.BYTE	$01,$0E,$04,$01,$02,$03,$01,$0E,$04,$01,$02,$03,$01,$0E,$04,$01
 		.BYTE	$01,$07,$08,$01,$05,$06,$01,$07,$08,$01,$05,$06,$01,$07,$08,$01
@@ -371,741 +373,772 @@
 		.BYTE	$38,$39,$39,$37,$38,$39,$39,$38,$39,$37,$39,$38,$39,$39,$38,$37
 		.BYTE	$39,$39,$38,$37,$39,$38,$39,$39,$38,$37,$39,$39,$39,$38,$39,$37
 		.BYTE	$38,$39,$39,$37,$38,$39,$39,$38,$39,$37,$39,$38,$39,$39,$38,$37
+
+		SECTION_END		02, "ROOM DATA C"
+
 _msg_frame_tiles_list:
 		.BYTE	$A2,$A5,$A3,$A4,$40,$A4,$A0,$A5,$A1
-_wnd_msg_dictionary:
-		.WORD	_msg_dict00
-		.WORD	_msg_dict01
-		.WORD	_msg_dict02
-		.WORD	_msg_dict03
-		.WORD	_msg_dict04
-		.WORD	_msg_dict05
-		.WORD	_msg_dict06
-		.WORD	_msg_dict07
-		.WORD	_msg_dict08
-		.WORD	_msg_dict09
-		.WORD	_msg_dict0A
-		.WORD	_msg_dict0B
-		.WORD	_msg_dict0C
-		.WORD	_msg_dict0D
-		.WORD	_msg_dict0E
-		.WORD	_msg_dict0F
-		.WORD	_msg_dict10
-		.WORD	_msg_dict11
-		.WORD	_msg_dict12
-		.WORD	_msg_dict13
-		.WORD	_msg_dict14
-		.WORD	_msg_dict15
-		.WORD	_msg_dict16
-		.WORD	_msg_dict17
-		.WORD	_msg_dict18
-		.WORD	_msg_dict19
-		.WORD	_msg_dict1A
-		.WORD	_msg_dict1B
-		.WORD	_msg_dict1C
-		.WORD	_msg_dict1D
-		.WORD	_msg_dict1E
-		.WORD	_msg_dict1F
-		.WORD	_msg_dict20
-		.WORD	_msg_dict21
-		.WORD	_msg_dict22
-		.WORD	_msg_dict23
-		.WORD	_msg_dict24
-		.WORD	_msg_dict25
-		.WORD	_msg_dict26
-		.WORD	_msg_dict27
-		.WORD	_msg_dict28
-		.WORD	_msg_dict29
-		.WORD	_msg_dict2A
-		.WORD	_msg_dict2B
-		.WORD	_msg_dict2C
-		.WORD	_msg_dict2D
-		.WORD	_msg_dict2E
-		.WORD	_msg_dict2F
-		.WORD	_msg_dict30
-		.WORD	_msg_dict31
-		.WORD	_msg_dict32
-		.WORD	_msg_dict33
-		.WORD	_msg_dict34
-		.WORD	_msg_dict35
-		.WORD	_msg_dict36
-		.WORD	_msg_dict37
-		.WORD	_msg_dict38
-		.WORD	_msg_dict39
-		.WORD	_msg_dict3A
-		.WORD	_msg_dict3B
-		.WORD	_msg_dict3C
-		.WORD	_msg_dict3D
-		.WORD	_msg_dict3E
-		.WORD	_msg_dict3F
-		.WORD	_msg_dict40
-		.WORD	_msg_dict41
-		.WORD	_msg_dict42
-		.WORD	_msg_dict43
-		.WORD	_msg_dict44
-		.WORD	_msg_dict45
-		.WORD	_msg_dict46
-		.WORD	_msg_dict47
-		.WORD	_msg_dict48
-		.WORD	_msg_dict49
-		.WORD	_msg_dict4A
-		.WORD	_msg_dict4B
-		.WORD	_msg_dict4C
-		.WORD	_msg_dict4D
-		.WORD	_msg_dict4E
-		.WORD	_msg_dict4F
-		.WORD	_msg_dict50
-		.WORD	_msg_dict51
-		.WORD	_msg_dict52
-		.WORD	_msg_dict53
-		.WORD	_msg_dict54
-		.WORD	_msg_dict55
-		.WORD	_msg_dict56
-		.WORD	_msg_dict57
-		.WORD	_msg_dict58
-		.WORD	_msg_dict59
-		.WORD	_msg_dict5A
-		.WORD	_msg_dict5B
-		.WORD	_msg_dict5C
-		.WORD	_msg_dict5D
-		.WORD	_msg_dict5E
-		.WORD	_msg_dict5F
-		.WORD	_msg_dict60
-		.WORD	_msg_dict61
-		.WORD	_msg_dict62
-		.WORD	_msg_dict63
-		.WORD	_msg_dict64
-		.WORD	_msg_dict65
-		.WORD	_msg_dict66
-		.WORD	_msg_dict67
-		.WORD	_msg_dict68
-		.WORD	_msg_dict69
-		.WORD	_msg_dict6A
-		.WORD	_msg_dict6B
-		.WORD	_msg_dict6C
-		.WORD	_msg_dict6D
-		.WORD	_msg_dict6E
-		.WORD	_msg_dict6F
-		.WORD	_msg_dict70
-		.WORD	_msg_dict71
-		.WORD	_msg_dict72
-		.WORD	_msg_dict73
-		.WORD	_msg_dict74
-		.WORD	_msg_dict75
-_msg_dict02:
-		.BYTE	$13,$45,$48,$38,$44,$10,$24,$48,$3E,$3A,$49,$FE
-_msg_dict03:
-		.BYTE	$27,$3A,$4A,$3B,$3A,$49,$47,$10,$27,$48,$49,$45,$39,$FE
-_msg_dict04:
-		.BYTE	$16,$3C,$3B,$3C,$49,$3A,$10,$27,$48,$49,$45,$39,$FE
-_msg_dict05:
-		.BYTE	$24,$42,$3A,$49,$3A,$0B,$4A,$10,$47,$48,$10,$3B,$43,$46,$3A,$10
-		.BYTE	$FE
-_msg_dict06:
-		.BYTE	$27,$36,$3B,$3A,$49,$10,$22,$36,$37,$37,$43,$3B,$31,$FE
-_msg_dict07:
-		.BYTE	$1E,$3A,$3E,$4A,$38,$36,$4A,$3B,$3A,$49,$31,$FE
-_msg_dict08:
-		.BYTE	$10,$49,$3A,$4A,$3B,$36,$3C,$49,$36,$47,$3B,$FE
-_msg_dict09:
-		.BYTE	$3A,$10,$36,$46,$3C,$4A,$3A,$46,$3A,$47,$3B,$FE
-_msg_dict0A:
-		.BYTE	$10,$3A,$3D,$3A,$49,$54,$48,$47,$3A,$0A,$FE
-_msg_dict0B:
-		.BYTE	$3E,$36,$49,$3A,$42,$48,$3C,$4A,$3A,$FE
-_msg_dict0C:
-		.BYTE	$10,$39,$48,$3E,$47,$3B,$48,$3E,$47,$FE
-_msg_dict0D:
-		.BYTE	$10,$50,$43,$3D,$3A,$10,$54,$48,$3C,$FE
-_msg_dict0E:
-		.BYTE	$19,$10,$3B,$42,$43,$47,$44,$10,$19,$FE
-_msg_dict0F:
-		.BYTE	$27,$3A,$45,$38,$48,$46,$3A,$0C,$FE
-_msg_dict10:
-		.BYTE	$11,$49,$3A,$10,$54,$48,$3C,$10,$FE
-_msg_dict11:
-		.BYTE	$24,$42,$3A,$49,$3A,$0B,$4A,$10,$FE
-_msg_dict12:
-		.BYTE	$3B,$42,$49,$48,$3C,$50,$42,$10,$FE
-_msg_dict13:
-		.BYTE	$1D,$48,$47,$3B,$3A,$49,$3A,$54,$FE
-_msg_dict14:
-		.BYTE	$22,$3A,$4A,$38,$3C,$3A,$10,$FE
-_msg_dict15:
-		.BYTE	$22,$36,$47,$50,$3A,$49,$4A,$FE
-_msg_dict16:
-		.BYTE	$10,$38,$48,$46,$43,$47,$50,$FE
-_msg_dict17:
-		.BYTE	$10,$52,$49,$43,$4A,$48,$47,$FE
-_msg_dict18:
-		.BYTE	$4A,$42,$48,$3C,$45,$39,$10,$FE
-_msg_dict19:
-		.BYTE	$50,$42,$48,$4A,$3B,$4A,$FE
-_msg_dict1A:
-		.BYTE	$1C,$3A,$3B,$0B,$4A,$10,$FE
-_msg_dict1B:
-		.BYTE	$48,$10,$41,$43,$47,$39,$FE
-_msg_dict1C:
-		.BYTE	$3A,$4A,$38,$36,$52,$3A,$FE
-_msg_dict1D:
-		.BYTE	$16,$36,$3B,$38,$36,$3B,$FE
-_msg_dict1E:
-		.BYTE	$17,$36,$39,$50,$3A,$3B,$FE
-_msg_dict1F:
-		.BYTE	$2A,$43,$52,$52,$3A,$49,$FE
-_msg_dict20:
-		.BYTE	$10,$4A,$3B,$48,$52,$10,$FE
-_msg_dict21:
-		.BYTE	$10,$3B,$43,$46,$3A,$10,$FE
-_msg_dict22:
-		.BYTE	$10,$41,$48,$3C,$47,$39,$FE
-_msg_dict23:
-		.BYTE	$38,$48,$3C,$45,$39,$10,$FE
-_msg_dict24:
-		.BYTE	$10,$42,$3A,$45,$52,$2C,$FE
-_msg_dict25:
-		.BYTE	$36,$37,$48,$3C,$3B,$10,$FE
-_msg_dict26:
-		.BYTE	$10,$41,$43,$49,$4A,$3B,$FE
-_msg_dict27:
-		.BYTE	$10,$52,$36,$49,$44,$0A,$FE
-_msg_dict28:
-		.BYTE	$10,$3E,$43,$45,$45,$10,$FE
-_msg_dict29:
-		.BYTE	$46,$3C,$4A,$3B,$10,$FE
-_msg_dict2A:
-		.BYTE	$10,$37,$48,$46,$37,$FE
-_msg_dict2B:
-		.BYTE	$41,$49,$48,$46,$10,$FE
-_msg_dict2C:
-		.BYTE	$1C,$3A,$3B,$0B,$4A,$FE
-_msg_dict2D:
-		.BYTE	$10,$3B,$49,$36,$52,$FE
-_msg_dict2E:
-		.BYTE	$27,$48,$36,$42,$0A,$FE
-_msg_dict2F:
-		.BYTE	$24,$42,$43,$4A,$10,$FE
-_msg_dict30:
-		.BYTE	$10,$50,$48,$3B,$10,$FE
-_msg_dict31:
-		.BYTE	$10,$4A,$48,$46,$3A,$FE
-_msg_dict32:
-		.BYTE	$10,$46,$36,$39,$3A,$FE
-_msg_dict33:
-		.BYTE	$38,$48,$46,$3A,$10,$FE
-_msg_dict34:
-		.BYTE	$10,$4A,$48,$46,$3A,$FE
-_msg_dict35:
-		.BYTE	$3B,$42,$36,$3B,$10,$FE
-_msg_dict36:
-		.BYTE	$10,$54,$48,$3C,$49,$FE
-_msg_dict37:
-		.BYTE	$10,$42,$36,$4A,$FE
-_msg_dict38:
-		.BYTE	$45,$3A,$4A,$4A,$FE
-_msg_dict39:
-		.BYTE	$0B,$45,$45,$10,$FE
-_msg_dict3A:
-		.BYTE	$3B,$42,$3A,$10,$FE
-_msg_dict3B:
-		.BYTE	$13,$42,$43,$52,$FE
-_msg_dict3C:
-		.BYTE	$14,$36,$45,$3A,$FE
-_msg_dict3D:
-		.BYTE	$42,$36,$3D,$3A,$FE
-_msg_dict3E:
-		.BYTE	$42,$3A,$49,$3A,$FE
-_msg_dict3F:
-		.BYTE	$1C,$48,$48,$44,$FE
-_msg_dict40:
-		.BYTE	$48,$52,$3A,$47,$FE
-_msg_dict41:
-		.BYTE	$4A,$3A,$45,$41,$FE
-_msg_dict42:
-		.BYTE	$4A,$3C,$49,$3A,$FE
-_msg_dict43:
-		.BYTE	$3B,$42,$43,$4A,$FE
-_msg_dict44:
-		.BYTE	$27,$42,$36,$3B,$FE
-_msg_dict45:
-		.BYTE	$3E,$43,$3B,$42,$FE
-_msg_dict46:
-		.BYTE	$10,$38,$36,$47,$FE
-_msg_dict47:
-		.BYTE	$10,$4A,$36,$54,$FE
-_msg_dict48:
-		.BYTE	$0B,$3D,$3A,$10,$FE
-_msg_dict49:
-		.BYTE	$10,$41,$48,$49,$FE
-_msg_dict4A:
-		.BYTE	$36,$47,$39,$10,$FE
-_msg_dict4B:
-		.BYTE	$36,$47,$54,$10,$FE
-_msg_dict4C:
-		.BYTE	$3A,$3D,$3A,$49,$FE
-_msg_dict4D:
-		.BYTE	$43,$50,$42,$3B,$FE
-_msg_dict4E:
-		.BYTE	$10,$54,$48,$3C,$FE
-_msg_dict4F:
-		.BYTE	$36,$49,$3A,$10,$FE
-_msg_dict50:
-		.BYTE	$10,$38,$36,$47,$FE
-_msg_dict51:
-		.BYTE	$10,$38,$3C,$3B,$FE
-_msg_dict52:
-		.BYTE	$0A,$10,$10,$FE
-_msg_dict53:
-		.BYTE	$43,$4A,$10,$FE
-_msg_dict54:
-		.BYTE	$36,$4A,$3B,$FE
-_msg_dict55:
-		.BYTE	$43,$47,$50,$FE
-_msg_dict56:
-		.BYTE	$45,$3C,$3A,$FE
-_msg_dict57:
-		.BYTE	$47,$48,$3B,$FE
-_msg_dict58:
-		.BYTE	$47,$48,$3E,$FE
-_msg_dict59:
-		.BYTE	$47,$0B,$3B,$FE
-_msg_dict5A:
-		.BYTE	$48,$47,$3A,$FE
-_msg_dict5B:
-		.BYTE	$48,$3C,$3B,$FE
-_msg_dict5C:
-		.BYTE	$27,$3A,$10,$FE
-_msg_dict5D:
-		.BYTE	$3E,$36,$4A,$FE
-_msg_dict5E:
-		.BYTE	$29,$48,$3C,$FE
-_msg_dict5F:
-		.BYTE	$37,$3A,$10,$FE
-_msg_dict60:
-		.BYTE	$10,$3B,$48,$FE
-_msg_dict61:
-		.BYTE	$10,$50,$48,$FE
-_msg_dict62:
-		.BYTE	$2C,$2C,$2C,$FE
-_msg_dict63:
-		.BYTE	$46,$54,$10,$FE
-_msg_dict64:
-		.BYTE	$48,$41,$10,$FE
-_msg_dict65:
-		.BYTE	$36,$10,$FE
-_msg_dict66:
-		.BYTE	$0C,$10,$FE
-_msg_dict67:
-		.BYTE	$3A,$39,$FE
-_msg_dict68:
-		.BYTE	$39,$48,$FE
-_msg_dict69:
-		.BYTE	$42,$3A,$FE
-_msg_dict6A:
-		.BYTE	$43,$41,$FE
-_msg_dict6B:
-		.BYTE	$43,$47,$FE
-_msg_dict6C:
-		.BYTE	$43,$4A,$FE
-_msg_dict6D:
-		.BYTE	$43,$3B,$FE
-_msg_dict6E:
-		.BYTE	$46,$3A,$FE
-_msg_dict6F:
-		.BYTE	$1E,$48,$FE
-_msg_dict70:
-		.BYTE	$47,$48,$FE
-_msg_dict71:
-		.BYTE	$48,$47,$FE
-_msg_dict72:
-		.BYTE	$48,$49,$FE
-_msg_dict73:
-		.BYTE	$3C,$3B,$FE
-_msg_dict74:
-		.BYTE	$3E,$3A,$FE
-_msg_dict75:
-		.BYTE	$2C,$2C,$FE
-_msg_000:
-		.BYTE	$87,$FE,$23,$52,$3A,$38,$43,$36,$45,$10,$12,$3C,$45,$45,$3A,$3B
-		.BYTE	$EB,$31,$FD,$20,$48,$45,$43,$38,$3A,$C7,$FE,$E5,$E8,$3E,$47,$3B
-		.BYTE	$48,$3E,$47,$88,$B7,$FE,$49,$3A,$38,$3A,$43,$3D,$E7,$10,$E5,$37
-		.BYTE	$48,$46,$37,$10,$3B,$42,$49,$3A,$36,$3B,$2C,$FD,$25,$47,$B8,$10
-		.BYTE	$BA,$3B,$43,$EE,$AA,$C6,$FE,$DF,$41,$48,$3C,$47,$39,$E6,$BA,$49
-		.BYTE	$3A,$4A,$3B,$36,$3C,$49,$36,$47,$3B,$FE,$A3,$DF,$39,$3A,$4A,$3B
-		.BYTE	$49,$48,$54,$E7,$2C,$FD,$FF
-_msg_001:
-		.BYTE	$BB,$31,$FE,$AE,$10,$10,$11,$A1,$37,$48,$46,$37,$0A,$FD,$FF
-_msg_002:
-		.BYTE	$9E,$31,$FE,$BB,$D2,$C4,$10,$D3,$ED,$0F,$FD,$FF
-_msg_003:
-		.BYTE	$BB,$31,$FE,$91,$E5,$3B,$43,$EE,$AA,$FE,$EB,$10,$E5,$49,$3A,$4A
-		.BYTE	$3B,$36,$3C,$49,$36,$47,$3B,$8C,$0A,$FD,$27,$3A,$C8,$50,$48,$3B
-		.BYTE	$E0,$10,$41,$EB,$39,$10,$ED,$0A,$FD,$FF
-_msg_004:
-		.BYTE	$9E,$31,$FE,$AF,$D3,$36,$47,$10,$3A,$EE,$49,$50,$3A,$47,$38,$54
-		.BYTE	$0A,$FD,$85,$3B,$48,$10,$DD,$3B,$3A,$0A,$FE,$9A,$50,$48,$E6,$1D
-		.BYTE	$36,$3B,$3A,$4A,$0A,$FD,$FF
-_msg_005:
-		.BYTE	$BB,$31,$FE,$27,$3A,$C8,$50,$48,$3B,$10,$E5,$37,$48,$46,$37,$E0
-		.BYTE	$10,$41,$EB,$39,$0A,$FD,$FF
-_msg_006:
-		.BYTE	$9E,$31,$FE,$27,$3A,$B9,$50,$48,$10,$36,$E9,$36,$39,$FE,$3B,$48
-		.BYTE	$10,$EB,$3D,$3A,$4A,$3B,$43,$50,$36,$3B,$3A,$0A,$FD,$BF,$C9,$10
-		.BYTE	$3C,$4A,$FE,$CA,$F4,$B9,$50,$43,$3D,$3A,$CE,$FE,$CB,$38,$D6,$4A
-		.BYTE	$10,$F4,$C8,$41,$48,$3C,$47,$39,$2C,$FD,$FF
-byte_39A66:
-		.BYTE	$93,$31,$FE,$1F,$49,$8D,$B1,$A4,$F5,$FD,$1E,$CC,$10,$3E,$48,$3C
-		.BYTE	$45,$39,$10,$48,$0B,$B2,$10,$ED,$FE,$92,$BA,$37,$36,$3B,$3B,$45
-		.BYTE	$3A,$10,$E4,$3B,$E9,$FE,$37,$49,$43,$3A,$10,$C5,$DB,$10,$E5,$37
-		.BYTE	$ED,$10,$48,$0B,$A4,$FD,$11,$42,$42,$E6,$3B,$42,$48,$4A,$3A,$10
-		.BYTE	$F4,$49,$3A,$10,$BA,$39,$36,$54,$4A,$40,$40,$FD,$FF
-byte_39AB3:
-		.BYTE	$9F,$31,$FE,$E2,$10,$F5,$10,$E2,$F5,$10,$F5,$FD,$FF
-byte_39AC0:
-		.BYTE	$BB,$31,$FE,$22,$CD,$E6,$9F,$0A,$FE,$85,$3B,$48,$10,$45,$48,$4A
-		.BYTE	$3A,$0A,$FD,$BC,$E6,$54,$48,$3C,$10,$B3,$C5,$10,$EE,$0A,$FD,$FF
-byte_39AE0:
-		.BYTE	$BC,$31,$FE,$EF,$3E,$0A,$0F,$10,$10,$12,$F3,$10,$19,$10,$DD,$10
-		.BYTE	$A5,$FE,$3B,$48,$10,$4A,$3B,$36,$49,$3B,$10,$E3,$36,$41,$3B,$3A
-		.BYTE	$49,$F0,$F1,$10,$47,$36,$52,$0A,$FD,$FF
-byte_39B0A:
-		.BYTE	$BB,$31,$FE,$EF,$C6,$10,$E8,$E6,$BC,$0A,$FD,$FF
-byte_39B16:
-		.BYTE	$BC,$31,$FE,$1F,$1B,$E6,$20,$36,$49,$3B,$47,$3A,$49,$D2,$9A,$50
-		.BYTE	$48,$0A,$FD,$FF
-byte_39B2A:
-		.BYTE	$FE,$94,$95,$10,$36,$3E,$36,$54,$0A,$FD,$FF
-byte_39B35:
-		.BYTE	$87,$FE,$11,$45,$4A,$48,$10,$EB,$10,$BA,$47,$3A,$3E,$4A,$E2,$FD
-		.BYTE	$9D,$0C,$FE,$BA,$D7,$F2,$43,$48,$3C,$4A,$10,$41,$3A,$45,$EB,$3A
-		.BYTE	$10,$41,$3A,$45,$F1,$0C,$FD,$9C,$39,$10,$AB,$52,$49,$EC,$F1,$FE
-		.BYTE	$45,$D4,$10,$47,$CD,$E2,$FD,$FF
-byte_39B6D:
-		.BYTE	$BB,$31,$FE,$11,$45,$45,$10,$49,$CD,$E6,$4A,$52,$43,$45,$45,$10
-		.BYTE	$ED,$0A,$FE,$27,$42,$48,$10,$4A,$3A,$3B,$10,$BA,$3B,$43,$EE,$AA
-		.BYTE	$0F,$FD,$FF
-byte_39B90:
-		.BYTE	$86,$FE,$19,$10,$39,$43,$39,$0A,$FD,$9D,$10,$36,$4A,$44,$E7,$10
-		.BYTE	$EE,$FE,$3B,$48,$10,$38,$49,$3A,$36,$3B,$3A,$10,$E5,$39,$43,$3D
-		.BYTE	$3A,$49,$4A,$43,$F1,$0C,$FE,$CA,$ED,$10,$3E,$F2,$44,$E7,$0A,$FD
-		.BYTE	$FF
-byte_39BC1:
-		.BYTE	$BC,$31,$FE,$EF,$10,$3E,$36,$54,$0A,$FE,$9D,$0B,$4A,$10,$EB,$97
-		.BYTE	$0A,$FD,$FF
-byte_39BD4:
-		.BYTE	$86,$FE,$EF,$3B,$10,$CB,$46,$F2,$3A,$0A,$FE,$18,$3A,$10,$37,$49
-		.BYTE	$48,$44,$3A,$10,$DB,$10,$45,$D4,$10,$47,$CD,$0A,$FD,$18,$3A,$0B
-		.BYTE	$4A,$10,$52,$45,$36,$47,$47,$D5,$E0,$10,$4A,$3B,$3A,$36,$45,$FE
-		.BYTE	$BA,$25,$49,$47,$10,$E4,$BA,$20,$42,$36,$49,$36,$48,$42,$0A,$FE
-		.BYTE	$18,$3A,$10,$52,$49,$48,$37,$36,$37,$45,$54,$B7,$10,$ED,$10,$36
-		.BYTE	$45,$49,$3A,$36,$39,$54,$0A,$FD,$DE,$0B,$49,$3A,$E0,$48,$10,$45
-		.BYTE	$36,$3B,$3A,$0A,$FD,$FF
-byte_39C3A:
-		.BYTE	$BB,$31,$FE,$23,$48,$10,$3E,$BE,$0B,$4A,$10,$BA,$37,$48,$46,$37
-		.BYTE	$0A,$0F,$FD,$FF
-byte_39C4E:
-		.BYTE	$86,$FE,$16,$EB,$39,$10,$ED,$B6,$C1,$0A,$FE,$18,$E5,$42,$E5,$42
-		.BYTE	$36,$0A,$FD,$FF
-byte_39C62:
-		.BYTE	$BB,$31,$FE,$9E,$0C,$FE,$BD,$CE,$A2,$10,$BA,$37,$48,$46,$37,$0F
-		.BYTE	$FD,$FF
-byte_39C74:
-		.BYTE	$9E,$31,$FE,$18,$3A,$49,$3A,$0B,$4A,$10,$BA,$37,$48,$46,$37,$0A
-		.BYTE	$FD,$BF,$E6,$ED,$B7,$FE,$37,$D6,$10,$CA,$49,$E7,$10,$3E,$43,$49
-		.BYTE	$3A,$4A,$96,$FE,$DB,$10,$E4,$ED,$0A,$FD,$DC,$BD,$E0,$D1,$FE,$DA
-		.BYTE	$10,$E4,$BA,$3E,$43,$49,$3A,$4A,$FE,$3B,$48,$10,$39,$3A,$41,$3C
-		.BYTE	$4A,$3A,$10,$ED,$0A,$FD,$FF
-byte_39CBB:
-		.BYTE	$BC,$31,$FE,$12,$F3,$E6,$3C,$42,$E6,$3E,$42,$36,$3B,$10,$42,$36
-		.BYTE	$52,$52,$3A,$47,$4A,$FE,$EA,$10,$F4,$D1,$10,$BA,$3E,$49,$F1,$50
-		.BYTE	$10,$DA,$0F,$FD,$FF
-byte_39CE0:
-		.BYTE	$9E,$31,$FE,$27,$3A,$0B,$49,$3A,$10,$E8,$48,$EE,$39,$0A,$FD,$FF
-byte_39CF0:
-		.BYTE	$BC,$31,$FE,$25,$42,$10,$48,$42,$2C,$FD,$FF
-byte_39CFB:
-		.BYTE	$9E,$31,$FE,$27,$42,$43,$38,$42,$10,$DA,$10,$98,$19,$D1,$0F,$FD
-		.BYTE	$22,$E7,$10,$F2,$10,$37,$D6,$0F,$10,$10,$18,$3C,$49,$49,$54,$0A
-		.BYTE	$FE,$FE,$10,$0E,$22,$E7,$10,$10,$12,$D6,$FE,$FF
-byte_39D27:
-		.BYTE	$9E,$31,$FE,$90,$C2,$0F,$FE,$10,$0E,$29,$3A,$4A,$10,$10,$EF,$FE
-		.BYTE	$FF
-byte_39D38:
-		.BYTE	$9E,$31,$FE,$1F,$1B,$E6,$BE,$E1,$3A,$4A,$0A,$FD,$FF
-byte_39D45:
-		.BYTE	$FE,$12,$1F,$1F,$1F,$1F,$1D,$0A,$0A,$0A,$FD,$FF
-byte_39D51:
-		.BYTE	$9E,$31,$FE,$1A,$3C,$4A,$3B,$10,$44,$43,$39,$39,$D5,$2C,$FE,$DC
-		.BYTE	$38,$F3,$10,$BA,$49,$CD,$10,$DA,$0A,$FD,$FF
-byte_39D6C:
-		.BYTE	$BB,$31,$FE,$8E,$0B,$46,$E1,$47,$47,$E5,$41,$36,$EB,$3B,$0A,$FD
-		.BYTE	$FF
-byte_39D7D:
-		.BYTE	$9E,$31,$FE,$18,$3A,$54,$D2,$27,$BE,$0B,$4A,$10,$BC,$0F,$FD,$FF
-byte_39D8D:
-		.BYTE	$BB,$31,$FE,$1F,$42,$E6,$E9,$10,$52,$36,$4A,$4A,$E7,$10,$DB,$2C
-		.BYTE	$FD,$FF
-byte_39D9F:
-		.BYTE	$9E,$31,$FE,$27,$E9,$3E,$D2,$19,$10,$50,$3C,$3A,$4A,$4A,$FE,$B5
-		.BYTE	$DD,$10,$BA,$49,$CD,$10,$DA,$2C,$FD,$FF
-byte_39DB9:
-		.BYTE	$9E,$31,$FE,$19,$3B,$10,$A9,$BD,$10,$37,$3A,$3A,$47,$FE,$E5,$41
-		.BYTE	$36,$44,$3A,$AA,$2C,$FD,$FF
-byte_39DD0:
-		.BYTE	$BB,$31,$FE,$18,$3C,$49,$49,$54,$D2,$9D,$0B,$4A,$10,$E8,$47,$3A
-		.BYTE	$10,$4A,$3B,$48,$45,$3A,$47,$FE,$BA,$25,$49,$47,$10,$E4,$BA,$20
-		.BYTE	$42,$36,$49,$36,$48,$42,$0A,$FD,$19,$3B,$0B,$4A,$10,$F1,$10,$E5
-		.BYTE	$4A,$42,$43,$52,$FE,$A5,$3B,$48,$10,$45,$3A,$36,$3D,$3A,$10,$52
-		.BYTE	$F2,$3B,$0A,$FD,$FF
-byte_39E15:
-		.BYTE	$9E,$31,$FE,$EF,$3E,$10,$3E,$42,$36,$3B,$10,$E8,$3A,$4A,$10,$9D
-		.BYTE	$10,$3E,$36,$47,$3B,$FE,$C5,$10,$BA,$25,$49,$47,$10,$E4,$BA,$20
-		.BYTE	$42,$36,$49,$36,$48,$42,$0F,$FD,$FF
-byte_39E3E:
-		.BYTE	$BB,$31,$FE,$27,$42,$48,$10,$44,$D8,$4A,$0F,$FD,$27,$3A,$C8,$51
-		.BYTE	$3C,$4A,$3B,$B0,$FE,$3B,$48,$10,$50,$3A,$3B,$10,$ED,$10,$37,$36
-		.BYTE	$38,$44,$0A,$FD,$FF
-byte_39E63:
-		.BYTE	$BC,$31,$FE,$24,$E9,$10,$25,$49,$47,$10,$E4,$BA,$20,$42,$36,$49
-		.BYTE	$36,$48,$42,$FE,$D3,$46,$EC,$4A,$D5,$FD,$CA,$F4,$10,$E8,$D9,$10
-		.BYTE	$BD,$10,$CB,$45,$3A,$36,$39,$4A,$0A,$FD,$FF
-byte_39E8E:
-		.BYTE	$9F,$31,$FE,$E2,$F5,$10,$E2,$10,$E2,$F5,$10,$F5,$FD,$FF
-byte_39E9C:
-		.BYTE	$BB,$31,$FE,$1D,$F1,$3B,$3A,$54,$0A,$FE,$C4,$0B,$4A,$10,$9F,$C7
-		.BYTE	$D5,$0A,$0F,$FD,$FF
-byte_39EB1:
-		.BYTE	$93,$31,$FE,$27,$3A,$45,$45,$E6,$45,$3C,$3D,$E6,$E9,$C7,$4A,$FD
-		.BYTE	$B5,$9D,$10,$CA,$42,$D3,$E9,$47,$38,$42,$EE,$47,$FE,$E9,$36,$39
-		.BYTE	$E7,$10,$EB,$3B,$48,$10,$E5,$8B,$FE,$37,$54,$10,$BA,$E8,$38,$44
-		.BYTE	$4A,$0A,$FD,$FF
-byte_39EE5:
-		.BYTE	$BB,$31,$FE,$22,$3A,$36,$45,$45,$54,$0F,$FE,$90,$C2,$E6,$9F,$0F
-		.BYTE	$FD,$FF
-byte_39EF7:
-		.BYTE	$9F,$31,$FE,$E2,$FD,$FF
-byte_39EFD:
-		.BYTE	$BB,$31,$FE,$11,$45,$45,$10,$49,$CD,$0A,$FE,$13,$0B,$46,$F1,$D2
-		.BYTE	$9A,$50,$48,$0A,$FD,$9D,$10,$37,$3A,$3B,$3B,$3A,$49,$10,$3E,$36
-		.BYTE	$3B,$38,$42,$10,$DB,$0A,$FD,$FF
-byte_39F25:
-		.BYTE	$BB,$31,$FE,$AE,$FE,$19,$3B,$0B,$4A,$10,$52,$ED,$38,$42,$10,$39
-		.BYTE	$36,$49,$44,$10,$EB,$10,$BE,$0A,$FD,$19,$C6,$0B,$3B,$10,$4A,$3A
-		.BYTE	$3A,$FE,$E5,$37,$45,$48,$48,$46,$EB,$0B,$10,$3B,$42,$D5,$0A,$FD
-		.BYTE	$FF
-byte_39F56:
-		.BYTE	$BC,$31,$FE,$18,$3A,$54,$D2,$24,$E9,$10,$E8,$F2,$10,$4A,$42,$F3
-		.BYTE	$10,$ED,$C1,$0A,$FD,$FF
-byte_39F6C:
-		.BYTE	$11,$42,$42,$42,$10,$42,$E5,$42,$E5,$42,$36,$2C,$FE,$8F,$FE,$E3
-		.BYTE	$45,$ED,$3B,$45,$3A,$10,$94,$95,$0A,$FD,$19,$C8,$3E,$36,$ED,$E7
-		.BYTE	$FE,$E5,$45,$F1,$50,$A1,$41,$F2,$10,$C3,$0A,$FD,$FF
-byte_39F99:
-		.BYTE	$BC,$31,$FE,$9D,$0F,$0F,$FD,$FF
-byte_39FA1:
-		.BYTE	$9D,$31,$FE,$24,$E9,$10,$DA,$10,$CA,$F1,$45,$54,$0A,$FD,$FF
-byte_39FB0:
-		.BYTE	$BB,$31,$FE,$9D,$D2,$DE,$10,$4A,$3B,$48,$45,$3A,$FE,$BA,$25,$49
-		.BYTE	$47,$10,$E4,$BA,$20,$42,$36,$49,$36,$48,$42,$0A,$FD,$FE,$FF
-byte_39FCF:
-		.BYTE	$9D,$31,$FE,$24,$42,$36,$3B,$0B,$4A,$10,$49,$CD,$0A,$FD,$11,$47
-		.BYTE	$39,$10,$ED,$0B,$4A,$10,$41,$3C,$45,$45,$10,$E4,$FE,$36,$47,$38
-		.BYTE	$43,$3A,$47,$3B,$10,$3A,$3D,$43,$45,$10,$4A,$52,$43,$49,$ED,$4A
-		.BYTE	$0A,$FD,$27,$E9,$47,$10,$19,$10,$49,$3A,$45,$3A,$36,$4A,$3A,$10
-		.BYTE	$3B,$E9,$46,$0C,$FE,$19,$B9,$49,$3C,$45,$3A,$10,$BA,$3E,$F2,$45
-		.BYTE	$39,$0A,$FD,$FF
-byte_3A023:
-		.BYTE	$BC,$31,$FE,$DE,$B9,$47,$CC,$10,$50,$3A,$3B,$10,$36,$3E,$36,$54
-		.BYTE	$FE,$C5,$10,$C3,$E6,$9D,$0A,$FD,$FF
-byte_3A03C:
-		.BYTE	$9D,$31,$FE,$11,$47,$39,$10,$3E,$42,$36,$3B,$A8,$54,$48,$3C,$10
-		.BYTE	$E8,$FE,$3B,$48,$A0,$EE,$0A,$0F,$FD,$DE,$0B,$49,$3A,$10,$EB,$10
-		.BYTE	$36,$FE,$50,$43,$36,$47,$3B,$10,$49,$3A,$41,$49,$43,$50,$3A,$49
-		.BYTE	$36,$3B,$F2,$0A,$FD,$DE,$B9,$DF,$41,$49,$48,$4B,$3A,$47,$10,$4A
-		.BYTE	$48,$45,$43,$39,$FE,$EB,$10,$3B,$42,$49,$3A,$3A,$10,$46,$EB,$F3
-		.BYTE	$3A,$4A,$0A,$FE,$18,$E5,$42,$E5,$42,$36,$0A,$FD,$FF
-byte_3A099:
-		.BYTE	$BC,$31,$FE,$11,$3E,$E6,$47,$F3,$4A,$0A,$FE,$C4,$10,$CF,$F4,$E1
-		.BYTE	$47,$47,$E5,$E8,$10,$D8,$0F,$FD,$FF
-byte_3A0B2:
-		.BYTE	$BB,$31,$FE,$8E,$10,$4A,$3A,$3A,$10,$36,$47,$10,$C0,$D5,$0A,$FE
-		.BYTE	$1F,$3D,$3A,$49,$10,$3B,$BE,$0A,$FD,$1D,$36,$54,$DF,$FE,$F4,$C6
-		.BYTE	$10,$9C,$10,$92,$ED,$0A,$FE,$18,$3C,$49,$49,$54,$0A,$FD,$FF
-byte_3A0E1:
-		.BYTE	$DE,$B9,$DF,$41,$49,$48,$4B,$3A,$47,$10,$4A,$48,$45,$43,$39,$FE
-		.BYTE	$EB,$10,$3B,$42,$49,$3A,$3A,$10,$46,$EB,$F3,$3A,$4A,$0A,$FD,$FF
-byte_3A101:
-		.BYTE	$93,$31,$FE,$13,$49,$43,$44,$3A,$54,$0A,$FE,$91,$99,$10,$CC,$54
-		.BYTE	$3E,$BE,$0A,$FD,$9D,$10,$46,$3C,$4A,$3B,$0B,$3D,$3A,$FE,$C0,$E7
-		.BYTE	$10,$BA,$3C,$49,$47,$0A,$FD,$FF
-byte_3A129:
-		.BYTE	$BB,$31,$FE,$BF,$D2,$24,$E9,$54,$0B,$49,$3A,$96,$FE,$AB,$BA,$8B
-		.BYTE	$0A,$FD,$FF
-byte_3A13C:
-		.BYTE	$BC,$31,$FE,$DE,$10,$46,$40,$46,$40,$EE,$36,$47,$10,$BA,$3E,$40
-		.BYTE	$8B,$FE,$D3,$42,$40,$42,$36,$3C,$47,$3B,$E7,$E2,$0F,$FD,$FF
-byte_3A15B:
-		.BYTE	$BB,$31,$FE,$20,$3C,$45,$45,$B6,$C1,$E0,$50,$3A,$3B,$E9,$49,$0C
-		.BYTE	$FE,$BC,$D2,$DE,$0B,$49,$3A,$10,$E5,$22,$36,$47,$50,$3A,$49,$0A
-		.BYTE	$FE,$FE,$FF
-byte_3A17E:
-		.BYTE	$BC,$31,$FE,$29,$3A,$36,$42,$E6,$CA,$3B,$42,$40,$3B,$42,$40,$3B
-		.BYTE	$42,$48,$4A,$3A,$FE,$CF,$50,$42,$40,$50,$42,$40,$99,$0A,$FD,$FF
-byte_3A19E:
-		.BYTE	$BB,$31,$FE,$DC,$39,$43,$39,$10,$ED,$D2,$11,$45,$45,$10,$BA,$99
-		.BYTE	$FE,$98,$39,$EC,$36,$52,$52,$3A,$36,$49,$10,$4A,$48,$F1,$0A,$FD
-		.BYTE	$FF
-byte_3A1BF:
-		.BYTE	$9D,$31,$FE,$14,$F1,$0B,$3B,$CE,$10,$94,$22,$48,$39,$3A,$47,$3B
-		.BYTE	$4A,$FE,$CC,$10,$45,$3A,$36,$49,$47,$0F,$FD,$FF
-byte_3A1DB:
-		.BYTE	$BC,$31,$FE,$25,$42,$10,$48,$42,$2C,$10,$10,$19,$3B,$0B,$4A,$10
-		.BYTE	$9D,$0A,$FD,$FF
-byte_3A1EF:
-		.BYTE	$BB,$31,$FE,$13,$48,$EE,$10,$DB,$10,$BE,$10,$CA,$41,$36,$38,$3A
-		.BYTE	$10,$3C,$4A,$0A,$FE,$90,$E5,$38,$36,$3B,$10,$F2,$10,$E5,$46,$48
-		.BYTE	$3C,$4A,$3A,$0A,$0F,$FD,$FF
-byte_3A216:
-		.BYTE	$9D,$31,$FE,$EF,$3B,$10,$4A,$48,$10,$41,$D4,$E6,$95,$0A,$FD,$19
-		.BYTE	$41,$CE,$10,$39,$CF,$3B,$48,$10,$41,$36,$38,$3A,$10,$EE,$0C,$FE
-		.BYTE	$B3,$3B,$48,$10,$BA,$36,$46,$3C,$4A,$3A,$EE,$47,$3B,$A7,$FE,$19
-		.BYTE	$B9,$DF,$3E,$36,$ED,$D5,$0A,$FD,$FF
-byte_3A24F:
-		.BYTE	$BC,$31,$FE,$1F,$48,$42,$10,$B5,$9D,$0A,$FE,$DC,$50,$48,$3B,$3B
-		.BYTE	$E5,$4A,$3B,$48,$52,$10,$42,$43,$46,$0A,$FD,$FF
-byte_3A26B:
-		.BYTE	$BB,$31,$FE,$27,$36,$ED,$E6,$BC,$0A,$FE,$19,$3B,$10,$4A,$EE,$45
-		.BYTE	$45,$4A,$10,$45,$43,$44,$3A,$10,$E5,$3B,$49,$36,$52,$E0,$10,$EE
-		.BYTE	$0A,$FD,$FF
-byte_3A28E:
-		.BYTE	$9D,$31,$FE,$DE,$0B,$49,$3A,$10,$E8,$48,$EE,$39,$0C,$FE,$94,$95
-		.BYTE	$0A,$FD,$19,$10,$38,$F1,$3B,$49,$48,$45,$FE,$C3,$10,$3A,$47,$3B
-		.BYTE	$43,$49,$89,$A7,$FE,$DE,$B9,$47,$CC,$10,$38,$36,$52,$3B,$3C,$49
-		.BYTE	$3A,$10,$EE,$0A,$FD,$FF
-byte_3A2C4:
-		.BYTE	$BC,$31,$FE,$1F,$42,$10,$54,$3A,$36,$42,$0F,$FE,$14,$F1,$0B,$3B
-		.BYTE	$10,$37,$3A,$3B,$10,$F1,$10,$ED,$E6,$9D,$0A,$FD,$FF
-byte_3A2E1:
-		.BYTE	$9D,$31,$FE,$18,$36,$D2,$DE,$10,$47,$3A,$E7,$10,$3B,$42,$49,$3A
-		.BYTE	$3A,$10,$44,$3A,$54,$4A,$FE,$3B,$48,$10,$3A,$47,$3B,$3A,$49,$10
-		.BYTE	$E3,$38,$F1,$3B,$49,$48,$45,$10,$49,$48,$48,$46,$0C,$FD,$CA,$3B
-		.BYTE	$E9,$54,$0B,$49,$3A,$10,$36,$45,$45,$10,$42,$43,$39,$39,$3A,$47
-		.BYTE	$FE,$EB,$10,$39,$EA,$41,$3A,$49,$3A,$47,$3B,$10,$52,$36,$49,$3B
-		.BYTE	$4A,$FE,$E4,$BA,$52,$36,$49,$44,$D2,$18,$36,$3D,$3A,$10,$41,$3C
-		.BYTE	$47,$0A,$FD,$FF
-byte_3A345:
-		.BYTE	$BC,$31,$FE,$27,$3A,$C8,$50,$48,$3B,$E0,$10,$50,$3A,$3B,$10,$BA
-		.BYTE	$44,$3A,$54,$4A,$0A,$FD,$FF
-byte_3A35C:
-		.BYTE	$93,$31,$FE,$22,$CD,$48,$E6,$BC,$0A,$FE,$27,$BE,$10,$98,$F4,$E1
-		.BYTE	$A6,$0F,$FD,$10,$0E,$82,$FE,$10,$10,$83,$FE,$10,$10,$84,$FE,$FF
-byte_3A37C:
-		.BYTE	$93,$31,$FE,$90,$C2,$0F,$FE,$10,$0E,$29,$3A,$4A,$10,$10,$EF,$FE
-		.BYTE	$FF
-byte_3A38D:
-		.BYTE	$BB,$31,$FE,$9A,$50,$48,$E0,$10,$3B,$E9,$FE,$80,$A6,$0A,$FD,$FF
-byte_3A39D:
-		.BYTE	$9E,$31,$FE,$DC,$41,$48,$3C,$47,$39,$10,$BA,$44,$3A,$54,$0A,$FE
-		.BYTE	$27,$BE,$E0,$10,$47,$3A,$3F,$3B,$0A,$0F,$FD,$10,$0E,$80,$FE,$10
-		.BYTE	$10,$81,$FE,$FF
-byte_3A3C1:
-		.BYTE	$BC,$31,$FE,$80,$0A,$10,$18,$3C,$49,$49,$54,$0A,$FD,$FF
-byte_3A3CF:
-		.BYTE	$93,$31,$FE,$27,$3A,$C8,$50,$48,$3B,$10,$3B,$3E,$48,$10,$44,$3A
-		.BYTE	$54,$4A,$0A,$FD,$24,$42,$36,$3B,$10,$EE,$36,$47,$4A,$10,$BA,$45
-		.BYTE	$D4,$10,$DA,$FE,$A9,$DF,$EB,$FE,$80,$0A,$FD,$FF
-byte_3A3FB:
-		.BYTE	$BB,$31,$FE,$22,$CD,$D2,$9A,$50,$48,$0A,$FD,$FF
-byte_3A407:
-		.BYTE	$BB,$31,$FE,$23,$42,$42,$42,$0A,$FE,$9D,$10,$D3,$49,$CD,$10,$EB
-		.BYTE	$4A,$43,$39,$3A,$0A,$FD,$FF
-byte_3A41E:
-		.BYTE	$9E,$31,$FE,$9A,$3C,$4A,$3A,$10,$BA,$44,$3A,$54,$4A,$0A,$FD,$FF
-byte_3A42E:
-		.BYTE	$9F,$31,$FE,$F5,$10,$E2,$10,$F5,$FD,$FF
-byte_3A438:
-		.BYTE	$BB,$31,$FE,$19,$3B,$0B,$4A,$10,$3C,$47,$45,$48,$38,$44,$E7,$0A
-		.BYTE	$FE,$1F,$52,$3A,$47,$10,$BA,$E8,$F2,$0A,$FD,$FF
-byte_3A454:
-		.BYTE	$BB,$31,$FE,$27,$3A,$C8,$50,$48,$3B,$CE,$10,$D8,$E6,$9D,$0A,$FE
-		.BYTE	$24,$E9,$10,$94,$95,$10,$CF,$BE,$0A,$FD,$FF
-byte_3A46F:
-		.BYTE	$BC,$31,$FE,$18,$3A,$54,$D2,$18,$3A,$0B,$4A,$E1,$47,$3A,$0A,$FE
-		.BYTE	$27,$BE,$0B,$39,$10,$E9,$E1,$0A,$0F,$FD,$FF
-byte_3A48A:
-		.BYTE	$9E,$31,$FE,$BF,$E6,$CC,$54,$DA,$0A,$FE,$11,$10,$4A,$3A,$38,$49
-		.BYTE	$3A,$3B,$10,$52,$36,$4A,$4A,$36,$50,$3A,$D2,$9A,$50,$48,$0A,$FD
-		.BYTE	$FF
-byte_3A4AB:
-		.BYTE	$BB,$31,$FE,$12,$3A,$10,$38,$36,$49,$3A,$41,$3C,$45,$D2,$AF,$A3
-		.BYTE	$FE,$DF,$48,$3C,$49,$10,$45,$D4,$10,$4A,$3B,$36,$47,$39,$0A,$FD
-		.BYTE	$FF
-byte_3A4CC:
-		.BYTE	$FE,$9A,$50,$48,$10,$94,$95,$0A,$FD,$FF
-byte_3A4D6:
-		.BYTE	$9D,$31,$FE,$8F,$10,$94,$95,$0A,$FE,$19,$C8,$37,$3A,$3A,$47,$10
-		.BYTE	$3E,$36,$ED,$D5,$C9,$CE,$0A,$FD,$FF
-byte_3A4EF:
-		.BYTE	$BB,$31,$FE,$DE,$B9,$47,$CC,$10,$50,$3A,$3B,$10,$36,$3E,$36,$54
-		.BYTE	$0C,$FE,$9D,$0A,$FD,$FF
-byte_3A505:
-		.BYTE	$BC,$31,$FE,$23,$3C,$49,$49,$3A,$47,$39,$3A,$49,$0A,$FD,$FF
-byte_3A514:
-		.BYTE	$9D,$31,$FE,$DE,$B9,$47,$CC,$10,$39,$3A,$41,$3A,$36,$3B,$10,$EE
-		.BYTE	$0C,$FE,$94,$95,$0A,$FD,$19,$10,$BD,$10,$BA,$3C,$45,$3B,$43,$46
-		.BYTE	$36,$3B,$3A,$10,$F4,$36,$52,$F1,$31,$FE,$BA,$9D,$10,$22,$48,$37
-		.BYTE	$48,$3B,$0A,$FD,$FF
-byte_3A549:
-		.BYTE	$BC,$31,$FE,$14,$43,$39,$CE,$10,$E9,$36,$49,$B1,$3B,$42,$D5,$0A
-		.BYTE	$0F,$FD,$FF
-byte_3A55C:
-		.BYTE	$BB,$31,$FE,$BF,$10,$DB,$8A,$FD,$FF
-byte_3A565:
-		.BYTE	$93,$31,$FE,$24,$E9,$10,$38,$3A,$43,$45,$D5,$0A,$FE,$23,$E9,$0B
-		.BYTE	$4A,$10,$50,$43,$3D,$D5,$10,$3E,$36,$54,$0A,$FD,$FF
-byte_3A582:
-		.BYTE	$BB,$31,$FE,$17,$9B,$10,$38,$48,$3D,$3A,$49,$E6,$CC,$54,$DA,$0A
-		.BYTE	$FD,$BC,$10,$CA,$19,$A8,$3B,$49,$36,$38,$44,$FE,$9D,$0A,$FD,$FF
-byte_3A5A2:
-		.BYTE	$93,$31,$FE,$24,$36,$44,$3A,$10,$38,$CF,$E4,$54,$48,$3C,$49,$4A
-		.BYTE	$3A,$45,$3D,$3A,$4A,$0A,$FD,$FF
-byte_3A5BA:
-		.BYTE	$93,$31,$FE,$BB,$10,$CA,$BC,$10,$CF,$3B,$49,$36,$52,$52,$E7,$FE
-		.BYTE	$EB,$4A,$43,$39,$3A,$0A,$FD,$27,$3A,$C8,$45,$48,$4A,$3B,$10,$BA
-		.BYTE	$45,$36,$39,$4A,$C9,$CC,$2C,$FD,$FF
-byte_3A5E3:
-		.BYTE	$9E,$31,$FE,$BB,$D2,$BC,$0A,$FE,$24,$42,$36,$47,$44,$E1,$48,$39
-		.BYTE	$47,$3A,$4A,$4A,$CE,$0B,$49,$3A,$10,$4A,$36,$41,$3A,$0A,$FD,$FF
-byte_3A603:
-		.BYTE	$BB,$31,$FE,$DC,$36,$45,$46,$48,$4A,$3B,$10,$39,$43,$39,$D9,$10
-		.BYTE	$46,$36,$44,$3A,$10,$ED,$0A,$FD,$FF
-byte_3A61C:
-		.BYTE	$BC,$31,$FE,$11,$47,$39,$10,$F4,$10,$47,$CC,$10,$39,$43,$39,$10
-		.BYTE	$38,$36,$52,$3B,$3C,$49,$3A,$FE,$9D,$2C,$FD,$18,$3A,$10,$A9,$4A
-		.BYTE	$3B,$43,$45,$45,$FE,$DF,$3B,$49,$36,$52,$52,$E7,$10,$EB,$4A,$43
-		.BYTE	$39,$3A,$2C,$FD,$FF
-byte_3A651:
-		.BYTE	$9E,$31,$FE,$12,$F3,$10,$EA,$10,$19,$10,$44,$D8,$10,$9D,$E6,$E9
-		.BYTE	$10,$42,$36,$39,$FE,$42,$D3,$9C,$10,$F4,$45,$45,$10,$52,$45,$36
-		.BYTE	$47,$47,$E7,$2C,$FD,$FF
-byte_3A677:
-		.BYTE	$93,$31,$FE,$27,$3A,$45,$45,$E6,$EA,$10,$D7,$42,$D5,$10,$3A,$45
-		.BYTE	$4A,$3A,$0C,$FD,$F4,$B2,$FE,$B5,$37,$45,$CD,$3A,$49,$0B,$4A,$10
-		.BYTE	$45,$EA,$3A,$FE,$E5,$45,$ED,$3B,$45,$3A,$10,$B8,$10,$38,$3C,$4A
-		.BYTE	$42,$54,$E6,$3A,$42,$0F,$FD,$FF
-byte_3A6AF:
-		.BYTE	$BC,$31,$FE,$DE,$10,$4A,$36,$43,$39,$10,$ED,$0A,$FD,$FF
-byte_3A6BD:
-		.BYTE	$9E,$31,$FE,$11,$47,$39,$10,$EA,$FE,$E9,$10,$CC,$10,$4A,$42,$48
-		.BYTE	$3E,$4A,$10,$3C,$52,$10,$36,$50,$36,$EB,$E2,$FD,$FF
-byte_3A6DA:
-		.BYTE	$BB,$31,$FE,$24,$E9,$47,$10,$19,$10,$50,$3C,$3A,$4A,$4A,$10,$F4
-		.BYTE	$B9,$51,$3C,$4A,$3B,$10,$BD,$FE,$3B,$48,$10,$3B,$3A,$36,$38,$42
-		.BYTE	$10,$42,$43,$46,$10,$36,$D7,$E9,$49,$10,$B8,$F1,$0A,$FD,$22,$CD
-		.BYTE	$10,$95,$0F,$0A,$FD,$FF
-byte_3A710:
-		.BYTE	$FE,$22,$CD,$D2,$27,$36,$3B,$38,$42,$10,$DB,$E6,$9D,$0A,$FD,$FE
-		.BYTE	$27,$3A,$0B,$49,$3A,$10,$BA,$94,$95,$0A,$FD,$FF
+
+		SECTION_START	03
+
+#if LANGUAGE = LANG_EN
+
+_dictionary:
+		DICT_REC	_dict80
+		DICT_REC	_dict81
+		DICT_REC	_Clock_Tower
+		DICT_REC	_Western__World
+		DICT_REC	_Future_World
+		DICT_REC	_There_s_no_Time
+		DICT_REC	_Water_Rabbit
+		DICT_REC	_Newscaster
+		DICT_REC	_restaurant
+		DICT_REC	_e_amusement
+		DICT_REC	__everyone
+		DICT_REC	_warehouse
+		DICT_REC	__downtown
+		DICT_REC	__give_you
+		DICT_REC	I_think_I
+		DICT_REC	_Welcome
+		DICT_REC	_Are_you_
+		DICT_REC	_There_s_
+		DICT_REC	_through_
+		DICT_REC	_Monterey
+		DICT_REC	_Rescue_
+		DICT_REC	_Rangers
+		DICT_REC	__coming
+		DICT_REC	__prison
+		DICT_REC	_should_
+		DICT_REC	_ghosts
+		DICT_REC	_Let_s_
+		DICT_REC	_o_find
+		DICT_REC	_escape
+		DICT_REC	_Fatcat
+		DICT_REC	_Gadget
+		DICT_REC	_Zipper
+		DICT_REC	__stop_
+		DICT_REC	__time_
+		DICT_REC	__found
+		DICT_REC	_could_
+		DICT_REC	_help_dot
+		DICT_REC	_about_
+		DICT_REC	__first
+		DICT_REC	__park_exc
+		DICT_REC	__will_
+		DICT_REC	_must_
+		DICT_REC	__bomb
+		DICT_REC	_from_
+		DICT_REC	_Let_s
+		DICT_REC	__trap
+		DICT_REC	_Woah_exc
+		DICT_REC	_This_
+		DICT_REC	__got_
+		DICT_REC	__some
+		DICT_REC	__made
+		DICT_REC	_come_
+		DICT_REC	_dictB4
+		DICT_REC	_that_
+		DICT_REC	__your
+		DICT_REC	__has
+		DICT_REC	_less
+		DICT_REC	_apo_ll_
+		DICT_REC	_the_
+		DICT_REC	_Chip
+		DICT_REC	_Dale
+		DICT_REC	_have
+		DICT_REC	_here
+		DICT_REC	_Look
+		DICT_REC	_open
+		DICT_REC	_self
+		DICT_REC	_sure
+		DICT_REC	_this
+		DICT_REC	_What
+		DICT_REC	_with
+		DICT_REC	__can
+		DICT_REC	__say
+		DICT_REC	_apo_ve_
+		DICT_REC	__for
+		DICT_REC	_and_
+		DICT_REC	_any_
+		DICT_REC	_ever
+		DICT_REC	_ight
+		DICT_REC	__you
+		DICT_REC	_are_
+		DICT_REC	_dictD0
+		DICT_REC	__cut
+		DICT_REC	_exc__
+		DICT_REC	_is_
+		DICT_REC	_ast
+		DICT_REC	_ing
+		DICT_REC	_lue
+		DICT_REC	_not
+		DICT_REC	_now
+		DICT_REC	_n_apo_t
+		DICT_REC	_one
+		DICT_REC	_out
+		DICT_REC	_We_
+		DICT_REC	_was
+		DICT_REC	_You
+		DICT_REC	_be_
+		DICT_REC	__to
+		DICT_REC	__go
+		DICT_REC	_dot_dot_dot
+		DICT_REC	_my_
+		DICT_REC	_of_
+		DICT_REC	_a_
+		DICT_REC	_col_
+		DICT_REC	_ed
+		DICT_REC	_do
+		DICT_REC	_he
+		DICT_REC	_if
+		DICT_REC	_in
+		DICT_REC	_is
+		DICT_REC	_it
+		DICT_REC	_me
+		DICT_REC	_No
+		DICT_REC	_no
+		DICT_REC	_on
+		DICT_REC	_or
+		DICT_REC	_ut
+		DICT_REC	_we
+		DICT_REC	_dot_dot
+
+; 2 RAM buffer slots
+; 9 free slots
+; 119 used slots
+; 128 total slots
+
+		DICT_DATA	_Clock_Tower
+		.BYTE	_C,_l,_o,_c,_k,__,_T,_o,_w,_e,_r,_EOL
+		DICT_DATA	_Western__World
+		.BYTE	_W,_e,_s,_t,_e,_r,_n,__,_W,_o,_r,_l,_d,_EOL
+		DICT_DATA	_Future_World
+		.BYTE	_F,_u,_t,_u,_r,_e,__,_W,_o,_r,_l,_d,_EOL
+		DICT_DATA	_There_s_no_Time
+		.BYTE	_T,_h,_e,_r,_e,_apo,_s,__,_n,_o,__,_t,_i,_m,_e,__,_EOL
+		DICT_DATA	_Water_Rabbit
+		.BYTE	_W,_a,_t,_e,_r,__,_R,_a,_b,_b,_i,_t,_lqo,_EOL
+		DICT_DATA	_Newscaster
+		.BYTE	_N,_e,_w,_s,_c,_a,_s,_t,_e,_r,_lqo,_EOL
+		DICT_DATA	_restaurant
+		.BYTE	__,_r,_e,_s,_t,_a,_u,_r,_a,_n,_t,_EOL
+		DICT_DATA	_e_amusement
+		.BYTE	_e,__,_a,_m,_u,_s,_e,_m,_e,_n,_t,_EOL
+		DICT_DATA	__everyone
+		.BYTE	__,_e,_v,_e,_r,_y,_o,_n,_e,_exc,_EOL
+		DICT_DATA	_warehouse
+		.BYTE	_w,_a,_r,_e,_h,_o,_u,_s,_e,_EOL
+		DICT_DATA	__downtown
+		.BYTE	__,_d,_o,_w,_n,_t,_o,_w,_n,_EOL
+		DICT_DATA	__give_you
+		.BYTE	__,_g,_i,_v,_e,__,_y,_o,_u,_EOL
+		DICT_DATA	I_think_I
+		.BYTE	_I,__,_t,_h,_i,_n,_k,__,_I,_EOL
+		DICT_DATA	_Welcome
+		.BYTE	_W,_e,_l,_c,_o,_m,_e,_col,_EOL
+		DICT_DATA	_Are_you_
+		.BYTE	_A,_r,_e,__,_y,_o,_u,__,_EOL
+		DICT_DATA	_There_s_
+		.BYTE	_T,_h,_e,_r,_e,_apo,_s,__,_EOL
+		DICT_DATA	_through_
+		.BYTE	_t,_h,_r,_o,_u,_g,_h,__,_EOL
+		DICT_DATA	_Monterey
+		.BYTE	_M,_o,_n,_t,_e,_r,_e,_y,_EOL
+		DICT_DATA	_Rescue_
+		.BYTE	_R,_e,_s,_c,_u,_e,__,_EOL
+		DICT_DATA	_Rangers
+		.BYTE	_R,_a,_n,_g,_e,_r,_s,_EOL
+		DICT_DATA	__coming
+		.BYTE	__,_c,_o,_m,_i,_n,_g,_EOL
+		DICT_DATA	__prison
+		.BYTE	__,_p,_r,_i,_s,_o,_n,_EOL
+		DICT_DATA	_should_
+		.BYTE	_s,_h,_o,_u,_l,_d,__,_EOL
+		DICT_DATA	_ghosts
+		.BYTE	_g,_h,_o,_s,_t,_s,_EOL
+		DICT_DATA	_Let_s_
+		.BYTE	_L,_e,_t,_apo,_s,__,_EOL
+		DICT_DATA	_o_find
+		.BYTE	_o,__,_f,_i,_n,_d,_EOL
+		DICT_DATA	_escape
+		.BYTE	_e,_s,_c,_a,_p,_e,_EOL
+		DICT_DATA	_Fatcat
+		.BYTE	_F,_a,_t,_c,_a,_t,_EOL
+		DICT_DATA	_Gadget
+		.BYTE	_G,_a,_d,_g,_e,_t,_EOL
+		DICT_DATA	_Zipper
+		.BYTE	_Z,_i,_p,_p,_e,_r,_EOL
+		DICT_DATA	__stop_
+		.BYTE	__,_s,_t,_o,_p,__,_EOL
+		DICT_DATA	__time_
+		.BYTE	__,_t,_i,_m,_e,__,_EOL
+		DICT_DATA	__found
+		.BYTE	__,_f,_o,_u,_n,_d,_EOL
+		DICT_DATA	_could_
+		.BYTE	_c,_o,_u,_l,_d,__,_EOL
+		DICT_DATA	_help_dot
+		.BYTE	__,_h,_e,_l,_p,_dot,_EOL
+		DICT_DATA	_about_
+		.BYTE	_a,_b,_o,_u,_t,__,_EOL
+		DICT_DATA	__first
+		.BYTE	__,_f,_i,_r,_s,_t,_EOL
+		DICT_DATA	__park_exc
+		.BYTE	__,_p,_a,_r,_k,_exc,_EOL
+		DICT_DATA	__will_
+		.BYTE	__,_w,_i,_l,_l,__,_EOL
+		DICT_DATA	_must_
+		.BYTE	_m,_u,_s,_t,__,_EOL
+		DICT_DATA	__bomb
+		.BYTE	__,_b,_o,_m,_b,_EOL
+		DICT_DATA	_from_
+		.BYTE	_f,_r,_o,_m,__,_EOL
+		DICT_DATA	_Let_s
+		.BYTE	_L,_e,_t,_apo,_s,_EOL
+		DICT_DATA	__trap
+		.BYTE	__,_t,_r,_a,_p,_EOL
+		DICT_DATA	_Woah_exc
+		.BYTE	_W,_o,_a,_h,_exc,_EOL
+		DICT_DATA	_This_
+		.BYTE	_T,_h,_i,_s,__,_EOL
+		DICT_DATA	__got_
+		.BYTE	__,_g,_o,_t,__,_EOL
+		DICT_DATA	__some
+		.BYTE	__,_s,_o,_m,_e,_EOL
+		DICT_DATA	__made
+		.BYTE	__,_m,_a,_d,_e,_EOL
+		DICT_DATA	_come_
+		.BYTE	_c,_o,_m,_e,__,_EOL
+; unused entry, same as __some!
+		DICT_DATA	_dictB4
+;
+		.BYTE	__,_s,_o,_m,_e,_EOL
+		DICT_DATA	_that_
+		.BYTE	_t,_h,_a,_t,__,_EOL
+		DICT_DATA	__your
+		.BYTE	__,_y,_o,_u,_r,_EOL
+		DICT_DATA	__has
+		.BYTE	__,_h,_a,_s,_EOL
+		DICT_DATA	_less
+		.BYTE	_l,_e,_s,_s,_EOL
+		DICT_DATA	_apo_ll_
+		.BYTE	_apo,_l,_l,__,_EOL
+		DICT_DATA	_the_
+		.BYTE	_t,_h,_e,__,_EOL
+		DICT_DATA	_Chip
+		.BYTE	_C,_h,_i,_p,_EOL
+		DICT_DATA	_Dale
+		.BYTE	_D,_a,_l,_e,_EOL
+		DICT_DATA	_have
+		.BYTE	_h,_a,_v,_e,_EOL
+		DICT_DATA	_here
+		.BYTE	_h,_e,_r,_e,_EOL
+		DICT_DATA	_Look
+		.BYTE	_L,_o,_o,_k,_EOL
+		DICT_DATA	_open
+		.BYTE	_o,_p,_e,_n,_EOL
+		DICT_DATA	_self
+		.BYTE	_s,_e,_l,_f,_EOL
+		DICT_DATA	_sure
+		.BYTE	_s,_u,_r,_e,_EOL
+		DICT_DATA	_this
+		.BYTE	_t,_h,_i,_s,_EOL
+		DICT_DATA	_What
+		.BYTE	_W,_h,_a,_t,_EOL
+		DICT_DATA	_with
+		.BYTE	_w,_i,_t,_h,_EOL
+		DICT_DATA	__can
+		.BYTE	__,_c,_a,_n,_EOL
+		DICT_DATA	__say
+		.BYTE	__,_s,_a,_y,_EOL
+		DICT_DATA	_apo_ve_
+		.BYTE	_apo,_v,_e,__,_EOL
+		DICT_DATA	__for
+		.BYTE	__,_f,_o,_r,_EOL
+		DICT_DATA	_and_
+		.BYTE	_a,_n,_d,__,_EOL
+		DICT_DATA	_any_
+		.BYTE	_a,_n,_y,__,_EOL
+		DICT_DATA	_ever
+		.BYTE	_e,_v,_e,_r,_EOL
+		DICT_DATA	_ight
+		.BYTE	_i,_g,_h,_t,_EOL
+		DICT_DATA	__you
+		.BYTE	__,_y,_o,_u,_EOL
+		DICT_DATA	_are_
+		.BYTE	_a,_r,_e,__,_EOL
+; copy of _can entry, unused
+		DICT_DATA	_dictD0
+;
+		.BYTE	__,_c,_a,_n,_EOL
+		DICT_DATA	__cut
+		.BYTE	__,_c,_u,_t,_EOL
+		DICT_DATA	_exc__
+		.BYTE	_exc,__,__,_EOL
+		DICT_DATA	_is_
+		.BYTE	_i,_s,__,_EOL
+		DICT_DATA	_ast
+		.BYTE	_a,_s,_t,_EOL
+		DICT_DATA	_ing
+		.BYTE	_i,_n,_g,_EOL
+		DICT_DATA	_lue
+		.BYTE	_l,_u,_e,_EOL
+		DICT_DATA	_not
+		.BYTE	_n,_o,_t,_EOL
+		DICT_DATA	_now
+		.BYTE	_n,_o,_w,_EOL
+		DICT_DATA	_n_apo_t
+		.BYTE	_n,_apo,_t,_EOL
+		DICT_DATA	_one
+		.BYTE	_o,_n,_e,_EOL
+		DICT_DATA	_out
+		.BYTE	_o,_u,_t,_EOL
+		DICT_DATA	_We_
+		.BYTE	_W,_e,__,_EOL
+		DICT_DATA	_was
+		.BYTE	_w,_a,_s,_EOL
+		DICT_DATA	_You
+		.BYTE	_Y,_o,_u,_EOL
+		DICT_DATA	_be_
+		.BYTE	_b,_e,__,_EOL
+		DICT_DATA	__to
+		.BYTE	__,_t,_o,_EOL
+		DICT_DATA	__go
+		.BYTE	__,_g,_o,_EOL
+		DICT_DATA	_dot_dot_dot
+		.BYTE	_dot,_dot,_dot,_EOL
+		DICT_DATA	_my_
+		.BYTE	_m,_y,__,_EOL
+		DICT_DATA	_of_
+		.BYTE	_o,_f,__,_EOL
+		DICT_DATA	_a_
+		.BYTE	_a,__,_EOL
+		DICT_DATA	_col_
+		.BYTE	_col,__,_EOL
+		DICT_DATA	_ed
+		.BYTE	_e,_d,_EOL
+		DICT_DATA	_do
+		.BYTE	_d,_o,_EOL
+		DICT_DATA	_he
+		.BYTE	_h,_e,_EOL
+		DICT_DATA	_if
+		.BYTE	_i,_f,_EOL
+		DICT_DATA	_in
+		.BYTE	_i,_n,_EOL
+		DICT_DATA	_is
+		.BYTE	_i,_s,_EOL
+		DICT_DATA	_it
+		.BYTE	_i,_t,_EOL
+		DICT_DATA	_me
+		.BYTE	_m,_e,_EOL
+		DICT_DATA	_No
+		.BYTE	_N,_o,_EOL
+		DICT_DATA	_no
+		.BYTE	_n,_o,_EOL
+		DICT_DATA	_on
+		.BYTE	_o,_n,_EOL
+		DICT_DATA	_or
+		.BYTE	_o,_r,_EOL
+		DICT_DATA	_ut
+		.BYTE	_u,_t,_EOL
+		DICT_DATA	_we
+		.BYTE	_w,_e,_EOL
+		DICT_DATA	_dot_dot
+		.BYTE	_dot,_dot,_EOL
+; empty available entries
+;		DICT_DATA	_dictF6
+;		DICT_DATA	_dictF7
+;		DICT_DATA	_dictF8
+;		DICT_DATA	_dictF9
+;		DICT_DATA	_dictFA
+;		DICT_DATA	_dictFB
+;		DICT_DATA	_dictFC
+
+_msg00:
+		.BYTE	_Newscaster,_RET,_S,_p,_e,_c,_i,_a,_l,__,_B,_u,_l,_l,_e,_t
+		.BYTE	_in,_lqo,_WAIT,_P,_o,_l,_i,_c,_e,__say,_RET,_a_,_do,_w,_n,_t
+		.BYTE	_o,_w,_n,_restaurant,__has,_RET,_r,_e,_c,_e,_i,_v,_ed,__,_a_,_b
+		.BYTE	_o,_m,_b,__,_t,_h,_r,_e,_a,_t,_dot,_WAIT,_U,_n,_less,__
+		.BYTE	_the_,_t,_i,_me,__bomb,__can,_RET,_be_,_f,_o,_u,_n,_d,_col_,_the_,_r
+		.BYTE	_e,_s,_t,_a,_u,_r,_a,_n,_t,_RET,_could_,_be_,_d,_e,_s,_t
+		.BYTE	_r,_o,_y,_ed,_dot,_WAIT,_STOP
+_msg01:
+		.BYTE	_Chip,_lqo,_RET,_Woah_exc,__,__,_A,__time_,_b,_o,_m,_b,_exc,_WAIT,_STOP
+_msg02:
+		.BYTE	_Gadget,_lqo,_RET,_Chip,_exc__,_What,__,_is_,_it,_que,_WAIT,_STOP
+_msg03:
+		.BYTE	_Chip,_lqo,_RET,_There_s_,_a_,_t,_i,_me,__bomb,_RET,_in,__,_a_,_r,_e,_s
+		.BYTE	_t,_a,_u,_r,_a,_n,_t,__downtown,_exc,_WAIT,_W,_e,_apo_ve_,_g,_o,_t
+		.BYTE	__to,__,_f,_in,_d,__,_it,_exc,_WAIT,_STOP
+_msg04:
+		.BYTE	_Gadget,_lqo,_RET,_This_,_is_,_a,_n,__,_e,_me,_r,_g,_e,_n,_c,_y
+		.BYTE	_exc,_WAIT,_There_s_no_Time,_t,_o,__,_was,_t,_e,_exc,_RET,_Let_s_,_g,_o,_col_,_M
+		.BYTE	_a,_t,_e,_s,_exc,_WAIT,_STOP
+_msg05:
+		.BYTE	_Chip,_lqo,_RET,_W,_e,_apo_ve_,_g,_o,_t,__,_a_,_b,_o,_m,_b,__to
+		.BYTE	__,_f,_in,_d,_exc,_WAIT,_STOP
+_msg06:
+		.BYTE	_Gadget,_lqo,_RET,_W,_e,_apo_ll_,_g,_o,__,_a,_he,_a,_d,_RET,_t,_o
+		.BYTE	__,_in,_v,_e,_s,_t,_i,_g,_a,_t,_e,_exc,_WAIT,_Look,__for,__
+		.BYTE	_u,_s,_RET,_and_,_we,_apo_ll_,_g,_i,_v,_e,__you,_RET,_any_,_c,_lue,_s
+		.BYTE	__,_we,_apo_ve_,_f,_o,_u,_n,_d,_dot,_WAIT,_STOP
+_msg07:
+		.BYTE	_Monterey,_lqo,_RET,_O,_r,__give_you,__some,_help_dot,_dot_dot,_WAIT,_N,_ever,__,_w,_o,_u
+		.BYTE	_l,_d,__,_o,_apo,__made,__,_it,_RET,_through_,_the_,_b,_a,_t,_t,_l
+		.BYTE	_e,__,_of_,_t,_he,_RET,_b,_r,_i,_e,__,_with,_out,__,_a_,_b
+		.BYTE	_it,__,_o,_apo,_help_dot,_WAIT,_A,_h,_h,_col_,_t,_h,_o,_s,_e,__
+		.BYTE	_we,_r,_e,__,_the_,_d,_a,_y,_s,_dsh,_dsh,_WAIT,_STOP
+_msg08:
+		.BYTE	_Zipper,_lqo,_RET,_dot_dot_dot,__,_dot_dot,__,_dot_dot_dot,_dot_dot,__,_dot_dot,_WAIT,_STOP
+_msg09:
+		.BYTE	_Chip,_lqo,_RET,_R,_ight,_col_,_Zipper,_exc,_RET,_There_s_no_Time,_t,_o,__,_l,_o,_s
+		.BYTE	_e,_exc,_WAIT,_Dale,_col_,_y,_o,_u,__,_come_,_with,__,_me,_exc,_WAIT,_STOP
+_msg0A:
+		.BYTE	_Dale,_lqo,_RET,_No,_w,_exc,_que,__,__,_B,_ut,__,_I,__,_was,__
+		.BYTE	_about_,_RET,_t,_o,__,_s,_t,_a,_r,_t,__,_my_,_a,_f,_t,_e
+		.BYTE	_r,_no,_on,__,_n,_a,_p,_exc,_WAIT,_STOP
+_msg0B:
+		.BYTE	_Chip,_lqo,_RET,_No,__can,__,_do,_col_,_Dale,_exc,_WAIT,_STOP
+_msg0C:
+		.BYTE	_Dale,_lqo,_RET,_O,_K,_col_,_P,_a,_r,_t,_n,_e,_r,_exc__,_Let_s_,_g
+		.BYTE	_o,_exc,_WAIT,_STOP
+_msg0D:
+		.BYTE	_RET,_Rescue_,_Rangers,__,_a,_w,_a,_y,_exc,_WAIT,_STOP
+_msg0E:
+		.BYTE	_Newscaster,_RET,_A,_l,_s,_o,__,_in,__,_the_,_n,_e,_w,_s,_dot_dot_dot,_WAIT
+		.BYTE	_Fatcat,_col,_RET,_the_,_not,_or,_i,_o,_u,_s,__,_f,_e,_l,_in,_e
+		.BYTE	__,_f,_e,_l,_on,_col,_WAIT,_escape,_d,__,_from_,_p,_r,_is,_on,_RET
+		.BYTE	_l,_ast,__,_n,_ight,_dot_dot_dot,_WAIT,_STOP
+_msg0F:
+		.BYTE	_Chip,_lqo,_RET,_A,_l,_l,__,_r,_ight,_col_,_s,_p,_i,_l,_l,__
+		.BYTE	_it,_exc,_RET,_W,_h,_o,__,_s,_e,_t,__,_the_,_t,_i,_me,__bomb
+		.BYTE	_que,_WAIT,_STOP
+_msg10:
+		.BYTE	_Water_Rabbit,_RET,_I,__,_d,_i,_d,_exc,_WAIT,_Fatcat,__,_a,_s,_k,_ed,__
+		.BYTE	_me,_RET,_t,_o,__,_c,_r,_e,_a,_t,_e,__,_a_,_d,_i,_v
+		.BYTE	_e,_r,_s,_i,_on,_col,_RET,_and_,_it,__,_w,_or,_k,_ed,_exc,_WAIT
+		.BYTE	_STOP
+_msg11:
+		.BYTE	_Dale,_lqo,_RET,_No,__,_w,_a,_y,_exc,_RET,_Fatcat,_apo,_s,__,_in,__prison
+		.BYTE	_exc,_WAIT,_STOP
+_msg12:
+		.BYTE	_Water_Rabbit,_RET,_No,_t,__,_any_,_m,_or,_e,_exc,_RET,_H,_e,__,_b,_r
+		.BYTE	_o,_k,_e,__,_out,__,_l,_ast,__,_n,_ight,_exc,_WAIT,_H,_e,_apo
+		.BYTE	_s,__,_p,_l,_a,_n,_n,_ing,__to,__,_s,_t,_e,_a,_l,_RET
+		.BYTE	_the_,_U,_r,_n,__,_of_,_the_,_P,_h,_a,_r,_a,_o,_h,_exc,_RET
+		.BYTE	_H,_e,__,_p,_r,_o,_b,_a,_b,_l,_y,__has,__,_it,__,_a
+		.BYTE	_l,_r,_e,_a,_d,_y,_exc,_WAIT,_You,_apo,_r,_e,__to,_o,__,_l
+		.BYTE	_a,_t,_e,_exc,_WAIT,_STOP
+_msg13:
+		.BYTE	_Chip,_lqo,_RET,_S,_o,__,_w,_here,_apo,_s,__,_the_,_b,_o,_m,_b
+		.BYTE	_exc,_que,_WAIT,_STOP
+_msg14:
+		.BYTE	_Water_Rabbit,_RET,_F,_in,_d,__,_it,__your,_self,_exc,_RET,_H,_a_,_h,_a_,_h
+		.BYTE	_a,_exc,_WAIT,_STOP
+_msg15:
+		.BYTE	_Chip,_lqo,_RET,_Gadget,_col,_RET,_have,__you,__found,__,_the_,_b,_o,_m,_b,_que
+		.BYTE	_WAIT,_STOP
+_msg16:
+		.BYTE	_Gadget,_lqo,_RET,_H,_e,_r,_e,_apo,_s,__,_the_,_b,_o,_m,_b,_exc
+		.BYTE	_WAIT,_Look,_col_,_it,__has,_RET,_b,_lue,__,_and_,_r,_ed,__,_w,_i,_r
+		.BYTE	_e,_s,__coming,_RET,_out,__,_of_,_it,_exc,_WAIT,_We_,_have,__to,__cut,_RET,_one
+		.BYTE	__,_of_,_the_,_w,_i,_r,_e,_s,_RET,_t,_o,__,_d,_e,_f,_u
+		.BYTE	_s,_e,__,_it,_exc,_WAIT,_STOP
+_msg17:
+		.BYTE	_Dale,_lqo,_RET,_B,_ut,_col_,_u,_h,_col_,_w,_h,_a,_t,__,_h,_a
+		.BYTE	_p,_p,_e,_n,_s,_RET,_if,__,_we,__cut,__,_the_,_w,_r,_on,_g
+		.BYTE	__,_one,_que,_WAIT,_STOP
+_msg18:
+		.BYTE	_Gadget,_lqo,_RET,_W,_e,_apo,_r,_e,__,_do,_o,_me,_d,_exc,_WAIT,_STOP
+_msg19:
+		.BYTE	_Dale,_lqo,_RET,_U,_h,__,_o,_h,_dot,_WAIT,_STOP
+_msg1A:
+		.BYTE	_Gadget,_lqo,_RET,_W,_h,_i,_c,_h,__,_one,__,_should_,_I,__cut,_que,_WAIT
+		.BYTE	_R,_ed,__,_or,__,_b,_lue,_que,__,__,_H,_u,_r,_r,_y,_exc
+		.BYTE	_RET,_RET,__,_rar,_R,_ed,__,__,_B,_lue,_RET,_STOP
+_msg1B:
+		.BYTE	_Gadget,_lqo,_RET,_Are_you_,_sure,_que,_RET,__,_rar,_Y,_e,_s,__,__,_No,_RET
+		.BYTE	_STOP
+_msg1C:
+		.BYTE	_Gadget,_lqo,_RET,_O,_K,_col_,_here,__go,_e,_s,_exc,_WAIT,_STOP
+_msg1D:
+		.BYTE	_RET,_B,_O,_O,_O,_O,_M,_exc,_exc,_exc,_WAIT,_STOP
+_msg1E:
+		.BYTE	_Gadget,_lqo,_RET,_J,_u,_s,_t,__,_k,_i,_d,_d,_ing,_dot,_RET,_We_
+		.BYTE	_c,_ut,__,_the_,_r,_ight,__,_one,_exc,_WAIT,_STOP
+_msg1F:
+		.BYTE	_Chip,_lqo,_RET,I_think_I,_apo,_m,__go,_n,_n,_a_,_f,_a,_in,_t,_exc,_WAIT
+		.BYTE	_STOP
+_msg20:
+		.BYTE	_Gadget,_lqo,_RET,_H,_e,_y,_exc__,_W,_here,_apo,_s,__,_Dale,_que,_WAIT,_STOP
+_msg21:
+		.BYTE	_Chip,_lqo,_RET,_O,_h,_col_,_he,__,_p,_a,_s,_s,_ed,__,_out,_dot
+		.BYTE	_WAIT,_STOP
+_msg22:
+		.BYTE	_Gadget,_lqo,_RET,_W,_he,_w,_exc__,_I,__,_g,_u,_e,_s,_s,_RET,_that_
+		.BYTE	_was,__,_the_,_r,_ight,__,_one,_dot,_WAIT,_STOP
+_msg23:
+		.BYTE	_Gadget,_lqo,_RET,_I,_t,__,_must_,_have,__,_b,_e,_e,_n,_RET,_a_,_f
+		.BYTE	_a,_k,_e,__bomb,_dot,_WAIT,_STOP
+_msg24:
+		.BYTE	_Chip,_lqo,_RET,_H,_u,_r,_r,_y,_exc__,_Fatcat,_apo,_s,__,_do,_n,_e
+		.BYTE	__,_s,_t,_o,_l,_e,_n,_RET,_the_,_U,_r,_n,__,_of_,_the_,_P
+		.BYTE	_h,_a,_r,_a,_o,_h,_exc,_WAIT,_I,_t,_apo,_s,__,_on,__,_a_
+		.BYTE	_s,_h,_i,_p,_RET,_about_,_t,_o,__,_l,_e,_a,_v,_e,__,_p
+		.BYTE	_or,_t,_exc,_WAIT,_STOP
+_msg25:
+		.BYTE	_Gadget,_lqo,_RET,_No,_w,__,_w,_h,_a,_t,__,_do,_e,_s,__,_Fatcat
+		.BYTE	__,_w,_a,_n,_t,_RET,_with,__,_the_,_U,_r,_n,__,_of_,_the_,_P
+		.BYTE	_h,_a,_r,_a,_o,_h,_que,_WAIT,_STOP
+_msg26:
+		.BYTE	_Chip,_lqo,_RET,_W,_h,_o,__,_k,_now,_s,_que,_WAIT,_W,_e,_apo_ve_,_j
+		.BYTE	_u,_s,_t,__got_,_RET,_t,_o,__,_g,_e,_t,__,_it,__,_b,_a
+		.BYTE	_c,_k,_exc,_WAIT,_STOP
+_msg27:
+		.BYTE	_Dale,_lqo,_RET,_T,_he,__,_U,_r,_n,__,_of_,_the_,_P,_h,_a,_r
+		.BYTE	_a,_o,_h,_RET,_is_,_m,_is,_s,_ing,_WAIT,_and_,_we,__,_do,_n_apo_t,__
+		.BYTE	_have,__,_any_,_l,_e,_a,_d,_s,_exc,_WAIT,_STOP
+_msg28:
+		.BYTE	_Zipper,_lqo,_RET,_dot_dot_dot,_dot_dot,__,_dot_dot_dot,__,_dot_dot_dot,_dot_dot,__,_dot_dot,_WAIT,_STOP
+_msg29:
+		.BYTE	_Chip,_lqo,_RET,_M,_on,_t,_e,_y,_exc,_RET,_What,_apo,_s,__,_Zipper,__say
+		.BYTE	_ing,_exc,_que,_WAIT,_STOP
+_msg2A:
+		.BYTE	_Monterey,_lqo,_RET,_W,_e,_l,_l,_col_,_l,_u,_v,_col_,_he,__say,_s,_WAIT
+		.BYTE	_that_,_Fatcat,__,_and_,_h,_is_,_he,_n,_c,_h,_me,_n,_RET,_he,_a,_d
+		.BYTE	_ed,__,_in,_t,_o,__,_a_,_warehouse,_RET,_b,_y,__,_the_,_do,_c,_k
+		.BYTE	_s,_exc,_WAIT,_STOP
+_msg2B:
+		.BYTE	_Chip,_lqo,_RET,_R,_e,_a,_l,_l,_y,_que,_RET,_Are_you_,_sure,_col_,_Zipper,_que
+		.BYTE	_WAIT,_STOP
+_msg2C:
+		.BYTE	_Zipper,_lqo,_RET,_dot_dot_dot,_WAIT,_STOP
+_msg2D:
+		.BYTE	_Chip,_lqo,_RET,_A,_l,_l,__,_r,_ight,_exc,_RET,_C,_apo,_m,_on,_exc__
+		.BYTE	_Let_s_,_g,_o,_exc,_WAIT,_Fatcat,__,_b,_e,_t,_t,_e,_r,__,_w,_a
+		.BYTE	_t,_c,_h,__,_out,_exc,_WAIT,_STOP
+_msg2E:
+		.BYTE	_Chip,_lqo,_RET,_Woah_exc,_RET,_I,_t,_apo,_s,__,_p,_it,_c,_h,__,_d
+		.BYTE	_a,_r,_k,__,_in,__,_here,_exc,_WAIT,_I,__can,_apo,_t,__,_s,_e
+		.BYTE	_e,_RET,_a_,_b,_l,_o,_o,_m,_in,_apo,__,_t,_h,_ing,_exc,_WAIT
+		.BYTE	_STOP
+_msg2F:
+		.BYTE	_Dale,_lqo,_RET,_H,_e,_y,_exc__,_T,_he,__,_do,_or,__,_s,_h,_ut
+		.BYTE	__,_it,_self,_exc,_WAIT,_STOP
+_msg30:
+		.BYTE	_A,_h,_h,_h,__,_h,_a_,_h,_a_,_h,_a,_dot,_RET,_Welcome,_RET,_my_
+		.BYTE	_l,_it,_t,_l,_e,__,_Rescue_,_Rangers,_exc,_WAIT,_I,_apo_ve_,_w,_a,_it,_ed
+		.BYTE	_RET,_a_,_l,_on,_g,__time_,_f,_or,__,_this,_exc,_WAIT,_STOP
+_msg31:
+		.BYTE	_Dale,_lqo,_RET,_Fatcat,_que,_que,_WAIT,_STOP
+_msg32:
+		.BYTE	_Fatcat,_lqo,_RET,_T,_he,__,_one,__,_and_,_on,_l,_y,_exc,_WAIT,_STOP
+_msg33:
+		.BYTE	_Chip,_lqo,_RET,_Fatcat,_exc__,_You,__,_s,_t,_o,_l,_e,_RET,_the_,_U,_r
+		.BYTE	_n,__,_of_,_the_,_P,_h,_a,_r,_a,_o,_h,_exc,_WAIT,_RET,_STOP
+_msg34:
+		.BYTE	_Fatcat,_lqo,_RET,_T,_h,_a,_t,_apo,_s,__,_r,_ight,_exc,_WAIT,_A,_n
+		.BYTE	_d,__,_it,_apo,_s,__,_f,_u,_l,_l,__,_of_,_RET,_a,_n,_c
+		.BYTE	_i,_e,_n,_t,__,_e,_v,_i,_l,__,_s,_p,_i,_r,_it,_s
+		.BYTE	_exc,_WAIT,_W,_he,_n,__,_I,__,_r,_e,_l,_e,_a,_s,_e,__
+		.BYTE	_t,_he,_m,_col,_RET,_I,_apo_ll_,_r,_u,_l,_e,__,_the_,_w,_or,_l
+		.BYTE	_d,_exc,_WAIT,_STOP
+_msg35:
+		.BYTE	_Dale,_lqo,_RET,_You,_apo_ll_,_n,_ever,__,_g,_e,_t,__,_a,_w,_a,_y
+		.BYTE	_RET,_with,__,_this,_col_,_Fatcat,_exc,_WAIT,_STOP
+_msg36:
+		.BYTE	_Fatcat,_lqo,_RET,_A,_n,_d,__,_w,_h,_a,_t,__will_,_y,_o,_u,__
+		.BYTE	_do,_RET,_t,_o,__stop_,_me,_exc,_que,_WAIT,_You,_apo,_r,_e,__,_in,__
+		.BYTE	_a,_RET,_g,_i,_a,_n,_t,__,_r,_e,_f,_r,_i,_g,_e,_r
+		.BYTE	_a,_t,_or,_exc,_WAIT,_You,_apo_ll_,_be_,_f,_r,_o,_z,_e,_n,__,_s
+		.BYTE	_o,_l,_i,_d,_RET,_in,__,_t,_h,_r,_e,_e,__,_m,_in,_ut
+		.BYTE	_e,_s,_exc,_RET,_H,_a_,_h,_a_,_h,_a,_exc,_WAIT,_STOP
+_msg37:
+		.BYTE	_Dale,_lqo,_RET,_A,_w,_col_,_n,_ut,_s,_exc,_RET,_What,__,_are_,_we,__go
+		.BYTE	_n,_n,_a_,_do,__,_now,_que,_WAIT,_STOP
+_msg38:
+		.BYTE	_Chip,_lqo,_RET,I_think_I,__,_s,_e,_e,__,_a,_n,__,_open,_ing,_exc,_RET
+		.BYTE	_O,_v,_e,_r,__,_t,_here,_exc,_WAIT,_M,_a,_y,_be_,_RET,_we,__can
+		.BYTE	__,_escape,__,_through_,_it,_exc,_RET,_H,_u,_r,_r,_y,_exc,_WAIT,_STOP
+_msg39:
+		.BYTE	_You,_apo_ll_,_be_,_f,_r,_o,_z,_e,_n,__,_s,_o,_l,_i,_d,_RET
+		.BYTE	_in,__,_t,_h,_r,_e,_e,__,_m,_in,_ut,_e,_s,_exc,_WAIT,_STOP
+_msg3A:
+		.BYTE	_Monterey,_lqo,_RET,_C,_r,_i,_k,_e,_y,_exc,_RET,_There_s_,_ghosts,__,_ever,_y
+		.BYTE	_w,_here,_exc,_WAIT,_Fatcat,__,_m,_u,_s,_t,_apo,_v,_e,_RET,_open,_ed
+		.BYTE	__,_the_,_u,_r,_n,_exc,_WAIT,_STOP
+_msg3B:
+		.BYTE	_Chip,_lqo,_RET,_Look,_exc__,_T,_he,_y,_apo,_r,_e,__coming,_RET,_from_,_the_,_warehouse
+		.BYTE	_exc,_WAIT,_STOP
+_msg3C:
+		.BYTE	_Dale,_lqo,_RET,_You,__,_m,_dsh,_m,_dsh,_me,_a,_n,__,_the_,_w,_dsh
+		.BYTE	_warehouse,_RET,_is_,_h,_dsh,_h,_a,_u,_n,_t,_ed,_dot_dot_dot,_que,_WAIT,_STOP
+_msg3D:
+		.BYTE	_Chip,_lqo,_RET,_P,_u,_l,_l,__your,_self,__to,_g,_e,_t,_he,_r,_col
+		.BYTE	_RET,_Dale,_exc__,_You,_apo,_r,_e,__,_a_,_R,_a,_n,_g,_e,_r,_exc
+		.BYTE	_RET,_RET,_STOP
+_msg3E:
+		.BYTE	_Dale,_lqo,_RET,_Y,_e,_a,_h,_col_,_and_,_t,_h,_dsh,_t,_h,_dsh,_t
+		.BYTE	_h,_o,_s,_e,_RET,_are_,_g,_h,_dsh,_g,_h,_dsh,_ghosts,_exc,_WAIT,_STOP
+_msg3F:
+		.BYTE	_Chip,_lqo,_RET,_We_,_d,_i,_d,__,_it,_exc__,_A,_l,_l,__,_the_,_ghosts
+		.BYTE	_RET,_should_,_d,_is,_a,_p,_p,_e,_a,_r,__,_s,_o,_on,_exc,_WAIT
+		.BYTE	_STOP
+_msg40:
+		.BYTE	_Fatcat,_lqo,_RET,_D,_on,_apo,_t,__you,__,_Rescue_,_R,_o,_d,_e,_n,_t
+		.BYTE	_s,_RET,_ever,__,_l,_e,_a,_r,_n,_que,_WAIT,_STOP
+_msg41:
+		.BYTE	_Dale,_lqo,_RET,_U,_h,__,_o,_h,_dot,__,__,_I,_t,_apo,_s,__
+		.BYTE	_Fatcat,_exc,_WAIT,_STOP
+_msg42:
+		.BYTE	_Chip,_lqo,_RET,_C,_o,_me,__,_out,__,_here,__,_and_,_f,_a,_c,_e
+		.BYTE	__,_u,_s,_exc,_RET,_Are_you_,_a_,_c,_a,_t,__,_or,__,_a_,_m,_o
+		.BYTE	_u,_s,_e,_exc,_que,_WAIT,_STOP
+_msg43:
+		.BYTE	_Fatcat,_lqo,_RET,_No,_t,__,_s,_o,__,_f,_ast,_col_,_Rangers,_exc,_WAIT,_I
+		.BYTE	_f,__you,__,_d,_are_,_t,_o,__,_f,_a,_c,_e,__,_me,_col,_RET
+		.BYTE	_come_,_t,_o,__,_the_,_a,_m,_u,_s,_e,_me,_n,_t,__park_exc,_RET,_I
+		.BYTE	_apo_ll_,_be_,_w,_a,_it,_ing,_exc,_WAIT,_STOP
+_msg44:
+		.BYTE	_Dale,_lqo,_RET,_O,_o,_h,__,_that_,_Fatcat,_exc,_RET,_We_,_g,_o,_t,_t
+		.BYTE	_a_,_s,_t,_o,_p,__,_h,_i,_m,_exc,_WAIT,_STOP
+_msg45:
+		.BYTE	_Chip,_lqo,_RET,_W,_a,_it,_col_,_Dale,_exc,_RET,_I,_t,__,_s,_me,_l
+		.BYTE	_l,_s,__,_l,_i,_k,_e,__,_a_,_t,_r,_a,_p,__to,__,_me
+		.BYTE	_exc,_WAIT,_STOP
+_msg46:
+		.BYTE	_Fatcat,_lqo,_RET,_You,_apo,_r,_e,__,_do,_o,_me,_d,_col,_RET,_Rescue_,_Rangers
+		.BYTE	_exc,_WAIT,_I,__,_c,_on,_t,_r,_o,_l,_RET,_this,__,_e,_n,_t
+		.BYTE	_i,_r,_e_amusement,__park_exc,_RET,_You,_apo_ll_,_n,_ever,__,_c,_a,_p,_t,_u,_r
+		.BYTE	_e,__,_me,_exc,_WAIT,_STOP
+_msg47:
+		.BYTE	_Dale,_lqo,_RET,_O,_h,__,_y,_e,_a,_h,_que,_RET,_D,_on,_apo,_t
+		.BYTE	__,_b,_e,_t,__,_on,__,_it,_col_,_Fatcat,_exc,_WAIT,_STOP
+_msg48:
+		.BYTE	_Fatcat,_lqo,_RET,_H,_a,_exc__,_You,__,_n,_e,_ed,__,_t,_h,_r,_e
+		.BYTE	_e,__,_k,_e,_y,_s,_RET,_t,_o,__,_e,_n,_t,_e,_r,__
+		.BYTE	_my_,_c,_on,_t,_r,_o,_l,__,_r,_o,_o,_m,_col,_WAIT,_and_,_t
+		.BYTE	_he,_y,_apo,_r,_e,__,_a,_l,_l,__,_h,_i,_d,_d,_e,_n
+		.BYTE	_RET,_in,__,_d,_if,_f,_e,_r,_e,_n,_t,__,_p,_a,_r,_t
+		.BYTE	_s,_RET,_of_,_the_,_p,_a,_r,_k,_exc__,_H,_a,_v,_e,__,_f,_u
+		.BYTE	_n,_exc,_WAIT,_STOP
+_msg49:
+		.BYTE	_Dale,_lqo,_RET,_W,_e,_apo_ve_,_g,_o,_t,__to,__,_g,_e,_t,__,_the_
+		.BYTE	_k,_e,_y,_s,_exc,_WAIT,_STOP
+_msg4A:
+		.BYTE	_Monterey,_lqo,_RET,_R,_ight,_o,_col_,_Dale,_exc,_RET,_W,_here,__,_should_,_we,__go
+		.BYTE	__first,_que,_WAIT,__,_rar,_Clock_Tower,_RET,__,__,_Western__World,_RET,__,__,_Future_World,_RET,_STOP
+_msg4B:
+		.BYTE	_Monterey,_lqo,_RET,_Are_you_,_sure,_que,_RET,__,_rar,_Y,_e,_s,__,__,_No,_RET
+		.BYTE	_STOP
+_msg4C:
+		.BYTE	_Chip,_lqo,_RET,_Let_s_,_g,_o,__to,__,_t,_he,_RET,_dict80,__first,_exc,_WAIT,_STOP
+_msg4D:
+		.BYTE	_Gadget,_lqo,_RET,_We_,_f,_o,_u,_n,_d,__,_the_,_k,_e,_y,_exc,_RET
+		.BYTE	_W,_here,__to,__,_n,_e,_x,_t,_exc,_que,_WAIT,__,_rar,_dict80,_RET,__
+		.BYTE	__,_dict81,_RET,_STOP
+_msg4E:
+		.BYTE	_Dale,_lqo,_RET,_dict80,_exc,__,_H,_u,_r,_r,_y,_exc,_WAIT,_STOP
+_msg4F:
+		.BYTE	_Monterey,_lqo,_RET,_W,_e,_apo_ve_,_g,_o,_t,__,_t,_w,_o,__,_k,_e
+		.BYTE	_y,_s,_exc,_WAIT,_T,_h,_a,_t,__,_me,_a,_n,_s,__,_the_,_l
+		.BYTE	_ast,__,_one,_RET,_must_,_be_,_in,_RET,_dict80,_exc,_WAIT,_STOP
+_msg50:
+		.BYTE	_Chip,_lqo,_RET,_R,_ight,_exc__,_Let_s_,_g,_o,_exc,_WAIT,_STOP
+_msg51:
+		.BYTE	_Chip,_lqo,_RET,_S,_h,_h,_h,_exc,_RET,_Fatcat,__,_is_,_r,_ight,__,_in
+		.BYTE	_s,_i,_d,_e,_exc,_WAIT,_STOP
+_msg52:
+		.BYTE	_Gadget,_lqo,_RET,_Let_s_,_u,_s,_e,__,_the_,_k,_e,_y,_s,_exc,_WAIT,_STOP
+_msg53:
+		.BYTE	_Zipper,_lqo,_RET,_dot_dot,__,_dot_dot_dot,__,_dot_dot,_WAIT,_STOP
+_msg54:
+		.BYTE	_Chip,_lqo,_RET,_I,_t,_apo,_s,__,_u,_n,_l,_o,_c,_k,_ed,_exc
+		.BYTE	_RET,_O,_p,_e,_n,__,_the_,_do,_or,_exc,_WAIT,_STOP
+_msg55:
+		.BYTE	_Chip,_lqo,_RET,_W,_e,_apo_ve_,_g,_o,_t,__you,__,_now,_col_,_Fatcat,_exc,_RET
+		.BYTE	_T,_he,__,_Rescue_,_Rangers,__,_are_,_here,_exc,_WAIT,_STOP
+_msg56:
+		.BYTE	_Dale,_lqo,_RET,_H,_e,_y,_exc__,_H,_e,_apo,_s,__go,_n,_e,_exc,_RET
+		.BYTE	_W,_here,_apo,_d,__,_he,__go,_exc,_que,_WAIT,_STOP
+_msg57:
+		.BYTE	_Gadget,_lqo,_RET,_Look,_col_,_ever,_y,_one,_exc,_RET,_A,__,_s,_e,_c,_r
+		.BYTE	_e,_t,__,_p,_a,_s,_s,_a,_g,_e,_exc__,_Let_s_,_g,_o,_exc,_WAIT
+		.BYTE	_STOP
+_msg58:
+		.BYTE	_Chip,_lqo,_RET,_B,_e,__,_c,_a,_r,_e,_f,_u,_l,_exc__,_This_,_could_
+		.BYTE	_RET,_be_,_o,_u,_r,__,_l,_ast,__,_s,_t,_a,_n,_d,_exc,_WAIT
+		.BYTE	_STOP
+_msg59:
+		.BYTE	_RET,_Let_s_,_g,_o,__,_Rescue_,_Rangers,_exc,_WAIT,_STOP
+_msg5A:
+		.BYTE	_Fatcat,_lqo,_RET,_Welcome,__,_Rescue_,_Rangers,_exc,_RET,_I,_apo_ve_,_b,_e,_e,_n,__
+		.BYTE	_w,_a,_it,_ing,__for,__you,_exc,_WAIT,_STOP
+_msg5B:
+		.BYTE	_Chip,_lqo,_RET,_You,_apo_ll_,_n,_ever,__,_g,_e,_t,__,_a,_w,_a,_y
+		.BYTE	_col,_RET,_Fatcat,_exc,_WAIT,_STOP
+_msg5C:
+		.BYTE	_Dale,_lqo,_RET,_S,_u,_r,_r,_e,_n,_d,_e,_r,_exc,_WAIT,_STOP
+_msg5D:
+		.BYTE	_Fatcat,_lqo,_RET,_You,_apo_ll_,_n,_ever,__,_d,_e,_f,_e,_a,_t,__,_me
+		.BYTE	_col,_RET,_Rescue_,_Rangers,_exc,_WAIT,_I,__,_have,__,_the_,_u,_l,_t,_i,_m
+		.BYTE	_a,_t,_e,__,_we,_a,_p,_on,_lqo,_RET,_the_,_Fatcat,__,_R,_o,_b
+		.BYTE	_o,_t,_exc,_WAIT,_STOP
+_msg5E:
+		.BYTE	_Dale,_lqo,_RET,_D,_i,_d,__you,__,_he,_a,_r,__some,_t,_h,_ing,_exc
+		.BYTE	_que,_WAIT,_STOP
+_msg5F:
+		.BYTE	_Chip,_lqo,_RET,_Look,__,_out,__everyone,_WAIT,_STOP
+_msg60:
+		.BYTE	_Monterey,_lqo,_RET,_T,_he,__,_c,_e,_i,_l,_ing,_exc,_RET,_S,_he,_apo
+		.BYTE	_s,__,_g,_i,_v,_ing,__,_w,_a,_y,_exc,_WAIT,_STOP
+_msg61:
+		.BYTE	_Chip,_lqo,_RET,_G,_o_find,__,_c,_o,_v,_e,_r,_col_,_ever,_y,_one,_exc
+		.BYTE	_WAIT,_Dale,__,_and_,_I,__will_,_t,_r,_a,_c,_k,_RET,_Fatcat,_exc,_WAIT,_STOP
+_msg62:
+		.BYTE	_Monterey,_lqo,_RET,_T,_a,_k,_e,__,_c,_are_,_of_,_y,_o,_u,_r,_s
+		.BYTE	_e,_l,_v,_e,_s,_exc,_WAIT,_STOP
+_msg63:
+		.BYTE	_Monterey,_lqo,_RET,_Chip,__,_and_,_Dale,__,_are_,_t,_r,_a,_p,_p,_ed,_RET
+		.BYTE	_in,_s,_i,_d,_e,_exc,_WAIT,_W,_e,_apo_ve_,_l,_o,_s,_t,__,_the_
+		.BYTE	_l,_a,_d,_s,__for,_ever,_dot,_WAIT,_STOP
+_msg64:
+		.BYTE	_Gadget,_lqo,_RET,_Chip,_exc__,_Dale,_exc,_RET,_T,_h,_a,_n,_k,__go,_o,_d
+		.BYTE	_n,_e,_s,_s,__you,_apo,_r,_e,__,_s,_a,_f,_e,_exc,_WAIT,_STOP
+_msg65:
+		.BYTE	_Chip,_lqo,_RET,_We_,_a,_l,_m,_o,_s,_t,__,_d,_i,_d,_n_apo_t,__
+		.BYTE	_m,_a,_k,_e,__,_it,_exc,_WAIT,_STOP
+_msg66:
+		.BYTE	_Dale,_lqo,_RET,_A,_n,_d,__,_we,__,_n,_ever,__,_d,_i,_d,__
+		.BYTE	_c,_a,_p,_t,_u,_r,_e,_RET,_Fatcat,_dot,_WAIT,_H,_e,__,_must_,_s
+		.BYTE	_t,_i,_l,_l,_RET,_be_,_t,_r,_a,_p,_p,_ed,__,_in,_s,_i
+		.BYTE	_d,_e,_dot,_WAIT,_STOP
+_msg67:
+		.BYTE	_Gadget,_lqo,_RET,_B,_ut,__,_if,__,_I,__,_k,_now,__,_Fatcat,_col_,_he
+		.BYTE	__,_h,_a,_d,_RET,_h,_is_,_escape,__,_we,_l,_l,__,_p,_l,_a
+		.BYTE	_n,_n,_ed,_dot,_WAIT,_STOP
+_msg68:
+		.BYTE	_Monterey,_lqo,_RET,_W,_e,_l,_l,_col_,_if,__,_not,_h,_ing,__,_e,_l
+		.BYTE	_s,_e,_col,_WAIT,_we,__made,_RET,_that_,_b,_l,_ight,_e,_r,_apo,_s,__
+		.BYTE	_l,_if,_e,_RET,_a_,_l,_it,_t,_l,_e,__,_less,__,_c,_u,_s
+		.BYTE	_h,_y,_col_,_e,_h,_que,_WAIT,_STOP
+_msg69:
+		.BYTE	_Dale,_lqo,_RET,_You,__,_s,_a,_i,_d,__,_it,_exc,_WAIT,_STOP
+_msg6A:
+		.BYTE	_Gadget,_lqo,_RET,_A,_n,_d,__,_if,_RET,_he,__,_ever,__,_s,_h,_o
+		.BYTE	_w,_s,__,_u,_p,__,_a,_g,_a,_in,_dot_dot_dot,_WAIT,_STOP
+_msg6B:
+		.BYTE	_Chip,_lqo,_RET,_T,_he,_n,__,_I,__,_g,_u,_e,_s,_s,__,_we
+		.BYTE	_apo_ll_,_j,_u,_s,_t,__,_have,_RET,_t,_o,__,_t,_e,_a,_c,_h
+		.BYTE	__,_h,_i,_m,__,_a,_not,_he,_r,__,_less,_on,_exc,_WAIT,_R,_ight
+		.BYTE	__,_Rangers,_que,_exc,_WAIT,_STOP
+_msg6C:
+		.BYTE	_RET,_R,_ight,_exc__,_W,_a,_t,_c,_h,__,_out,_col_,_Fatcat,_exc,_WAIT,_RET
+		.BYTE	_W,_e,_apo,_r,_e,__,_the_,_Rescue_,_Rangers,_exc,_WAIT,_STOP
+
+#endif
+
+		SECTION_END		03, "MESSAGES DICT AND DATA"
+
 byte_3A72C:
 		.BYTE	$01,$00
 
@@ -2439,9 +2472,10 @@ loc_3B013:
 
 ; =============== S U B R O U T I N E =======================================
 _players_animB_sub0129_sub05_A_sub0:
-		PLA	; [code] used as data at a000
+		PLA
 		SEC
 		RTS
+
 byte_3B025:
 		.BYTE	$A3,$A6,$A4,$A7,$A5,$A8,$EB,$E6,$EC,$EE,$ED,$EF
 byte_3B031:
@@ -2987,6 +3021,7 @@ loc_3B3E9:
 		STA		_obj_x_deltas,X
 locret_3B3EE:
 		RTS
+
 byte_3B3EF:
 		.BYTE	$00,$16,$17,$16,$01,$06,$02,$07,$03,$08,$02,$07,$01,$06,$10,$07
 		.BYTE	$03,$08,$10,$07,$05,$0B,$05,$0B,$0D,$0D,$0C,$0C,$22,$22,$04,$04
@@ -3815,6 +3850,7 @@ loc_3B9B0:
 		CLC
 locret_3B9B4:
 		RTS
+
 _room_cfg00:
 		.BYTE	$0F,$00
 		.BYTE	$00
@@ -4500,7 +4536,7 @@ _room_cfg0A:
 		.WORD	_room_pal0A	; _bg_pal_ptr
 		.BYTE	$00	; field_18
 _cutscene_room_cfg12:
-		.BYTE	$1B,	$E	; _chrs
+		.BYTE	$1B,$0E	; _chrs
 		.BYTE	$00	; _lvl_start_X
 		.BYTE	$00	; _lvl_start_Y
 		.BYTE	$00	; _players_X
@@ -4536,7 +4572,7 @@ _cutscene_room_cfg00:
 		.WORD	_room_palA_00	; _bg_pal_ptr
 		.BYTE	$A1	; field_18
 _cutscene_room_cfg01:
-		.BYTE	$18,	$E	; _chrs
+		.BYTE	$18,$0E	; _chrs
 		.BYTE	$00	; _lvl_start_X
 		.BYTE	$00	; _lvl_start_Y
 		.BYTE	$00	; _players_X
@@ -4572,7 +4608,7 @@ _cutscene_room_cfg02:
 		.WORD	_room_pal01	; _bg_pal_ptr
 		.BYTE	$07	; field_18
 _cutscene_room_cfg03:
-		.BYTE	$10,	$E	; _chrs
+		.BYTE	$10,$0E	; _chrs
 		.BYTE	$06	; _lvl_start_X
 		.BYTE	$00	; _lvl_start_Y
 		.BYTE	$00	; _players_X
@@ -4590,7 +4626,7 @@ _cutscene_room_cfg03:
 		.WORD	_room_pal01	; _bg_pal_ptr
 		.BYTE	$8C	; field_18
 _cutscene_room_cfg04:
-		.BYTE	$18,	$E	; _chrs
+		.BYTE	$18,$0E	; _chrs
 		.BYTE	$02	; _lvl_start_X
 		.BYTE	$00	; _lvl_start_Y
 		.BYTE	$00	; _players_X
@@ -4608,7 +4644,7 @@ _cutscene_room_cfg04:
 		.WORD	_room_palA_04	; _bg_pal_ptr
 		.BYTE	$8C	; field_18
 _cutscene_room_cfg06:
-		.BYTE	$19,	$E	; _chrs
+		.BYTE	$19,$0E	; _chrs
 		.BYTE	$04	; _lvl_start_X
 		.BYTE	$00	; _lvl_start_Y
 		.BYTE	$00	; _players_X
@@ -4626,7 +4662,7 @@ _cutscene_room_cfg06:
 		.WORD	_room_palA_06	; _bg_pal_ptr
 		.BYTE	$8C	; field_18
 _cutscene_room_cfg05:
-		.BYTE	$15,	$E	; _chrs
+		.BYTE	$15,$0E	; _chrs
 		.BYTE	$04	; _lvl_start_X
 		.BYTE	$07	; _lvl_start_Y
 		.BYTE	$00	; _players_X
@@ -4644,7 +4680,7 @@ _cutscene_room_cfg05:
 		.WORD	_room_palA_05	; _bg_pal_ptr
 		.BYTE	$8C	; field_18
 _cutscene_room_cfg07:
-		.BYTE	$15,	$E	; _chrs
+		.BYTE	$15,$0E	; _chrs
 		.BYTE	$04	; _lvl_start_X
 		.BYTE	$07	; _lvl_start_Y
 		.BYTE	$00	; _players_X
@@ -4662,7 +4698,7 @@ _cutscene_room_cfg07:
 		.WORD	_room_pal13	; _bg_pal_ptr
 		.BYTE	$8C	; field_18
 _cutscene_room_cfg09:
-		.BYTE	$18,	$E	; _chrs
+		.BYTE	$18,$0E	; _chrs
 		.BYTE	$06	; _lvl_start_X
 		.BYTE	$00	; _lvl_start_Y
 		.BYTE	$00	; _players_X
@@ -4680,7 +4716,7 @@ _cutscene_room_cfg09:
 		.WORD	_room_palA_09	; _bg_pal_ptr
 		.BYTE	$8C	; field_18
 _cutscene_room_cfg0A:
-		.BYTE	$13,	$E	; _chrs
+		.BYTE	$13,$0E	; _chrs
 		.BYTE	$04	; _lvl_start_X
 		.BYTE	$02	; _lvl_start_Y
 		.BYTE	$18	; _players_X
@@ -4698,7 +4734,7 @@ _cutscene_room_cfg0A:
 		.WORD	_room_pal06	; _bg_pal_ptr
 		.BYTE	$8C	; field_18
 _cutscene_room_cfg0B:
-		.BYTE	$18,	$E	; _chrs
+		.BYTE	$18,$0E	; _chrs
 		.BYTE	$00	; _lvl_start_X
 		.BYTE	$01	; _lvl_start_Y
 		.BYTE	$00	; _players_X
@@ -4716,7 +4752,7 @@ _cutscene_room_cfg0B:
 		.WORD	_room_palA_0B	; _bg_pal_ptr
 		.BYTE	$8C	; field_18
 _cutscene_room_cfg0C:
-		.BYTE	$18,	$E	; _chrs
+		.BYTE	$18,$0E	; _chrs
 		.BYTE	$02	; _lvl_start_X
 		.BYTE	$01	; _lvl_start_Y
 		.BYTE	$00	; _players_X
@@ -4734,7 +4770,7 @@ _cutscene_room_cfg0C:
 		.WORD	_room_palA_0C	; _bg_pal_ptr
 		.BYTE	$8C	; field_18
 _cutscene_room_cfg0D:
-		.BYTE	$18,	$E	; _chrs
+		.BYTE	$18,$0E	; _chrs
 		.BYTE	$06	; _lvl_start_X
 		.BYTE	$01	; _lvl_start_Y
 		.BYTE	$00	; _players_X
@@ -4752,7 +4788,7 @@ _cutscene_room_cfg0D:
 		.WORD	_room_palA_0D	; _bg_pal_ptr
 		.BYTE	$8C	; field_18
 _cutscene_room_cfg0E:
-		.BYTE	$19,	$E	; _chrs
+		.BYTE	$19,$0E	; _chrs
 		.BYTE	$06	; _lvl_start_X
 		.BYTE	$03	; _lvl_start_Y
 		.BYTE	$00	; _players_X
@@ -4770,7 +4806,7 @@ _cutscene_room_cfg0E:
 		.WORD	_room_palA_0E	; _bg_pal_ptr
 		.BYTE	$8C	; field_18
 _cutscene_room_cfg0F:
-		.BYTE	$17,	$E	; _chrs
+		.BYTE	$17,$0E	; _chrs
 		.BYTE	$02	; _lvl_start_X
 		.BYTE	$06	; _lvl_start_Y
 		.BYTE	$00	; _players_X
@@ -4788,7 +4824,7 @@ _cutscene_room_cfg0F:
 		.WORD	_room_pal2B	; _bg_pal_ptr
 		.BYTE	$8C	; field_18
 _cutscene_room_cfg10:
-		.BYTE	$17,	$E	; _chrs
+		.BYTE	$17,$0E	; _chrs
 		.BYTE	$02	; _lvl_start_X
 		.BYTE	$06	; _lvl_start_Y
 		.BYTE	$00	; _players_X
@@ -4806,7 +4842,7 @@ _cutscene_room_cfg10:
 		.WORD	_room_pal2B	; _bg_pal_ptr
 		.BYTE	$8C	; field_18
 _cutscene_room_cfg11:
-		.BYTE	$18,	$E	; _chrs
+		.BYTE	$18,$0E	; _chrs
 		.BYTE	$00	; _lvl_start_X
 		.BYTE	$06	; _lvl_start_Y
 		.BYTE	$00	; _players_X

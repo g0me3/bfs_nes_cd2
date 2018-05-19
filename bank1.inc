@@ -3,6 +3,8 @@
 
 		BANK_START $01
 
+		SECTION_START	01
+
 		FAR_PTR	_room42
 		.BYTE	$44,$45,$1B,$1C,$1B,$1C,$44,$54,$53,$47,$1B,$1C,$1B,$1C,$44,$45
 		.BYTE	$46,$47,$1D,$1E,$1D,$1E,$44,$54,$53,$47,$1D,$1E,$1D,$1E,$44,$45
@@ -1091,5 +1093,7 @@
 		.BYTE	$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8
 		.BYTE	$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8
 		.BYTE	$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8,$D8
+
+		SECTION_END		01, "ROOM DATA B"
 
 		BANK_END 1,$C000

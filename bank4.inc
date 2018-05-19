@@ -7526,43 +7526,43 @@ _scr_cutscene01:
 		RUN					$01,_script157
 		NJMP				_native_sub05E
 		DELAY				$1E
-		MSG_DISPLAY			_msg_000,$5B
+		MSG_DISPLAY			_msg00,$5B
 		MSG_WAIT
 		SJSR				byte_6B6CC
-		MSG_DISPLAY			_msg_001,$56
+		MSG_DISPLAY			_msg01,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
 		RUN					$01,_script158
 		NJMP				_native_sub05E
 		SJSR				byte_6B6CC
-		MSG_DISPLAY			_msg_002,$58
+		MSG_DISPLAY			_msg02,$58
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
-		MSG_DISPLAY			_msg_003,$56
+		MSG_DISPLAY			_msg03,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
-		MSG_DISPLAY			_msg_004,$58
+		MSG_DISPLAY			_msg04,$58
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$02
 		OBJ_SET_Y_POS		$A0,$00
 		RUN					$01,_script159
 		NJMP				_native_sub05E
 		TARGET_DIR_SET		$00
-		MSG_DISPLAY			_msg_005,$56
+		MSG_DISPLAY			_msg05,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
-		MSG_DISPLAY			_msg_006,$58
+		MSG_DISPLAY			_msg06,$58
 		SJSR				byte_6B6CC
 		NJMP				_native_sub05F
 		TARGET_DIR_SET		$02
-		MSG_DISPLAY			byte_39A66,$59
+		MSG_DISPLAY			_msg07,$59
 		SJSR				byte_6B6CC
 		NJMP				_native_sub05F
 		TARGET_DIR_SET		$04
 		RUN					$01,_script15A
 		NJMP				_native_sub05E
 		SJSR				byte_6B6CC
-		MSG_DISPLAY			byte_39AB3,$5A
+		MSG_DISPLAY			_msg08,$5A
 		MSG_WAIT
 		NJMP				_native_sub05F
 		TARGET_DIR_SET		$01
@@ -7571,25 +7571,25 @@ _scr_cutscene01:
 		NJMP				_native_sub05E
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
-		MSG_DISPLAY			byte_39AC0,$56
+		MSG_DISPLAY			_msg09,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$01
 		SJSR				byte_6B6CC
-		MSG_DISPLAY			byte_39AE0,$57
+		MSG_DISPLAY			_msg0A,$57
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
-		MSG_DISPLAY			byte_39B0A,$56
+		MSG_DISPLAY			_msg0B,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$01
-		MSG_DISPLAY			byte_39B16,$57
+		MSG_DISPLAY			_msg0C,$57
 		SJSR				byte_6B6CC
-		MSG_DISPLAY			byte_39B2A,$56
+		MSG_DISPLAY			_msg0D,$56
 		TARGET_DIR_SET		$00
 		NJSR				_native_sub05F
 		TARGET_DIR_SET		$01
 		NJSR				_native_sub05F
 		MSG_WAIT
-		MSG_DISPLAY			byte_39B35,$5B
+		MSG_DISPLAY			_msg0E,$5B
 		MSG_WAIT
 		SJMP				byte_6B69F
 
@@ -7727,23 +7727,23 @@ _scr_cutscene02:
 		RUN					$01,_script15E
 		NJMP				_native_sub05E
 		SJSR				byte_6B6CC
-		MSG_DISPLAY			byte_39B6D,$56
+		MSG_DISPLAY			_msg0F,$56
 		MSG_WAIT
 		TARGET_DIR_SET		$05
-		MSG_DISPLAY			byte_39B90,$5C
+		MSG_DISPLAY			_msg10,$5C
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$01
-		MSG_DISPLAY			byte_39BC1,$57
+		MSG_DISPLAY			_msg11,$57
 		NJMP				_native_sub05F
 		MSG_WAIT
 		TARGET_DIR_SET		$05
-		MSG_DISPLAY			byte_39BD4,$5C
+		MSG_DISPLAY			_msg12,$5C
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
-		MSG_DISPLAY			byte_39C3A,$56
+		MSG_DISPLAY			_msg13,$56
 		MSG_WAIT
 		TARGET_DIR_SET		$05
-		MSG_DISPLAY			byte_39C4E,$5C
+		MSG_DISPLAY			_msg14,$5C
 		SJSR				byte_6B6CC
 		NJMP				_native_sub05F
 		TARGET_DIR_SET		$00
@@ -7821,7 +7821,7 @@ _scr_cutscene03:
 		DELAY				$30
 		TARGET_DIR_SET		$00
 		SJSR				byte_6B6CC
-		MSG_DISPLAY			byte_39C62,$56
+		MSG_DISPLAY			_msg15,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
 		RUN					$01,_script161
@@ -7831,24 +7831,24 @@ _scr_cutscene03:
 		RUN					$01,_script162
 		NJMP				_native_sub05E
 		TARGET_DIR_SET		$03
-		MSG_DISPLAY			byte_39C74,$58
+		MSG_DISPLAY			_msg16,$58
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$01
-		MSG_DISPLAY			byte_39CBB,$57
+		MSG_DISPLAY			_msg17,$57
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
-		MSG_DISPLAY			byte_39CE0,$58
+		MSG_DISPLAY			_msg18,$58
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$01
-		MSG_DISPLAY			byte_39CF0,$57
+		MSG_DISPLAY			_msg19,$57
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
 byte_6BBBA:
-		MSG_DISPLAY			byte_39CFB,$58
+		MSG_DISPLAY			_msg1A,$58
 		SJSR				byte_6B6CC
 		SJSR				byte_6BC7C
 		NJMP				_native_sub066
-		MSG_DISPLAY			byte_39D27,$58
+		MSG_DISPLAY			_msg1B,$58
 		SJSR				byte_6B6CC
 		SJSR				byte_6BC7C
 		SWITCH				_hor_menu_pos
@@ -7859,7 +7859,7 @@ byte_6BBD8:
 		NJMP				_native_sub05F
 		SJMP				byte_6BBBA
 byte_6BBE2:
-		MSG_DISPLAY			byte_39D38,$58
+		MSG_DISPLAY			_msg1C,$58
 		SJSR				byte_6B6CC
 		APU_LOAD			$4D
 		DELAY				$3C
@@ -7884,39 +7884,39 @@ byte_6BC07:
 		NJMP				_ppu_pal_apply
 		APU_LOAD			$13
 		TARGET_DIR_SET		$03
-		MSG_DISPLAY			byte_39D45,$58
+		MSG_DISPLAY			_msg1D,$58
 		SJSR				byte_6B6CC
-		MSG_DISPLAY			byte_39D51,$58
+		MSG_DISPLAY			_msg1E,$58
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
 		SJSR				byte_6B6CC
-		MSG_DISPLAY			byte_39D6C,$56
+		MSG_DISPLAY			_msg1F,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
-		MSG_DISPLAY			byte_39D7D,$58
+		MSG_DISPLAY			_msg20,$58
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
-		MSG_DISPLAY			byte_39D8D,$56
+		MSG_DISPLAY			_msg21,$56
 		SJSR				byte_6B6CC
 		SJMP				byte_6BC5E
 byte_6BC47:
-		MSG_DISPLAY			byte_39D9F,$58
+		MSG_DISPLAY			_msg22,$58
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$05
 		NJMP				_native_sub05F
 		DELAY				$3C
 		TARGET_DIR_SET		$03
-		MSG_DISPLAY			byte_39DB9,$58
+		MSG_DISPLAY			_msg23,$58
 		SJSR				byte_6B6CC
 byte_6BC5E:
 		TARGET_DIR_SET		$00
-		MSG_DISPLAY			byte_39DD0,$56
+		MSG_DISPLAY			_msg24,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$03
-		MSG_DISPLAY			byte_39E15,$58
+		MSG_DISPLAY			_msg25,$58
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
-		MSG_DISPLAY			byte_39E3E,$56
+		MSG_DISPLAY			_msg26,$56
 		SJSR				byte_6B6CC
 		SJMP				byte_6B69F
 byte_6BC7C:
@@ -8089,24 +8089,24 @@ _scr_cutscene04:
 		NJMP				_native_sub05E
 		DELAY				$1E
 		TARGET_DIR_SET		$01
-		MSG_DISPLAY			byte_39E63,$57
+		MSG_DISPLAY			_msg27,$57
 		SJSR				byte_6B6CC
 		RUN					$01,_script167
 		DELAY				$3C
-		MSG_DISPLAY			byte_39E8E,$5A
+		MSG_DISPLAY			_msg28,$5A
 		MSG_WAIT
 		TARGET_DIR_SET		$00
-		MSG_DISPLAY			byte_39E9C,$56
+		MSG_DISPLAY			_msg29,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$02
-		MSG_DISPLAY			byte_39EB1,$59
+		MSG_DISPLAY			_msg2A,$59
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
-		MSG_DISPLAY			byte_39EE5,$56
+		MSG_DISPLAY			_msg2B,$56
 		SJSR				byte_6B6CC
-		MSG_DISPLAY			byte_39EF7,$5A
+		MSG_DISPLAY			_msg2C,$5A
 		MSG_WAIT
-		MSG_DISPLAY			byte_39EFD,$56
+		MSG_DISPLAY			_msg2D,$56
 		SJSR				byte_6B6CC
 		SJMP				byte_6B6A6
 
@@ -8177,11 +8177,11 @@ _scr_cutscene05:
 		NJMP				_native_sub05E
 		DELAY				$3C
 		SJSR				byte_6B6CC
-		MSG_DISPLAY			byte_39F25,$56
+		MSG_DISPLAY			_msg2E,$56
 		MSG_WAIT
 		APU_LOAD			$51
 		DELAY				$3C
-		MSG_DISPLAY			byte_39F56,$57
+		MSG_DISPLAY			_msg2F,$57
 		MSG_WAIT
 byte_6BE7E:
 		SJSR				byte_6BECE
@@ -8205,17 +8205,17 @@ _scr_cutscene07:
 		NJMP				_native_sub05E
 		DELAY				$3C
 		TARGET_DIR_SET		$01
-		MSG_DISPLAY			byte_3A099,$57
+		MSG_DISPLAY			_msg37,$57
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
-		MSG_DISPLAY			byte_3A0B2,$56
+		MSG_DISPLAY			_msg38,$56
 		SJSR				byte_6B6CC
 		SJMP				byte_6B69F
 
 ; =============== S C R I P T ===============================================
 _scr_cutscene08:
 		DELAY				$3C
-		MSG_DISPLAY			byte_3A0E1,$5B
+		MSG_DISPLAY			_msg39,$5B
 		MSG_WAIT
 		SJMP				byte_6B69F
 byte_6BECE:
@@ -8287,19 +8287,19 @@ _script16B:
 _scr_cutscene06:
 		RUN					$01,_script154
 		DELAY				$3C
-		MSG_DISPLAY			byte_39F6C,$5D
+		MSG_DISPLAY			_msg30,$5D
 		MSG_WAIT
-		MSG_DISPLAY			byte_39F99,$57
+		MSG_DISPLAY			_msg31,$57
 		MSG_WAIT
-		MSG_DISPLAY			byte_39FA1,$5D
+		MSG_DISPLAY			_msg32,$5D
 		MSG_WAIT
-		MSG_DISPLAY			byte_39FB0,$56
+		MSG_DISPLAY			_msg33,$56
 		MSG_WAIT
-		MSG_DISPLAY			byte_39FCF,$5D
+		MSG_DISPLAY			_msg34,$5D
 		MSG_WAIT
-		MSG_DISPLAY			byte_3A023,$57
+		MSG_DISPLAY			_msg35,$57
 		MSG_WAIT
-		MSG_DISPLAY			byte_3A03C,$5D
+		MSG_DISPLAY			_msg36,$5D
 		MSG_WAIT
 		SJMP				byte_6B6A6
 
@@ -8318,22 +8318,22 @@ _scr_cutscene09:
 		NJMP				_native_sub05E
 		DELAY				$3C
 		TARGET_DIR_SET		$02
-		MSG_DISPLAY			byte_3A101,$59
+		MSG_DISPLAY			_msg3A,$59
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
-		MSG_DISPLAY			byte_3A129,$56
+		MSG_DISPLAY			_msg3B,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$01
 		SJSR				byte_6B6CC
-		MSG_DISPLAY			byte_3A13C,$57
+		MSG_DISPLAY			_msg3C,$57
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$00
-		MSG_DISPLAY			byte_3A15B,$56
+		MSG_DISPLAY			_msg3D,$56
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$01
 		SJSR				byte_6B6CC
 		TARGET_DIR_SET		$01
-		MSG_DISPLAY			byte_3A17E,$57
+		MSG_DISPLAY			_msg3E,$57
 		SJSR				byte_6B6CC
 		SJMP				byte_6B69F
 

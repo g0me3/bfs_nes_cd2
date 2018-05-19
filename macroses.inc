@@ -2,6 +2,109 @@
 
 DEBUG			EQU		1
 
+LANG_EN			EQU		0
+LANG_JP			EQU		1
+LANR_RU			EQU		2
+
+LANGUAGE		EQU		LANG_EN
+
+;-------------------F-O-N-T---------------------
+
+_0		EQU	$00
+_1		EQU	$01
+_2		EQU	$02
+_3		EQU	$03
+_4		EQU	$04
+_5		EQU	$05
+_6		EQU	$06
+_7		EQU	$07
+_8		EQU	$08
+_9		EQU	$09
+
+_exc	EQU	$0A
+_apo	EQU	$0B
+_col	EQU	$0C
+_rar	EQU	$0E
+
+_que	EQU	$0F
+__		EQU	$10
+
+_dot	EQU	$2C
+_ddt	EQU	$30
+_lqo	EQU	$31
+_rqo	EQU	$32
+
+_dsh	EQU	$40
+
+_A		EQU	$11
+_B		EQU	$12
+_C		EQU	$13
+_D		EQU	$14
+_E		EQU	$15
+_F		EQU	$16
+_G		EQU	$17
+_H		EQU	$18
+_I		EQU	$19
+_J		EQU	$1A
+_K		EQU	$1B
+_L		EQU	$1C
+_M		EQU	$1D
+_N		EQU	$1E
+_O		EQU	$1F
+_P		EQU	$20
+_Q		EQU	$21
+_R		EQU	$22
+_S		EQU	$23
+_T		EQU	$24
+_U		EQU	$25
+_V		EQU	$26
+_W		EQU	$27
+_X		EQU	$28
+_Y		EQU	$29
+_Z		EQU	$2A
+
+_a		EQU	$36
+_b		EQU	$37
+_c		EQU	$38
+_d		EQU	$39
+_e		EQU	$3A
+_f		EQU	$41
+_g		EQU	$50
+_h		EQU	$42
+_i		EQU	$43
+_j		EQU	$51
+_k		EQU	$44
+_l		EQU	$45
+_m		EQU	$46
+_n		EQU	$47
+_o		EQU	$48
+_p		EQU	$52
+_q		EQU	$53
+_r		EQU	$49
+_s		EQU	$4A
+_t		EQU	$3B
+_u		EQU	$3C
+_v		EQU	$3D
+_w		EQU	$3E
+_x		EQU	$3F
+_y		EQU	$54
+_z		EQU	$4B
+
+_EOL	EQU	$FE
+
+_WAIT	EQU	$FD
+_RET	EQU	$FE
+_STOP	EQU	$FF
+
+		MAC		DICT_REC
+{1}		SET		[[.-_dictionary]>>1]|$80
+		.WORD	{1}_ptr
+		ENDM
+
+		MAC		DICT_DATA
+{1}_ptr	SET		.
+		ENDM
+
 ;-----------G-A-M-E--S-P-E-C-I-F-I-C------------
 
 ;	stop script

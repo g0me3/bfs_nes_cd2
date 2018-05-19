@@ -1,7 +1,5 @@
 @echo off
 
-start ..\..\..\tools\textpad\TextPad.exe doc\notes.txt ram.inc macroses.inc bank7.inc bank6.inc bank5.inc bank4.inc bank3.inc bank2.inc bank1.inc bank0.inc
-
 pause 0
 
 :again
@@ -49,9 +47,9 @@ del !cd2.nes
 cd ..
 
 echo ===OLD ROM===
-if exist !cd2prev.nes g:\dos\m3checksum !cd2prev.nes
+if exist !cd2prev.nes nas\m3checksum !cd2prev.nes
 echo ===NEW ROM===
-if exist !cd2.nes g:\dos\m3checksum !cd2.nes
+if exist !cd2.nes nas\m3checksum !cd2.nes
 
 echo done.
 pause 0

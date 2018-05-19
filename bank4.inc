@@ -90,7 +90,7 @@ _script_obj_wait_for_throw:
 byte_68075:
 		NJSR				_native_get_obj_idxBs
 		SBPLS				byte_68081
-		NJSR_SYNC			_players_animB_sub0129_sub06_C
+		NJSR_SYNC			_players_state06_C
 		SJMPS				byte_68075
 byte_68081:
 		NJSR				_native_obj_idxCs_80_set
@@ -103,7 +103,7 @@ _obj_scr_common_destr:
 		OBJ_DAMAGE_SET		_OBJ_DMG_NONE
 		OBJ_X_DELTA_SET		$BD
 		OBJ_Y_DELTA_SET		$BD
-		NJSR				_players_animB_sub3_B_A
+		NJSR				_players_loaded_state_select_B_A
 
 ; !FALLTHROUGH!
 
@@ -161,8 +161,8 @@ _script_sub_680E7:
 		APU_LOAD			_apu_mus2E
 		OBJ_X_DELTA_SET		$F0
 		OBJ_Y_DELTA_SET		$D0
-		NJSR				_players_animB_sub3_B_A
-		NJSR				_players_animB_sub0129_sub0E_A
+		NJSR				_players_loaded_state_select_B_A
+		NJSR				_players_state0E_stun_start_A
 byte_680F5:
 		SJSR				_script_sub_obj_jump_sync
 		SBCSS				byte_68101
@@ -178,7 +178,7 @@ _script_sub_68102:
 		NJSR				_native_obj_blink_clear
 byte_6810A:
 		SYNC
-		NJSR				_players_animB_sub0129_sub06_C
+		NJSR				_players_state06_C
 		NJSR				_native_get_obj_idxBs
 		SBMIS				byte_6810A
 		APU_LOAD			_apu_mus24
@@ -350,7 +350,7 @@ _obj_scr_fork_rat_projectile:
 _obj_scr_fork_rat_projectile_destr:
 		OBJ_X_DELTA_SET		$0C
 		OBJ_Y_DELTA_SET		$E0
-		NJSR				_players_animB_sub3_B_A
+		NJSR				_players_loaded_state_select_B_A
 		SJMP				_script_sub_y_parabolic_delta_infinite_anim_sync
 
 ; =============== O B J E C T   S C R I P T =================================
@@ -2366,7 +2366,7 @@ byte_6916B:
 		NJSR				_native_obj_type_change_bullet
 		OBJ_X_DELTA_SET		$10
 		OBJ_Y_DELTA_SET		$E0
-		NJSR				_players_animB_sub3_B_A
+		NJSR				_players_loaded_state_select_B_A
 		SJMP				_script_sub_y_parabolic_delta_infinite_anim_sync
 
 ; =============== S U B R O U T I N E =======================================
@@ -4281,7 +4281,7 @@ byte_69F7C:
 		NJSR				_native_obj_idxCs_clear_low_nibble
 byte_69F82:
 		SJSRS				_script_sub_69FB5
-		NJSR				_players_animB_sub0129_sub06_C
+		NJSR				_players_state06_C
 		NJSR				_native_get_obj_idxBs
 		SBMIS				byte_69F82
 		APU_LOAD			_apu_mus24
@@ -4802,7 +4802,7 @@ byte_6A2AE:
 		NJSR				_native_sub11C
 		NJSR				_native_obj_type_change_ball
 		SJSRS				_script_sub_6A2CF
-		NJSR				_far_players_animB_sub0129_G
+		NJSR				_far_players_default_state_select_G
 		SBPLS				byte_6A28B
 byte_6A2BD:
 		OBJ_Y_DELTA_SET		$E0
@@ -5240,9 +5240,9 @@ loc_6A5CE:
 		DEC		_obj_y_deltas,X
 loc_6A5D7:
 		JSR		_obj_vert_animate
-		JSR		_players_animB_sub0129_sub12_A_B_A
+		JSR		_players_state12_A_B_A
 		BCC		loc_6A5E3
-		JSR		_players_animB_sub0129_sub12_A_B_B
+		JSR		_players_state12_A_B_B
 		SEC
 loc_6A5E3:
 		JMP		_scr_flags_update
@@ -5335,7 +5335,7 @@ _native_sub02A:
 ; =============== S U B R O U T I N E =======================================
 _native_sub02B:
 		JSR		_native_sub031
-		JSR		_players_animB_sub0129_sub06_C
+		JSR		_players_state06_C
 		BMI		_native_sub02C
 		BEQ		_native_sub02C
 		LDA		#_OBJ_MODE_HIDE
@@ -5411,11 +5411,11 @@ loc_6A6F1:
 		RTS
 
 byte_6A700:
-		.BYTE	$50,$C0,$C0
-		.BYTE	$90,$40,$C0
-		.BYTE	$10,$00,$A0
-		.BYTE	$40,$C0,$00
-		.BYTE	$80,$40,$00
+		.BYTE	_PAD_UP|_PAD_LEFT,	$C0,$C0
+		.BYTE	_PAD_UP|_PAD_RIGHT,	$40,$C0
+		.BYTE	_PAD_UP,			$00,$A0
+		.BYTE	_PAD_LEFT,			$C0,$00
+		.BYTE	_PAD_RIGHT,			$40,$00
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub031:
@@ -6131,10 +6131,10 @@ _native_sub03B_ex:
 _native_sub03C:
 		LDY		_scr_idxAs,X
 		LDA		_pads,Y
-		AND		#$C0
+		AND		#_PAD_LEFT|_PAD_RIGHT
 		BEQ		loc_6ABD5
 		SEC
-		AND		#$80
+		AND		#_PAD_RIGHT
 		BNE		loc_6ABD5
 		CLC
 		LDA		#$FF
@@ -6509,7 +6509,7 @@ loc_6AE67:
 		BEQ		locret_6AECC
 		STY		byte_96
 		LDX		byte_96
-		JSR		_far_players_animB_sub0129_sub16_E
+		JSR		_far_players_state16_E
 		LDX		_scr_idx
 		LDY		byte_96
 		BCS		locret_6AECC
@@ -7122,7 +7122,7 @@ byte_6B27A:
 		SBNES				byte_6B27A						; when hit, do parabolic throw-back animation
 		OBJ_X_DELTA_SET		$08
 		OBJ_Y_DELTA_SET		$E8
-		NJSR				_players_animB_sub67_A
+		NJSR				_players_damaged_state_select_A
 		SJMP				_script_sub_y_parabolic_delta_infinite_anim_sync
 
 ; =============== O B J E C T   S C R I P T =================================
@@ -7274,7 +7274,7 @@ byte_6B37C:
 		OBJ_Y_DELTA_SET		$E0
 		NJSR				_native_cmp50_obj_y_lo_pos
 		SBCSS				byte_6B37C
-		NJSR				_far_players_animB_sub0129_G
+		NJSR				_far_players_default_state_select_G
 		SBPLS				_obj_scr_basket_game_ball_loop
 		SJSRS				_script_sub_6B393
 		SJMPS				_obj_scr_basket_game_ball_loop
@@ -7916,7 +7916,7 @@ _script_sub_6B750:
 ; =============== S C R I P T   R O U T I N E ===============================
 _script_sub_6B75D:
 		SJSRS				_script_sub_6B76F
-		NJSR				_players_animB_sub0129_sub0E_A
+		NJSR				_players_state0E_stun_start_A
 		SPR_IDX_SELECT		_spr_lib1_0D
 		SUSPEND				$78
 		NJSR				_native_obj_disable_from_idxCs_40_flag
@@ -8635,7 +8635,7 @@ _script160:
 		SCASE				byte_6BD2D
 byte_6BD25:
 		SJSR				_script_sub_6B76F
-		NJSR				_players_animB_sub0129_sub0E_A
+		NJSR				_players_state0E_stun_start_A
 		SPR_IDX_SELECT		_spr_lib2_0D
 byte_6BD2D:
 		SJMP				_script_idle

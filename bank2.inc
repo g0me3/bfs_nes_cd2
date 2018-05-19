@@ -1360,25 +1360,25 @@ byte_3A72C:
 		.BYTE	$01,$00
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub06_B_A:
+_players_varsA_04_set:
 		LDA		#$04
 		STA		_players_vars0A,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub04_A:
+_players_varsA_03_set:
 		LDA		#$03
 		STA		_players_vars0A,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub0A_B:
+_players_varsA_00_set:
 		LDA		#$00
 		STA		_players_vars0A,X
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_obj_insert:
+_players_insert:
 		LDA		_obj_x_lo_poss,X
 		STA		_players_x_poss,X
 		LDA		_obj_y_lo_poss,X
@@ -1411,7 +1411,7 @@ loc_3A780:
 		STA		_scr_params,X
 		LDA		_players_lives,X
 		BNE		loc_3A78C
-		JMP		_players_obj_insert_A
+		JMP		_players_insert_A
 loc_3A78C:
 		LDA		_players_max_hps,X
 		STA		_obj_hps,X
@@ -1448,7 +1448,7 @@ loc_3A7C0:
 		LDA		_players_states,X
 		CMP		#$18
 		BCS		loc_3A7CB
-		JSR		_players_animB
+		JSR		_select_players_state
 loc_3A7CB:
 		INC		_scr_idx
 		LDA		_scr_idx
@@ -1462,9 +1462,9 @@ locret_3A7DC:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB:
+_select_players_state:
 		LDA		_obj_heights,X
-		BEQ		_j_players_animB_sub0129
+		BEQ		_j_players_default_state_select
 		LDA		_players_vars07,X
 		PHA
 		AND		#$F7
@@ -1472,67 +1472,67 @@ _players_animB:
 		PLA
 		AND		#$08
 		BEQ		loc_3A7F1
-		JMP		_players_animB_sub58
+		JMP		_players_stun_state_select
 loc_3A7F1:
 		LDA		_players_vars0D,X
-		BNE		_j_players_animB_sub0129
+		BNE		_j_players_default_state_select
 		LDA		_obj_flips,X
 		AND		#_OBJ_FLIPS04
-		BNE		_j_players_animB_sub0129
-		JSR		_players_animB_A
-		BCC		_j_players_animB_sub0129
+		BNE		_j_players_default_state_select
+		JSR		_players_to_obj_collision_test
+		BCC		_j_players_default_state_select
 		TYA
-		STA		_scr_idxAs,X
-		LDA		_scr_params,Y
-		AND		#_OBJ_TYPE_MASK
+		STA		_scr_idxAs,X					; store obj idx we collided
+		LDA		_scr_params,Y					; fetch its type idx
+		AND		#_OBJ_TYPE_MASK					; do corresponding action
 		JSR		_switch
-		.WORD	_players_animB_sub0129
-		.WORD	_players_animB_sub0129
-		.WORD	_players_animB_sub0129
-		.WORD	_players_animB_sub3
-		.WORD	_players_animB_sub58
-		.WORD	_players_animB_sub58
-		.WORD	_players_animB_sub67
-		.WORD	_players_animB_sub67
-		.WORD	_players_animB_sub58
-		.WORD	_players_animB_sub0129
-		.WORD	_players_animB_subA
+		.WORD	_players_default_state_select	; for disabled collided objects
+		.WORD	_players_default_state_select	; for auto
+		.WORD	_players_default_state_select	; for player
+		.WORD	_players_loaded_state_select	; for pbullet
+		.WORD	_players_stun_state_select		; for stuna
+		.WORD	_players_stun_state_select		; for ball
+		.WORD	_players_damaged_state_select	; for enemy
+		.WORD	_players_damaged_state_select	; for ebullet
+		.WORD	_players_stun_state_select		; for stunb
+		.WORD	_players_default_state_select	; for solid
+		.WORD	_players_trigger_state_select	; for triggers
 
 ; =============== S U B R O U T I N E =======================================
-_j_players_animB_sub0129:
-		JMP		_players_animB_sub0129
+_j_players_default_state_select:
+		JMP		_players_default_state_select
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub3:
-		JSR		_get_box_bonus_special_pickup
-		BMI		_j_players_animB_sub0129
+_players_loaded_state_select:
+		JSR		_box_bonus_special_timer_test
+		BMI		_j_players_default_state_select
 		LDX		_scr_idx
 		LDA		_scr_idxCs,X
 		AND		#$20
-		BNE		_j_players_animB_sub0129
+		BNE		_j_players_default_state_select
 		LDY		_scr_idxAs,X
 		LDA		_obj_damages,Y
 		CMP		#_OBJ_DMG_STUN
-		BEQ		_players_animB_sub3_A
+		BEQ		_plyer_stun_state_force
 		LDA		#$00
 		STA		_obj_hps,Y
 		STA		_obj_damages,Y
 		LDA		_pads,X
-		AND		#$02
-		BEQ		_players_animB_sub3_A
+		AND		#_PAD_B
+		BEQ		_plyer_stun_state_force
 		LDA		_scr_idxBs,X
 		AND		#$40
-		BNE		_players_animB_sub3_A
+		BNE		_plyer_stun_state_force
 		LDA		_scr_idxBs,Y
 		AND		#$20
-		BNE		_players_animB_sub3_A
+		BNE		_plyer_stun_state_force
 		LDA		#$04
 		STA		_players_vars0B,X
 		LDA		#$10
 		STA		_players_states,X
 		LDA		#$00
 		STA		_players_anim_idxs,X
-		JSR		_players_animB_sub3_B
+		JSR		_players_loaded_state_select_B
 		STX		_tmp_ptrE
 		STY		_tmp_ptrE+1
 		TYA
@@ -1541,44 +1541,46 @@ _players_animB_sub3:
 		LDX		_tmp_ptrE
 		LDY		_tmp_ptrE+1
 		JSR		_players_pickup_obj_flags_update
-		JMP		_players_animB_sub0129
+		JMP		_players_default_state_select
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub58:
+_players_stun_state_select:
 		LDX		_scr_idx
 		LDA		_scr_idxCs,X
 		AND		#$20
-		BNE		_players_animB_sub0129
+		BNE		_players_default_state_select
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub3_A:
-		JSR		_players_animB_sub3_B
+_plyer_stun_state_force:
+		JSR		_players_loaded_state_select_B
 		LDA		#$00
 		STA		_obj_y_deltas,X
 		LDA		#$0E
 		STA		_players_states,X
-		BNE		_players_animB_sub0129
+		BNE		_players_default_state_select
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub67:
+_players_damaged_state_select:
 		LDX		_scr_idx
 		LDA		_obj_damages,X
 		CMP		#_OBJ_DMG_STUN
-		BEQ		_players_animB_sub0129
+		BEQ		_players_default_state_select
 		LDY		_scr_idxAs,X
 		LDA		_obj_damages,Y
-		BEQ		_players_animB_sub0129
+		BEQ		_players_default_state_select
 		LDA		#$20
 		STA		_obj_x_deltas,X
-		JSR		_players_animB_sub67_A
-		JSR		_players_animB_sub0129_sub06_B_A
+		JSR		_players_damaged_state_select_A
+		JSR		_players_varsA_04_set
 		LDA		_players_vars07,X
 		ORA		#$80
 		STA		_players_vars07,X
-		BNE		_players_animB_sub0129
+		BNE		_players_default_state_select
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_subA:
+_players_trigger_state_select:
 		LDX		_scr_idx
 		LDY		_scr_idxAs,X
 		LDA		#$00
@@ -1586,13 +1588,15 @@ _players_animB_subA:
 		LDA		_scr_idx
 		STA		_scr_idxAs,Y
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129:
+_players_default_state_select:
 		LDX		_scr_idx
 		LDA		_players_vars07,X
 		AND		#$80
 		BEQ		loc_3A8D1
-		JSR		_players_animB_sub0129_A
+		JSR		_players_default_state_select_A
 loc_3A8D1:
 		LDX		_scr_idx
 		LDA		#$00
@@ -1607,50 +1611,50 @@ loc_3A8D1:
 		AND		#$40
 		BEQ		loc_3A8FA
 		LDA		_pads,X
-		AND		#$0C
-		ORA		#$C0
+		AND		#_PAD_START|_PAD_SELECT
+		ORA		#_PAD_LEFT|_PAD_RIGHT
 		STA		_pads,X
 		LDA		_pads+4,X
-		AND		#$0C
+		AND		#_PAD_START|_PAD_SELECT
 		STA		_pads+4,X
 loc_3A8FA:
 		LDA		_players_states,X
 		LDY		#<[loc_3A935-1]
 		LDX		#>[loc_3A935-1]
 		JSR		_switch_param_ret
-		.WORD	_players_animB_sub0129_sub00
-		.WORD	_players_animB_sub0129_sub01
-		.WORD	_players_animB_sub0129_sub02
-		.WORD	_players_animB_sub0129_sub03
-		.WORD	_players_animB_sub0129_sub04
-		.WORD	_players_animB_sub0129_sub05
-		.WORD	_players_animB_sub0129_sub06
-		.WORD	_players_animB_sub0129_sub07
-		.WORD	_players_animB_sub0129_sub08
-		.WORD	_players_animB_sub0129_sub09
-		.WORD	_players_animB_sub0129_sub0A
-		.WORD	_players_animB_sub0129_sub0B
-		.WORD	_players_animB_sub0129_sub0C
-		.WORD	_players_animB_sub0129_sub0D
-		.WORD	_players_animB_sub0129_sub0E
-		.WORD	_players_animB_sub0129_sub0F
-		.WORD	_players_animB_sub0129_sub10
-		.WORD	_players_animB_sub0129_sub11
-		.WORD	_players_animB_sub0129_sub12
-		.WORD	_players_animB_sub0129_sub13
-		.WORD	_players_animB_sub0129_sub05
-		.WORD	_players_animB_sub0129_sub15
-		.WORD	_players_animB_sub0129_sub16
-		.WORD	_players_animB_sub0129_sub17
+		.WORD	_players_state00
+		.WORD	_players_state01
+		.WORD	_players_state02
+		.WORD	_players_state03
+		.WORD	_players_state04
+		.WORD	_players_state05
+		.WORD	_players_state06
+		.WORD	_players_state07
+		.WORD	_players_state08
+		.WORD	_players_state09
+		.WORD	_players_state0A
+		.WORD	_players_state0B
+		.WORD	_players_state0C
+		.WORD	_players_state0D
+		.WORD	_players_state0E_stun_start
+		.WORD	_players_state0F_stunned
+		.WORD	_players_state10
+		.WORD	_players_state11
+		.WORD	_players_state12
+		.WORD	_players_state13
+		.WORD	_players_state05
+		.WORD	_players_state15
+		.WORD	_players_state16
+		.WORD	_players_state17
 		.WORD	nullsub10
 loc_3A935:
 		LDX		_scr_idx
 		LDA		_players_states,X
 		CMP		#$14
 		BCS		loc_3A940
-		JSR		_players_animB_sub0129_B
+		JSR		_players_default_state_select_B
 loc_3A940:
-		JSR		_players_animB_sub0129_C
+		JSR		_players_default_state_select_C
 		LDA		#$00
 		STA		_players_vars0E,X
 		LDA		_players_vars0D,X
@@ -1660,7 +1664,7 @@ loc_3A940:
 		CMP		#$03
 		BEQ		loc_3A980
 		BCS		loc_3A958
-		JSR		_players_animB_sub0129_D
+		JSR		_player_hor_move_control
 loc_3A958:
 		LDA		_obj_x_lo_poss,X
 		PHA
@@ -1671,10 +1675,10 @@ loc_3A958:
 		STA		_obj_x_deltas,X
 		BEQ		loc_3A973
 		BPL		loc_3A970
-		JSR		_players_animB_sub0129_E
+		JSR		_players_default_state_select_E
 		JMP		loc_3A973
 loc_3A970:
-		JSR		_players_animB_sub0129_F
+		JSR		_players_default_state_select_F
 loc_3A973:
 		LDX		_scr_idx
 		PLA
@@ -1744,7 +1748,7 @@ loc_3A9EC:
 		PLA
 		CMP		_obj_heights,X
 		BCS		loc_3AA1C
-		JSR		_players_animB_sub0129_G
+		JSR		_players_default_state_select_G
 		BPL		loc_3AA08
 		LDY		_scr_idxBs,X
 		TYA
@@ -1753,7 +1757,7 @@ loc_3A9EC:
 		TYA
 		AND		#$0F
 		TAX
-		JSR		_players_animB_sub0129_G
+		JSR		_players_default_state_select_G
 		BMI		loc_3AA1C
 loc_3AA08:
 		CLC
@@ -1787,23 +1791,29 @@ loc_3AA36:
 		LDA		#$80
 		STA		_stage_flags
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
 nullsub10:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub00:
-		JSR		_players_animB_sub0129_sub00_A
-		BCS		_players_animB_sub0129_sub01_B
+_players_state00:
+		JSR		_players_state00_A
+		BCS		_players_state01_B
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub02_A:
+_players_state02_A:
 		LDX		_scr_idx
 		LDA		#$14
 		STA		_players_anim_idxs,X
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub0A_A:
+_players_state0A_A:
 		LDA		#$00
 		STA		_obj_y_deltas,X
 		LDA		#$01
@@ -1811,13 +1821,14 @@ _players_animB_sub0129_sub0A_A:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub01:
-		JSR		_players_animB_sub0129_sub01_A
-		BCS		_players_animB_sub0129_sub01_B
-		JMP		_players_animB_sub0129_sub01_C
+_players_state01:
+		JSR		_players_state01_A
+		BCS		_players_state01_B
+; TODO: BCC is just enough here!
+		JMP		_players_state01_C
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub01_B:
+_players_state01_B:
 		LDA		#_apu_mus72_idx
 		JSR		_apu_se_req
 		LDA		#$00
@@ -1829,16 +1840,16 @@ _players_animB_sub0129_sub01_B:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub02:
-		JSR		_players_animB_sub0129_sub00_A
-		BCC		_players_animB_sub0129_sub02_A
+_players_state02:
+		JSR		_players_state00_A
+		BCC		_players_state02_A
 		LDA		_pads+4,X
-		AND		#$01
+		AND		#_PAD_A
 		BEQ		loc_3AA88
-		JMP		_players_animB_sub0129_sub02_B
+		JMP		_players_state02_B
 loc_3AA88:
 		LDA		_pads,X
-		AND		#$C0
+		AND		#_PAD_LEFT|_PAD_RIGHT
 		BNE		loc_3AA97
 		INC		_players_vars0B,X
 		LDA		_players_vars0B,X
@@ -1847,11 +1858,13 @@ loc_3AA88:
 		RTS
 loc_3AA97:
 		LDA		_pads,X
-		AND		#$20
-		BEQ		_players_animB_sub0129_sub02_D
+		AND		#_PAD_DOWN
+		BEQ		_players_state02_D
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub02_C:
+_players_state02_C:
 		LDA		#$03
 		STA		_players_states,X
 		LDA		#$00
@@ -1859,32 +1872,32 @@ _players_animB_sub0129_sub02_C:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub03:
-		JSR		_players_animB_sub0129_sub00_A
-		BCC		_players_animB_sub0129_sub02_A
+_players_state03:
+		JSR		_players_state00_A
+		BCC		_players_state02_A
 		STA		_tmp_ptrE+1
-		JSR		_players_animB_sub0129_sub03_A
+		JSR		_players_state03_A
 		BCC		nullsub11
 		LDA		_pads,X
-		AND		#$20
-		BEQ		_players_animB_sub0129_sub02_D
+		AND		#_PAD_DOWN
+		BEQ		_players_state02_D
 		LDA		_tmp_ptrE+1
 		CMP		#$02
 		BEQ		nullsub11
 		LDA		_pads+4,X
-		AND		#$01
+		AND		#_PAD_A
 		BEQ		nullsub11
 		LDY		#$D0
 		JSR		_obj_to_tile_collision_test_down
 		BCS		nullsub11
-		JMP		_players_animB_sub0129_sub02_A
+		JMP		_players_state02_A
 
 ; =============== S U B R O U T I N E =======================================
 nullsub11:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub02_D:
+_players_state02_D:
 		LDA		#$05
 		STA		_players_states,X
 		LDA		#$00
@@ -1894,50 +1907,50 @@ _players_animB_sub0129_sub02_D:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub04:
+_players_state04:
 		LDX		_scr_idx
 		LDA		#$00
 		STA		_players_anim_idxs,X
-		JMP		_players_animB_sub0129_sub04_A
+		JMP		_players_varsA_03_set
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub05:
-		JSR		_players_animB_sub0129_sub00_A
+_players_state05:
+		JSR		_players_state00_A
 		BCS		loc_3AAF3
 		LDA		_players_states,X
 		CMP		#$14
 		BCS		loc_3AAF9
-		JMP		_players_animB_sub0129_sub02_A
+		JMP		_players_state02_A
 loc_3AAF3:
-		JSR		_players_animB_sub0129_sub01_C
+		JSR		_players_state01_C
 		BEQ		loc_3AAF9
 		RTS
 loc_3AAF9:
 		LDA		_pads,X
-		AND		#$20
-		BNE		_players_animB_sub0129_sub02_C
+		AND		#_PAD_DOWN
+		BNE		_players_state02_C
 		LDA		_pads+4,X
-		AND		#$01
+		AND		#_PAD_A
 		BEQ		loc_3AB08
-		JMP		_players_animB_sub0129_sub02_B
+		JMP		_players_state02_B
 loc_3AB08:
 		LDA		_pads,X
-		AND		#$C0
-		BEQ		_players_animB_sub0129_sub02_D
+		AND		#_PAD_LEFT|_PAD_RIGHT
+		BEQ		_players_state02_D
 		JMP		loc_3AB70
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub06:
+_players_state06:
 		LDX		_scr_idx
 		LDA		_obj_flips,X
 		ORA		#_OBJ_VFLIP|_OBJ_FLIPS08|_OBJ_FLIPS04
 		STA		_obj_flips,X
-		JSR		_players_animB_sub0129_sub04_A
+		JSR		_players_varsA_03_set
 		INC		_players_states,X
 		JSR		_native_obj_disable_from_idxCs_40_flag
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub07:
+_players_state07:
 		LDX		_scr_idx
 		LDA		_scr_idxBs,X
 		AND		#$0F
@@ -1953,13 +1966,13 @@ _players_animB_sub0129_sub07:
 		LDA		_obj_flips,X
 		AND		#[~[_OBJ_UNDER_BG|_OBJ_FLIPS08|_OBJ_FLIPS04]&$FF]
 		STA		_obj_flips,X
-		JMP		_players_animB_sub0129_sub06_B
+		JMP		_players_state06_B
 loc_3AB4B:
 		LDA		_scr_idxBs,X
 		BMI		loc_3AB53
-		JMP		_players_animB_sub0129_sub06_B
+		JMP		_players_state06_B
 loc_3AB53:
-		JSR		_players_animB_sub0129_sub06_C
+		JSR		_players_state06_C
 		LDA		_obj_x_lo_poss,X
 		STA		_players_x_poss,X
 		LDA		_obj_y_lo_poss,X
@@ -1986,7 +1999,7 @@ loc_3AB72:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub02_B:
+_players_state02_B:
 		LDX		_scr_idx
 		LDA		#$92
 		STA		_obj_y_deltas,X
@@ -1997,30 +2010,34 @@ _players_animB_sub0129_sub02_B:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub08:
-		JSR		_players_animB_sub0129_sub08_A
+_players_state08:
+		JSR		_players_state08_A
 		BEQ		loc_3ABC6
 		LDA		_pads,X
-		AND		#$01
+		AND		#_PAD_A
 		BEQ		loc_3ABC6
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub09:
+_players_state09:
 		LDX		_scr_idx
 		LDA		#$1A
 		STA		_players_anim_idxs,X
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub09_A:
+_players_state09_A:
 		LDA		#$B0
 		STA		_obj_y_deltas,X
 		LDA		#$0A
 		STA		_players_states,X
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub0A:
-		JSR		_players_animB_sub0129_sub08_A
+_players_state0A:
+		JSR		_players_state08_A
 		BEQ		loc_3ABB3
 		RTS
 loc_3ABB3:
@@ -2029,18 +2046,18 @@ loc_3ABB3:
 		STA		_obj_flips,X
 		LDA		_obj_hps,X
 		BNE		loc_3ABC3
-		JMP		_players_animB_sub0129_sub0A_A
+		JMP		_players_state0A_A
 loc_3ABC3:
-		JSR		_players_animB_sub0129_sub0A_B
+		JSR		_players_varsA_00_set
 loc_3ABC6:
-		JSR		_players_animB_sub0129_sub00_A
+		JSR		_players_state00_A
 		BCS		loc_3ABCE
-		JMP		_players_animB_sub0129_sub02_A
+		JMP		_players_state02_A
 loc_3ABCE:
-		JMP		_players_animB_sub0129_sub02_D
+		JMP		_players_state02_D
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub06_B:
+_players_state06_B:
 		LDA		#$00
 		STA		_players_vars0F,X
 		LDA		_obj_flips,X
@@ -2054,13 +2071,13 @@ _players_animB_sub0129_sub06_B:
 		LDA		#$C0
 		STA		_obj_x_deltas,X
 loc_3ABEE:
-		JSR		_players_animB_sub0129_sub06_B_A
+		JSR		_players_varsA_04_set
 		LDA		_obj_damages,X
 		CMP		#_OBJ_DMG_STUN
 		BEQ		loc_3AC00
 		LDA		#_OBJ_DMG_NONE
 		STA		_obj_damages,X
-		JMP		_players_animB_sub0129_sub09_A
+		JMP		_players_state09_A
 loc_3AC00:
 		LDA		#_apu_mus28_idx
 		JSR		_apu_se_req
@@ -2074,7 +2091,7 @@ loc_3AC00:
 		STA		_obj_flips,X
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub0B:
+_players_state0B:
 		LDX		_scr_idx
 		LDA		_players_vars0E,X
 		BNE		loc_3AC38
@@ -2091,14 +2108,14 @@ _players_animB_sub0129_sub0B:
 loc_3AC2D:
 		LDA		#_OBJ_DMG_NONE
 		STA		_obj_damages,X
-		JSR		_players_animB_sub0129_sub0A_B
-		JMP		_players_animB_sub0129_sub02_D
+		JSR		_players_varsA_00_set
+		JMP		_players_state02_D
 loc_3AC38:
 		LDA		#_apu_mus2B_idx
 		JSR		_apu_se_req
 		LDA		#_OBJ_DMG_NONE
 		STA		_obj_damages,X
-		JSR		_players_animB_sub0129_sub04_A
+		JSR		_players_varsA_03_set
 		INC		_players_states,X
 		LDA		#$28
 		STA		_players_anim_idxs,X
@@ -2107,7 +2124,7 @@ loc_3AC38:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub0C:
+_players_state0C:
 		LDX		_scr_idx
 		DEC		_players_vars0B,X
 		BEQ		loc_3AC57
@@ -2119,20 +2136,22 @@ loc_3AC57:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub0D:
-		JSR		_players_animB_sub0129_sub00_A
+_players_state0D:
+		JSR		_players_state00_A
 		BCS		loc_3AC6A
-		JSR		_players_animB_sub0129_sub01_A
+		JSR		_players_state01_A
 		BCS		loc_3AC6A
 		RTS
 loc_3AC6A:
 		LDX		_scr_idx
-		JSR		_players_animB_sub0129_sub04_A
+		JSR		_players_varsA_03_set
 		LDA		#$00
 		STA		_obj_y_deltas,X
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub0E:
+_players_state0E_stun_start:
 		LDA		#_apu_mus26_idx
 		JSR		_apu_se_req
 		LDX		_scr_idx
@@ -2142,21 +2161,23 @@ _players_animB_sub0129_sub0E:
 		STA		_players_vars0B,X
 		LDA		#$18
 		STA		_players_anim_idxs,X
-		JSR		_players_animB_sub0129_sub0E_A
+		JSR		_players_state0E_stun_start_A
+
+; !FALLTHROUGH!
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub0F:
+_players_state0F_stunned:
 		LDX		_scr_idx
 		LDA		_obj_y_deltas,X
 		BEQ		loc_3AC98
 		BPL		loc_3AC9D
-		JSR		_players_animB_sub0129_sub08_A
+		JSR		_players_state08_A
 		BNE		loc_3ACAA
 loc_3AC98:
-		JSR		_players_animB_sub0129_sub00_A
+		JSR		_players_state00_A
 		BCS		loc_3ACA2
 loc_3AC9D:
-		JSR		_players_animB_sub0129_sub01_A
+		JSR		_players_state01_A
 		BCC		loc_3ACAA
 loc_3ACA2:
 		LDA		#$00
@@ -2167,38 +2188,38 @@ loc_3ACAA:
 		BEQ		loc_3ACAF
 		RTS
 loc_3ACAF:
-		JSR		_players_animB_sub0129_sub0A_B
+		JSR		_players_varsA_00_set
 		JSR		_native_obj_disable_from_idxCs_40_flag
-		JMP		_players_animB_sub0129_sub02_D
+		JMP		_players_state02_D
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub3_B:
+_players_loaded_state_select_B:
 		LDA		#$F8
 		STA		_obj_x_deltas,X
-		JSR		_players_animB_sub3_B_A
-		JSR		_players_animB_sub0129_sub06_B_A
+		JSR		_players_loaded_state_select_B_A
+		JSR		_players_varsA_04_set
 		LDA		_obj_flips,X
 		AND		#[~_OBJ_VFLIP&$FF]
 		STA		_obj_flips,X
 		JMP		_scr_obj_show
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub10:
+_players_state10:
 		LDX		_scr_idx
 		LDA		_pads,X
-		AND		#$3F
+		AND		#[~[_PAD_LEFT|_PAD_RIGHT]&$FF]
 		STA		_pads,X
 		DEC		_players_vars0B,X
 		BEQ		loc_3ACDB
 		RTS
 loc_3ACDB:
-		JSR		_players_animB_sub0129_sub0A_B
-		JMP		_players_animB_sub0129_sub02_D
+		JSR		_players_varsA_00_set
+		JMP		_players_state02_D
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub11:
-		JSR		_players_animB_sub0129_sub11_A
-		JSR		_players_animB_sub0129_sub11_B
+_players_state11:
+		JSR		_players_state11_A
+		JSR		_players_state11_B
 		LDA		_players_vars07,X
 		AND		#$20
 		BNE		loc_3AD13
@@ -2206,9 +2227,9 @@ _players_animB_sub0129_sub11:
 		BNE		loc_3AD13
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub12:
-		JSR		_players_animB_sub0129_sub11_A
-		JSR		_players_animB_sub0129_sub0A_B
+_players_state12:
+		JSR		_players_state11_A
+		JSR		_players_varsA_00_set
 		LDA		_obj_y_deltas,X
 		BMI		loc_3AD0D
 		CMP		#$24
@@ -2216,7 +2237,7 @@ _players_animB_sub0129_sub12:
 		LDA		_players_vars07,X
 		AND		#$20
 		BNE		loc_3AD09
-		JMP		_players_animB_sub0129_sub00
+		JMP		_players_state00
 loc_3AD09:
 		DEC		_players_states,X
 		BNE		loc_3AD13
@@ -2239,16 +2260,16 @@ loc_3AD13:
 		LDA		#_apu_mus47_idx
 		JSR		_apu_se_req
 loc_3AD2D:
-		JSR		_players_animB_sub0129_sub12_A
+		JSR		_players_state12_A
 		BCC		locret_3AD3A
 		LDA		#$00
 		STA		_obj_y_deltas,X
-		JMP		_players_animB_sub0129_sub01_B
+		JMP		_players_state01_B
 locret_3AD3A:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub11_A:
+_players_state11_A:
 		LDX		_scr_idx
 		LDA		_obj_y_deltas,X
 		BPL		loc_3AD48
@@ -2262,35 +2283,35 @@ loc_3AD48:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub12_A:
+_players_state12_A:
 		CLC
 		LDA		_obj_y_deltas,X
 		BEQ		locret_3AD5D
 		BMI		loc_3AD5A
-		JMP		_players_animB_sub0129_sub12_A_A
+		JMP		_players_state12_A_A
 loc_3AD5A:
-		JMP		_players_animB_sub0129_sub12_A_B
+		JMP		_players_state12_A_B
 locret_3AD5D:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub13:
+_players_state13:
 		LDX		_scr_idx
 		LDA		#$00
 		STA		_obj_x_deltas,X
-		JSR		_players_animB_sub0129_sub06_B_A
+		JSR		_players_varsA_04_set
 		LDA		#$48
 		STA		_players_anim_idxs,X
 		LDA		_pads+4,X
-		AND		#$01
+		AND		#_PAD_A
 		BEQ		loc_3AD78
-		JSR		_players_animB_sub0129_sub0A_B
-		JMP		_players_animB_sub0129_sub02_B
+		JSR		_players_varsA_00_set
+		JMP		_players_state02_B
 loc_3AD78:
-		JMP		_players_animB_sub0129_sub00_A
+		JMP		_players_state00_A
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub15:
+_players_state15:
 		LDX		_scr_idx
 		DEC		_obj_y_lo_poss,X
 		DEC		_obj_y_lo_poss,X
@@ -2300,7 +2321,7 @@ _players_animB_sub0129_sub15:
 		INC		_players_states,X
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub16:
+_players_state16:
 		LDX		_scr_idx
 		INC		_obj_y_lo_poss,X
 		INC		_obj_y_lo_poss,X
@@ -2310,7 +2331,7 @@ _players_animB_sub0129_sub16:
 		DEC		_players_states,X
 loc_3AD9D:
 		LDA		_pads,X
-		AND		#$40
+		AND		#_PAD_LEFT
 		BEQ		loc_3ADB7
 		DEC		_obj_x_lo_poss,X
 		DEC		_obj_x_lo_poss,X
@@ -2322,7 +2343,7 @@ loc_3AD9D:
 		BNE		loc_3ADCF
 loc_3ADB7:
 		LDA		_pads,X
-		AND		#$80
+		AND		#_PAD_RIGHT
 		BEQ		loc_3ADCF
 		INC		_obj_x_lo_poss,X
 		INC		_obj_x_lo_poss,X
@@ -2337,12 +2358,12 @@ loc_3ADCF:
 		DEC		_players_vars0B,X
 		BEQ		loc_3ADDD
 		LDA		_pads,X
-		AND		#$01
+		AND		#_PAD_A
 		BEQ		locret_3ADE8
 loc_3ADDD:
 		LDA		_players_vars08,X
 		BNE		loc_3ADE6
-		JSR		_players_animB_sub0129_sub16_E
+		JSR		_players_state16_E
 		BCC		loc_3ADE9
 loc_3ADE6:
 		INC		_players_vars0B,X
@@ -2352,11 +2373,11 @@ loc_3ADE9:
 		LDA		_obj_flips,X
 		AND		#[~[_OBJ_FLIPS08|_OBJ_FLIPS04]&$FF]
 		STA		_obj_flips,X
-		JSR		_players_animB_sub0129_sub0A_B
-		JMP		_players_animB_sub0129_sub02_D
+		JSR		_players_varsA_00_set
+		JMP		_players_state02_D
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub17:
+_players_state17:
 		LDX		_scr_idx
 		DEC		_players_vars0B,X
 		BNE		locret_3AE0C
@@ -2384,7 +2405,7 @@ loc_3AE0D:
 		SEC
 		SBC		#$28
 		STA		_obj_y_lo_poss,X
-		JSR		_players_obj_insert
+		JSR		_players_insert
 		LDA		#$F0
 		STA		_players_vars0B,X
 		LDA		_obj_flips,X
@@ -2396,13 +2417,13 @@ loc_3AE0D:
 		STA		_players_states,X
 		LDA		#_apu_mus2C_idx
 		JSR		_apu_se_req
-		JMP		_players_animB_sub0129_sub04_A
+		JMP		_players_varsA_03_set
 loc_3AE4F:
 		LDA		#$00
 		STA		_players_rr_ptss,X
 		LDY		byte_3A72C,X
 		LDA		_players_lives,Y
-		BNE		_players_obj_insert_A
+		BNE		_players_insert_A
 		LDA		#$07
 		STA		_main_sub_idx
 loc_3AE5F:
@@ -2430,15 +2451,15 @@ loc_3AE87:
 		SBC		#$0F
 		STA		_obj_x_lo_poss,X
 loc_3AE90:
-		JSR		_players_obj_insert
+		JSR		_players_insert
 		JSR		_scr_flips_04_set
 		JSR		_native_obj_blink_set
 		LDA		#$3C
 		STA		_players_vars0F,X
-		JMP		_players_animB_sub0129_sub02_D
+		JMP		_players_state02_D
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_B:
+_players_default_state_select_B:
 		LDX		_scr_idx
 		LDA		_obj_y_hi_poss,X
 		BMI		locret_3AECA
@@ -2447,7 +2468,7 @@ _players_animB_sub0129_B:
 		CMP		#$E8
 		BCC		locret_3AECA
 loc_3AEB0:
-		JSR		_players_animB_sub0129_sub11_B
+		JSR		_players_state11_B
 		JSR		_native_obj_disable_from_idxCs_40_flag
 		LDA		#$3C
 		STA		_players_vars0B,X
@@ -2458,16 +2479,16 @@ loc_3AEB0:
 		DEC		_players_lives,X
 loc_3AEC6:
 		LDA		#$17
-		BNE		_players_obj_insert_ex
+		BNE		_players_insert_ex
 locret_3AECA:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_obj_insert_A:
+_players_insert_A:
 		LDA		#$18
 
 ; =============== S U B R O U T I N E =======================================
-_players_obj_insert_ex:
+_players_insert_ex:
 		STA		_players_states,X
 		LDA		#$02
 		STA		_obj_y_hi_poss,X
@@ -2475,12 +2496,12 @@ _players_obj_insert_ex:
 		ORA		#_OBJ_FLIPS08|_OBJ_FLIPS04
 		STA		_obj_flips,X
 		JSR		_scr_obj_hide
-		JSR		_players_animB_sub0129_sub04_A
+		JSR		_players_varsA_03_set
 		CLC
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub16_E:
+_players_state16_E:
 		STX		_tmp_ptrE
 		LDY		#$0B
 loc_3AEE8:
@@ -2515,7 +2536,7 @@ locret_3AF1A:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub03_A:
+_players_state03_A:
 		SEC
 		LDY		#$32
 		LDA		_scr_idxBs,X
@@ -2562,13 +2583,13 @@ loc_3AF64:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub00_A:
+_players_state00_A:
 		CLC
 		LDX		_scr_idx
 		LDA		_obj_hps,X
 		BEQ		loc_3AF94
-		JSR		_players_animB_sub0129_sub05_A_A
-		JSR		_players_animB_sub0129_sub05_A_B
+		JSR		_players_state05_A_A
+		JSR		_players_state05_A_B
 		BCC		loc_3AF81
 		PHA
 		LDA		#$00
@@ -2594,15 +2615,15 @@ loc_3AF96:
 		STA		_obj_y_deltas,X
 		LDA		byte_7F
 		JSR		_switch
-		.WORD	_players_animB_sub0129_sub05_A_sub0
-		.WORD	_players_animB_sub0129_sub05_A_sub1
-		.WORD	_players_animB_sub0129_sub05_A_sub2
-		.WORD	_players_animB_sub0129_sub05_A_sub3
-		.WORD	_players_animB_sub0129_sub05_A_sub4
-		.WORD	_players_animB_sub0129_sub05_A_sub5
+		.WORD	_players_state05_A_sub0
+		.WORD	_players_state05_A_sub1
+		.WORD	_players_state05_A_sub2
+		.WORD	_players_state05_A_sub3
+		.WORD	_players_state05_A_sub4
+		.WORD	_players_state05_A_sub5
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub05_A_sub2:
+_players_state05_A_sub2:
 		LDA		_tmp_ptr4
 		CMP		#$F4
 		BCC		loc_3AFB7
@@ -2621,53 +2642,58 @@ loc_3AFC4:
 		BEQ		loc_3AFD4
 loc_3AFCA:
 		LDA		_pads,X
-		AND		#$C0
+		AND		#_PAD_LEFT|_PAD_RIGHT
 		BNE		loc_3AFD4
 		LDA		_players_vars10,X
 		STA		_players_x_deltas,X
 loc_3AFD4:
-		JMP		_players_animB_sub0129_sub05_A_sub0
+		JMP		_players_state05_A_sub0
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub05_A_sub1:
+_players_state05_A_sub1:
 		LDA		#<[byte_3B049]
 		STA		_tmp_ptr0
 		LDA		#>[byte_3B049]
 		STA		_tmp_ptr0+1
 		LDA		#$08
 		LDY		#$07
-		BNE		_players_animB_sub0129_sub05_A_ex0
+		BNE		_players_state05_A_ex0
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub05_A_sub3:
+_players_state05_A_sub3:
 		LDA		#<[byte_3B03D]
 		STA		_tmp_ptr0
 		LDA		#>[byte_3B03D]
 		STA		_tmp_ptr0+1
 		LDA		#$18
 		LDY		#$0B
-		BNE		_players_animB_sub0129_sub05_A_ex0
+		BNE		_players_state05_A_ex0
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub05_A_sub4:
+_players_state05_A_sub4:
 		LDA		#<[byte_3B025]
 		LDY		#>[byte_3B025]
-		JMP		_players_animB_sub0129_sub05_A_ex1
+; TODO: fixe me, HI nibble always !0, BNE just enough here
+		JMP		_players_state05_A_ex1
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub05_A_sub5:
+_players_state05_A_sub5:
 		LDA		#<[byte_3B031]
 		LDY		#>[byte_3B031]
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub05_A_ex1:
+_players_state05_A_ex1:
 		STA		_tmp_ptr0
 		STY		_tmp_ptr0+1
 		LDA		#$18
 		LDY		#$0B
 
+; !FALLTHROUGH!
+
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub05_A_ex0:
+_players_state05_A_ex0:
 		STA		_tmp_ptr2
 		LDA		_tmp_ptr4
 loc_3B00A:
@@ -2675,20 +2701,20 @@ loc_3B00A:
 		BEQ		loc_3B013
 		DEY
 		BPL		loc_3B00A
-		BMI		_players_animB_sub0129_sub05_A_sub0
+		BMI		_players_state05_A_sub0
 loc_3B013:
 		LDA		_tmp_ptr2
 		STA		_players_x_deltas,X
 		TYA
 		LSR
-		BCS		_players_animB_sub0129_sub05_A_sub0
+		BCS		_players_state05_A_sub0
 		SEC
 		LDA		#$00
 		SBC		_tmp_ptr2
 		STA		_players_x_deltas,X
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub05_A_sub0:
+_players_state05_A_sub0:
 		PLA
 		SEC
 		RTS
@@ -2703,7 +2729,7 @@ byte_3B049:
 		.BYTE	$B0,$B2,$B1,$CE,$FA,$F2,$FB,$F3
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub01_A:
+_players_state01_A:
 		LDX		_scr_idx
 		CLC
 		LDA		_obj_y_deltas,X
@@ -2713,12 +2739,12 @@ _players_animB_sub0129_sub01_A:
 		LDA		#$6E
 loc_3B05F:
 		STA		_obj_y_deltas,X
-		JMP		_players_animB_sub0129_sub12_A_A
+		JMP		_players_state12_A_A
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub08_A:
+_players_state08_A:
 		LDX		_scr_idx
-		JSR		_players_animB_sub0129_sub12_A_B
+		JSR		_players_state12_A_B
 		BCS		loc_3B077
 		CLC
 		LDA		_obj_y_deltas,X
@@ -2732,7 +2758,7 @@ locret_3B07C:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub01_C:
+_players_state01_C:
 		LDX		_scr_idx
 		LDA		_players_vars07,X
 		AND		#$20
@@ -2743,12 +2769,12 @@ locret_3B089:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_A:
+_players_default_state_select_A:
 		LDA		#_apu_mus25_idx
 		JSR		_apu_se_req
 		LDA		#$09
 		STA		_players_states,X
-		JSR		_players_animB_sub0129_A_A
+		JSR		_players_default_state_select_A_A
 		LDA		#$00
 		STA		_players_vars0D,X
 		LDA		_debug_invulnerability_flag	; NOTE, original debug leftovers
@@ -2765,7 +2791,7 @@ loc_3B0AA:
 		JMP		_native_obj_disable_from_idxCs_40_flag
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_A_A:
+_players_default_state_select_A_A:
 		LDA		#$40
 		STA		_players_vars0F,X
 		JSR		_scr_obj_show
@@ -2773,7 +2799,7 @@ _players_animB_sub0129_A_A:
 		JMP		_scr_flips_04_set
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_E_sub2_A:
+_players_default_state_select_E_sub2_A:
 		LDY		_tmp_ptr4
 		LDA		byte_E3
 		BNE		locret_3B0E0
@@ -2794,19 +2820,19 @@ locret_3B0E0:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_E:
-		JSR		_players_animB_sub0129_E_A
+_players_default_state_select_E:
+		JSR		_players_default_state_select_E_A
 		STA		_players_vars0E,X
 		STY		_tmp_ptr4
 		JSR		_switch
 		.WORD	nullsub7
 		.WORD	_players_tile_pickup_handlers
-		.WORD	_players_animB_sub0129_E_sub2
-		.WORD	_players_animB_sub0129_E_sub2
+		.WORD	_players_default_state_select_E_sub2
+		.WORD	_players_default_state_select_E_sub2
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_E_sub2:
-		JSR		_players_animB_sub0129_E_sub2_A
+_players_default_state_select_E_sub2:
+		JSR		_players_default_state_select_E_sub2_A
 		BNE		loc_3B112
 		LDA		_scr_idx
 		PHA
@@ -2815,7 +2841,7 @@ _players_animB_sub0129_E_sub2:
 		PHA
 		LDA		#$F0
 		STA		_obj_x_deltas,Y
-		JSR		_players_animB_sub0129_E_A
+		JSR		_players_default_state_select_E_A
 		LDY		_scr_idx
 		PLA
 		STA		_obj_x_deltas,Y
@@ -2825,19 +2851,19 @@ loc_3B112:
 		JMP		loc_3B146
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_F:
-		JSR		_players_animB_sub0129_F_A
+_players_default_state_select_F:
+		JSR		_players_default_state_select_F_A
 		STA		_players_vars0E,X
 		STY		_tmp_ptr4
 		JSR		_switch
 		.WORD	nullsub7
 		.WORD	_players_tile_pickup_handlers
-		.WORD	_players_animB_sub0129_F_sub2
-		.WORD	_players_animB_sub0129_F_sub2
+		.WORD	_players_default_state_select_F_sub2
+		.WORD	_players_default_state_select_F_sub2
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_F_sub2:
-		JSR		_players_animB_sub0129_E_sub2_A
+_players_default_state_select_F_sub2:
+		JSR		_players_default_state_select_E_sub2_A
 		BNE		loc_3B146
 		LDA		_scr_idx
 		PHA
@@ -2846,7 +2872,7 @@ _players_animB_sub0129_F_sub2:
 		PHA
 		LDA		#$10
 		STA		_obj_x_deltas,Y
-		JSR		_players_animB_sub0129_F_A
+		JSR		_players_default_state_select_F_A
 		LDY		_scr_idx
 		PLA
 		STA		_obj_x_deltas,Y
@@ -3013,17 +3039,17 @@ _obj_pickups_list:
 _players_tile_pickup_test:
 		LDX		_scr_idx						; fetch cur player idx
 		LDA		_pads+4,X						; test if B pressed
-		AND		#$02
+		AND		#_PAD_B
 		BEQ		loc_3B272
 		LDA		_scr_idxBs,X					; while colliding with tile object
 		AND		#$40
 		BNE		loc_3B272
 		LDA		_players_vars0D,X				; extra checks...
 		BNE		loc_3B272
-		JSR		_get_box_bonus_special_pickup	; if ok, then pickup object
+		JSR		_box_bonus_special_timer_test	; if ok, then pickup object
 		BMI		loc_3B272
 		LDA		_pads+4,X						; clear B press
-		AND		#$FD
+		AND		#[~_PAD_B&$FF]
 		STA		_pads+4,X
 		LDA		_obj_heights,X					; also test if we not crouching
 		CMP		#$10
@@ -3033,7 +3059,7 @@ loc_3B272:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_get_box_bonus_special_pickup:
+_box_bonus_special_timer_test:
 		LDA		_room_flags
 		AND		#$08
 		BEQ		locret_3B27D
@@ -3060,19 +3086,19 @@ _players_pickup_obj_flags_update:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub11_B:
+_players_state11_B:
 		LDA		_scr_idxBs,X
 		AND		#$40
 		BNE		loc_3B2A6
 		RTS
 loc_3B2A6:
 		JSR		_native_obj_disable_from_idxCs_40_flag
-		LDA		#$12
+		LDA		#_PAD_UP|_PAD_B
 		STA		_pads,X
 		STA		_pads+4,X
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_C:
+_players_default_state_select_C:
 		LDA		_players_states,X
 		CMP		#$05
 		BNE		loc_3B2D0
@@ -3082,7 +3108,7 @@ _players_animB_sub0129_C:
 		LDA		_players_x_speeds,X
 		BEQ		loc_3B2D0
 		LDA		_pads,X
-		AND		#$C0
+		AND		#_PAD_LEFT|_PAD_RIGHT
 		BEQ		loc_3B2D0
 		INC		_players_vars0C,X
 		BNE		loc_3B2D4
@@ -3127,7 +3153,7 @@ loc_3B307:
 		JMP		loc_3B3A7
 loc_3B311:
 		LDA		_pads+4,X
-		AND		#$02
+		AND		#_PAD_B
 		BNE		loc_3B31A
 		JMP		loc_3B3A7
 loc_3B31A:
@@ -3142,11 +3168,11 @@ loc_3B31A:
 		BEQ		loc_3B346
 		STY		byte_96
 		LDX		byte_96
-		JSR		_players_animB_sub0129_C_A
-		JSR		_players_animB_sub0129_C_B
+		JSR		_players_default_state_select_C_A
+		JSR		_players_default_state_select_C_B
 		BCS		loc_3B3A7
 		LDX		byte_96
-		JSR		_players_animB_sub0129_sub16_E
+		JSR		_players_state16_E
 		BCS		loc_3B3A7
 		LDX		_scr_idx
 		LDY		byte_96
@@ -3200,34 +3226,35 @@ loc_3B3A7:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_D:
-		LDX		_scr_idx
-		LDA		_pads,X
-		AND		#$80
+_player_hor_move_control:
+		LDX		_scr_idx						; get players index
+		LDA		_pads,X							; test what d-pad button pressed
+		AND		#_PAD_RIGHT
 		BEQ		loc_3B3BE
-		LDA		_obj_flips,X
+		LDA		_obj_flips,X					; if right, hflip set
 		ORA		#_OBJ_HFLIP
 		STA		_obj_flips,X
-		LDA		#$20
+		LDA		#$20							; positive x delta load
 		BNE		loc_3B3CE
 loc_3B3BE:
-		LDA		_pads,X
-		AND		#$40
+		LDA		_pads,X							; if right, hflip clear
+		AND		#_PAD_LEFT
 		BEQ		loc_3B3DC
 		LDA		_obj_flips,X
 		AND		#[~_OBJ_HFLIP&$FF]
 		STA		_obj_flips,X
-		LDA		#$E0
+		LDA		#$E0							; negative x delta load
 loc_3B3CE:
-		LDY		_players_states,X
+		LDY		_players_states,X				; test if player stunned
 		CPY		#$03
 		BEQ		loc_3B3E9
-		STA		_obj_x_deltas,X
-		STA		_players_vars10,X
+		STA		_obj_x_deltas,X					; store delta if not
+		STA		_players_vars10,X				; also reload inertial timer
+; TODO, optimize me, RTS is just enough
 		JMP		locret_3B3EE
 loc_3B3DC:
-		LDA		_players_vars10,X
-		BEQ		loc_3B3E9
+		LDA		_players_vars10,X				; when stopped do inertial countdowns
+		BEQ		loc_3B3E9						; worked only on a special levels
 		BMI		loc_3B3E7
 		DEC		_players_vars10,X
 		JMP		loc_3B3E9
@@ -3235,7 +3262,7 @@ loc_3B3E7:
 		INC		_players_vars10,X
 loc_3B3E9:
 		LDA		#$00
-		STA		_obj_x_deltas,X
+		STA		_obj_x_deltas,X					; if no d-pad press, stop hor movements
 locret_3B3EE:
 		RTS
 
@@ -3669,7 +3696,7 @@ _players_animA:
 locret_3B684:
 		RTS
 loc_3B685:
-		JSR		_players_animB_sub0129_C_A
+		JSR		_players_default_state_select_C_A
 		LDX		byte_AB
 		LDY		#$05
 loc_3B68C:
@@ -3695,7 +3722,7 @@ loc_3B6B3:
 		LDA		_obj_flips,X
 		AND		#_OBJ_FLIPS08
 		BEQ		loc_3B6C3
-		JSR		_players_animB_sub0129_C_B
+		JSR		_players_default_state_select_C_B
 		BCS		loc_3B6C3
 		LDA		#$00
 		STA		_players_vars08,X
@@ -3743,7 +3770,7 @@ loc_3B6F3:
 loc_3B709:
 		TYA
 		STA		_obj_x_deltas,X
-		JSR		_players_animB_sub0129_sub06_B_A
+		JSR		_players_varsA_04_set
 		LDA		_players_vars07,X
 		ORA		#$80
 		STA		_players_vars07,X
@@ -3794,7 +3821,7 @@ loc_3B721:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_C_A:
+_players_default_state_select_C_A:
 		LDY		#$05
 		LDA		#$00
 loc_3B768:
@@ -3890,7 +3917,7 @@ locret_3B808:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_C_B:
+_players_default_state_select_C_B:
 		LDY		#$05
 loc_3B80B:
 		LDA		byte_6,Y
@@ -3906,11 +3933,11 @@ locret_3B81A:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub12_A_B:
+_players_state12_A_B:
 		LDX		_scr_idx
 		LDA		_obj_heights,X
 		STA		byte_95
-		JSR		_players_animB_sub0129_G
+		JSR		_players_default_state_select_G
 		BMI		loc_3B831
 		SEC
 		LDA		_obj_heights,X
@@ -3918,7 +3945,7 @@ _players_animB_sub0129_sub12_A_B:
 		STA		_obj_heights,X
 loc_3B831:
 		STY		byte_96
-		JSR		_players_animB_sub0129_sub05_A_A
+		JSR		_players_state05_A_A
 		LDA		byte_9D
 		AND		#$10
 		BEQ		loc_3B843
@@ -3931,9 +3958,9 @@ loc_3B843:
 		BNE		loc_3B853
 		JSR		_obj_to_tile_collision_test_up
 		BCC		loc_3B853
-		JSR		_players_animB_sub0129_sub12_A_A_A
+		JSR		_players_state12_A_A_A
 loc_3B853:
-		JSR		_players_animB_sub0129_sub12_A_B_A
+		JSR		_players_state12_A_B_A
 		LDA		byte_95
 		STA		_obj_heights,X
 		BCC		loc_3B872
@@ -3943,8 +3970,8 @@ loc_3B853:
 		LDA		_obj_y_hi_poss,X
 		SBC		_obj_y_hi_poss,Y
 		BCC		loc_3B8C5
-		JSR		_players_animB_sub0129_sub12_A_B_B
-		JSR		_players_animB_sub0129_sub12_A_B_C
+		JSR		_players_state12_A_B_B
+		JSR		_players_state12_A_B_C
 loc_3B872:
 		LDY		byte_96
 		BMI		loc_3B888
@@ -3956,18 +3983,18 @@ loc_3B872:
 		SBC		#$00
 		STA		_obj_y_hi_poss,Y
 loc_3B888:
-		JMP		_players_animB_sub0129_sub12_A_B_D
+		JMP		_players_state12_A_B_D
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub12_A_A:
+_players_state12_A_A:
 		LDX		_scr_idx
 		CLC
 		LDA		_obj_y_lo_poss,X
 		ADC		byte_B0
 		STA		_tmp_ptrE
-		JSR		_players_animB_sub0129_sub05_A_A
+		JSR		_players_state05_A_A
 		JSR		_obj_vert_animate
-		BNE		_players_animB_sub0129_sub05_A_B
+		BNE		_players_state05_A_B
 		LDA		_obj_y_deltas,X
 		BEQ		loc_3B8AE
 		CLC
@@ -3975,17 +4002,17 @@ _players_animB_sub0129_sub12_A_A:
 		ADC		byte_B0
 		EOR		_tmp_ptrE
 		AND		#$F0
-		BEQ		_players_animB_sub0129_sub05_A_B
+		BEQ		_players_state05_A_B
 loc_3B8AE:
 		LDY		#$A0
 		JSR		_obj_to_tile_collision_test_down
-		BCC		_players_animB_sub0129_sub05_A_B
-		JSR		_players_animB_sub0129_sub12_A_A_A
+		BCC		_players_state05_A_B
+		JSR		_players_state12_A_A_A
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub05_A_B:
+_players_state05_A_B:
 		INC		_obj_y_lo_poss,X
-		JSR		_players_animB_sub0129_sub12_A_B_A
+		JSR		_players_state12_A_B_A
 		PHP
 		DEC		_obj_y_lo_poss,X
 		PLP
@@ -3993,15 +4020,15 @@ _players_animB_sub0129_sub05_A_B:
 loc_3B8C5:
 		TYA
 		STA		_scr_vars21,X
-		JSR		_players_animB_sub0129_sub05_A_B_A
-		JSR		_players_animB_sub0129_sub12_A_B_C
+		JSR		_players_state05_A_B_A
+		JSR		_players_state12_A_B_C
 loc_3B8CF:
-		JMP		_players_animB_sub0129_sub12_A_B_D
+		JMP		_players_state12_A_B_D
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_F_A:
+_players_default_state_select_F_A:
 		LDX		_scr_idx
-		JSR		_players_animB_sub0129_sub05_A_A
+		JSR		_players_state05_A_A
 		JSR		_obj_move_hor_animate
 		LDA		_scr_params,X
 		AND		#_OBJ_TYPE_MASK
@@ -4022,19 +4049,19 @@ _players_animB_sub0129_F_A:
 loc_3B8FD:
 		JSR		_obj_to_tile_collision_test_right
 		BCC		loc_3B905
-		JSR		_players_animB_sub0129_sub12_A_A_A
+		JSR		_players_state12_A_A_A
 loc_3B905:
-		JSR		_players_animB_sub0129_sub12_A_B_A
+		JSR		_players_state12_A_B_A
 		BCC		loc_3B910
-		JSR		_players_animB_sub0129_F_A_A
-		JSR		_players_animB_sub0129_F_A_B
+		JSR		_players_default_state_select_F_A_A
+		JSR		_players_default_state_select_F_A_B
 loc_3B910:
-		JMP		_players_animB_sub0129_sub12_A_B_D
+		JMP		_players_state12_A_B_D
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_E_A:
+_players_default_state_select_E_A:
 		LDX		_scr_idx
-		JSR		_players_animB_sub0129_sub05_A_A
+		JSR		_players_state05_A_A
 		JSR		_obj_move_hor_animate
 		LDA		_scr_params,X
 		AND		#_OBJ_TYPE_MASK
@@ -4055,15 +4082,15 @@ _players_animB_sub0129_E_A:
 loc_3B93E:
 		JSR		_obj_to_tile_collision_test_left
 		BCC		loc_3B946
-		JSR		_players_animB_sub0129_sub12_A_A_A
+		JSR		_players_state12_A_A_A
 loc_3B946:
-		JSR		_players_animB_sub0129_sub12_A_B_A
-		BCC		_players_animB_sub0129_sub12_A_B_D
-		JSR		_players_animB_sub0129_E_A_A
-		JSR		_players_animB_sub0129_F_A_B
+		JSR		_players_state12_A_B_A
+		BCC		_players_state12_A_B_D
+		JSR		_players_default_state_select_E_A_A
+		JSR		_players_default_state_select_F_A_B
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub12_A_B_D:
+_players_state12_A_B_D:
 		CLC
 		LDA		_tmp_ptrE+1
 		BEQ		locret_3B957
@@ -4072,34 +4099,34 @@ locret_3B957:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub05_A_A:
+_players_state05_A_A:
 		LDA		#$00
 		STA		_tmp_ptrE+1
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub12_A_A_A:
+_players_state12_A_A_A:
 		LDA		#$01
 		STA		_tmp_ptrE+1
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub12_A_B_C:
+_players_state12_A_B_C:
 		LDA		_scr_idx
 		CMP		#$02
-		BCS		_players_animB_sub0129_F_A_B
+		BCS		_players_default_state_select_F_A_B
 		LDA		_obj_y_lo_poss,X
 		STA		_players_y_poss,X
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_F_A_B:
+_players_default_state_select_F_A_B:
 		LDA		_tmp_ptrE+1
 		ORA		#$02
 		STA		_tmp_ptrE+1
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_G:
+_players_default_state_select_G:
 		STX		_tmp_ptr0
 		LDY		#$0B
 loc_3B978:
@@ -4117,28 +4144,28 @@ locret_3B98B:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_A:
-		LDY		#$0B
+_players_to_obj_collision_test:
+		LDY		#$0B						; look for all objects...
 loc_3B98E:
-		CPY		_scr_idx
+		CPY		_scr_idx					; except the current one (player - 0/1)
 		BEQ		loc_3B9B0
-		LDA		_obj_hps,Y
+		LDA		_obj_hps,Y					; except objects without hp
 		BEQ		loc_3B9B0
-		LDA		_scr_params,Y
+		LDA		_scr_params,Y				; except other player (ME: why not just test up to index 2 then?)
 		AND		#_OBJ_TYPE_MASK
 		CMP		#_OBJ_TYPE_PLAYER
 		BCC		loc_3B9B0
-		CMP		#$09
+		CMP		#_OBJ_TYPE_SOLID			; except solid objects (concrete, balls)
 		BEQ		loc_3B9B0
-		LDA		_obj_flips,Y
+		LDA		_obj_flips,Y				; except already dying objects
 		AND		#_OBJ_FLIPS04
 		BNE		loc_3B9B0
-		JSR		_obj_to_obj_collision_test
-		BCS		locret_3B9B4
+		JSR		_obj_to_obj_collision_test	; finally perform collision test
+		BCS		locret_3B9B4				; C=1 collision detected
 loc_3B9B0:
 		DEY
 		BPL		loc_3B98E
-		CLC
+		CLC									; C=0 no collisions detected
 locret_3B9B4:
 		RTS
 

@@ -2765,9 +2765,9 @@ _main4_ingame:
 		LDA		#$02
 		JSR		_mmc1_prg_set
 		LDX		#$00
-		JSR		_players_obj_insert
+		JSR		_players_insert
 		LDX		#$01
-		JSR		_players_obj_insert
+		JSR		_players_insert
 		LDX		#$FF
 		LDY		#$00
 		JSR		_is_it_stage4_ingame
@@ -6177,21 +6177,21 @@ _native_sub164:
 _native_sub13C:
 		LDA		_obj_x_deltas,X
 		BEQ		_scr_flags_flush_clc
-		JSR		_players_animB_sub0129_sub12_A_B_A
+		JSR		_players_state12_A_B_A
 		BCC		_scr_flags_flush_clc
 		LDA		_obj_x_deltas,X
 		BPL		loc_B65EF
-		JSR		_players_animB_sub0129_E_A_A
+		JSR		_players_default_state_select_E_A_A
 		JMP		_scr_flags_flush_sec
 loc_B65EF:
-		JSR		_players_animB_sub0129_F_A_A
+		JSR		_players_default_state_select_F_A_A
 		JMP		_scr_flags_flush_sec
 
 ; =============== S U B R O U T I N E =======================================
 _native_sub165:
-		JSR		_players_animB_sub0129_sub12_A_B_A
+		JSR		_players_state12_A_B_A
 		BCC		loc_B65FE
-		JSR		_players_animB_sub0129_sub12_A_B_B
+		JSR		_players_state12_A_B_B
 		SEC
 loc_B65FE:
 		JMP		_scr_flags_flush
@@ -6200,12 +6200,12 @@ loc_B65FE:
 _native_sub107:
 		JSR		_native_sub164
 		INC		_obj_y_lo_poss,X
-		JSR		_players_animB_sub0129_sub12_A_B_A
+		JSR		_players_state12_A_B_A
 		PHP
 		DEC		_obj_y_lo_poss,X
 		PLP
 		BCC		loc_B6619
-		JSR		_players_animB_sub0129_sub05_A_B_A
+		JSR		_players_state05_A_B_A
 		TYA
 		STA		_scr_vars21,X
 		SEC
@@ -6447,7 +6447,7 @@ _native_complement_y_deltas:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub67_A:
+_players_damaged_state_select_A:
 		LDY		_scr_idxAs,X
 		LDA		_obj_x_lo_poss,X
 		CMP		_obj_x_lo_poss,Y
@@ -6455,7 +6455,7 @@ _players_animB_sub67_A:
 		BCC		_native_obj_left_to_right_delta_toggle
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub3_B_A:
+_players_loaded_state_select_B_A:
 		LDY		_scr_idxAs,X
 		LDA		_obj_x_deltas,Y
 		BMI		_native_obj_right_to_left_delta_toggle
@@ -6709,7 +6709,7 @@ loc_B6895:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub06_C:
+_players_state06_C:
 		JSR		_native_get_idxBs_low_nibble
 		LDA		_obj_flips,X
 		AND		#[~[_OBJ_VFLIP|_OBJ_HFLIP|_OBJ_UNDER_BG]&$FF]
@@ -7109,7 +7109,7 @@ _obj_scr_common_small_boss_destr:
 		APU_LOAD			_apu_mus70
 		OBJ_X_DELTA_SET		$F0
 		OBJ_Y_DELTA_SET		$C0
-		NJSR				_players_animB_sub3_B_A
+		NJSR				_players_loaded_state_select_B_A
 		NJSR				_native_obj_blink_set
 byte_B6AFD:
 		OBJ_ANIMATE_SYNC
@@ -7224,21 +7224,21 @@ loc_B6B97:
 		JMP		_mmc1_prg_restore
 
 ; =============== S U B R O U T I N E =======================================
-_far_players_animB_sub0129_sub16_E:
+_far_players_state16_E:
 		LDA		_cur_prg_bank
 		PHA
 		LDA		#$02
 		JSR		_mmc1_prg_set
-		JSR		_players_animB_sub0129_sub16_E
+		JSR		_players_state16_E
 		JMP		_mmc1_prg_restore
 
 ; =============== S U B R O U T I N E =======================================
-_far_players_animB_sub0129_G:
+_far_players_default_state_select_G:
 		LDA		_cur_prg_bank
 		PHA
 		LDA		#$02
 		JSR		_mmc1_prg_set
-		JSR		_players_animB_sub0129_G
+		JSR		_players_default_state_select_G
 		JSR		_scr_flags_update
 		JMP		_mmc1_prg_restore
 
@@ -7765,7 +7765,7 @@ loc_B6F07:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub12_A_B_A:
+_players_state12_A_B_A:
 		LDX		_scr_idx
 		LDA		_obj_hps,X
 		BEQ		loc_B6F86
@@ -8030,7 +8030,7 @@ loc_B70CC:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub0E_A:
+_players_state0E_stun_start_A:
 		LDA		_scr_idxCs,X
 		ORA		#$20
 		STA		_scr_idxCs,X
@@ -8085,7 +8085,7 @@ locret_B7134:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_E_A_A:
+_players_default_state_select_E_A_A:
 		CLC
 		LDA		_obj_widths,Y
 		ADC		_obj_widths,X
@@ -8100,7 +8100,7 @@ _players_animB_sub0129_E_A_A:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_F_A_A:
+_players_default_state_select_F_A_A:
 		CLC
 		LDA		_obj_widths,Y
 		ADC		_obj_widths,X
@@ -8115,7 +8115,7 @@ _players_animB_sub0129_F_A_A:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub05_A_B_A:
+_players_state05_A_B_A:
 		CLC
 		LDA		_obj_y_lo_poss,Y
 		SBC		_obj_heights,Y
@@ -8126,7 +8126,7 @@ _players_animB_sub0129_sub05_A_B_A:
 		RTS
 
 ; =============== S U B R O U T I N E =======================================
-_players_animB_sub0129_sub12_A_B_B:
+_players_state12_A_B_B:
 		SEC
 		LDA		_obj_y_lo_poss,Y
 		ADC		_obj_heights,X
@@ -8633,7 +8633,7 @@ byte_B74F3:
 		OBJ_Y_POS_SET		$A0,$00
 		OBJ_SIZE_SET		$06,$16
 		NJSR				_native_idxBs_10_set
-		NJSR				_players_animB_sub0129_sub0E_A
+		NJSR				_players_state0E_stun_start_A
 		OBJ_FLIPS_SET		$60
 		SPR_IDX_SELECT		_spr_lib1_0D
 		OBJ_SHOW

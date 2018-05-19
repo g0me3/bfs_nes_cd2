@@ -1429,25 +1429,25 @@ _{1}_end	SET .
 #endif
 	ENDM
 
-	; \t\tCLC\n\t\tLDA\t\t(.*)\n\t\tADC\t\t(.*)\n\t\tSTA\t\t\1\n\t\tLDA\t\t\1\+1\n\t\tADC\t\t\#\$00\n\t\tSTA\t\t\1\+1\n
-	; \t\tADDWB\t\1,\2\n\3:
+	; \t\tSEC\n\t\tLDA\t\t(.*)\n\t\tSBC\t\t(.*)\n\t\tSTA\t\t\1\n\t\tLDA\t\t\1\+1\n\t\tSBC\t\t\#\$00\n\t\tSTA\t\t\1\+1\n
+	; \t\tSUBWB\t\1,\2\n\3:
 	;
-	MAC	ADDWBI
+	MAC	SUBWB
 #if OPTIMIZATION=1
-		LDA		{2},{3}
-		CLC
-		ADC		{1}
-		STA		{2},{3}
-		BCC		.1
-		INC		{2}+1,{3}
-.1:
+		SEC
+		LDA		{2}
+		SBC		{1}
+		STA		{2}
+		BCS		.1
+		DEC		{2}+1
+.1
 #else
-		CLC
-		LDA		{2},{3}
-		ADC		{1}
-		STA		{2},{3}
-		LDA		{2}+1,{3}
-		ADC		#$00
-		STA		{2}+1,{3}
+		SEC
+		LDA		{2}
+		SBC		{1}
+		STA		{2}
+		LDA		{2}+1
+		SBC		#$00
+		STA		{2}+1
 #endif
 	ENDM

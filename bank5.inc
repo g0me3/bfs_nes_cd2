@@ -421,8 +421,8 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib8_01
 		SPR_IDX	_spr_lib8_02
 		SPR_IDX	_spr_lib8_03
-		SPR_IDX	_ptr_dummy						; unused
-		SPR_IDX	_ptr_dummy						; unused
+		SPR_IDX	_ptr_dummy		; unused
+		SPR_IDX	_ptr_dummy		; unused
 		SPR_IDX	_spr_lib8_06
 		SPR_IDX	_spr_lib8_07
 		SPR_IDX	_spr_lib8_08
@@ -437,7 +437,7 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib8_11
 		SPR_IDX	_spr_lib8_12
 		SPR_IDX	_spr_lib8_13
-		SPR_IDX	_ptr_dummy						; unused
+		SPR_IDX	_ptr_dummy		; unused
 		SPR_IDX	_spr_lib8_15
 		SPR_IDX	_spr_lib8_16
 		SPR_IDX	_spr_lib8_17
@@ -448,7 +448,7 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib8_1C
 		SPR_IDX	_spr_lib8_1D
 		SPR_IDX	_spr_lib8_1E
-		SPR_IDX	_ptr_dummy						; unused
+		SPR_IDX	_ptr_dummy		; unused
 		SPR_IDX	_spr_lib8_20
 		SPR_IDX	_spr_lib8_21
 		SPR_IDX	_spr_lib8_22
@@ -504,10 +504,29 @@ _spr_lib_list:
 		SPR_IDX	_spr_lib8_54
 
 _spr_lib1_22:
-		.BYTE	$03,$EF,$EE,$11,$00,$13,$00,$15,$00,$82,$F8,$D0,$81,$00,$83,$C0
-		.BYTE	$82,$00,$D0,$83,$00,$83,$80,$02,$F4,$E6,$02,$00,$04,$00,$81,$FC
-		.BYTE	$E0,$85,$00,$81,$00,$E6,$0F,$00,$81,$F5,$EE,$0D,$01,$02,$F7,$F6
-		.BYTE	$17,$00,$19,$00,$00
+		.BYTE	$03,$EF,$EE
+		.BYTE	$11,$00
+		.BYTE	$13,$00
+		.BYTE	$15,$00
+		.BYTE	$82,$F8,$D0
+		.BYTE	$81,$00
+		.BYTE	$83,$C0
+		.BYTE	$82,$00,$D0
+		.BYTE	$83,$00
+		.BYTE	$83,$80
+		.BYTE	$02,$F4,$E6
+		.BYTE	$02,$00
+		.BYTE	$04,$00
+		.BYTE	$81,$FC,$E0
+		.BYTE	$85,$00
+		.BYTE	$81,$00,$E6
+		.BYTE	$0F,$00
+		.BYTE	$81,$F5,$EE
+		.BYTE	$0D,$01
+		.BYTE	$02,$F7,$F6
+		.BYTE	$17,$00
+		.BYTE	$19,$00
+		.BYTE	$00
 _spr_lib2_22:
 		.BYTE	$82,$F8,$D0,$81,$00,$83,$C0,$82,$00,$D0,$83,$00,$83,$80,$81,$FC
 		.BYTE	$E0,$85,$00,$82,$F5,$E6,$57,$00,$0D,$01,$81,$FD,$E6,$50,$00,$81
@@ -1964,8 +1983,15 @@ _spr_lib0_1D:
 _spr_lib0_1E:
 		.BYTE	$82,$F0,$E7,$90,$03,$91,$03,$00
 _spr_lib0_1F:
-		.BYTE	$82,$F8,$DF,$29,$03,$92,$03,$82,$F8,$DF,$AC,$02,$8F,$02,$81,$F0
-		.BYTE	$E7,$8D,$02,$00
+		.BYTE	$82,$F8,$DF
+		.BYTE	$29,$03
+		.BYTE	$92,$03
+		.BYTE	$82,$F8,$DF
+		.BYTE	$AC,$02
+		.BYTE	$8F,$02
+		.BYTE	$81,$F0,$E7
+		.BYTE	$8D,$02
+		.BYTE	$00
 _spr_lib0_20:
 		.BYTE	$82,$F8,$DF,$9E,$03,$AD,$02,$81,$F8,$DF,$8E,$02,$81,$F0,$E7,$DF
 		.BYTE	$02,$00

@@ -3994,7 +3994,7 @@ loc_3B853:
 		LDA		_obj_y_hi_poss,X
 		SBC		_obj_y_hi_poss,Y
 		BCC		loc_3B8C5
-		JSR		_players_state12_A_B_B
+		JSR		_nsub_obj_to_obj_y_concat_down
 		JSR		_players_state12_A_B_C
 loc_3B872:
 		LDY		byte_96
@@ -4044,7 +4044,7 @@ _players_state05_A_B:
 loc_3B8C5:
 		TYA
 		STA		_scr_vars21,X
-		JSR		_players_state05_A_B_A
+		JSR		_nsub_obj_to_obj_y_concat_up
 		JSR		_players_state12_A_B_C
 loc_3B8CF:
 		JMP		_players_state12_A_B_D
@@ -4077,7 +4077,7 @@ loc_3B8FD:
 loc_3B905:
 		JSR		_players_state12_A_B_A
 		BCC		loc_3B910
-		JSR		_players_default_state_select_F_A_A
+		JSR		_nsub_obj_to_obj_x_concat_left
 		JSR		_players_default_state_select_F_A_B
 loc_3B910:
 		JMP		_players_state12_A_B_D
@@ -4110,7 +4110,7 @@ loc_3B93E:
 loc_3B946:
 		JSR		_players_state12_A_B_A
 		BCC		_players_state12_A_B_D
-		JSR		_players_default_state_select_E_A_A
+		JSR		_nsub_obj_to_obj_x_concat_right
 		JSR		_players_default_state_select_F_A_B
 
 ; =============== S U B R O U T I N E =======================================

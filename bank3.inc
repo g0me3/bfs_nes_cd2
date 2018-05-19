@@ -859,8 +859,8 @@ loc_52360:
 _obj_lib:
 		OBJ_IDX	_obj_scr00_lives_bonus			; end of level bonus room
 		OBJ_IDX	_obj_scr01_box_bonus			; box shuffle bonus room
-		OBJ_IDX	_obj_scr02_coins_bonus
-		OBJ_IDX	_obj_scr03_basket_bonus
+		OBJ_IDX	_obj_scr02_coins_game
+		OBJ_IDX	_obj_scr03_basket_game
 		OBJ_IDX	_obj_scr04_cave_pendulum
 		OBJ_IDX	_obj_scr05_door_knob
 		OBJ_IDX	_obj_scr06_light_toggle
@@ -868,7 +868,7 @@ _obj_lib:
 		OBJ_IDX	_obj_scr08_cdv_bottle_cork
 		OBJ_IDX	_obj_scr09_sink_valve
 		OBJ_IDX	_obj_scr0A_lvl2_blocked_path
-		OBJ_IDX	_obj_scr0B_lvl2_basket_bonus_entry
+		OBJ_IDX	_obj_scr0B_lvl2_basket_game_entry
 		OBJ_IDX	_obj_scr0C_lvl3_refill_entry
 		OBJ_IDX	_obj_scr0D_big_fan
 		OBJ_IDX	_obj_scr0E_buttons_room
@@ -882,19 +882,17 @@ _obj_lib:
 		OBJ_IDX	_obj_scr16_floor_switch
 		OBJ_IDX	_obj_scr17_ceiling_magnet
 		OBJ_IDX	_obj_scr18_ceiling_cannon
-_obj_scr19_idx	SET	[[.-_obj_lib]>>1]
-		.WORD	0								; two special cases
-_obj_scr1A_idx	SET	[[.-_obj_lib]>>1]
-		.WORD	0								; objects with no script assigned
+		OBJ_IDX	_obj_scr19						; two special cases, objects with no
+		OBJ_IDX	_obj_scr1A						; scripts, pointer is $0000 here
 		OBJ_IDX	_obj_scr1B_monterey_refill
-		OBJ_IDX	_obj_scr1D_big_ball_box			; _obj_scr1C unused
+		OBJ_IDX	_obj_scr1D_big_ball_box			; TODO, REMOVE ME. _obj_scr1C unused
 		OBJ_IDX	_obj_scr1D_big_ball_box
 		OBJ_IDX	_obj_scr1E_big_zipper_box
 		OBJ_IDX	_obj_scr1F_star_prize
 		OBJ_IDX	_obj_scr20_lvl_exit_left
 		OBJ_IDX	_obj_scr21_lvl_exit_right
-		OBJ_IDX	_obj_scr22_lvl5C_box_bonus_entry; both refers the same handler
-		OBJ_IDX	_obj_scr23_lvl4_box_bonus_entry	; but different indexes
+		OBJ_IDX	_obj_scr22_lvl5C_box_bonus_entry; TODO, REMOVE ME. both refers the same
+		OBJ_IDX	_obj_scr23_lvl4_box_bonus_entry	;  handler but different indexes
 		OBJ_IDX	_obj_scr24_spoon_rat
 		OBJ_IDX	_obj_scr25_fork_rat
 		OBJ_IDX	_obj_scr26_fake_boxA
@@ -995,7 +993,7 @@ _room_objects06:
 		OBJ_ENTRY	$4C,$7C,_obj_scr29_green_floor_bat
 		OBJ_ENTRY	$52,$7D,_obj_scr2A_pink_fish
 		OBJ_ENTRY	$69,$75,_obj_scr0A_lvl2_blocked_path
-		OBJ_ENTRY	$6B,$74,_obj_scr0B_lvl2_basket_bonus_entry
+		OBJ_ENTRY	$6B,$74,_obj_scr0B_lvl2_basket_game_entry
 		OBJ_ENTRY	$7E,$7C,_obj_scr21_lvl_exit_right
 		.BYTE	$FF
 _room_objects07:
@@ -1276,10 +1274,10 @@ _room_objects33:
 		OBJ_ENTRY	$50,$20,_obj_scr46_lvl6_final_boss
 		.BYTE	$FF
 _room_objects18:
-		OBJ_ENTRY	$08,$10,_obj_scr02_coins_bonus
+		OBJ_ENTRY	$08,$10,_obj_scr02_coins_game
 		.BYTE	$FF
 _room_objects09:
-		OBJ_ENTRY	$08,$20,_obj_scr03_basket_bonus
+		OBJ_ENTRY	$08,$20,_obj_scr03_basket_game
 		.BYTE	$FF
 _room_objects0B:
 		OBJ_ENTRY	$08,$00,_obj_scr00_lives_bonus

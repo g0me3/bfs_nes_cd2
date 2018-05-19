@@ -5,6 +5,14 @@
 
 		ORG $0000
 
+; here we put dummy ptrs to be used with macroses and
+; produce $0000 offset
+;
+_obj_scr19	EQU	.
+_obj_scr1A	EQU	.
+_ptr_dummy	EQU	.
+; -
+
 _tmp_ptr0:
 		.BYTE	0,0
 _tmp_ptr2:
@@ -519,10 +527,13 @@ _pal_buf:
 _pal_tmp_buf:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+_spr_lib0_10:
 _ram_buf0:
 		.BYTE	0,0,0,0,0,0,0,0,0,0
+_spr_lib0_11:
 _ram_buf1:
 		.BYTE	0,0,0,0,0,0,0,0,0,0
+_spr_lib0_12:
 _ram_buf2:
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 		.BYTE	0,0,0,0,0,0,0,0,0,0,0,0,0,0

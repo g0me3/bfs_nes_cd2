@@ -1,8 +1,6 @@
 ;-------------C-O-N-S-T-A-N-T-S-----------------
 
-DEBUG			EQU		1
-
-; experimental, does not work by now
+DEBUG			EQU		0
 OPTIMIZATION	EQU		0
 BUGFIXES		EQU		0
 
@@ -105,6 +103,21 @@ _STOP	EQU	$FF
 
 		MAC		DICT_DATA
 {1}_ptr	SET		.
+		ENDM
+
+		MAC		SPR_LIB_IDX
+{1}_idx	SET		[[.-_spr_lib_list]>>1]
+		.WORD	{1}
+		ENDM
+
+		MAC		SPR_LIB_START
+{1}		SET		.
+SPR_LIB	SET		.
+		ENDM
+
+		MAC		SPR_IDX
+{1}_idx	SET		[[.-SPR_LIB]>>1]
+		.WORD	{1}
 		ENDM
 
 ;-----------G-A-M-E--S-P-E-C-I-F-I-C------------
@@ -382,13 +395,22 @@ _PAD_ANY	EQU	$FF
 ; select sprite library for object
 	MAC	SPR_LIB_SELECT
 	.BYTE	$1D
-	.BYTE	{1}
+	.BYTE	{1}_idx
 	ENDM
 
 ; select current sprite idx
 	MAC	SPR_IDX_SELECT
 	.BYTE	$1E
+#if {1}<$100
 	.BYTE	{1}
+#else
+	.BYTE	{1}_idx
+#endif
+	ENDM
+
+	MAC	SPR_IDX_SELECTS
+	.BYTE	$1E
+	.BYTE	{1}_idx
 	ENDM
 
 ; one of hor/vert sprite flipping flags

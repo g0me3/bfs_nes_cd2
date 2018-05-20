@@ -1,6 +1,6 @@
 ;-------------C-O-N-S-T-A-N-T-S-----------------
 
-DEBUG			EQU		1
+DEBUG			EQU		0
 OPTIMIZATION	EQU		1
 BUGFIXES		EQU		1
 

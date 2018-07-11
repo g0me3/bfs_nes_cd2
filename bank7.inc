@@ -3,7 +3,7 @@
 
 		BANK_START $07
 
-		INCBIN "..\copyrights.txt"
+		INCBIN "../copyrights.txt"
 
 ; =============== S U B R O U T I N E =======================================
 NMI:

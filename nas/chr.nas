@@ -2,6 +2,6 @@
 		PROCESSOR 6502
 		ORG	$0000
 
-		INCLUDE	"..\macroses.inc"
+		INCLUDE	"../macroses.inc"
 
-		INCBIN	"..\chr\!cd2.chr"
+		INCBIN	"../chr/!cd2.chr"
